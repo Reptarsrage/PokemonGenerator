@@ -52,6 +52,9 @@ namespace PokemonGenerator
             var gen = new PokemonGenerator();
             copyAndGen(options.OutputSav1, options.InputSav1, gen, sav, options.Level);
             copyAndGen(options.OutputSav2, options.InputSav2, gen, sav, options.Level);
+
+
+            Console.Read();
         }
 
         /// <summary>
@@ -68,6 +71,7 @@ namespace PokemonGenerator
             sav.TeamPokémonlist = list;
             writeSavProperties(@out, @in, sav);
             readSavProperties(@out);
+            Console.WriteLine(sav);
             Debug.Print($"Created file {@out}");
         }
 
@@ -86,6 +90,11 @@ namespace PokemonGenerator
             if (File.Exists(outname) && !Path.GetFullPath(filename).Equals(Path.GetFullPath(outname)))
             {
                 File.Delete(outname);
+            }
+
+            if (File.Exists(filename))
+            {
+                File.Copy(filename, outname);
             }
             
             var charset = new Charset();
