@@ -8,6 +8,16 @@ Date: 8/30/2016
 Generates a team of six Gen II pokemon for use in Pokemon Gold or Silver.
 Built in order to supply Pokemon Stadium 2 with a better selection of Pokemon.
 
+<h3>Installation</h3>
+<ol>
+    <li>Install <a href="http://www.pj64-emu.com/">Project64</a>.</li>
+	<li>Acquire Pokemon Stadium 2 and Pokemon Gold or Silver ROMs legally.</li>
+	<li>Install and launch <a href="https://github.com/Reptarsrage/Pok-mon-Generator/releases/tag/1.0">PokemonGenerator</a>.</li>
+	<li>Provide the locations for each executable in PokemonGenerator program.</li>
+    <li>Click Generate (or press CTRL+F12).</li>
+    <li>Launch Pokemon Stadium 2. Configure the controller and transfer pak if necessary using the <a href="https://forums.emulator-zone.com/showthread.php?t=2449">instructions here</a>.</li>
+</ol>
+
 <h3>Contents</h3>
 <ol>
     <li><b>PokemonGenerator:</b> The core executable that generates sav files with the pokemon.</li>
