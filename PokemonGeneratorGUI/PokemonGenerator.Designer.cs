@@ -35,6 +35,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.textbox_projN64Location = new System.Windows.Forms.TextBox();
             this.groupBox_player1 = new System.Windows.Forms.GroupBox();
+            this.comboBox_1game = new System.Windows.Forms.ComboBox();
             this.button_1Out = new System.Windows.Forms.Button();
             this.button_1Sav = new System.Windows.Forms.Button();
             this.pictureBox_1Out = new System.Windows.Forms.PictureBox();
@@ -48,6 +49,7 @@
             this.label11 = new System.Windows.Forms.Label();
             this.pictureBox7 = new System.Windows.Forms.PictureBox();
             this.groupBox_player2 = new System.Windows.Forms.GroupBox();
+            this.comboBox_2game = new System.Windows.Forms.ComboBox();
             this.button_2Out = new System.Windows.Forms.Button();
             this.button_2Sav = new System.Windows.Forms.Button();
             this.pictureBox_2Out = new System.Windows.Forms.PictureBox();
@@ -70,8 +72,6 @@
             this.pictureBox_projN64Location = new System.Windows.Forms.PictureBox();
             this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.comboBox_1game = new System.Windows.Forms.ComboBox();
-            this.comboBox_2game = new System.Windows.Forms.ComboBox();
             this.groupBox_player1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_1Out)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_1Sav)).BeginInit();
@@ -147,6 +147,19 @@
             this.groupBox_player1.TabStop = false;
             this.groupBox_player1.Text = "Player 1 Config";
             // 
+            // comboBox_1game
+            // 
+            this.comboBox_1game.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_1game.FormattingEnabled = true;
+            this.comboBox_1game.Items.AddRange(new object[] {
+            "Gold",
+            "Silver"});
+            this.comboBox_1game.Location = new System.Drawing.Point(11, 45);
+            this.comboBox_1game.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.comboBox_1game.Name = "comboBox_1game";
+            this.comboBox_1game.Size = new System.Drawing.Size(315, 25);
+            this.comboBox_1game.TabIndex = 12;
+            // 
             // button_1Out
             // 
             this.button_1Out.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -205,6 +218,7 @@
             this.textBox_1Out.Name = "textBox_1Out";
             this.textBox_1Out.Size = new System.Drawing.Size(314, 25);
             this.textBox_1Out.TabIndex = 5;
+            this.textBox_1Out.Validated += new System.EventHandler(this.ValidateGroup2_Event);
             // 
             // label5
             // 
@@ -223,6 +237,7 @@
             this.textBox_1Sav.Name = "textBox_1Sav";
             this.textBox_1Sav.Size = new System.Drawing.Size(314, 25);
             this.textBox_1Sav.TabIndex = 3;
+            this.textBox_1Sav.Validated += new System.EventHandler(this.ValidateGroup2_Event);
             // 
             // label4
             // 
@@ -295,6 +310,19 @@
             this.groupBox_player2.TabStop = false;
             this.groupBox_player2.Text = "Player 2 Config";
             // 
+            // comboBox_2game
+            // 
+            this.comboBox_2game.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_2game.FormattingEnabled = true;
+            this.comboBox_2game.Items.AddRange(new object[] {
+            "Gold",
+            "Silver"});
+            this.comboBox_2game.Location = new System.Drawing.Point(11, 45);
+            this.comboBox_2game.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.comboBox_2game.Name = "comboBox_2game";
+            this.comboBox_2game.Size = new System.Drawing.Size(315, 25);
+            this.comboBox_2game.TabIndex = 19;
+            // 
             // button_2Out
             // 
             this.button_2Out.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -353,6 +381,7 @@
             this.textBox_2Out.Name = "textBox_2Out";
             this.textBox_2Out.Size = new System.Drawing.Size(314, 25);
             this.textBox_2Out.TabIndex = 5;
+            this.textBox_2Out.Validated += new System.EventHandler(this.ValidateGroup2_Event);
             // 
             // label6
             // 
@@ -371,6 +400,7 @@
             this.textBox_2Sav.Name = "textBox_2Sav";
             this.textBox_2Sav.Size = new System.Drawing.Size(314, 25);
             this.textBox_2Sav.TabIndex = 3;
+            this.textBox_2Sav.Validated += new System.EventHandler(this.ValidateGroup2_Event);
             // 
             // label7
             // 
@@ -543,32 +573,6 @@
             this.groupBox4.Size = new System.Drawing.Size(942, 448);
             this.groupBox4.TabIndex = 1000;
             this.groupBox4.TabStop = false;
-            // 
-            // comboBox_1game
-            // 
-            this.comboBox_1game.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox_1game.FormattingEnabled = true;
-            this.comboBox_1game.Items.AddRange(new object[] {
-            "Gold",
-            "Silver"});
-            this.comboBox_1game.Location = new System.Drawing.Point(11, 45);
-            this.comboBox_1game.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.comboBox_1game.Name = "comboBox_1game";
-            this.comboBox_1game.Size = new System.Drawing.Size(315, 25);
-            this.comboBox_1game.TabIndex = 12;
-            // 
-            // comboBox_2game
-            // 
-            this.comboBox_2game.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox_2game.FormattingEnabled = true;
-            this.comboBox_2game.Items.AddRange(new object[] {
-            "Gold",
-            "Silver"});
-            this.comboBox_2game.Location = new System.Drawing.Point(11, 45);
-            this.comboBox_2game.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.comboBox_2game.Name = "comboBox_2game";
-            this.comboBox_2game.Size = new System.Drawing.Size(315, 25);
-            this.comboBox_2game.TabIndex = 19;
             // 
             // PokemonGenerator
             // 

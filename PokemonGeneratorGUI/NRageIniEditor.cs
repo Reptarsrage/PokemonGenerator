@@ -100,8 +100,8 @@ namespace PokemonGeneratorGUI
             }
 
 
-            texts[1] = Regex.Replace(texts[1], @"^GBRomSave=.*$", $"GBRomSave={text1}");
-            texts[2] = Regex.Replace(texts[2], @"^GBRomSave=.*$", $"GBRomSave={text2}");
+            texts[1] = Regex.Replace(texts[1], @"GBRomSave=.*\r\n", $"GBRomSave={text1}\r\n");
+            texts[2] = Regex.Replace(texts[2], @"GBRomSave=.*\r\n", $"GBRomSave={text2}\r\n");
 
             StringBuilder builder = new StringBuilder();
 

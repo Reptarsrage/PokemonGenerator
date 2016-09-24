@@ -51,11 +51,11 @@ namespace PokemonGenerator
             // Set Game and save for player 1
             if (!string.IsNullOrWhiteSpace(options.Game1) && options.Game1.Equals("Silver", StringComparison.InvariantCultureIgnoreCase))
             {
-                options.InputSav1 = Path.Combine(contentDirectory, "Gold.sav");
+                options.InputSav1 = Path.Combine(contentDirectory, "Silver.sav");
             }
             else
             {
-                options.InputSav1 = Path.Combine(contentDirectory, "Silver.sav");
+                options.InputSav1 = Path.Combine(contentDirectory, "Gold.sav");
             }
 
             // Set Game and save for player 2
@@ -65,7 +65,7 @@ namespace PokemonGenerator
             }
             else
             {
-                options.InputSav1 = Path.Combine(contentDirectory, "Gold.sav");
+                options.InputSav2 = Path.Combine(contentDirectory, "Gold.sav");
             }
 
             var sav = readSavProperties(options.InputSav1);
@@ -107,7 +107,8 @@ namespace PokemonGenerator
             {
                 File.Delete(outname);
             }
-            else if (!Path.GetFullPath(filename).Equals(Path.GetFullPath(outname)))
+
+            if (!Path.GetFullPath(filename).Equals(Path.GetFullPath(outname)))
             {
                 File.Copy(filename, outname);
             }

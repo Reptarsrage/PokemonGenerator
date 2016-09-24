@@ -124,7 +124,7 @@ namespace PokemonGeneratorGUI
             var good = true;
             good &= CheckIfFileExistsAndAssignImage(textbox_projN64Location, pictureBox_projN64Location, false);
             good &= CheckIfFileExistsAndAssignImage(textbox_pokemonGeneratorExeLocation, pictureBox_pokemonGeneratorExeLocation, false);
-            if ( good )
+            if (good)
             {
                 // get ini location
                 if (this.editor == null)
@@ -132,20 +132,25 @@ namespace PokemonGeneratorGUI
                     var ini = Path.Combine(Path.GetDirectoryName(this.textbox_projN64Location.Text), @"Config\NRage.ini");
                     var cfg = Path.Combine(Path.GetDirectoryName(this.textbox_projN64Location.Text), @"Config\Project64.cfg");
 
-                    this.editor = new NRageIniEditor(ini);
-                    this.n64Config = new P64ConfigEditor(cfg);
-                    var tup = editor.GetRomAndSavFileLocation(1);
-                    var tup2 = editor.GetRomAndSavFileLocation(2);
+                    if (File.Exists(ini))
+                    {
+                        this.editor = new NRageIniEditor(ini);
+                        var tup = editor.GetRomAndSavFileLocation(1);
+                        var tup2 = editor.GetRomAndSavFileLocation(2);
 
-                    this.comboBox_1game.SelectedIndex = 0;
-                    this.textBox_1Sav.Text = tup.Item2;
-                    this.textBox_1Out.Text = tup.Item2;
+                        this.comboBox_1game.SelectedIndex = 0;
+                        this.textBox_1Sav.Text = tup.Item2;
+                        this.textBox_1Out.Text = string.IsNullOrWhiteSpace(tup.Item2) ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), @"Player2.sav") : tup.Item2;
 
-                    this.comboBox_2game.SelectedIndex = 0;
-                    this.textBox_2Sav.Text = tup2.Item2;
-                    this.textBox_2Out.Text = tup2.Item2;
+                        this.comboBox_2game.SelectedIndex = 0;
+                        this.textBox_2Sav.Text = tup2.Item2;
+                        this.textBox_2Out.Text = string.IsNullOrWhiteSpace(tup2.Item2) ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), @"Player2.sav") : tup2.Item2;
+                    }
+                    if (File.Exists(cfg))
+                    {
+                        this.n64Config = new P64ConfigEditor(cfg);
+                    }
                 }
-
                 this.groupBox_player1.Enabled = true;
                 this.groupBox_player2.Enabled = true;
                 return ValidateGroup2();
@@ -164,7 +169,7 @@ namespace PokemonGeneratorGUI
 
         private bool CheckIfFileExistsAndAssignImage(TextBox textbox,  PictureBox pic, bool allowEmpty = true)
         {
-            if (string.IsNullOrEmpty(textbox.Text) || File.Exists(textbox.Text))
+            if (!string.IsNullOrEmpty(textbox.Text) && File.Exists(textbox.Text))
             {
                 pic.Hide();
                 return true;
@@ -183,26 +188,15 @@ namespace PokemonGeneratorGUI
 
         private bool ValidateGroup2()
         {
-            if (string.IsNullOrWhiteSpace(this.textBox_1Out.Text))
-            {
-                this.textBox_1Out.Text = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), @"Player1.sav");
-
-            }
-            if (string.IsNullOrWhiteSpace(this.textBox_2Out.Text))
-            {
-                this.textBox_2Out.Text = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), @"Player2.sav");
-
-            }
-
             var good = true;
-            
+        
             //good &= CheckIfFileExistsAndAssignImage(textBox_1Rom, pictureBox1);
-            good &= CheckIfFileExistsAndAssignImage(textBox_1Sav, pictureBox_1Sav);
-            //good &= CheckIfFileExistsAndAssignImage(textBox_1Out, pictureBox3);
+            good &= string.IsNullOrEmpty(textBox_1Sav.Text) || CheckIfFileExistsAndAssignImage(textBox_1Sav, pictureBox_1Sav);
+            good &= CheckIfFileExistsAndAssignImage(textBox_1Out, pictureBox_1Out);
 
             //good &= CheckIfFileExistsAndAssignImage(textBox_2Rom, pictureBox4);
-            good &= CheckIfFileExistsAndAssignImage(textBox_2Sav, pictureBox_2Sav);
-            //good &= CheckIfFileExistsAndAssignImage(textBox_2Out, pictureBox6);
+            good &= string.IsNullOrEmpty(textBox_2Sav.Text) || CheckIfFileExistsAndAssignImage(textBox_2Sav, pictureBox_2Sav);
+            good &= CheckIfFileExistsAndAssignImage(textBox_2Out, pictureBox_2Out);
 
             if (good)
             {
@@ -233,6 +227,7 @@ namespace PokemonGeneratorGUI
         private string ChooseFile(string filter = "Application|*.exe")
         {
             this.openFileDialog.Filter = filter;
+            this.openFileDialog.FileName = "";
             if (this.openFileDialog.ShowDialog().Equals(DialogResult.OK)) {
                 return this.openFileDialog.FileName;
             } else {
@@ -252,6 +247,11 @@ namespace PokemonGeneratorGUI
 
         private void button3_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(this.textBox_1Out.Text) || string.IsNullOrWhiteSpace(this.textBox_2Out.Text))
+            {
+                throw new ArgumentNullException("Out Files must be specified");
+            }
+
             this.groupBox4.Enabled = false;
             this.panel1.Show();
             this.panel1.BringToFront();
@@ -301,7 +301,7 @@ namespace PokemonGeneratorGUI
 
         private void button_2Out_Click(object sender, EventArgs e)
         {
-            this.textBox_2Out.Text = ChooseFile("ROMs|*.gbc") ?? this.textBox_2Out.Text;
+            this.textBox_2Out.Text = ChooseFile("Save Files|*.sav") ?? this.textBox_2Out.Text;
             ValidateGroup2();
         }
 
@@ -358,10 +358,13 @@ namespace PokemonGeneratorGUI
                 worker.ReportProgress(80, "STARTING PROJECT64...");
 
                 // Update ini file with new sav locations
-                editor.ChangeSavLocations(wArg.o1, wArg.o2);
+                if (!string.IsNullOrWhiteSpace(wArg.o1) && !string.IsNullOrWhiteSpace(wArg.o2))
+                {
+                    editor.ChangeSavLocations(wArg.o1, wArg.o2);
+                }
 
                 // Get Recent N64 Rom
-                var rom = n64Config.GetRecentRom();
+                var rom = n64Config?.GetRecentRom() ?? "";
 
                 //  Start N64 back up again
                 startInfo = new ProcessStartInfo();
@@ -393,6 +396,11 @@ namespace PokemonGeneratorGUI
 
             this.groupBox4.Enabled = true;
             this.panel1.Hide();
+        }
+
+        private void ValidateGroup2_Event(object sender, EventArgs e)
+        {
+            ValidateGroup2();
         }
     }
 }
