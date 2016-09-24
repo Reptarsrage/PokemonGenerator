@@ -70,7 +70,9 @@ namespace PokemonGenerator
 
             var sav = readSavProperties(options.InputSav1);
             var gen = new PokemonGenerator();
+            sav.Playername = options.Name1;
             copyAndGen(options.OutputSav1, options.InputSav1, gen, sav, options.Level);
+            sav.Playername = options.Name2;
             copyAndGen(options.OutputSav2, options.InputSav2, gen, sav, options.Level);
         }
 
@@ -186,12 +188,22 @@ namespace PokemonGenerator
             _parser.Setup<string>(arguments => arguments.Game1)
                 .As("game1")
                 .SetDefault("Gold")
-                .WithDescription("The Game to use (Gold or Silver). Default is Gold.");
+                .WithDescription("The Game to use for player 1 (Gold or Silver). Default is Gold.");
 
             _parser.Setup<string>(arguments => arguments.Game2)
                 .As("game2")
                 .SetDefault("Gold")
-                .WithDescription("The Game to use (Gold or Silver). Default is Gold.");
+                .WithDescription("The Game to use for player 2 (Gold or Silver). Default is Gold.");
+
+            _parser.Setup<string>(arguments => arguments.Name1)
+                .As("name1")
+                .SetDefault("Player1")
+                .WithDescription("The Name to use for player 1. Default is Player1.");
+
+            _parser.Setup<string>(arguments => arguments.Name2)
+                .As("name2")
+                .SetDefault("Player2")
+                .WithDescription("The Name to use for player 2. Default is Player2.");
 
             _parser.SetupHelp("?", "help")
                 .Callback(text => Console.WriteLine("\nUsage:\n" + text));

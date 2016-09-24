@@ -25,5 +25,7 @@ namespace PokemonGenerator.Modals
 
         public string Game1 { get; set; }
         public string Game2 { get; set; }
+        public string Name1 { get; internal set; }
+        public string Name2 { get; internal set; }
     }
 }

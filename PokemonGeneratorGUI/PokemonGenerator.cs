@@ -37,6 +37,8 @@ namespace PokemonGeneratorGUI
             public string pgExe { get; set; }
             public string game1 { get; set; }
             public string game2 { get; set; }
+            public string name1 { get; set; }
+            public string name2 { get; set; }
         }
 
         // Imported to handle out-of-focus macro handeling
@@ -151,6 +153,8 @@ namespace PokemonGeneratorGUI
                         this.n64Config = new P64ConfigEditor(cfg);
                     }
                 }
+                this.textBox_1name.Text = "PLAYER1";
+                this.textBox_2name.Text = "PLAYER2";
                 this.groupBox_player1.Enabled = true;
                 this.groupBox_player2.Enabled = true;
                 return ValidateGroup2();
@@ -193,10 +197,28 @@ namespace PokemonGeneratorGUI
             //good &= CheckIfFileExistsAndAssignImage(textBox_1Rom, pictureBox1);
             good &= string.IsNullOrEmpty(textBox_1Sav.Text) || CheckIfFileExistsAndAssignImage(textBox_1Sav, pictureBox_1Sav);
             good &= CheckIfFileExistsAndAssignImage(textBox_1Out, pictureBox_1Out);
+            if (!string.IsNullOrWhiteSpace(textBox_1name.Text))
+            {
+                pictureBox_1name.Hide();
+            }
+            else
+            {
+                AssignErrorImageTo(pictureBox_1name);
+                good = false;
+            }
 
             //good &= CheckIfFileExistsAndAssignImage(textBox_2Rom, pictureBox4);
             good &= string.IsNullOrEmpty(textBox_2Sav.Text) || CheckIfFileExistsAndAssignImage(textBox_2Sav, pictureBox_2Sav);
             good &= CheckIfFileExistsAndAssignImage(textBox_2Out, pictureBox_2Out);
+            if (!string.IsNullOrWhiteSpace(textBox_2name.Text))
+            {
+                pictureBox_2name.Hide();
+            }
+            else
+            {
+                AssignErrorImageTo(pictureBox_2name);
+                good = false;
+            }
 
             if (good)
             {
@@ -267,6 +289,8 @@ namespace PokemonGeneratorGUI
             args.pgExe = this.textbox_pokemonGeneratorExeLocation.Text;
             args.game1 = this.comboBox_1game.SelectedItem.ToString();
             args.game2 = this.comboBox_2game.SelectedItem.ToString();
+            args.name1 = this.textBox_1name.Text;
+            args.name2 = this.textBox_2name.Text;
             this.backgroundWorker.RunWorkerAsync(args);
         }
 
@@ -343,6 +367,8 @@ namespace PokemonGeneratorGUI
             if (!string.IsNullOrWhiteSpace(wArg.i2)) { args.Append($" --i2 \"{wArg.i2}\" "); }
             if (!string.IsNullOrWhiteSpace(wArg.o1)) { args.Append($" --o1 \"{wArg.o1}\" "); }
             if (!string.IsNullOrWhiteSpace(wArg.o2)) { args.Append($" --o2 \"{wArg.o2}\" "); }
+            if (!string.IsNullOrWhiteSpace(wArg.name1)) { args.Append($" --name1 \"{wArg.name1}\" "); }
+            if (!string.IsNullOrWhiteSpace(wArg.name2)) { args.Append($" --name2 \"{wArg.name2}\" "); }
 
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.FileName = Path.GetFullPath(wArg.pgExe);
