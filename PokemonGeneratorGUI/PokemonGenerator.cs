@@ -35,6 +35,8 @@ namespace PokemonGeneratorGUI
             public string o2 { get; set; }
             public string p64 { get; set; }
             public string pgExe { get; set; }
+            public string game1 { get; set; }
+            public string game2 { get; set; }
         }
 
         // Imported to handle out-of-focus macro handeling
@@ -92,7 +94,7 @@ namespace PokemonGeneratorGUI
                 int id = m.WParam.ToInt32();                                        // The id of the hotkey that was pressed.
 
                 // do something
-                if (id == 0 && this.button3.Enabled) 
+                if (id == 0 && this.button_generate.Enabled) 
                 {
                     this.button3_Click(null, null);
                 }
@@ -101,7 +103,7 @@ namespace PokemonGeneratorGUI
 
         private void PokemonGenerator_Load(object sender, EventArgs e)
         {
-            this.comboBox1.SelectedIndex = 0;
+            this.comboBox_entropy.SelectedIndex = 0;
             this.textbox_pokemonGeneratorExeLocation.Text = pokeGenEXELocation;
             this.textbox_projN64Location.Text = projN64Location;
             ValidateGroup1();
@@ -120,8 +122,8 @@ namespace PokemonGeneratorGUI
         private bool ValidateGroup1()
         {
             var good = true;
-            good &= CheckIfFileExistsAndAssignImage(textbox_projN64Location, pictureBox9, false);
-            good &= CheckIfFileExistsAndAssignImage(textbox_pokemonGeneratorExeLocation, pictureBox8, false);
+            good &= CheckIfFileExistsAndAssignImage(textbox_projN64Location, pictureBox_projN64Location, false);
+            good &= CheckIfFileExistsAndAssignImage(textbox_pokemonGeneratorExeLocation, pictureBox_pokemonGeneratorExeLocation, false);
             if ( good )
             {
                 // get ini location
@@ -135,24 +137,24 @@ namespace PokemonGeneratorGUI
                     var tup = editor.GetRomAndSavFileLocation(1);
                     var tup2 = editor.GetRomAndSavFileLocation(2);
 
-                    this.textBox_1Rom.Text = tup.Item1;
+                    this.comboBox_1game.SelectedIndex = 0;
                     this.textBox_1Sav.Text = tup.Item2;
                     this.textBox_1Out.Text = tup.Item2;
 
-                    this.textBox_2Rom.Text = tup2.Item1;
+                    this.comboBox_2game.SelectedIndex = 0;
                     this.textBox_2Sav.Text = tup2.Item2;
                     this.textBox_2Out.Text = tup2.Item2;
                 }
 
-                this.groupBox1.Enabled = true;
-                this.groupBox2.Enabled = true;
+                this.groupBox_player1.Enabled = true;
+                this.groupBox_player2.Enabled = true;
                 return ValidateGroup2();
             }
             else
             {
-                this.groupBox1.Enabled = false;
-                this.groupBox2.Enabled = false;
-                this.groupBox3.Enabled = false;
+                this.groupBox_player1.Enabled = false;
+                this.groupBox_player2.Enabled = false;
+                this.groupBox_bottom.Enabled = false;
                 this.editor = null;
                 this.n64Config = null;
                 return false;
@@ -195,31 +197,31 @@ namespace PokemonGeneratorGUI
             var good = true;
             
             //good &= CheckIfFileExistsAndAssignImage(textBox_1Rom, pictureBox1);
-            good &= CheckIfFileExistsAndAssignImage(textBox_1Sav, pictureBox2);
+            good &= CheckIfFileExistsAndAssignImage(textBox_1Sav, pictureBox_1Sav);
             //good &= CheckIfFileExistsAndAssignImage(textBox_1Out, pictureBox3);
 
             //good &= CheckIfFileExistsAndAssignImage(textBox_2Rom, pictureBox4);
-            good &= CheckIfFileExistsAndAssignImage(textBox_2Sav, pictureBox5);
+            good &= CheckIfFileExistsAndAssignImage(textBox_2Sav, pictureBox_2Sav);
             //good &= CheckIfFileExistsAndAssignImage(textBox_2Out, pictureBox6);
 
             if (good)
             {
-                this.groupBox3.Enabled = true;
+                this.groupBox_bottom.Enabled = true;
                 return ValidateGroup3();
             }
             else
             {
-                this.groupBox3.Enabled = false;
+                this.groupBox_bottom.Enabled = false;
                 return false;
             }
         }
 
         private bool ValidateGroup3()
         {
-            if (comboBox1.SelectedIndex >= 0 && comboBox1.SelectedIndex <= comboBox1.Items.Count &&
-                numericUpDown1.Value >= 5 && numericUpDown1.Value <= 100)
+            if (comboBox_entropy.SelectedIndex >= 0 && comboBox_entropy.SelectedIndex <= comboBox_entropy.Items.Count &&
+                numericUpDown_level.Value >= 5 && numericUpDown_level.Value <= 100)
             {
-                this.button3.Enabled = true;
+                this.button_generate.Enabled = true;
                 return true;
             }
             else
@@ -230,24 +232,12 @@ namespace PokemonGeneratorGUI
 
         private string ChooseFile(string filter = "Application|*.exe")
         {
-            this.openFileDialog1.Filter = filter;
-            if (this.openFileDialog1.ShowDialog().Equals(DialogResult.OK)) {
-                return this.openFileDialog1.FileName;
+            this.openFileDialog.Filter = filter;
+            if (this.openFileDialog.ShowDialog().Equals(DialogResult.OK)) {
+                return this.openFileDialog.FileName;
             } else {
                 return null;
             }
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            this.textbox_projN64Location.Text = ChooseFile() ?? this.textbox_projN64Location.Text;
-            ValidateGroup1();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            this.textbox_pokemonGeneratorExeLocation.Text = ChooseFile() ?? this.textbox_pokemonGeneratorExeLocation.Text;
-            ValidateGroup1();
         }
 
         private void group1Validater(object sender, EventArgs e)
@@ -262,26 +252,22 @@ namespace PokemonGeneratorGUI
 
         private void button3_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(this.textBox_1Out.Text) || string.IsNullOrWhiteSpace(this.textBox_2Out.Text))
-            {
-                throw new ArgumentNullException("Out Files must be specified");
-            }
-
             this.groupBox4.Enabled = false;
             this.panel1.Show();
             this.panel1.BringToFront();
 
             WorkerArgs args = new WorkerArgs();
-            args.level = (int)this.numericUpDown1.Value;
-            args.entropy = this.comboBox1.SelectedItem.ToString();
+            args.level = (int)this.numericUpDown_level.Value;
+            args.entropy = this.comboBox_entropy.SelectedItem.ToString();
             args.i1 = this.textBox_1Sav.Text;
             args.i2 = this.textBox_2Sav.Text;
             args.o1 = this.textBox_1Out.Text;
             args.o2 = this.textBox_2Out.Text;
             args.p64 = this.textbox_projN64Location.Text;
             args.pgExe = this.textbox_pokemonGeneratorExeLocation.Text;
-
-            this.backgroundWorker1.RunWorkerAsync(args);
+            args.game1 = this.comboBox_1game.SelectedItem.ToString();
+            args.game2 = this.comboBox_2game.SelectedItem.ToString();
+            this.backgroundWorker.RunWorkerAsync(args);
         }
 
         private void PokemonGenerator_FormClosing(object sender, FormClosingEventArgs e)
@@ -289,40 +275,39 @@ namespace PokemonGeneratorGUI
             UnregisterHotKey(this.Handle, 0);       // Unregister hotkey with id 0 before closing the form. You might want to call this more than once with different id values if you are planning to register more than one hotkey.
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void button_projN64Location_Click(object sender, EventArgs e)
         {
-
-            this.textBox_1Rom.Text = ChooseFile("ROMs|*.gbc") ?? this.textBox_1Rom.Text;
-            ValidateGroup2();
+            this.textbox_projN64Location.Text = ChooseFile() ?? this.textbox_projN64Location.Text;
+            ValidateGroup1();
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void button_pokemonGeneratorExeLocation_Click(object sender, EventArgs e)
+        {
+            this.textbox_pokemonGeneratorExeLocation.Text = ChooseFile() ?? this.textbox_pokemonGeneratorExeLocation.Text;
+            ValidateGroup1();
+        }
+
+        private void button_1Sav_Click(object sender, EventArgs e)
         {
             this.textBox_1Sav.Text = ChooseFile("Save Files|*.sav") ?? this.textBox_1Sav.Text;
             ValidateGroup2();
         }
 
-        private void button6_Click(object sender, EventArgs e)
+        private void textBox_1Out_Click(object sender, EventArgs e)
         {
             this.textBox_1Out.Text = ChooseFile("Save Files|*.sav") ?? this.textBox_1Out.Text;
             ValidateGroup2();
         }
 
-        private void button9_Click(object sender, EventArgs e)
+        private void button_2Out_Click(object sender, EventArgs e)
         {
-            this.textBox_2Rom.Text = ChooseFile("ROMs|*.gbc") ?? this.textBox_2Rom.Text;
+            this.textBox_2Out.Text = ChooseFile("ROMs|*.gbc") ?? this.textBox_2Out.Text;
             ValidateGroup2();
         }
 
-        private void button8_Click(object sender, EventArgs e)
+        private void button_2Sav_Click(object sender, EventArgs e)
         {
             this.textBox_2Sav.Text = ChooseFile("Save Files|*.sav") ?? this.textBox_2Sav.Text;
-            ValidateGroup2();
-        }
-
-        private void button7_Click(object sender, EventArgs e)
-        {
-            this.textBox_2Out.Text = ChooseFile("Save Files|*.sav") ?? this.textBox_2Out.Text;
             ValidateGroup2();
         }
 
@@ -352,6 +337,8 @@ namespace PokemonGeneratorGUI
             StringBuilder args = new StringBuilder();
             args.Append($" --level {wArg.level} ");
             args.Append($" --entropy {wArg.entropy} ");
+            args.Append($" --game1  {wArg.game1}");
+            args.Append($" --game2 {wArg.game2}");
             if (!string.IsNullOrWhiteSpace(wArg.i1)) { args.Append($" --i1 \"{wArg.i1}\" "); }
             if (!string.IsNullOrWhiteSpace(wArg.i2)) { args.Append($" --i2 \"{wArg.i2}\" "); }
             if (!string.IsNullOrWhiteSpace(wArg.o1)) { args.Append($" --o1 \"{wArg.o1}\" "); }

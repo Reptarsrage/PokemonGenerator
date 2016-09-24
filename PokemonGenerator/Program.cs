@@ -41,20 +41,37 @@ namespace PokemonGenerator
             contentDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"PokemonGenerator\");
             outputDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
 #endif
-
+            // ParseCommandLineOptions options
             var options = ParseCommandLineOptions(args);
             if (options == null)
             {
                 return;
             }
 
+            // Set Game and save for player 1
+            if (!string.IsNullOrWhiteSpace(options.Game1) && options.Game1.Equals("Silver", StringComparison.InvariantCultureIgnoreCase))
+            {
+                options.InputSav1 = Path.Combine(contentDirectory, "Gold.sav");
+            }
+            else
+            {
+                options.InputSav1 = Path.Combine(contentDirectory, "Silver.sav");
+            }
+
+            // Set Game and save for player 2
+            if (!string.IsNullOrWhiteSpace(options.Game2) && options.Game2.Equals("Silver", StringComparison.InvariantCultureIgnoreCase))
+            {
+                options.InputSav2 = Path.Combine(contentDirectory, "Silver.sav");
+            }
+            else
+            {
+                options.InputSav1 = Path.Combine(contentDirectory, "Gold.sav");
+            }
+
             var sav = readSavProperties(options.InputSav1);
             var gen = new PokemonGenerator();
             copyAndGen(options.OutputSav1, options.InputSav1, gen, sav, options.Level);
             copyAndGen(options.OutputSav2, options.InputSav2, gen, sav, options.Level);
-
-
-            Console.Read();
         }
 
         /// <summary>
@@ -71,7 +88,6 @@ namespace PokemonGenerator
             sav.TeamPokémonlist = list;
             writeSavProperties(@out, @in, sav);
             readSavProperties(@out);
-            Console.WriteLine(sav);
             Debug.Print($"Created file {@out}");
         }
 
@@ -91,8 +107,7 @@ namespace PokemonGenerator
             {
                 File.Delete(outname);
             }
-
-            if (File.Exists(filename))
+            else if (!Path.GetFullPath(filename).Equals(Path.GetFullPath(outname)))
             {
                 File.Copy(filename, outname);
             }
@@ -154,7 +169,7 @@ namespace PokemonGenerator
 
             _parser.Setup<string>(arguments => arguments.InputSav2)
                 .As("i2")
-                .SetDefault(Path.Combine(contentDirectory, "Silver.sav"))
+                .SetDefault(Path.Combine(contentDirectory, "Gold.sav"))
                 .WithDescription("The Pokemon Gold/Silver emulator sav file to modify for player 2. A default sav file is used when this parameter in omitted.");
 
             _parser.Setup<string>(arguments => arguments.OutputSav1)
@@ -166,6 +181,16 @@ namespace PokemonGenerator
                 .As("o2")
                 .SetDefault(Path.Combine(outputDirectory, "Player2.sav"))
                 .WithDescription("The path to the desired output location for the Pokemon Gold/Silver emulator sav file for player 2. Defaults to 'Player2.sav' on the current user's desktop.");
+
+            _parser.Setup<string>(arguments => arguments.Game1)
+                .As("game1")
+                .SetDefault("Gold")
+                .WithDescription("The Game to use (Gold or Silver). Default is Gold.");
+
+            _parser.Setup<string>(arguments => arguments.Game2)
+                .As("game2")
+                .SetDefault("Gold")
+                .WithDescription("The Game to use (Gold or Silver). Default is Gold.");
 
             _parser.SetupHelp("?", "help")
                 .Callback(text => Console.WriteLine("\nUsage:\n" + text));

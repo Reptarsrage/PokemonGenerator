@@ -31,65 +31,59 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PokemonGenerator));
             this.textbox_pokemonGeneratorExeLocation = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.helpProvider1 = new System.Windows.Forms.HelpProvider();
+            this.helpProvider = new System.Windows.Forms.HelpProvider();
             this.label2 = new System.Windows.Forms.Label();
             this.textbox_projN64Location = new System.Windows.Forms.TextBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.button6 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.groupBox_player1 = new System.Windows.Forms.GroupBox();
+            this.button_1Out = new System.Windows.Forms.Button();
+            this.button_1Sav = new System.Windows.Forms.Button();
+            this.pictureBox_1Out = new System.Windows.Forms.PictureBox();
+            this.pictureBox_1Sav = new System.Windows.Forms.PictureBox();
             this.textBox_1Out = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.textBox_1Sav = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.textBox_1Rom = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label11 = new System.Windows.Forms.Label();
             this.pictureBox7 = new System.Windows.Forms.PictureBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.button9 = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
-            this.pictureBox6 = new System.Windows.Forms.PictureBox();
-            this.pictureBox5 = new System.Windows.Forms.PictureBox();
-            this.pictureBox4 = new System.Windows.Forms.PictureBox();
+            this.groupBox_player2 = new System.Windows.Forms.GroupBox();
+            this.button_2Out = new System.Windows.Forms.Button();
+            this.button_2Sav = new System.Windows.Forms.Button();
+            this.pictureBox_2Out = new System.Windows.Forms.PictureBox();
+            this.pictureBox_2Sav = new System.Windows.Forms.PictureBox();
             this.textBox_2Out = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.textBox_2Sav = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.textBox_2Rom = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_level = new System.Windows.Forms.NumericUpDown();
             this.label9 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.comboBox_entropy = new System.Windows.Forms.ComboBox();
             this.label10 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.button3 = new System.Windows.Forms.Button();
-            this.pictureBox8 = new System.Windows.Forms.PictureBox();
-            this.pictureBox9 = new System.Windows.Forms.PictureBox();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.button_pokemonGeneratorExeLocation = new System.Windows.Forms.Button();
+            this.button_projN64Location = new System.Windows.Forms.Button();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.groupBox_bottom = new System.Windows.Forms.GroupBox();
+            this.button_generate = new System.Windows.Forms.Button();
+            this.pictureBox_pokemonGeneratorExeLocation = new System.Windows.Forms.PictureBox();
+            this.pictureBox_projN64Location = new System.Windows.Forms.PictureBox();
+            this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.comboBox_1game = new System.Windows.Forms.ComboBox();
+            this.comboBox_2game = new System.Windows.Forms.ComboBox();
+            this.groupBox_player1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_1Out)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_1Sav)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
-            this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-            this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).BeginInit();
+            this.groupBox_player2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_2Out)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_2Sav)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_level)).BeginInit();
+            this.groupBox_bottom.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_pokemonGeneratorExeLocation)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_projN64Location)).BeginInit();
             this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -131,104 +125,77 @@
             this.textbox_projN64Location.TabIndex = 2;
             this.textbox_projN64Location.Validated += new System.EventHandler(this.textbox_projN64Location_TextChanged);
             // 
-            // groupBox1
+            // groupBox_player1
             // 
-            this.groupBox1.Controls.Add(this.button6);
-            this.groupBox1.Controls.Add(this.button5);
-            this.groupBox1.Controls.Add(this.button4);
-            this.groupBox1.Controls.Add(this.pictureBox3);
-            this.groupBox1.Controls.Add(this.pictureBox2);
-            this.groupBox1.Controls.Add(this.pictureBox1);
-            this.groupBox1.Controls.Add(this.textBox_1Out);
-            this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.textBox_1Sav);
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.textBox_1Rom);
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Enabled = false;
-            this.groupBox1.Location = new System.Drawing.Point(16, 90);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.groupBox1.Size = new System.Drawing.Size(443, 213);
-            this.groupBox1.TabIndex = 4;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Player 1 Config";
+            this.groupBox_player1.Controls.Add(this.comboBox_1game);
+            this.groupBox_player1.Controls.Add(this.button_1Out);
+            this.groupBox_player1.Controls.Add(this.button_1Sav);
+            this.groupBox_player1.Controls.Add(this.pictureBox_1Out);
+            this.groupBox_player1.Controls.Add(this.pictureBox_1Sav);
+            this.groupBox_player1.Controls.Add(this.textBox_1Out);
+            this.groupBox_player1.Controls.Add(this.label5);
+            this.groupBox_player1.Controls.Add(this.textBox_1Sav);
+            this.groupBox_player1.Controls.Add(this.label4);
+            this.groupBox_player1.Controls.Add(this.label3);
+            this.groupBox_player1.Enabled = false;
+            this.groupBox_player1.Location = new System.Drawing.Point(16, 90);
+            this.groupBox_player1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.groupBox_player1.Name = "groupBox_player1";
+            this.groupBox_player1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.groupBox_player1.Size = new System.Drawing.Size(443, 213);
+            this.groupBox_player1.TabIndex = 4;
+            this.groupBox_player1.TabStop = false;
+            this.groupBox_player1.Text = "Player 1 Config";
             // 
-            // button6
+            // button_1Out
             // 
-            this.button6.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button6.Location = new System.Drawing.Point(143, 138);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(77, 21);
-            this.button6.TabIndex = 18;
-            this.button6.Text = "Choose File";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
+            this.button_1Out.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_1Out.Location = new System.Drawing.Point(143, 138);
+            this.button_1Out.Name = "button_1Out";
+            this.button_1Out.Size = new System.Drawing.Size(77, 21);
+            this.button_1Out.TabIndex = 18;
+            this.button_1Out.Text = "Choose File";
+            this.button_1Out.UseVisualStyleBackColor = true;
+            this.button_1Out.Click += new System.EventHandler(this.textBox_1Out_Click);
             // 
-            // button5
+            // button_1Sav
             // 
-            this.button5.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button5.Location = new System.Drawing.Point(143, 77);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(77, 21);
-            this.button5.TabIndex = 17;
-            this.button5.Text = "Choose File";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.button_1Sav.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_1Sav.Location = new System.Drawing.Point(143, 77);
+            this.button_1Sav.Name = "button_1Sav";
+            this.button_1Sav.Size = new System.Drawing.Size(77, 21);
+            this.button_1Sav.TabIndex = 17;
+            this.button_1Sav.Text = "Choose File";
+            this.button_1Sav.UseVisualStyleBackColor = true;
+            this.button_1Sav.Click += new System.EventHandler(this.button_1Sav_Click);
             // 
-            // button4
+            // pictureBox_1Out
             // 
-            this.button4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button4.Location = new System.Drawing.Point(143, 25);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(77, 21);
-            this.button4.TabIndex = 16;
-            this.button4.Text = "Choose File";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.pictureBox_1Out.ErrorImage = null;
+            this.pictureBox_1Out.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox_1Out.Image")));
+            this.pictureBox_1Out.InitialImage = null;
+            this.pictureBox_1Out.Location = new System.Drawing.Point(332, 161);
+            this.pictureBox_1Out.Name = "pictureBox_1Out";
+            this.pictureBox_1Out.Size = new System.Drawing.Size(25, 25);
+            this.pictureBox_1Out.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox_1Out.TabIndex = 15;
+            this.pictureBox_1Out.TabStop = false;
+            this.pictureBox_1Out.Visible = false;
+            this.pictureBox_1Out.Click += new System.EventHandler(this.group2Validater);
             // 
-            // pictureBox3
+            // pictureBox_1Sav
             // 
-            this.pictureBox3.ErrorImage = null;
-            this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
-            this.pictureBox3.InitialImage = null;
-            this.pictureBox3.Location = new System.Drawing.Point(332, 161);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(25, 25);
-            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox3.TabIndex = 15;
-            this.pictureBox3.TabStop = false;
-            this.pictureBox3.Visible = false;
-            this.pictureBox3.Click += new System.EventHandler(this.group2Validater);
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.ErrorImage = null;
-            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.InitialImage = null;
-            this.pictureBox2.Location = new System.Drawing.Point(332, 101);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(25, 25);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox2.TabIndex = 14;
-            this.pictureBox2.TabStop = false;
-            this.pictureBox2.Visible = false;
-            this.pictureBox2.Click += new System.EventHandler(this.group2Validater);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.ErrorImage = null;
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.InitialImage = null;
-            this.pictureBox1.Location = new System.Drawing.Point(332, 48);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(25, 25);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 13;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Visible = false;
-            this.pictureBox1.Click += new System.EventHandler(this.group2Validater);
+            this.pictureBox_1Sav.ErrorImage = null;
+            this.pictureBox_1Sav.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox_1Sav.Image")));
+            this.pictureBox_1Sav.InitialImage = null;
+            this.pictureBox_1Sav.Location = new System.Drawing.Point(332, 101);
+            this.pictureBox_1Sav.Name = "pictureBox_1Sav";
+            this.pictureBox_1Sav.Size = new System.Drawing.Size(25, 25);
+            this.pictureBox_1Sav.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox_1Sav.TabIndex = 14;
+            this.pictureBox_1Sav.TabStop = false;
+            this.pictureBox_1Sav.Visible = false;
+            this.pictureBox_1Sav.Click += new System.EventHandler(this.group2Validater);
             // 
             // textBox_1Out
             // 
@@ -266,23 +233,14 @@
             this.label4.TabIndex = 2;
             this.label4.Text = "Game sav Location:";
             // 
-            // textBox_1Rom
-            // 
-            this.textBox_1Rom.Location = new System.Drawing.Point(12, 48);
-            this.textBox_1Rom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.textBox_1Rom.MaxLength = 500;
-            this.textBox_1Rom.Name = "textBox_1Rom";
-            this.textBox_1Rom.Size = new System.Drawing.Size(314, 25);
-            this.textBox_1Rom.TabIndex = 1;
-            // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(8, 26);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(129, 17);
+            this.label3.Size = new System.Drawing.Size(45, 17);
             this.label3.TabIndex = 0;
-            this.label3.Text = "Game Rom Location:";
+            this.label3.Text = "Game:";
             // 
             // panel1
             // 
@@ -315,104 +273,77 @@
             this.pictureBox7.TabIndex = 1;
             this.pictureBox7.TabStop = false;
             // 
-            // groupBox2
+            // groupBox_player2
             // 
-            this.groupBox2.Controls.Add(this.button9);
-            this.groupBox2.Controls.Add(this.button8);
-            this.groupBox2.Controls.Add(this.button7);
-            this.groupBox2.Controls.Add(this.pictureBox6);
-            this.groupBox2.Controls.Add(this.pictureBox5);
-            this.groupBox2.Controls.Add(this.pictureBox4);
-            this.groupBox2.Controls.Add(this.textBox_2Out);
-            this.groupBox2.Controls.Add(this.label6);
-            this.groupBox2.Controls.Add(this.textBox_2Sav);
-            this.groupBox2.Controls.Add(this.label7);
-            this.groupBox2.Controls.Add(this.textBox_2Rom);
-            this.groupBox2.Controls.Add(this.label8);
-            this.groupBox2.Enabled = false;
-            this.groupBox2.Location = new System.Drawing.Point(477, 90);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.groupBox2.Size = new System.Drawing.Size(425, 213);
-            this.groupBox2.TabIndex = 6;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Player 2 Config";
+            this.groupBox_player2.Controls.Add(this.comboBox_2game);
+            this.groupBox_player2.Controls.Add(this.button_2Out);
+            this.groupBox_player2.Controls.Add(this.button_2Sav);
+            this.groupBox_player2.Controls.Add(this.pictureBox_2Out);
+            this.groupBox_player2.Controls.Add(this.pictureBox_2Sav);
+            this.groupBox_player2.Controls.Add(this.textBox_2Out);
+            this.groupBox_player2.Controls.Add(this.label6);
+            this.groupBox_player2.Controls.Add(this.textBox_2Sav);
+            this.groupBox_player2.Controls.Add(this.label7);
+            this.groupBox_player2.Controls.Add(this.label8);
+            this.groupBox_player2.Enabled = false;
+            this.groupBox_player2.Location = new System.Drawing.Point(477, 90);
+            this.groupBox_player2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.groupBox_player2.Name = "groupBox_player2";
+            this.groupBox_player2.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.groupBox_player2.Size = new System.Drawing.Size(425, 213);
+            this.groupBox_player2.TabIndex = 6;
+            this.groupBox_player2.TabStop = false;
+            this.groupBox_player2.Text = "Player 2 Config";
             // 
-            // button9
+            // button_2Out
             // 
-            this.button9.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button9.Location = new System.Drawing.Point(135, 138);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(77, 21);
-            this.button9.TabIndex = 21;
-            this.button9.Text = "Choose File";
-            this.button9.UseVisualStyleBackColor = true;
-            this.button9.Click += new System.EventHandler(this.button9_Click);
+            this.button_2Out.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_2Out.Location = new System.Drawing.Point(135, 138);
+            this.button_2Out.Name = "button_2Out";
+            this.button_2Out.Size = new System.Drawing.Size(77, 21);
+            this.button_2Out.TabIndex = 21;
+            this.button_2Out.Text = "Choose File";
+            this.button_2Out.UseVisualStyleBackColor = true;
+            this.button_2Out.Click += new System.EventHandler(this.button_2Out_Click);
             // 
-            // button8
+            // button_2Sav
             // 
-            this.button8.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button8.Location = new System.Drawing.Point(135, 77);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(77, 21);
-            this.button8.TabIndex = 20;
-            this.button8.Text = "Choose File";
-            this.button8.UseVisualStyleBackColor = true;
-            this.button8.Click += new System.EventHandler(this.button8_Click);
+            this.button_2Sav.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_2Sav.Location = new System.Drawing.Point(135, 77);
+            this.button_2Sav.Name = "button_2Sav";
+            this.button_2Sav.Size = new System.Drawing.Size(77, 21);
+            this.button_2Sav.TabIndex = 20;
+            this.button_2Sav.Text = "Choose File";
+            this.button_2Sav.UseVisualStyleBackColor = true;
+            this.button_2Sav.Click += new System.EventHandler(this.button_2Sav_Click);
             // 
-            // button7
+            // pictureBox_2Out
             // 
-            this.button7.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button7.Location = new System.Drawing.Point(135, 25);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(77, 21);
-            this.button7.TabIndex = 19;
-            this.button7.Text = "Choose File";
-            this.button7.UseVisualStyleBackColor = true;
-            this.button7.Click += new System.EventHandler(this.button7_Click);
+            this.pictureBox_2Out.ErrorImage = null;
+            this.pictureBox_2Out.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox_2Out.Image")));
+            this.pictureBox_2Out.InitialImage = null;
+            this.pictureBox_2Out.Location = new System.Drawing.Point(332, 161);
+            this.pictureBox_2Out.Name = "pictureBox_2Out";
+            this.pictureBox_2Out.Size = new System.Drawing.Size(25, 25);
+            this.pictureBox_2Out.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox_2Out.TabIndex = 18;
+            this.pictureBox_2Out.TabStop = false;
+            this.pictureBox_2Out.Visible = false;
+            this.pictureBox_2Out.Click += new System.EventHandler(this.group2Validater);
             // 
-            // pictureBox6
+            // pictureBox_2Sav
             // 
-            this.pictureBox6.ErrorImage = null;
-            this.pictureBox6.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox6.Image")));
-            this.pictureBox6.InitialImage = null;
-            this.pictureBox6.Location = new System.Drawing.Point(332, 161);
-            this.pictureBox6.Name = "pictureBox6";
-            this.pictureBox6.Size = new System.Drawing.Size(25, 25);
-            this.pictureBox6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox6.TabIndex = 18;
-            this.pictureBox6.TabStop = false;
-            this.pictureBox6.Visible = false;
-            this.pictureBox6.Click += new System.EventHandler(this.group2Validater);
-            // 
-            // pictureBox5
-            // 
-            this.pictureBox5.ErrorImage = null;
-            this.pictureBox5.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox5.Image")));
-            this.pictureBox5.InitialImage = null;
-            this.pictureBox5.Location = new System.Drawing.Point(332, 101);
-            this.pictureBox5.Name = "pictureBox5";
-            this.pictureBox5.Size = new System.Drawing.Size(25, 25);
-            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox5.TabIndex = 17;
-            this.pictureBox5.TabStop = false;
-            this.pictureBox5.Visible = false;
-            this.pictureBox5.Click += new System.EventHandler(this.group2Validater);
-            // 
-            // pictureBox4
-            // 
-            this.pictureBox4.ErrorImage = null;
-            this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
-            this.pictureBox4.InitialImage = null;
-            this.pictureBox4.Location = new System.Drawing.Point(332, 48);
-            this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(25, 25);
-            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox4.TabIndex = 16;
-            this.pictureBox4.TabStop = false;
-            this.pictureBox4.Visible = false;
-            this.pictureBox4.Click += new System.EventHandler(this.group2Validater);
+            this.pictureBox_2Sav.ErrorImage = null;
+            this.pictureBox_2Sav.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox_2Sav.Image")));
+            this.pictureBox_2Sav.InitialImage = null;
+            this.pictureBox_2Sav.Location = new System.Drawing.Point(332, 101);
+            this.pictureBox_2Sav.Name = "pictureBox_2Sav";
+            this.pictureBox_2Sav.Size = new System.Drawing.Size(25, 25);
+            this.pictureBox_2Sav.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox_2Sav.TabIndex = 17;
+            this.pictureBox_2Sav.TabStop = false;
+            this.pictureBox_2Sav.Visible = false;
+            this.pictureBox_2Sav.Click += new System.EventHandler(this.group2Validater);
             // 
             // textBox_2Out
             // 
@@ -450,37 +381,28 @@
             this.label7.TabIndex = 2;
             this.label7.Text = "Game sav Location:";
             // 
-            // textBox_2Rom
-            // 
-            this.textBox_2Rom.Location = new System.Drawing.Point(12, 48);
-            this.textBox_2Rom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.textBox_2Rom.MaxLength = 500;
-            this.textBox_2Rom.Name = "textBox_2Rom";
-            this.textBox_2Rom.Size = new System.Drawing.Size(314, 25);
-            this.textBox_2Rom.TabIndex = 1;
-            // 
             // label8
             // 
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(8, 26);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(129, 17);
+            this.label8.Size = new System.Drawing.Size(45, 17);
             this.label8.TabIndex = 0;
-            this.label8.Text = "Game Rom Location:";
+            this.label8.Text = "Game:";
             // 
-            // numericUpDown1
+            // numericUpDown_level
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(66, 18);
-            this.numericUpDown1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.numericUpDown1.Minimum = new decimal(new int[] {
+            this.numericUpDown_level.Location = new System.Drawing.Point(66, 18);
+            this.numericUpDown_level.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.numericUpDown_level.Minimum = new decimal(new int[] {
             5,
             0,
             0,
             0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(140, 25);
-            this.numericUpDown1.TabIndex = 7;
-            this.numericUpDown1.Value = new decimal(new int[] {
+            this.numericUpDown_level.Name = "numericUpDown_level";
+            this.numericUpDown_level.Size = new System.Drawing.Size(140, 25);
+            this.numericUpDown_level.TabIndex = 7;
+            this.numericUpDown_level.Value = new decimal(new int[] {
             50,
             0,
             0,
@@ -495,20 +417,20 @@
             this.label9.TabIndex = 8;
             this.label9.Text = "Level";
             // 
-            // comboBox1
+            // comboBox_entropy
             // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
+            this.comboBox_entropy.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_entropy.FormattingEnabled = true;
+            this.comboBox_entropy.Items.AddRange(new object[] {
             "Low",
             "Medium",
             "High",
             "Chaos"});
-            this.comboBox1.Location = new System.Drawing.Point(66, 64);
-            this.comboBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(140, 25);
-            this.comboBox1.TabIndex = 9;
+            this.comboBox_entropy.Location = new System.Drawing.Point(66, 64);
+            this.comboBox_entropy.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.comboBox_entropy.Name = "comboBox_entropy";
+            this.comboBox_entropy.Size = new System.Drawing.Size(140, 25);
+            this.comboBox_entropy.TabIndex = 9;
             // 
             // label10
             // 
@@ -519,101 +441,101 @@
             this.label10.TabIndex = 10;
             this.label10.Text = "Entropy";
             // 
-            // button1
+            // button_pokemonGeneratorExeLocation
             // 
-            this.button1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(218, 20);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(77, 21);
-            this.button1.TabIndex = 13;
-            this.button1.Text = "Choose File";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button_pokemonGeneratorExeLocation.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_pokemonGeneratorExeLocation.Location = new System.Drawing.Point(218, 20);
+            this.button_pokemonGeneratorExeLocation.Name = "button_pokemonGeneratorExeLocation";
+            this.button_pokemonGeneratorExeLocation.Size = new System.Drawing.Size(77, 21);
+            this.button_pokemonGeneratorExeLocation.TabIndex = 13;
+            this.button_pokemonGeneratorExeLocation.Text = "Choose File";
+            this.button_pokemonGeneratorExeLocation.UseVisualStyleBackColor = true;
+            this.button_pokemonGeneratorExeLocation.Click += new System.EventHandler(this.button_pokemonGeneratorExeLocation_Click);
             // 
-            // button2
+            // button_projN64Location
             // 
-            this.button2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(612, 20);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(77, 21);
-            this.button2.TabIndex = 14;
-            this.button2.Text = "Choose File";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.button_projN64Location.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_projN64Location.Location = new System.Drawing.Point(612, 20);
+            this.button_projN64Location.Name = "button_projN64Location";
+            this.button_projN64Location.Size = new System.Drawing.Size(77, 21);
+            this.button_projN64Location.TabIndex = 14;
+            this.button_projN64Location.Text = "Choose File";
+            this.button_projN64Location.UseVisualStyleBackColor = true;
+            this.button_projN64Location.Click += new System.EventHandler(this.button_projN64Location_Click);
             // 
-            // openFileDialog1
+            // openFileDialog
             // 
-            this.openFileDialog1.FileName = "openFileDialog1";
+            this.openFileDialog.FileName = "openFileDialog";
             // 
-            // groupBox3
+            // groupBox_bottom
             // 
-            this.groupBox3.Controls.Add(this.button3);
-            this.groupBox3.Controls.Add(this.numericUpDown1);
-            this.groupBox3.Controls.Add(this.label9);
-            this.groupBox3.Controls.Add(this.comboBox1);
-            this.groupBox3.Controls.Add(this.label10);
-            this.groupBox3.Location = new System.Drawing.Point(13, 310);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(889, 116);
-            this.groupBox3.TabIndex = 15;
-            this.groupBox3.TabStop = false;
+            this.groupBox_bottom.Controls.Add(this.button_generate);
+            this.groupBox_bottom.Controls.Add(this.numericUpDown_level);
+            this.groupBox_bottom.Controls.Add(this.label9);
+            this.groupBox_bottom.Controls.Add(this.comboBox_entropy);
+            this.groupBox_bottom.Controls.Add(this.label10);
+            this.groupBox_bottom.Location = new System.Drawing.Point(13, 310);
+            this.groupBox_bottom.Name = "groupBox_bottom";
+            this.groupBox_bottom.Size = new System.Drawing.Size(889, 116);
+            this.groupBox_bottom.TabIndex = 15;
+            this.groupBox_bottom.TabStop = false;
             // 
-            // button3
+            // button_generate
             // 
-            this.button3.Enabled = false;
-            this.button3.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Location = new System.Drawing.Point(464, 18);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(357, 83);
-            this.button3.TabIndex = 11;
-            this.button3.Text = "Generate (CTRL+F12)";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.button_generate.Enabled = false;
+            this.button_generate.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_generate.Location = new System.Drawing.Point(464, 18);
+            this.button_generate.Name = "button_generate";
+            this.button_generate.Size = new System.Drawing.Size(357, 83);
+            this.button_generate.TabIndex = 11;
+            this.button_generate.Text = "Generate (CTRL+F12)";
+            this.button_generate.UseVisualStyleBackColor = true;
+            this.button_generate.Click += new System.EventHandler(this.button3_Click);
             // 
-            // pictureBox8
+            // pictureBox_pokemonGeneratorExeLocation
             // 
-            this.pictureBox8.Image = global::PokemonGeneratorGUI.Properties.Resources.BAD;
-            this.pictureBox8.Location = new System.Drawing.Point(444, 42);
-            this.pictureBox8.Name = "pictureBox8";
-            this.pictureBox8.Size = new System.Drawing.Size(25, 25);
-            this.pictureBox8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox8.TabIndex = 16;
-            this.pictureBox8.TabStop = false;
-            this.pictureBox8.Visible = false;
-            this.pictureBox8.Click += new System.EventHandler(this.group1Validater);
+            this.pictureBox_pokemonGeneratorExeLocation.Image = global::PokemonGeneratorGUI.Properties.Resources.BAD;
+            this.pictureBox_pokemonGeneratorExeLocation.Location = new System.Drawing.Point(444, 42);
+            this.pictureBox_pokemonGeneratorExeLocation.Name = "pictureBox_pokemonGeneratorExeLocation";
+            this.pictureBox_pokemonGeneratorExeLocation.Size = new System.Drawing.Size(25, 25);
+            this.pictureBox_pokemonGeneratorExeLocation.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox_pokemonGeneratorExeLocation.TabIndex = 16;
+            this.pictureBox_pokemonGeneratorExeLocation.TabStop = false;
+            this.pictureBox_pokemonGeneratorExeLocation.Visible = false;
+            this.pictureBox_pokemonGeneratorExeLocation.Click += new System.EventHandler(this.group1Validater);
             // 
-            // pictureBox9
+            // pictureBox_projN64Location
             // 
-            this.pictureBox9.Image = global::PokemonGeneratorGUI.Properties.Resources.BAD;
-            this.pictureBox9.Location = new System.Drawing.Point(909, 42);
-            this.pictureBox9.Name = "pictureBox9";
-            this.pictureBox9.Size = new System.Drawing.Size(25, 25);
-            this.pictureBox9.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox9.TabIndex = 17;
-            this.pictureBox9.TabStop = false;
-            this.pictureBox9.Visible = false;
-            this.pictureBox9.Click += new System.EventHandler(this.group1Validater);
+            this.pictureBox_projN64Location.Image = global::PokemonGeneratorGUI.Properties.Resources.BAD;
+            this.pictureBox_projN64Location.Location = new System.Drawing.Point(909, 42);
+            this.pictureBox_projN64Location.Name = "pictureBox_projN64Location";
+            this.pictureBox_projN64Location.Size = new System.Drawing.Size(25, 25);
+            this.pictureBox_projN64Location.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox_projN64Location.TabIndex = 17;
+            this.pictureBox_projN64Location.TabStop = false;
+            this.pictureBox_projN64Location.Visible = false;
+            this.pictureBox_projN64Location.Click += new System.EventHandler(this.group1Validater);
             // 
-            // backgroundWorker1
+            // backgroundWorker
             // 
-            this.backgroundWorker1.WorkerReportsProgress = true;
-            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
-            this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
-            this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
+            this.backgroundWorker.WorkerReportsProgress = true;
+            this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            this.backgroundWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
+            this.backgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.label1);
             this.groupBox4.Controls.Add(this.textbox_pokemonGeneratorExeLocation);
-            this.groupBox4.Controls.Add(this.pictureBox9);
+            this.groupBox4.Controls.Add(this.pictureBox_projN64Location);
             this.groupBox4.Controls.Add(this.textbox_projN64Location);
-            this.groupBox4.Controls.Add(this.pictureBox8);
+            this.groupBox4.Controls.Add(this.pictureBox_pokemonGeneratorExeLocation);
             this.groupBox4.Controls.Add(this.label2);
-            this.groupBox4.Controls.Add(this.groupBox3);
-            this.groupBox4.Controls.Add(this.groupBox1);
-            this.groupBox4.Controls.Add(this.button2);
-            this.groupBox4.Controls.Add(this.groupBox2);
-            this.groupBox4.Controls.Add(this.button1);
+            this.groupBox4.Controls.Add(this.groupBox_bottom);
+            this.groupBox4.Controls.Add(this.groupBox_player1);
+            this.groupBox4.Controls.Add(this.button_projN64Location);
+            this.groupBox4.Controls.Add(this.groupBox_player2);
+            this.groupBox4.Controls.Add(this.button_pokemonGeneratorExeLocation);
             this.groupBox4.Location = new System.Drawing.Point(1, -7);
             this.groupBox4.Margin = new System.Windows.Forms.Padding(0);
             this.groupBox4.Name = "groupBox4";
@@ -621,6 +543,32 @@
             this.groupBox4.Size = new System.Drawing.Size(942, 448);
             this.groupBox4.TabIndex = 1000;
             this.groupBox4.TabStop = false;
+            // 
+            // comboBox_1game
+            // 
+            this.comboBox_1game.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_1game.FormattingEnabled = true;
+            this.comboBox_1game.Items.AddRange(new object[] {
+            "Gold",
+            "Silver"});
+            this.comboBox_1game.Location = new System.Drawing.Point(11, 45);
+            this.comboBox_1game.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.comboBox_1game.Name = "comboBox_1game";
+            this.comboBox_1game.Size = new System.Drawing.Size(315, 25);
+            this.comboBox_1game.TabIndex = 12;
+            // 
+            // comboBox_2game
+            // 
+            this.comboBox_2game.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_2game.FormattingEnabled = true;
+            this.comboBox_2game.Items.AddRange(new object[] {
+            "Gold",
+            "Silver"});
+            this.comboBox_2game.Location = new System.Drawing.Point(11, 45);
+            this.comboBox_2game.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.comboBox_2game.Name = "comboBox_2game";
+            this.comboBox_2game.Size = new System.Drawing.Size(315, 25);
+            this.comboBox_2game.TabIndex = 19;
             // 
             // PokemonGenerator
             // 
@@ -638,23 +586,21 @@
             this.Text = "PokéGenerator";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PokemonGenerator_FormClosing);
             this.Load += new System.EventHandler(this.PokemonGenerator_Load);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.groupBox_player1.ResumeLayout(false);
+            this.groupBox_player1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_1Out)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_1Sav)).EndInit();
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).EndInit();
+            this.groupBox_player2.ResumeLayout(false);
+            this.groupBox_player2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_2Out)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_2Sav)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_level)).EndInit();
+            this.groupBox_bottom.ResumeLayout(false);
+            this.groupBox_bottom.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_pokemonGeneratorExeLocation)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_projN64Location)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
@@ -665,51 +611,47 @@
 
         private System.Windows.Forms.TextBox textbox_pokemonGeneratorExeLocation;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.HelpProvider helpProvider1;
+        private System.Windows.Forms.HelpProvider helpProvider;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textbox_projN64Location;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupBox_player1;
         private System.Windows.Forms.TextBox textBox_1Out;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox textBox_1Sav;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBox_1Rom;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox groupBox_player2;
         private System.Windows.Forms.TextBox textBox_2Out;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox textBox_2Sav;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox textBox_2Rom;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown numericUpDown_level;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox comboBox_entropy;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.PictureBox pictureBox3;
-        private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.PictureBox pictureBox6;
-        private System.Windows.Forms.PictureBox pictureBox5;
-        private System.Windows.Forms.PictureBox pictureBox4;
+        private System.Windows.Forms.Button button_pokemonGeneratorExeLocation;
+        private System.Windows.Forms.Button button_projN64Location;
+        private System.Windows.Forms.OpenFileDialog openFileDialog;
+        private System.Windows.Forms.GroupBox groupBox_bottom;
+        private System.Windows.Forms.Button button_generate;
+        private System.Windows.Forms.PictureBox pictureBox_1Out;
+        private System.Windows.Forms.PictureBox pictureBox_1Sav;
+        private System.Windows.Forms.PictureBox pictureBox_2Out;
+        private System.Windows.Forms.PictureBox pictureBox_2Sav;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.PictureBox pictureBox7;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button9;
-        private System.Windows.Forms.Button button8;
-        private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.PictureBox pictureBox8;
-        private System.Windows.Forms.PictureBox pictureBox9;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.Button button_1Out;
+        private System.Windows.Forms.Button button_1Sav;
+        private System.Windows.Forms.Button button_2Out;
+        private System.Windows.Forms.Button button_2Sav;
+        private System.Windows.Forms.PictureBox pictureBox_pokemonGeneratorExeLocation;
+        private System.Windows.Forms.PictureBox pictureBox_projN64Location;
+        private System.ComponentModel.BackgroundWorker backgroundWorker;
         private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.ComboBox comboBox_1game;
+        private System.Windows.Forms.ComboBox comboBox_2game;
     }
 }
 

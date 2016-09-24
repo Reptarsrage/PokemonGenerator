@@ -10,7 +10,6 @@
 
 namespace PokemonGenerator.Modals
 {
-
     /// <summary>
     /// A modal used to store and serialize/deserialize information.
     /// </summary>
@@ -23,5 +22,8 @@ namespace PokemonGenerator.Modals
         public int Level { get; set; }
         public string EntropyVal { get; set; }
         public int Entropy { get; set; }
+
+        public string Game1 { get; set; }
+        public string Game2 { get; set; }
     }
 }
