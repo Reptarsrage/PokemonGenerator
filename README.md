@@ -121,11 +121,15 @@ Built in order to supply Pokemon Stadium 2 with a better selection of Pokemon.
 <h3>TODO</h3>
 <ul>
     <li>Write unit tests</li>
+	<li>Reduce size by truncating unused database tables and optimizing resources.</li>
+    <li>Make executable a class library and only have the GUI as an executable.</li>
+    <li>Implement better user input validation on front end (detect duplicate entries and correct extensions).</li>
+    <li>Save configurations on exit so that subsequent GUI load use saved information.</li>
     <li>Handle errors in core executable</li>
     <li>Different entrropy levels to control generated pokemon randomness</li>
     <li>Move certain constants to a config file so that pokemon genneration can be tweaked without needing a recompile.</li>
     <li>Add GUI controls and core controls to generate user hand-selected pokemon and moves and stats.</li>
-    <li>Support renaming trainier in sav file.</li>
+    <li><b>DONE</b> Support renaming trainier in sav file.</li>
     <li>Support changing the macro from Ctrl+F12, in the GUI for generating pokemon.</li>
     <li>Add a view in the GUI to change and tweak pokemon generation values.</li>
     <li>Test installer on an x86 platform.</li>
