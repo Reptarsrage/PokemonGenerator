@@ -35,6 +35,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.textbox_projN64Location = new System.Windows.Forms.TextBox();
             this.groupBox_player1 = new System.Windows.Forms.GroupBox();
+            this.pictureBox_1name = new System.Windows.Forms.PictureBox();
             this.textBox_1name = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.comboBox_1game = new System.Windows.Forms.ComboBox();
@@ -51,6 +52,7 @@
             this.label11 = new System.Windows.Forms.Label();
             this.pictureBox7 = new System.Windows.Forms.PictureBox();
             this.groupBox_player2 = new System.Windows.Forms.GroupBox();
+            this.pictureBox_2name = new System.Windows.Forms.PictureBox();
             this.textBox_2name = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.comboBox_2game = new System.Windows.Forms.ComboBox();
@@ -72,27 +74,25 @@
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.groupBox_bottom = new System.Windows.Forms.GroupBox();
             this.button_generate = new System.Windows.Forms.Button();
-            this.pictureBox_pokemonGeneratorExeLocation = new System.Windows.Forms.PictureBox();
-            this.pictureBox_projN64Location = new System.Windows.Forms.PictureBox();
             this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.pictureBox_1name = new System.Windows.Forms.PictureBox();
-            this.pictureBox_2name = new System.Windows.Forms.PictureBox();
+            this.pictureBox_projN64Location = new System.Windows.Forms.PictureBox();
+            this.pictureBox_pokemonGeneratorExeLocation = new System.Windows.Forms.PictureBox();
             this.groupBox_player1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_1name)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_1Out)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_1Sav)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
             this.groupBox_player2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_2name)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_2Out)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_2Sav)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_level)).BeginInit();
             this.groupBox_bottom.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_pokemonGeneratorExeLocation)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_projN64Location)).BeginInit();
             this.groupBox4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_1name)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_2name)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_projN64Location)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_pokemonGeneratorExeLocation)).BeginInit();
             this.SuspendLayout();
             // 
             // textbox_pokemonGeneratorExeLocation
@@ -158,6 +158,19 @@
             this.groupBox_player1.TabStop = false;
             this.groupBox_player1.Text = "Player 1 Config";
             // 
+            // pictureBox_1name
+            // 
+            this.pictureBox_1name.ErrorImage = null;
+            this.pictureBox_1name.InitialImage = null;
+            this.pictureBox_1name.Location = new System.Drawing.Point(328, 43);
+            this.pictureBox_1name.Name = "pictureBox_1name";
+            this.pictureBox_1name.Size = new System.Drawing.Size(25, 25);
+            this.pictureBox_1name.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox_1name.TabIndex = 21;
+            this.pictureBox_1name.TabStop = false;
+            this.pictureBox_1name.Visible = false;
+            this.pictureBox_1name.Click += new System.EventHandler(this.group2Validater);
+            // 
             // textBox_1name
             // 
             this.textBox_1name.Location = new System.Drawing.Point(8, 43);
@@ -215,7 +228,6 @@
             // pictureBox_1Out
             // 
             this.pictureBox_1Out.ErrorImage = null;
-            this.pictureBox_1Out.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox_1Out.Image")));
             this.pictureBox_1Out.InitialImage = null;
             this.pictureBox_1Out.Location = new System.Drawing.Point(329, 210);
             this.pictureBox_1Out.Name = "pictureBox_1Out";
@@ -229,7 +241,6 @@
             // pictureBox_1Sav
             // 
             this.pictureBox_1Sav.ErrorImage = null;
-            this.pictureBox_1Sav.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox_1Sav.Image")));
             this.pictureBox_1Sav.InitialImage = null;
             this.pictureBox_1Sav.Location = new System.Drawing.Point(329, 150);
             this.pictureBox_1Sav.Name = "pictureBox_1Sav";
@@ -343,6 +354,19 @@
             this.groupBox_player2.TabStop = false;
             this.groupBox_player2.Text = "Player 2 Config";
             // 
+            // pictureBox_2name
+            // 
+            this.pictureBox_2name.ErrorImage = null;
+            this.pictureBox_2name.InitialImage = null;
+            this.pictureBox_2name.Location = new System.Drawing.Point(326, 43);
+            this.pictureBox_2name.Name = "pictureBox_2name";
+            this.pictureBox_2name.Size = new System.Drawing.Size(25, 25);
+            this.pictureBox_2name.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox_2name.TabIndex = 22;
+            this.pictureBox_2name.TabStop = false;
+            this.pictureBox_2name.Visible = false;
+            this.pictureBox_2name.Click += new System.EventHandler(this.group2Validater);
+            // 
             // textBox_2name
             // 
             this.textBox_2name.Location = new System.Drawing.Point(6, 43);
@@ -400,7 +424,6 @@
             // pictureBox_2Out
             // 
             this.pictureBox_2Out.ErrorImage = null;
-            this.pictureBox_2Out.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox_2Out.Image")));
             this.pictureBox_2Out.InitialImage = null;
             this.pictureBox_2Out.Location = new System.Drawing.Point(326, 210);
             this.pictureBox_2Out.Name = "pictureBox_2Out";
@@ -414,7 +437,6 @@
             // pictureBox_2Sav
             // 
             this.pictureBox_2Sav.ErrorImage = null;
-            this.pictureBox_2Sav.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox_2Sav.Image")));
             this.pictureBox_2Sav.InitialImage = null;
             this.pictureBox_2Sav.Location = new System.Drawing.Point(326, 150);
             this.pictureBox_2Sav.Name = "pictureBox_2Sav";
@@ -548,6 +570,7 @@
             // openFileDialog
             // 
             this.openFileDialog.FileName = "openFileDialog";
+            this.openFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog_FileOk);
             // 
             // groupBox_bottom
             // 
@@ -573,30 +596,6 @@
             this.button_generate.Text = "Generate (CTRL+F12)";
             this.button_generate.UseVisualStyleBackColor = true;
             this.button_generate.Click += new System.EventHandler(this.button3_Click);
-            // 
-            // pictureBox_pokemonGeneratorExeLocation
-            // 
-            this.pictureBox_pokemonGeneratorExeLocation.Image = global::PokemonGeneratorGUI.Properties.Resources.BAD;
-            this.pictureBox_pokemonGeneratorExeLocation.Location = new System.Drawing.Point(444, 42);
-            this.pictureBox_pokemonGeneratorExeLocation.Name = "pictureBox_pokemonGeneratorExeLocation";
-            this.pictureBox_pokemonGeneratorExeLocation.Size = new System.Drawing.Size(25, 25);
-            this.pictureBox_pokemonGeneratorExeLocation.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox_pokemonGeneratorExeLocation.TabIndex = 16;
-            this.pictureBox_pokemonGeneratorExeLocation.TabStop = false;
-            this.pictureBox_pokemonGeneratorExeLocation.Visible = false;
-            this.pictureBox_pokemonGeneratorExeLocation.Click += new System.EventHandler(this.group1Validater);
-            // 
-            // pictureBox_projN64Location
-            // 
-            this.pictureBox_projN64Location.Image = global::PokemonGeneratorGUI.Properties.Resources.BAD;
-            this.pictureBox_projN64Location.Location = new System.Drawing.Point(909, 42);
-            this.pictureBox_projN64Location.Name = "pictureBox_projN64Location";
-            this.pictureBox_projN64Location.Size = new System.Drawing.Size(25, 25);
-            this.pictureBox_projN64Location.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox_projN64Location.TabIndex = 17;
-            this.pictureBox_projN64Location.TabStop = false;
-            this.pictureBox_projN64Location.Visible = false;
-            this.pictureBox_projN64Location.Click += new System.EventHandler(this.group1Validater);
             // 
             // backgroundWorker
             // 
@@ -626,33 +625,29 @@
             this.groupBox4.TabIndex = 1000;
             this.groupBox4.TabStop = false;
             // 
-            // pictureBox_1name
+            // pictureBox_projN64Location
             // 
-            this.pictureBox_1name.ErrorImage = null;
-            this.pictureBox_1name.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox_1name.Image")));
-            this.pictureBox_1name.InitialImage = null;
-            this.pictureBox_1name.Location = new System.Drawing.Point(328, 43);
-            this.pictureBox_1name.Name = "pictureBox_1name";
-            this.pictureBox_1name.Size = new System.Drawing.Size(25, 25);
-            this.pictureBox_1name.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox_1name.TabIndex = 21;
-            this.pictureBox_1name.TabStop = false;
-            this.pictureBox_1name.Visible = false;
-            this.pictureBox_1name.Click += new System.EventHandler(this.group2Validater);
+            this.pictureBox_projN64Location.Image = global::PokemonGeneratorGUI.Properties.Resources.BAD;
+            this.pictureBox_projN64Location.Location = new System.Drawing.Point(909, 42);
+            this.pictureBox_projN64Location.Name = "pictureBox_projN64Location";
+            this.pictureBox_projN64Location.Size = new System.Drawing.Size(25, 25);
+            this.pictureBox_projN64Location.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox_projN64Location.TabIndex = 17;
+            this.pictureBox_projN64Location.TabStop = false;
+            this.pictureBox_projN64Location.Visible = false;
+            this.pictureBox_projN64Location.Click += new System.EventHandler(this.group1Validater);
             // 
-            // pictureBox_2name
+            // pictureBox_pokemonGeneratorExeLocation
             // 
-            this.pictureBox_2name.ErrorImage = null;
-            this.pictureBox_2name.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox_2name.Image")));
-            this.pictureBox_2name.InitialImage = null;
-            this.pictureBox_2name.Location = new System.Drawing.Point(326, 43);
-            this.pictureBox_2name.Name = "pictureBox_2name";
-            this.pictureBox_2name.Size = new System.Drawing.Size(25, 25);
-            this.pictureBox_2name.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox_2name.TabIndex = 22;
-            this.pictureBox_2name.TabStop = false;
-            this.pictureBox_2name.Visible = false;
-            this.pictureBox_2name.Click += new System.EventHandler(this.group2Validater);
+            this.pictureBox_pokemonGeneratorExeLocation.Image = global::PokemonGeneratorGUI.Properties.Resources.BAD;
+            this.pictureBox_pokemonGeneratorExeLocation.Location = new System.Drawing.Point(444, 42);
+            this.pictureBox_pokemonGeneratorExeLocation.Name = "pictureBox_pokemonGeneratorExeLocation";
+            this.pictureBox_pokemonGeneratorExeLocation.Size = new System.Drawing.Size(25, 25);
+            this.pictureBox_pokemonGeneratorExeLocation.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox_pokemonGeneratorExeLocation.TabIndex = 16;
+            this.pictureBox_pokemonGeneratorExeLocation.TabStop = false;
+            this.pictureBox_pokemonGeneratorExeLocation.Visible = false;
+            this.pictureBox_pokemonGeneratorExeLocation.Click += new System.EventHandler(this.group1Validater);
             // 
             // PokemonGenerator
             // 
@@ -672,23 +667,23 @@
             this.Load += new System.EventHandler(this.PokemonGenerator_Load);
             this.groupBox_player1.ResumeLayout(false);
             this.groupBox_player1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_1name)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_1Out)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_1Sav)).EndInit();
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
             this.groupBox_player2.ResumeLayout(false);
             this.groupBox_player2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_2name)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_2Out)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_2Sav)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_level)).EndInit();
             this.groupBox_bottom.ResumeLayout(false);
             this.groupBox_bottom.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_pokemonGeneratorExeLocation)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_projN64Location)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_1name)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_2name)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_projN64Location)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_pokemonGeneratorExeLocation)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -732,7 +727,6 @@
         private System.Windows.Forms.Button button_1Sav;
         private System.Windows.Forms.Button button_2Out;
         private System.Windows.Forms.Button button_2Sav;
-        private System.Windows.Forms.PictureBox pictureBox_pokemonGeneratorExeLocation;
         private System.Windows.Forms.PictureBox pictureBox_projN64Location;
         private System.ComponentModel.BackgroundWorker backgroundWorker;
         private System.Windows.Forms.GroupBox groupBox4;
@@ -744,6 +738,7 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.PictureBox pictureBox_1name;
         private System.Windows.Forms.PictureBox pictureBox_2name;
+        private System.Windows.Forms.PictureBox pictureBox_pokemonGeneratorExeLocation;
     }
 }
 

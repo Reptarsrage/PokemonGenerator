@@ -13,6 +13,7 @@ namespace PokemonGeneratorGUI
     using System;
     using System.ComponentModel;
     using System.Diagnostics;
+    using System.Drawing;
     using System.IO;
     using System.Linq;
     using System.Reflection;
@@ -427,6 +428,11 @@ namespace PokemonGeneratorGUI
         private void ValidateGroup2_Event(object sender, EventArgs e)
         {
             ValidateGroup2();
+        }
+
+        private void openFileDialog_FileOk(object sender, CancelEventArgs e)
+        {
+
         }
     }
 }
