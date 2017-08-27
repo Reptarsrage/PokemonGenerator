@@ -1,17 +1,7 @@
-﻿/// <summary>
-/// Author: Justin Robb
-/// Date: 8/30/2016
-/// 
-/// Description:
-/// Generates a team of six Gen II pokemon for use in Pokemon Gold or Silver.
-/// Built in order to supply Pokemon Stadium 2 with a better selection of Pokemon.
-/// 
-/// </summary>
+﻿using System.Text;
 
 namespace PokemonGenerator.IO
 {
-    using System.Text;
-
     /// <summary>
     /// The Charset used in pokemon Gold/Silver version.
     /// <para/>
@@ -61,9 +51,11 @@ namespace PokemonGenerator.IO
         /// <summary>
         /// Decodes a pokemon string into a c# string.
         /// </summary>
-        public string decodeString(byte[] data) {
+        public string decodeString(byte[] data)
+        {
             StringBuilder builder = new StringBuilder();
-            for (var i = 0; i < data.Length; i++) {
+            for (var i = 0; i < data.Length; i++)
+            {
                 if (data[i] == 80)
                 {
                     break;
@@ -71,7 +63,7 @@ namespace PokemonGenerator.IO
                 else
                 {
                     builder.Append(charset[data[i]]);
-                } 
+                }
             }
             return builder.ToString();
         }

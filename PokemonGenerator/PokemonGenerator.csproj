@@ -137,7 +137,6 @@
     <Compile Include="Modals\PokeGeneratorArguments.cs" />
     <Compile Include="Modals\PokeList.cs" />
     <Compile Include="Modals\Pokemon.cs" />
-    <Compile Include="DAL\PokeBseDAL.cs" />
     <Compile Include="PokemonGenerator.cs" />
     <Compile Include="IO\PokeSerializer.cs" />
     <Compile Include="IO\PokeDeserializer.cs" />

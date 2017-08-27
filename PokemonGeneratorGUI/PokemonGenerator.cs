@@ -1,26 +1,14 @@
-﻿/// <summary>
-/// Author: Justin Robb
-/// Date: 8/30/2016
-/// 
-/// Description:
-/// Generates a team of six Gen II pokemon for use in Pokemon Gold or Silver.
-/// Built in order to supply Pokemon Stadium 2 with a better selection of Pokemon.
-/// 
-/// </summary>
+﻿using System;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace PokemonGeneratorGUI
 {
-    using System;
-    using System.ComponentModel;
-    using System.Diagnostics;
-    using System.Drawing;
-    using System.IO;
-    using System.Linq;
-    using System.Reflection;
-    using System.Text;
-    using System.Threading;
-    using System.Windows.Forms;
-
     public partial class PokemonGenerator : Form
     {
         /// <summary>
@@ -97,7 +85,7 @@ namespace PokemonGeneratorGUI
                 int id = m.WParam.ToInt32();                                        // The id of the hotkey that was pressed.
 
                 // do something
-                if (id == 0 && this.button_generate.Enabled) 
+                if (id == 0 && this.button_generate.Enabled)
                 {
                     this.button3_Click(null, null);
                 }
@@ -169,10 +157,10 @@ namespace PokemonGeneratorGUI
                 this.n64Config = null;
                 return false;
             }
-           
+
         }
 
-        private bool CheckIfFileExistsAndAssignImage(TextBox textbox,  PictureBox pic, bool allowEmpty = true)
+        private bool CheckIfFileExistsAndAssignImage(TextBox textbox, PictureBox pic, bool allowEmpty = true)
         {
             if (!string.IsNullOrEmpty(textbox.Text) && File.Exists(textbox.Text))
             {
@@ -194,7 +182,7 @@ namespace PokemonGeneratorGUI
         private bool ValidateGroup2()
         {
             var good = true;
-        
+
             //good &= CheckIfFileExistsAndAssignImage(textBox_1Rom, pictureBox1);
             good &= string.IsNullOrEmpty(textBox_1Sav.Text) || CheckIfFileExistsAndAssignImage(textBox_1Sav, pictureBox_1Sav);
             good &= CheckIfFileExistsAndAssignImage(textBox_1Out, pictureBox_1Out);
@@ -251,9 +239,12 @@ namespace PokemonGeneratorGUI
         {
             this.openFileDialog.Filter = filter;
             this.openFileDialog.FileName = "";
-            if (this.openFileDialog.ShowDialog().Equals(DialogResult.OK)) {
+            if (this.openFileDialog.ShowDialog().Equals(DialogResult.OK))
+            {
                 return this.openFileDialog.FileName;
-            } else {
+            }
+            else
+            {
                 return null;
             }
         }

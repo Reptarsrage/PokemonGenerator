@@ -1,20 +1,10 @@
-﻿/// <summary>
-/// Author: Justin Robb
-/// Date: 8/30/2016
-/// 
-/// Description:
-/// Generates a team of six Gen II pokemon for use in Pokemon Gold or Silver.
-/// Built in order to supply Pokemon Stadium 2 with a better selection of Pokemon.
-/// 
-/// </summary>
+﻿using PokemonGenerator.DAL.Serialization;
+using PokemonGenerator.Modals;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PokemonGenerator.DAL
 {
-    using Modals;
-    using System.Collections.Generic;
-    using System.Linq;
-    using Serialization;
-
     /// <summary>
     /// Accesses the database to return information about pokemon. 
     /// <para/> 
@@ -22,15 +12,9 @@ namespace PokemonGenerator.DAL
     /// </summary>
     class SQLManager
     {
-        #region Stored Procedure Constants
         const string uspGetPossiblePokemon = @"SELECT DISTINCT D.* FROM [tbl_vwEvolutions] D WHERE D.Id NOT IN ( SELECT DISTINCT B.[Id] FROM [tbl_vwEvolutions] A INNER JOIN [tbl_vwEvolutions] B ON A.evolvedFromPrevID = B.Id WHERE COALESCE(A.minimum_level, 0) <= @p0 AND B.Id IS NOT NULL UNION SELECT DISTINCT C.[Id] FROM [tbl_vwEvolutions] A INNER JOIN [tbl_vwEvolutions] B ON A.evolvedFromPrevID = B.Id INNER JOIN [tbl_vwEvolutions] C ON B.evolvedFromPrevID = C.Id WHERE COALESCE(A.minimum_level, 0) <= @p0 AND C.Id IS NOT NULL ) AND COALESCE(D.minimum_level, 0) < @p0";
-
         const string uspGetPokemonMoveSet = @"SELECT level, moveId, moveName, identifier AS Type, power, pp, damageType, effect, method AS learnType FROM tbl_vwPokemonMoves INNER JOIN tbl_vwGenIIMoves moves ON moves.[moveId] = move_id WHERE pokemon_id = @p0 AND (level <= @p1 OR level IS NULL) ORDER BY level, moveId";
-
         const string uspGetWeaknesses = @"SELECT dt.identifier FROM [type_efficacy] te LEFT JOIN [types] as dt ON dt.[id] =te.damage_type_id LEFT JOIN [types] as dtb ON dtb.[id] = te.target_type_id WHERE @p0 LIKE '%' + dtb.identifier + '%' and damage_factor > 100";
-        #endregion
-
-        #region Public Methods
 
         /// <summary>
         /// Gets a list of all pokemon at the given level, eliminating pokemon that would have already evolved at this level, as well as pokemon that haven't evelolved at this level.
@@ -118,6 +102,5 @@ namespace PokemonGenerator.DAL
                 return results.ToList();
             }
         }
-        #endregion
     }
 }

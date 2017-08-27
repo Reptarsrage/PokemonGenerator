@@ -1,24 +1,13 @@
-﻿/// <summary>
-/// Author: Justin Robb
-/// Date: 8/30/2016
-/// 
-/// Description:
-/// Generates a team of six Gen II pokemon for use in Pokemon Gold or Silver.
-/// Built in order to supply Pokemon Stadium 2 with a better selection of Pokemon.
-/// 
-/// </summary>
+﻿using Fclp;
+using PokemonGenerator.IO;
+using PokemonGenerator.Modals;
+using System;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
 
 namespace PokemonGenerator
 {
-    using Fclp;
-    using Modals;
-    using System.IO;
-    using System.Reflection;
-    using IO;
-    using System.Linq;
-    using System;
-    using System.Diagnostics;
-
     class Program
     {
         private static FluentCommandLineParser<PokeGeneratorArguments> _parser;
@@ -101,7 +90,8 @@ namespace PokemonGenerator
         /// <param name="sav">The <see cref="SAVFileModel" to use when saving.</param>
         private static void writeSavProperties(string outname, string filename, SAVFileModel sav)
         {
-            if (!File.Exists(filename)) {
+            if (!File.Exists(filename))
+            {
                 throw new FileNotFoundException($"The provided input sav file was not found or inaccessible. '{filename}'.");
             }
 
@@ -114,7 +104,7 @@ namespace PokemonGenerator
             {
                 File.Copy(filename, outname);
             }
-            
+
             var charset = new Charset();
             var parser = new PokeSerializer();
             parser.SerializeSAVFileModal(outname, charset, sav);

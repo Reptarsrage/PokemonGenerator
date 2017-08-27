@@ -1,19 +1,9 @@
-﻿/// <summary>
-/// Author: Justin Robb
-/// Date: 8/30/2016
-/// 
-/// Description:
-/// Generates a team of six Gen II pokemon for use in Pokemon Gold or Silver.
-/// Built in order to supply Pokemon Stadium 2 with a better selection of Pokemon.
-/// 
-/// </summary>
+﻿using System;
+using System.IO;
+using System.Text.RegularExpressions;
 
 namespace PokemonGeneratorGUI
 {
-    using System;
-    using System.IO;
-    using System.Text.RegularExpressions;
-
     /// <summary>
     /// Reads Projects 64 Config file to get some info to auto-fill some forms.
     /// </summary>
@@ -34,7 +24,8 @@ namespace PokemonGeneratorGUI
         /// <summary>
         /// Gets the most recently played ROM.
         /// </summary>
-        public string GetRecentRom() {
+        public string GetRecentRom()
+        {
 
             using (var file = File.OpenRead(this.filename))
             using (var stream = new StreamReader(file))

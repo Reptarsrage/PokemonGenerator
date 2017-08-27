@@ -1,20 +1,9 @@
-﻿/// <summary>
-/// Author: Justin Robb
-/// Date: 8/30/2016
-/// 
-/// Description:
-/// Generates a team of six Gen II pokemon for use in Pokemon Gold or Silver.
-/// Built in order to supply Pokemon Stadium 2 with a better selection of Pokemon.
-/// 
-/// </summary>
-
+﻿using System;
+using System.Collections;
+using System.IO;
 
 namespace PokemonGenerator.IO
 {
-    using System;
-    using System.Collections;
-    using System.IO;
-
     /// <summary>
     /// Contains all tools needed to read from a pokemon Gold/Silver sav file. <para/> 
     /// 
@@ -30,7 +19,8 @@ namespace PokemonGenerator.IO
 
         public BinaryReader2(System.IO.Stream stream) : base(stream) { }
 
-        public string readString(int length, Charset charset) {
+        public string readString(int length, Charset charset)
+        {
             byte[] data = new byte[length];
             for (int i = 0; i < length; i++)
             {

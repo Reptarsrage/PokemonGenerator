@@ -1,17 +1,7 @@
-﻿/// <summary>
-/// Author: Justin Robb
-/// Date: 8/30/2016
-/// 
-/// Description:
-/// Generates a team of six Gen II pokemon for use in Pokemon Gold or Silver.
-/// Built in order to supply Pokemon Stadium 2 with a better selection of Pokemon.
-/// 
-/// </summary>
+﻿using System.Text;
 
 namespace PokemonGenerator.Modals
 {
-    using System.Text;
-
     /// <summary>
     /// A modal used to store and serialize/deserialize information.
     /// </summary>
@@ -41,11 +31,12 @@ namespace PokemonGenerator.Modals
             StringBuilder b = new StringBuilder();
 
             int idx = 0;
-            foreach (Pokemon p in this.Pokemon) {
+            foreach (Pokemon p in this.Pokemon)
+            {
                 //b.AppendLine(Names[idx]);
                 b.AppendLine(p.ToString());
                 b.AppendLine("\n");
-               idx++;
+                idx++;
             }
 
             return b.ToString();

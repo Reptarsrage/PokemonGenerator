@@ -1,19 +1,9 @@
-﻿/// <summary>
-/// Author: Justin Robb
-/// Date: 8/30/2016
-/// 
-/// Description:
-/// Generates a team of six Gen II pokemon for use in Pokemon Gold or Silver.
-/// Built in order to supply Pokemon Stadium 2 with a better selection of Pokemon.
-/// 
-/// </summary>
+﻿using PokemonGenerator.Modals;
+using System.Collections;
+using System.IO;
 
 namespace PokemonGenerator.IO
 {
-    using Modals;
-    using System.Collections;
-    using System.IO;
-
     /// <summary>
     /// Contains all tools needed to serialize data into a pokemon Gold/Silver sav file. <para/> 
     /// 
@@ -161,7 +151,7 @@ namespace PokemonGenerator.IO
             {
                 if (i < list.Count)
                 {
-                     bwriter.Write(list.Pokemon[i].species);
+                    bwriter.Write(list.Pokemon[i].species);
                 }
                 else
                 {
@@ -187,7 +177,7 @@ namespace PokemonGenerator.IO
             {
                 if (i < list.Count)
                 {
-                     bwriter.writeString(list.Pokemon[i].OTName, 11, charset);
+                    bwriter.writeString(list.Pokemon[i].OTName, 11, charset);
                 }
                 else
                 {
@@ -200,7 +190,7 @@ namespace PokemonGenerator.IO
             {
                 if (i < list.Count)
                 {
-                     bwriter.writeString(list.Pokemon[i].Name, 11, charset);
+                    bwriter.writeString(list.Pokemon[i].Name, 11, charset);
                 }
                 else
                 {
@@ -216,12 +206,12 @@ namespace PokemonGenerator.IO
         {
             for (int i = 0; i < 50; i++)
             {
-                 bwriter.Write(pocket.TMs[i]);
+                bwriter.Write(pocket.TMs[i]);
             }
 
             for (int i = 0; i < 7; i++)
             {
-                 bwriter.Write(pocket.HMs[i]);
+                bwriter.Write(pocket.HMs[i]);
             }
         }
 
@@ -347,7 +337,7 @@ namespace PokemonGenerator.IO
                 // Checksum 0x2009 - 0x2D68
                 bwriter.BaseStream.Seek(0x2D69, SeekOrigin.Begin);
                 bwriter.WriteInt16LittleEndian(checksum);
-            } 
+            }
         }
 
     }

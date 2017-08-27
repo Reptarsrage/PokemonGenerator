@@ -1,38 +1,25 @@
-﻿/// <summary>
-/// Author: Justin Robb
-/// Date: 8/30/2016
-/// 
-/// Description:
-/// Generates a team of six Gen II pokemon for use in Pokemon Gold or Silver.
-/// Built in order to supply Pokemon Stadium 2 with a better selection of Pokemon.
-/// 
-/// </summary>
+﻿using PokemonGenerator.DAL;
+using PokemonGenerator.DAL.Serialization;
+using PokemonGenerator.Modals;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PokemonGenerator
 {
-    using Modals;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using DAL;
-    using DAL.Serialization;
-
-    #region public enums and structs
-
-    public enum Entropy {
+    public enum Entropy
+    {
         Low, // Pokemon adhere to all standards, moves are calculated based on priority and IV/EV values are gaussian curved
         Medium, // TODO Pokemon adhere to all standards, moves are random but strictly enforced and IV/EV values are random
         High, // TODO Pokemon base stats are adhered to but movesets, evolutions, and IV/EV levels are not
         Chaos // TODO Pokemon base stats are randomly generated
     }
-    #endregion
 
     /// <summary>
     /// The real  MVP of this application. Contains all the logic for generating a team of pokemon.
     /// </summary>
     class PokemonGenerator
     {
-        #region constants
         readonly int[] LEGENDARIES = { 144, 145, 146, 151, 150, 243, 244, 245, 249, 250, 251 };
         readonly int[] IGNOREPOKEMON = { 10, 11, 13, 14, 129, 201 }; /*caterpie, metapod, weedle, kakuna, magikarp, unown */
         readonly int[] SPECIALPOKEMON = { 10, 11, 13, 14, 129, 132, 201, 202 }; /* Specially treated for move selection bc they can learn < 4 moves total
@@ -80,23 +67,16 @@ namespace PokemonGenerator
             ,{"Cannot lower", Likely.None }
             ,{"ends wild battles", Likely.None }
         };
-        #endregion
 
-        #region configuration
         const double MEAN = 0.5d;
         const double STDEVIATION = 0.5d;
-        #endregion
 
 
-        #region private fields
         // private PokeBseDAL dal;
         private SQLManager dal;
         private int level;
         private List<int> possiblePokemon;
         private Random r;
-        #endregion
-
-        #region private helper objects and constants
 
         private enum DamageType
         {
@@ -151,10 +131,9 @@ namespace PokemonGenerator
                 alreadyPickedEffects.Clear();
             }
         }
-        #endregion
 
-        #region public
-        public PokemonGenerator() {
+        public PokemonGenerator()
+        {
             dal = new SQLManager();
             r = new Random();
         }
@@ -173,10 +152,11 @@ namespace PokemonGenerator
                 throw new NotImplementedException("Entropy value must be set to low.");
             }
 
-            if (level < 5 || level > 100) {
+            if (level < 5 || level > 100)
+            {
                 throw new ArgumentOutOfRangeException($"level ({level}) must be between 5 and 100 inclusive.");
             }
-            
+
             // Choose Pokemon Team
             var ret = ChooseTeam(level, entropy);
 
@@ -204,9 +184,6 @@ namespace PokemonGenerator
             // Done!
             return ret;
         }
-        #endregion
-
-        #region private methods
 
         /// <summary>
         /// Chooses six rendom (ish) empty <see cref="Pokemon"/> with only their species (ID)..
@@ -233,7 +210,8 @@ namespace PokemonGenerator
 
             // add initial probabilities
             var elements = new List<double>();
-            this.possiblePokemon.ForEach(p => {
+            this.possiblePokemon.ForEach(p =>
+            {
                 var prob = Likely.Full;
 
                 if (IGNOREPOKEMON.Contains(p))
@@ -433,9 +411,12 @@ namespace PokemonGenerator
 
             var chosen = chooseWithProbability(moveProbabilities.Values.ToList());
 
-            if (chosen != null) {
+            if (chosen != null)
+            {
                 return moveProbabilities.Keys.ToList()[(int)chosen].moveId;
-            } else {
+            }
+            else
+            {
                 return null;
             }
         }
@@ -450,7 +431,8 @@ namespace PokemonGenerator
         {
             int? chosenMoveId = null;
 
-            if ((chosenMoveId = PickOneMove(info)) == null) {
+            if ((chosenMoveId = PickOneMove(info)) == null)
+            {
                 info.doSomeDamageFlag = !info.doSomeDamageFlag;
                 if ((chosenMoveId = PickOneMove(info)) == null)
                 {
@@ -634,7 +616,8 @@ namespace PokemonGenerator
         /// </summary>
         /// <param name="elements">A list of relative probabilities.</param>
         /// <returns>The index of the chosen element, null on failure.</returns>
-        private int? chooseWithProbability(List<double> elements) {
+        private int? chooseWithProbability(List<double> elements)
+        {
             // normalize probabilities
             var norm = 1.0d / elements.Sum();
             elements = elements.Select(k => k * norm).ToList();
@@ -716,6 +699,5 @@ namespace PokemonGenerator
                     return Math.Pow(n, 3);
             }
         }
-#endregion
     }
 }

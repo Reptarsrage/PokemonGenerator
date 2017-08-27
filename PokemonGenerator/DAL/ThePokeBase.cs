@@ -1,21 +1,8 @@
-/// <summary>
-/// Author: Justin Robb
-/// Date: 8/30/2016
-/// 
-/// Description:
-/// Generates a team of six Gen II pokemon for use in Pokemon Gold or Silver.
-/// Built in order to supply Pokemon Stadium 2 with a better selection of Pokemon.
-/// 
-/// </summary>
-/// 
+using PokemonGenerator.DAL.Serialization;
+using System.Data.Entity;
+
 namespace PokemonGenerator.DAL
 {
-    using System;
-    using System.Data.Entity;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Linq;
-    using Serialization;
-
     /// <summary>
     /// Auto-Generated. DO NOT MODIFY!
     /// </summary>
