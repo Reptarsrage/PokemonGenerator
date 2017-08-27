@@ -15,12 +15,6 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_0956CBA955114ED687F5F1C61ACC2BF9"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_0C4BA268C8D2029E2988215721A90CE4"
         "OwnerKey" = "8:_C538EBFE9CEC4C56ABB0EA4C0E2EEEE7"
         "MsmSig" = "8:_UNDEFINED"
@@ -29,12 +23,6 @@
         {
         "MsmKey" = "8:_0C4BA268C8D2029E2988215721A90CE4"
         "OwnerKey" = "8:_ECA0AF280174766A4D971B6319F9487E"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_0E548A2BE05447D6998D6ACF553A02A9"
-        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -51,32 +39,14 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_5EC6CF74CB464C4A90A5A7D6A9E670CC"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_6DE2A04648544DC9835160C876C482EA"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_78AA43186404DFE35C21A2F33BDFCD9F"
-        "OwnerKey" = "8:_C538EBFE9CEC4C56ABB0EA4C0E2EEEE7"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_78AA43186404DFE35C21A2F33BDFCD9F"
         "OwnerKey" = "8:_1036CCEEA7DE4354B0F7E11DBFE25D2F"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_99C116D6DAF341E48242B39B7426425B"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_78AA43186404DFE35C21A2F33BDFCD9F"
+        "OwnerKey" = "8:_C538EBFE9CEC4C56ABB0EA4C0E2EEEE7"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -87,32 +57,14 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_9ECA718E205E478799D91CF443D3CE97"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_C2CE0BB76D1A4A3786BBFA9A1F51394C"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_C538EBFE9CEC4C56ABB0EA4C0E2EEEE7"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_CC15C90D5A954DEE868994014E08A1DB"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_D7DCDACC14E14C11832DA335216B8A72"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_DA7C45D871179486041ACD1580F464F5"
+        "OwnerKey" = "8:_C538EBFE9CEC4C56ABB0EA4C0E2EEEE7"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -123,38 +75,8 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_DA7C45D871179486041ACD1580F464F5"
-        "OwnerKey" = "8:_C538EBFE9CEC4C56ABB0EA4C0E2EEEE7"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_E387F1321C2945FCB92EA319C406B6DF"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_E89421C140824CCEB0E65783ACD7256B"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_ECA0AF280174766A4D971B6319F9487E"
         "OwnerKey" = "8:_C538EBFE9CEC4C56ABB0EA4C0E2EEEE7"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_F7EF78C903614B7A8301E95B2C3B89F0"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_78AA43186404DFE35C21A2F33BDFCD9F"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -193,6 +115,12 @@
         "OwnerKey" = "8:_0C4BA268C8D2029E2988215721A90CE4"
         "MsmSig" = "8:_UNDEFINED"
         }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_78AA43186404DFE35C21A2F33BDFCD9F"
+        "MsmSig" = "8:_UNDEFINED"
+        }
     }
     "Configurations"
     {
@@ -211,6 +139,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
@@ -227,6 +163,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.6.1"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.6.1 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.6.1"
+                    }
+                }
+            }
         }
     }
     "Deployable"
@@ -256,26 +208,6 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_0956CBA955114ED687F5F1C61ACC2BF9"
-            {
-            "SourcePath" = "8:..\\PokemonGenerator\\Dlls\\amd64\\sqlcese40.dll"
-            "TargetName" = "8:sqlcese40.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_083A0A8E88A748B9828B295DED9559A6"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_0C4BA268C8D2029E2988215721A90CE4"
             {
             "AssemblyRegister" = "3:1"
@@ -307,72 +239,12 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_0E548A2BE05447D6998D6ACF553A02A9"
-            {
-            "SourcePath" = "8:..\\PokemonGenerator\\Dlls\\amd64\\sqlceme40.dll"
-            "TargetName" = "8:sqlceme40.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_083A0A8E88A748B9828B295DED9559A6"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_43EDAD11CECF47ED91B08669659A60D5"
             {
             "SourcePath" = "8:..\\PokemonGeneratorGUI\\Resources\\Pikachu 2.ico"
             "TargetName" = "8:favicon.ico"
             "Tag" = "8:"
             "Folder" = "8:_14FB2FD172F74A64AAB1EE96D2C51191"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5EC6CF74CB464C4A90A5A7D6A9E670CC"
-            {
-            "SourcePath" = "8:..\\PokemonGenerator\\Dlls\\amd64\\sqlceqp40.dll"
-            "TargetName" = "8:sqlceqp40.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_083A0A8E88A748B9828B295DED9559A6"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6DE2A04648544DC9835160C876C482EA"
-            {
-            "SourcePath" = "8:..\\PokemonGenerator\\Dlls\\x86\\sqlceer40EN.dll"
-            "TargetName" = "8:sqlceer40EN.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_C1A60599AD474F1991D9A82348C7A770"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -418,26 +290,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_99C116D6DAF341E48242B39B7426425B"
-            {
-            "SourcePath" = "8:..\\PokemonGenerator\\Dlls\\x86\\sqlceqp40.dll"
-            "TargetName" = "8:sqlceqp40.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_C1A60599AD474F1991D9A82348C7A770"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_9B95C3179280C4CCD4F84617283FE0D3"
             {
             "AssemblyRegister" = "3:1"
@@ -467,86 +319,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9ECA718E205E478799D91CF443D3CE97"
-            {
-            "SourcePath" = "8:..\\PokemonGenerator\\Dlls\\amd64\\sqlcecompact40.dll"
-            "TargetName" = "8:sqlcecompact40.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_083A0A8E88A748B9828B295DED9559A6"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C2CE0BB76D1A4A3786BBFA9A1F51394C"
-            {
-            "SourcePath" = "8:..\\PokemonGenerator\\Dlls\\x86\\sqlcese40.dll"
-            "TargetName" = "8:sqlcese40.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_C1A60599AD474F1991D9A82348C7A770"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_CC15C90D5A954DEE868994014E08A1DB"
-            {
-            "SourcePath" = "8:..\\PokemonGenerator\\Dlls\\amd64\\sqlceca40.dll"
-            "TargetName" = "8:sqlceca40.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_083A0A8E88A748B9828B295DED9559A6"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D7DCDACC14E14C11832DA335216B8A72"
-            {
-            "SourcePath" = "8:..\\PokemonGenerator\\Dlls\\x86\\sqlceca40.dll"
-            "TargetName" = "8:sqlceca40.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_C1A60599AD474F1991D9A82348C7A770"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_DA7C45D871179486041ACD1580F464F5"
@@ -580,46 +352,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E387F1321C2945FCB92EA319C406B6DF"
-            {
-            "SourcePath" = "8:..\\PokemonGenerator\\Dlls\\amd64\\sqlceer40EN.dll"
-            "TargetName" = "8:sqlceer40EN.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_083A0A8E88A748B9828B295DED9559A6"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E89421C140824CCEB0E65783ACD7256B"
-            {
-            "SourcePath" = "8:..\\PokemonGenerator\\Dlls\\x86\\sqlcecompact40.dll"
-            "TargetName" = "8:sqlcecompact40.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_C1A60599AD474F1991D9A82348C7A770"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_ECA0AF280174766A4D971B6319F9487E"
             {
             "AssemblyRegister" = "3:1"
@@ -651,26 +383,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F7EF78C903614B7A8301E95B2C3B89F0"
-            {
-            "SourcePath" = "8:..\\PokemonGenerator\\Dlls\\x86\\sqlceme40.dll"
-            "TargetName" = "8:sqlceme40.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_C1A60599AD474F1991D9A82348C7A770"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
         }
         "FileType"
         {
@@ -687,28 +399,6 @@
             "Property" = "8:TARGETDIR"
                 "Folders"
                 {
-                    "{9EF0B969-E518-4E46-987F-47570745A589}:_083A0A8E88A748B9828B295DED9559A6"
-                    {
-                    "Name" = "8:amd64"
-                    "AlwaysCreate" = "11:FALSE"
-                    "Condition" = "8:"
-                    "Transitive" = "11:FALSE"
-                    "Property" = "8:_D8C5923EA0704A0981D17E776AEC6531"
-                        "Folders"
-                        {
-                        }
-                    }
-                    "{9EF0B969-E518-4E46-987F-47570745A589}:_C1A60599AD474F1991D9A82348C7A770"
-                    {
-                    "Name" = "8:x86"
-                    "AlwaysCreate" = "11:FALSE"
-                    "Condition" = "8:"
-                    "Transitive" = "11:FALSE"
-                    "Property" = "8:_EDD833138B4745FCABD3DFC7DC1CDF12"
-                        "Folders"
-                        {
-                        }
-                    }
                 }
             }
             "{1525181F-901A-416C-8A58-119130FE478E}:_4D88B5C7B61E4A81B62FBD8B91E2DE24"
@@ -783,7 +473,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Pokémon Generator"
         "ProductCode" = "8:{FECEAED0-4BE7-4012-8968-599D5A262569}"
-        "PackageCode" = "8:{67D6F5C2-0DF4-4E99-89B6-47678E62FFC8}"
+        "PackageCode" = "8:{F3BF25AD-A554-4D8A-ADA3-A260CE080D72}"
         "UpgradeCode" = "8:{55C106F0-C2AA-4482-83A2-FA0E293AD3A4}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -1330,34 +1020,6 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_07DBC8E9859C452F9B37904778C2D18E"
-            {
-            "SourcePath" = "8:"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_1BDC3E9A421742928AA826CDC1B849F9"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:ContentFiles"
-            "OutputProjectGuid" = "8:{17F3B4DB-C29D-42B7-9278-4A638C0688F2}"
-            "ShowKeyOutput" = "11:TRUE"
-                "ExcludeFilters"
-                {
-                }
-            }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_1036CCEEA7DE4354B0F7E11DBFE25D2F"
             {
             "SourcePath" = "8:..\\PokemonGeneratorGUI\\obj\\Release\\PokemonGeneratorGUI.exe"
@@ -1412,6 +1074,7 @@
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {
+                "ExcludeFilter" = "8:*.dll"
                 }
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_C538EBFE9CEC4C56ABB0EA4C0E2EEEE7"
@@ -1442,7 +1105,7 @@
                 {
                 }
             }
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_D33B6FFF4D4B489991615DD3FDFD93C3"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_F61FD5C31B3A49858223898B20AAECAA"
             {
             "SourcePath" = "8:"
             "TargetName" = "8:"
@@ -1463,11 +1126,13 @@
             "IsolateTo" = "8:"
             "ProjectOutputGroupRegister" = "3:1"
             "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:LocalizedResourceDlls"
-            "OutputProjectGuid" = "8:{17F3B4DB-C29D-42B7-9278-4A638C0688F2}"
+            "OutputGroupCanonicalName" = "8:ContentFiles"
+            "OutputProjectGuid" = "8:{DFF429CD-326E-4558-8319-E00B430DF65A}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {
+                "ExcludeFilter" = "8:*.sdf"
+                "ExcludeFilter" = "8:*.sav"
                 }
             }
         }
