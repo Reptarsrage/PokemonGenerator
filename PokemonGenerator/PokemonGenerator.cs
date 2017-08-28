@@ -1,6 +1,7 @@
 ﻿using PokemonGenerator.DAL;
 using PokemonGenerator.DAL.Serialization;
 using PokemonGenerator.Modals;
+using PokemonGenerator.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,16 +16,22 @@ namespace PokemonGenerator
         Chaos // TODO Pokemon base stats are randomly generated
     }
 
+    public enum DamageType
+    {
+        Physical,
+        Special,
+        Both
+    }
+
     /// <summary>
     /// The real  MVP of this application. Contains all the logic for generating a team of pokemon.
     /// </summary>
-    class PokemonGenerator
+    internal class PokemonGenerator : IPokemonGenerator
     {
         readonly int[] LEGENDARIES = { 144, 145, 146, 151, 150, 243, 244, 245, 249, 250, 251 };
         readonly int[] IGNOREPOKEMON = { 10, 11, 13, 14, 129, 201 }; /*caterpie, metapod, weedle, kakuna, magikarp, unown */
         readonly int[] SPECIALPOKEMON = { 10, 11, 13, 14, 129, 132, 201, 202 }; /* Specially treated for move selection bc they can learn < 4 moves total
-                                                                         * caterpie, metapod, weedle, kakuna, magikarp, ditto, unown, wobbuffet */
-
+                                                                                 * caterpie, metapod, weedle, kakuna, magikarp, ditto, unown, wobbuffet */
         private readonly Dictionary<int, int[]> pairedMoves = new Dictionary<int, int[]>()
         {
             { 156, new int[] { 214, 173 } }, /* Rest = sleep-talk, snore */
@@ -56,85 +63,29 @@ namespace PokemonGenerator
 
         private readonly Dictionary<string, double> moveEffectsFilters = new Dictionary<string, double>()
         {
-             {"faint", Likely.Medium_Low }
-            ,{"sleep", Likely.Medium }
-            ,{"charge", Likely.Low }
-            ,{"no additional effect", Likely.High }
-            ,{"recoil", Likely.Low }
-            ,{"confuses the user", Likely.Very_Low }
-            ,{"heal", Likely.Very_High }
-            ,{"nothing", Likely.None }
-            ,{"Cannot lower", Likely.None }
-            ,{"ends wild battles", Likely.None }
+             {"faint", Likeliness.Medium_Low }
+            ,{"sleep", Likeliness.Medium }
+            ,{"charge", Likeliness.Low }
+            ,{"no additional effect", Likeliness.High }
+            ,{"recoil", Likeliness.Low }
+            ,{"confuses the user", Likeliness.Very_Low }
+            ,{"heal", Likeliness.Very_High }
+            ,{"nothing", Likeliness.None }
+            ,{"Cannot lower", Likeliness.None }
+            ,{"ends wild battles", Likeliness.None }
         };
 
         const double MEAN = 0.5d;
         const double STDEVIATION = 0.5d;
 
-
-        // private PokeBseDAL dal;
-        private SQLManager dal;
+        private IPokemonDA dal;
         private int level;
         private List<int> possiblePokemon;
         private Random r;
 
-        private enum DamageType
-        {
-            Physical,
-            Special,
-            Both
-        }
-
-        private struct Likely
-        {
-            public const double None = 0d;
-            public const double Extremely_Low = 0.001d;
-            public const double Very_Low = 0.05d;
-            public const double Low = 0.10d;
-            public const double Medium_Low = 0.30d;
-            public const double Medium = 0.50d;
-            public const double Medium_High = 0.60d;
-            public const double High = 0.70d;
-            public const double Very_High = 0.90d;
-            public const double Full = 1.00d;
-        }
-
-        /// <summary>
-        /// Class used internally inside of PokemonGernerator to store relavent info for deciding moves.
-        /// </summary>
-        private class PokemonAndMoveInfo : IDisposable
-        {
-            public PokemonAndMoveInfo()
-            {
-                allPossibleMovesOrig = new List<uspGetPokemonMoveSetResult>();
-                pokeTypes = new List<string>();
-                attackTypesToFavor = new List<string>();
-                alreadyPicked = new List<int>();
-                alreadyPickedEffects = new List<string>();
-            }
-
-            public Pokemon poke { get; set; }
-            public List<uspGetPokemonMoveSetResult> allPossibleMovesOrig { get; set; }
-            public List<string> pokeTypes { get; set; }
-            public DamageType damageType { get; set; }
-            public List<string> attackTypesToFavor { get; set; }
-            public List<int> alreadyPicked { get; set; }
-            public List<string> alreadyPickedEffects { get; set; }
-            public bool doSomeDamageFlag { get; set; }
-
-            public void Dispose()
-            {
-                allPossibleMovesOrig.Clear();
-                this.pokeTypes.Clear();
-                attackTypesToFavor.Clear();
-                alreadyPicked.Clear();
-                alreadyPickedEffects.Clear();
-            }
-        }
-
         public PokemonGenerator()
         {
-            dal = new SQLManager();
+            dal = new PokemonDA();
             r = new Random();
         }
 
@@ -212,21 +163,21 @@ namespace PokemonGenerator
             var elements = new List<double>();
             this.possiblePokemon.ForEach(p =>
             {
-                var prob = Likely.Full;
+                var prob = Likeliness.Full;
 
                 if (IGNOREPOKEMON.Contains(p))
                 {
-                    prob = Likely.None;
+                    prob = Likeliness.None;
                 }
                 else if (LEGENDARIES.Contains(p))
                 {
-                    prob = Likely.Very_Low;
+                    prob = Likeliness.Very_Low;
 
 
                 }
                 else if (SPECIALPOKEMON.Contains(p))
                 {
-                    prob = Likely.Medium_Low;
+                    prob = Likeliness.Medium_Low;
                 }
                 elements.Add(prob);
 
@@ -323,10 +274,10 @@ namespace PokemonGenerator
         /// <returns></returns>
         private int? PickOneMove(PokemonAndMoveInfo info)
         {
-            var allPossibleMoves = new List<uspGetPokemonMoveSetResult>(info.allPossibleMovesOrig);
+            var allPossibleMoves = new List<uspGetPokemonMoveSetResult>(info.AllPossibleMovesOrig);
 
             // filter out all non-damaging/damaging attacks
-            if (info.doSomeDamageFlag)
+            if (info.DoSomeDamageFlag)
             {
                 allPossibleMoves.RemoveAll(m => (m.power ?? 0) > 0);
             }
@@ -343,17 +294,17 @@ namespace PokemonGenerator
             Dictionary<uspGetPokemonMoveSetResult, double> moveProbabilities = new Dictionary<uspGetPokemonMoveSetResult, double>();
             allPossibleMoves.ForEach(m =>
             {
-                var prob = Likely.Full;
+                var prob = Likeliness.Full;
 
                 // Apply weight on damage type
                 // if damage type does not mesh with the pokemon, make the likelyhood VERY unlikely
-                if (info.damageType == DamageType.Special && (m.damageType ?? "special").Equals("physical"))
+                if (info.DamageType == DamageType.Special && (m.damageType ?? "special").Equals("physical"))
                 {
-                    prob *= Likely.Extremely_Low;
+                    prob *= Likeliness.Extremely_Low;
                 }
-                else if (info.damageType == DamageType.Physical && (m.damageType ?? "special").Equals("special"))
+                else if (info.DamageType == DamageType.Physical && (m.damageType ?? "special").Equals("special"))
                 {
-                    prob *= Likely.Extremely_Low;
+                    prob *= Likeliness.Extremely_Low;
                 }
 
                 // Apply weight on effect
@@ -366,16 +317,16 @@ namespace PokemonGenerator
                 }
 
                 // Apply weight on type
-                if (info.pokeTypes.Contains(m.Type, StringComparer.CurrentCultureIgnoreCase))
+                if (info.PokeTypes.Contains(m.Type, StringComparer.CurrentCultureIgnoreCase))
                 {
                     prob *= 1.5;
                 }
-                if (info.attackTypesToFavor.Contains(m.Type, StringComparer.CurrentCultureIgnoreCase))
+                if (info.AttackTypesToFavor.Contains(m.Type, StringComparer.CurrentCultureIgnoreCase))
                 {
                     prob *= 1.5;
                 }
 
-                if (!info.doSomeDamageFlag)
+                if (!info.DoSomeDamageFlag)
                 {
                     // Apply weight on powers
                     prob *= (1.00 + ((int)m.power / 200.00));
@@ -383,27 +334,27 @@ namespace PokemonGenerator
 
                 // Apply special weight for paired moves
                 var paired = new List<int>();
-                info.alreadyPicked.ForEach(id =>
+                info.AlreadyPicked.ForEach(id =>
                 {
                     if (this.pairedMoves.ContainsKey(id) && this.pairedMoves[id].Contains(m.moveId))
                     {
-                        prob = Likely.Full * 2.0;
+                        prob = Likeliness.Full * 2.0;
                     }
                 });
 
-                if (dependantMoves.ContainsKey(m.moveId) && (dependantMoves[m.moveId].Intersect(info.alreadyPicked)?.Count() ?? 0) == 0)
+                if (dependantMoves.ContainsKey(m.moveId) && (dependantMoves[m.moveId].Intersect(info.AlreadyPicked)?.Count() ?? 0) == 0)
                 {
-                    prob = Likely.None; // do not meet pre-reqs for this move!
+                    prob = Likeliness.None; // do not meet pre-reqs for this move!
                 }
 
                 // Finally, apply weight on similar moves to already picked
-                if (info.alreadyPickedEffects.Contains(m.effect, StringComparer.CurrentCultureIgnoreCase))
+                if (info.AlreadyPickedEffects.Contains(m.effect, StringComparer.CurrentCultureIgnoreCase))
                 {
-                    prob *= Likely.Extremely_Low;
+                    prob *= Likeliness.Extremely_Low;
                 }
-                if (info.alreadyPicked.Contains(m.moveId))
+                if (info.AlreadyPicked.Contains(m.moveId))
                 {
-                    prob *= Likely.Extremely_Low;
+                    prob *= Likeliness.Extremely_Low;
                 }
 
                 moveProbabilities.Add(m, prob);
@@ -433,16 +384,16 @@ namespace PokemonGenerator
 
             if ((chosenMoveId = PickOneMove(info)) == null)
             {
-                info.doSomeDamageFlag = !info.doSomeDamageFlag;
+                info.DoSomeDamageFlag = !info.DoSomeDamageFlag;
                 if ((chosenMoveId = PickOneMove(info)) == null)
                 {
                     throw new ArgumentException("Not enough moves to choose from!");
                 }
             }
 
-            info.alreadyPicked.Add((int)chosenMoveId);
-            var move1Obj = info.allPossibleMovesOrig.First(m => m.moveId == (int)chosenMoveId);
-            info.alreadyPickedEffects.Add(move1Obj.effect);
+            info.AlreadyPicked.Add((int)chosenMoveId);
+            var move1Obj = info.AllPossibleMovesOrig.First(m => m.moveId == (int)chosenMoveId);
+            info.AlreadyPickedEffects.Add(move1Obj.effect);
             return (int)chosenMoveId;
         }
 
@@ -456,70 +407,70 @@ namespace PokemonGenerator
         private Pokemon AssignMovestoPokemon(Pokemon poke, List<uspGetPokemonMoveSetResult> allPossibleMoves, ref List<int> TMBank)
         {
             var chosenMoves = new Stack<int>();
-            using (var info = new PokemonAndMoveInfo())
+            var info = new PokemonAndMoveInfo();
+
+            info.Pokemon = poke;
+            info.PokeTypes = poke.Types.ToList();
+            info.DamageType = poke.spAttack > poke.attack ? DamageType.Special : DamageType.Physical;
+            info.DamageType = Math.Abs(poke.spAttack - poke.attack) < 15 ? DamageType.Both : info.DamageType;
+            var enemiesWeakAgainst = dal.GetWeaknesses(string.Join(",", info.PokeTypes));
+            info.AttackTypesToFavor = dal.GetWeaknesses(string.Join(",", enemiesWeakAgainst));
+
+            // Prune moves removing and replacing as needed
+            for (int i = 0; i < allPossibleMoves.Count; i++)
             {
-                info.poke = poke;
-                info.pokeTypes = poke.Types.ToList();
-                info.damageType = poke.spAttack > poke.attack ? DamageType.Special : DamageType.Physical;
-                info.damageType = Math.Abs(poke.spAttack - poke.attack) < 15 ? DamageType.Both : info.damageType;
-                var enemiesWeakAgainst = dal.GetWeaknesses(string.Join(",", info.pokeTypes));
-                info.attackTypesToFavor = dal.GetWeaknesses(string.Join(",", enemiesWeakAgainst));
-
-                // Prune moves removing and replacing as needed
-                for (int i = 0; i < allPossibleMoves.Count; i++)
+                var move = allPossibleMoves[i];
+                // Generate random move for sketch
+                if (move.moveId == 166)
                 {
-                    var move = allPossibleMoves[i];
-                    // Generate random move for sketch
-                    if (move.moveId == 166)
-                    {
-                        var randos = dal.getRandomMoves(40, 100);
-                        allPossibleMoves[i] = randos[r.Next(0, randos.Count)];
-                    }
-
-                    // remove duplicates
-                    List<uspGetPokemonMoveSetResult> removeMoves = null;
-                    if ((removeMoves = allPossibleMoves.FindAll(m => (m.learnType ?? "#").Equals(move.learnType ?? "@") && m.moveId == move.moveId && allPossibleMoves.IndexOf(m) != i)) != null && removeMoves.Count > 0)
-                    {
-                        removeMoves.ForEach(m =>
-                        {
-                            if (allPossibleMoves.Count > 4)
-                            {
-                                allPossibleMoves.Remove(m);
-                            }
-                        });
-                        i--;
-                        continue;
-                    }
-
-                    // Remove if unavailable in TMBank
-                    if ((move.learnType ?? "").Equals("machine") && !HMBank.Contains(move.moveId) && !TMBank.Contains(move.moveId))
-                    {
-                        allPossibleMoves.Remove(move);
-                    }
+                    var randos = dal.GetRandomMoves(40, 100);
+                    allPossibleMoves[i] = randos[r.Next(0, randos.Count)];
                 }
 
-                // Choose moves
-                if (SPECIALPOKEMON.Contains(poke.species))
+                // remove duplicates
+                List<uspGetPokemonMoveSetResult> removeMoves = null;
+                if ((removeMoves = allPossibleMoves.FindAll(m => (m.learnType ?? "#").Equals(move.learnType ?? "@") && m.moveId == move.moveId && allPossibleMoves.IndexOf(m) != i)) != null && removeMoves.Count > 0)
                 {
-                    allPossibleMoves.ForEach(m => chosenMoves.Push(m.moveId));
-                }
-                else
-                {
-                    info.allPossibleMovesOrig = new List<uspGetPokemonMoveSetResult>(allPossibleMoves);
-                    info.doSomeDamageFlag = true;
-
-                    for (int i = 0; i < 4; i++)
+                    removeMoves.ForEach(m =>
                     {
-                        var move = this.ChooseMove(info);
-                        chosenMoves.Push(move);
-                        info.doSomeDamageFlag = false;
-                        if (TMBank.Contains(move))
+                        if (allPossibleMoves.Count > 4)
                         {
-                            TMBank.Remove(move);
+                            allPossibleMoves.Remove(m);
                         }
+                    });
+                    i--;
+                    continue;
+                }
+
+                // Remove if unavailable in TMBank
+                if ((move.learnType ?? "").Equals("machine") && !HMBank.Contains(move.moveId) && !TMBank.Contains(move.moveId))
+                {
+                    allPossibleMoves.Remove(move);
+                }
+            }
+
+            // Choose moves
+            if (SPECIALPOKEMON.Contains(poke.species))
+            {
+                allPossibleMoves.ForEach(m => chosenMoves.Push(m.moveId));
+            }
+            else
+            {
+                info.AllPossibleMovesOrig = new List<uspGetPokemonMoveSetResult>(allPossibleMoves);
+                info.DoSomeDamageFlag = true;
+
+                for (int i = 0; i < 4; i++)
+                {
+                    var move = this.ChooseMove(info);
+                    chosenMoves.Push(move);
+                    info.DoSomeDamageFlag = false;
+                    if (TMBank.Contains(move))
+                    {
+                        TMBank.Remove(move);
                     }
                 }
             }
+
 
             // We aren't using these
             poke.ppUps1 = 0;
@@ -558,7 +509,7 @@ namespace PokemonGenerator
         /// <param name="level">The level of each pokemon.</param>
         private void AssignMovesToTeam(ref PokeList list, int level)
         {
-            var TMBank = dal.getTMs();
+            var TMBank = dal.GetTMs();
             for (int i = 0; i < list.Pokemon.Length; i++)
             {
                 var poke = list.Pokemon[i];

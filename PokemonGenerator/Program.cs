@@ -1,16 +1,16 @@
 ﻿using Fclp;
-using PokemonGenerator.IO;
 using PokemonGenerator.Modals;
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 
 namespace PokemonGenerator
 {
     class Program
     {
         private static FluentCommandLineParser<PokeGeneratorArguments> _parser;
+        private static IPokemonGeneratorRunner runner;
         private static string contentDirectory;
         private static string outputDirectory;
 
@@ -38,93 +38,18 @@ namespace PokemonGenerator
             }
 
             // Set Game and save for player 1
-            if (!string.IsNullOrWhiteSpace(options.Game1) && options.Game1.Equals("Silver", StringComparison.InvariantCultureIgnoreCase))
-            {
-                options.InputSav1 = Path.Combine(contentDirectory, "Silver.sav");
-            }
-            else
-            {
-                options.InputSav1 = Path.Combine(contentDirectory, "Gold.sav");
-            }
+            options.InputSavOne = (options.GameOne ?? string.Empty).Equals("Silver", StringComparison.InvariantCultureIgnoreCase) ?
+                Path.Combine(contentDirectory, "Silver.sav") :
+                Path.Combine(contentDirectory, "Gold.sav");
 
             // Set Game and save for player 2
-            if (!string.IsNullOrWhiteSpace(options.Game2) && options.Game2.Equals("Silver", StringComparison.InvariantCultureIgnoreCase))
-            {
-                options.InputSav2 = Path.Combine(contentDirectory, "Silver.sav");
-            }
-            else
-            {
-                options.InputSav2 = Path.Combine(contentDirectory, "Gold.sav");
-            }
+            options.InputSavTwo = (options.GameTwo ?? string.Empty).Equals("Silver", StringComparison.InvariantCultureIgnoreCase) ?
+                Path.Combine(contentDirectory, "Silver.sav") :
+                Path.Combine(contentDirectory, "Gold.sav");
 
-            var sav = readSavProperties(options.InputSav1);
-            var gen = new PokemonGenerator();
-            sav.Playername = options.Name1;
-            copyAndGen(options.OutputSav1, options.InputSav1, gen, sav, options.Level);
-            sav.Playername = options.Name2;
-            copyAndGen(options.OutputSav2, options.InputSav2, gen, sav, options.Level);
-        }
-
-        /// <summary>
-        /// Rakes a sav file, copies it (or replaces it), generates a team of six pokemon, and saves the team to the output file.
-        /// </summary>
-        /// <param name="out">Full path to the ouput file.</param>
-        /// <param name="in">Full path to the input file.</param>
-        /// <param name="gen">The <see cref="PokemonGenerator"/> to use.</param>
-        /// <param name="sav">The <see cref="SAVFileModel" to use when saving./></param>
-        /// <param name="level">The level to generate pokemon at. Must be 5-100.</param>
-        private static void copyAndGen(string @out, string @in, PokemonGenerator gen, SAVFileModel sav, int level)
-        {
-            var list = gen.GenerateRandomPokemon(level, Entropy.Low); // TODO Entropy stuffs
-            sav.TeamPokémonlist = list;
-            writeSavProperties(@out, @in, sav);
-            readSavProperties(@out);
-            Debug.Print($"Created file {@out}");
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="outname">Full path to the file to write to</param>
-        /// <param name="filename">Full path to Tthe input file (needed so that we don't accidentally delete it if it's also the output file.)</param>
-        /// <param name="sav">The <see cref="SAVFileModel" to use when saving.</param>
-        private static void writeSavProperties(string outname, string filename, SAVFileModel sav)
-        {
-            if (!File.Exists(filename))
-            {
-                throw new FileNotFoundException($"The provided input sav file was not found or inaccessible. '{filename}'.");
-            }
-
-            if (File.Exists(outname) && !Path.GetFullPath(filename).Equals(Path.GetFullPath(outname)))
-            {
-                File.Delete(outname);
-            }
-
-            if (!Path.GetFullPath(filename).Equals(Path.GetFullPath(outname)))
-            {
-                File.Copy(filename, outname);
-            }
-
-            var charset = new Charset();
-            var parser = new PokeSerializer();
-            parser.SerializeSAVFileModal(outname, charset, sav);
-        }
-
-        /// <summary>
-        /// Reads the Pokemon Gold/Silver sav file and deserializes it into a <see cref="SAVFileModel" modal./> 
-        /// </summary>
-        /// <param name="filename">Full path to the sav file to read.</param>
-        /// <returns></returns>
-        private static SAVFileModel readSavProperties(string filename)
-        {
-            using (FileStream reader = File.OpenRead(filename))
-            using (BinaryReader2 breader = new BinaryReader2(reader))
-            {
-                var charset = new Charset();
-                var parser = new PokeDeserializer();
-                var sav = parser.ParseSAVFileModel(breader, charset);
-                return sav;
-            }
+            // Run the generator
+            runner = new PokemonGeneratorRunner(contentDirectory, outputDirectory, options);
+            runner.Run();
         }
 
         /// <summary>
@@ -155,12 +80,12 @@ namespace PokemonGenerator
                 .SetDefault("low")
                 .WithDescription("Amount of randomness to use when generating Pokemon. See README for full info.");
 
-            _parser.Setup<string>(arguments => arguments.InputSav1)
+            _parser.Setup<string>(arguments => arguments.InputSavOne)
                 .As("i1")
                 .SetDefault(Path.Combine(contentDirectory, "Gold.sav"))
                 .WithDescription("The Pokemon Gold/Silver emulator sav file to modify for player 1. A default sav file is used when this parameter in omitted.");
 
-            _parser.Setup<string>(arguments => arguments.InputSav2)
+            _parser.Setup<string>(arguments => arguments.InputSavTwo)
                 .As("i2")
                 .SetDefault(Path.Combine(contentDirectory, "Gold.sav"))
                 .WithDescription("The Pokemon Gold/Silver emulator sav file to modify for player 2. A default sav file is used when this parameter in omitted.");
@@ -175,22 +100,22 @@ namespace PokemonGenerator
                 .SetDefault(Path.Combine(outputDirectory, "Player2.sav"))
                 .WithDescription("The path to the desired output location for the Pokemon Gold/Silver emulator sav file for player 2. Defaults to 'Player2.sav' on the current user's desktop.");
 
-            _parser.Setup<string>(arguments => arguments.Game1)
+            _parser.Setup<string>(arguments => arguments.GameOne)
                 .As("game1")
                 .SetDefault("Gold")
                 .WithDescription("The Game to use for player 1 (Gold or Silver). Default is Gold.");
 
-            _parser.Setup<string>(arguments => arguments.Game2)
+            _parser.Setup<string>(arguments => arguments.GameTwo)
                 .As("game2")
                 .SetDefault("Gold")
                 .WithDescription("The Game to use for player 2 (Gold or Silver). Default is Gold.");
 
-            _parser.Setup<string>(arguments => arguments.Name1)
+            _parser.Setup<string>(arguments => arguments.NameOne)
                 .As("name1")
                 .SetDefault("Player1")
                 .WithDescription("The Name to use for player 1. Default is Player1.");
 
-            _parser.Setup<string>(arguments => arguments.Name2)
+            _parser.Setup<string>(arguments => arguments.NameTwo)
                 .As("name2")
                 .SetDefault("Player2")
                 .WithDescription("The Name to use for player 2. Default is Player2.");

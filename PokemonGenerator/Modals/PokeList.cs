@@ -5,22 +5,21 @@ namespace PokemonGenerator.Modals
     /// <summary>
     /// A modal used to store and serialize/deserialize information.
     /// </summary>
-    class PokeList
+    internal class PokeList
     {
         public byte Count;
         public byte[] Species; // Capactiy bytes + 1 byte terminator 0xFF
         public Pokemon[] Pokemon; // Capacity * 49
         public string[] OTNames; // Capacity * 11
         public string[] Names; // Capacity * 11
-        private int v;
 
         public PokeList(int v)
         {
-            this.Pokemon = new Pokemon[v];
-            this.Species = new byte[v];
-            this.Count = (byte)v;
-            this.Names = new string[v];
-            this.OTNames = new string[v];
+            Pokemon = new Pokemon[v];
+            Species = new byte[v];
+            Count = (byte)v;
+            Names = new string[v];
+            OTNames = new string[v];
         }
 
         /// <summary>
@@ -28,10 +27,9 @@ namespace PokemonGenerator.Modals
         /// </summary>
         public override string ToString()
         {
-            StringBuilder b = new StringBuilder();
-
-            int idx = 0;
-            foreach (Pokemon p in this.Pokemon)
+            var b = new StringBuilder();
+            var idx = 0;
+            foreach (Pokemon p in Pokemon)
             {
                 //b.AppendLine(Names[idx]);
                 b.AppendLine(p.ToString());
@@ -47,10 +45,8 @@ namespace PokemonGenerator.Modals
         /// </summary>
         public string ToShortString()
         {
-            StringBuilder b = new StringBuilder();
-
-            int idx = 0;
-            foreach (Pokemon p in this.Pokemon)
+            var b = new StringBuilder();
+            foreach (Pokemon p in Pokemon)
             {
                 b.Append(p.Name);
                 b.Append("\t");

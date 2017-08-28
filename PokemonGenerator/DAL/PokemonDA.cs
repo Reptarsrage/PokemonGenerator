@@ -10,12 +10,8 @@ namespace PokemonGenerator.DAL
     /// <para/> 
     /// Data base is a modified version of of the project found here: https://github.com/veekun/pokedex
     /// </summary>
-    class SQLManager
+    class PokemonDA : IPokemonDA
     {
-        const string uspGetPossiblePokemon = @"SELECT DISTINCT D.* FROM [tbl_vwEvolutions] D WHERE D.Id NOT IN ( SELECT DISTINCT B.[Id] FROM [tbl_vwEvolutions] A INNER JOIN [tbl_vwEvolutions] B ON A.evolvedFromPrevID = B.Id WHERE COALESCE(A.minimum_level, 0) <= @p0 AND B.Id IS NOT NULL UNION SELECT DISTINCT C.[Id] FROM [tbl_vwEvolutions] A INNER JOIN [tbl_vwEvolutions] B ON A.evolvedFromPrevID = B.Id INNER JOIN [tbl_vwEvolutions] C ON B.evolvedFromPrevID = C.Id WHERE COALESCE(A.minimum_level, 0) <= @p0 AND C.Id IS NOT NULL ) AND COALESCE(D.minimum_level, 0) < @p0";
-        const string uspGetPokemonMoveSet = @"SELECT level, moveId, moveName, identifier AS Type, power, pp, damageType, effect, method AS learnType FROM tbl_vwPokemonMoves INNER JOIN tbl_vwGenIIMoves moves ON moves.[moveId] = move_id WHERE pokemon_id = @p0 AND (level <= @p1 OR level IS NULL) ORDER BY level, moveId";
-        const string uspGetWeaknesses = @"SELECT dt.identifier FROM [type_efficacy] te LEFT JOIN [types] as dt ON dt.[id] =te.damage_type_id LEFT JOIN [types] as dtb ON dtb.[id] = te.target_type_id WHERE @p0 LIKE '%' + dtb.identifier + '%' and damage_factor > 100";
-
         /// <summary>
         /// Gets a list of all pokemon at the given level, eliminating pokemon that would have already evolved at this level, as well as pokemon that haven't evelolved at this level.
         /// </summary>
@@ -25,7 +21,7 @@ namespace PokemonGenerator.DAL
             using (var ctx = new ThePokeBase())
             {
                 //Get student name of string type
-                var results = ctx.tbl_vwEvolutions.SqlQuery(uspGetPossiblePokemon, level).ToList();
+                var results = ctx.tbl_vwEvolutions.SqlQuery(Queries.Queries.GetPossiblePokemon, level).ToList();
                 results.ForEach(s => list.Add(s.id));
             }
             return list;
@@ -39,7 +35,7 @@ namespace PokemonGenerator.DAL
             using (var ctx = new ThePokeBase())
             {
                 //Get student name of string type
-                var results = ctx.Database.SqlQuery<uspGetPokemonMoveSetResult>(uspGetPokemonMoveSet, id, level).ToList();
+                var results = ctx.Database.SqlQuery<uspGetPokemonMoveSetResult>(Queries.Queries.GetPokemonMoveSet, id, level).ToList();
 
 
                 var ret = results.ToList();
@@ -65,7 +61,7 @@ namespace PokemonGenerator.DAL
         /// <summary>
         /// Gets a random move. Completely random, but with a min and max power.
         /// </summary>
-        public List<uspGetPokemonMoveSetResult> getRandomMoves(int minPower, int maxPower)
+        public List<uspGetPokemonMoveSetResult> GetRandomMoves(int minPower, int maxPower)
         {
             using (var ctx = new ThePokeBase())
             {
@@ -84,7 +80,7 @@ namespace PokemonGenerator.DAL
             using (var ctx = new ThePokeBase())
             {
                 //Get student name of string type
-                var results = ctx.Database.SqlQuery<string>(uspGetWeaknesses, v).ToList();
+                var results = ctx.Database.SqlQuery<string>(Queries.Queries.GetWeaknesses, v).ToList();
                 return results.ToList();
             }
         }
@@ -92,7 +88,7 @@ namespace PokemonGenerator.DAL
         /// <summary>
         /// Gets all TMs.
         /// </summary>
-        internal List<int> getTMs()
+        public List<int> GetTMs()
         {
             using (var ctx = new ThePokeBase())
             {

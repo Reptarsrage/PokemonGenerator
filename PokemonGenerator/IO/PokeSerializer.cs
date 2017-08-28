@@ -11,210 +11,8 @@ namespace PokemonGenerator.IO
     /// http://bulbapedia.bulbagarden.net/wiki/Save_data_structure_in_Generation_II <para/> 
     /// http://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_data_structure_in_Generation_II
     /// </summary>
-    class PokeSerializer
+    internal class PokeSerializer : IPokeSerializer
     {
-        /// <summary>
-        /// Completely serialized a given <see cref="Pokemon"/> into the file stream.
-        /// </summary>
-        public void SerializePokemon(BinaryWriter2 bwriter, bool inBox, Charset charset, Pokemon poke)
-        {
-            byte[] buffer = new byte[1];
-
-            bwriter.Write(poke.species);
-            bwriter.Write(poke.heldItem);
-            bwriter.Write(poke.moveIndex1);
-            bwriter.Write(poke.moveIndex2);
-            bwriter.Write(poke.moveIndex3);
-            bwriter.Write(poke.moveIndex4);
-            bwriter.WriteInt16(poke.trainerID);
-            bwriter.WriteInt24(poke.experience);
-            bwriter.WriteInt16(poke.hpEV);
-            bwriter.WriteInt16(poke.attackEV);
-            bwriter.WriteInt16(poke.defenseEV);
-            bwriter.WriteInt16(poke.speedEV);
-            bwriter.WriteInt16(poke.specialEV);
-
-            buffer[0] = poke.attackIV;
-            bwriter.WriteBits(new BitArray(buffer), 4);
-
-            buffer[0] = poke.defenseIV;
-            bwriter.WriteBits(new BitArray(buffer), 4);
-
-            buffer[0] = poke.speedIV;
-            bwriter.WriteBits(new BitArray(buffer), 4);
-
-            buffer[0] = poke.specialIV;
-            bwriter.WriteBits(new BitArray(buffer), 4);
-
-
-            buffer[0] = poke.ppUps1;
-            bwriter.WriteBits(new BitArray(buffer), 2);
-
-            buffer[0] = poke.currentPP1;
-            bwriter.WriteBits(new BitArray(buffer), 6);
-
-            buffer[0] = poke.ppUps2;
-            bwriter.WriteBits(new BitArray(buffer), 2);
-
-            buffer[0] = poke.currentPP2;
-            bwriter.WriteBits(new BitArray(buffer), 6);
-
-            buffer[0] = poke.ppUps3;
-            bwriter.WriteBits(new BitArray(buffer), 2);
-
-            buffer[0] = poke.currentPP3;
-            bwriter.WriteBits(new BitArray(buffer), 6);
-
-            buffer[0] = poke.ppUps4;
-            bwriter.WriteBits(new BitArray(buffer), 2);
-
-            buffer[0] = poke.currentPP4;
-            bwriter.WriteBits(new BitArray(buffer), 6);
-
-            bwriter.Write(poke.friendship);
-
-            buffer[0] = poke.pokerusStrain;
-            bwriter.WriteBits(new BitArray(buffer), 4);
-
-            buffer[0] = poke.pokerusDuration;
-            bwriter.WriteBits(new BitArray(buffer), 4);
-
-            buffer[0] = poke.caughtTime;
-            bwriter.WriteBits(new BitArray(buffer), 2);
-
-            buffer[0] = poke.caughtLevel;
-            bwriter.WriteBits(new BitArray(buffer), 6);
-
-            buffer[0] = poke.OTGender;
-            bwriter.WriteBit(new BitArray(buffer));
-
-            buffer[0] = poke.caughtLocation;
-            bwriter.WriteBits(new BitArray(buffer), 7);
-
-            bwriter.Write(poke.level);
-
-            if (!inBox)
-            {
-                bwriter.Write(poke.status);
-                bwriter.Write(poke.unused);
-                bwriter.WriteInt16(poke.currentHp);
-                bwriter.WriteInt16(poke.maxHp);
-                bwriter.WriteInt16(poke.attack);
-                bwriter.WriteInt16(poke.defense);
-                bwriter.WriteInt16(poke.speed);
-                bwriter.WriteInt16(poke.spAttack);
-                bwriter.WriteInt16(poke.spDefense);
-            }
-        }
-
-        /// <summary>
-        /// Completely serialized a given <see cref="ItemList"/> into the file stream.
-        /// </summary>
-        public void SerializeItemList(BinaryWriter2 bwriter, Charset charset, int capacity, ItemList list, bool key = false)
-        {
-            bwriter.Write(list.Count);
-
-            for (int i = 0; i < capacity; i++)
-            {
-                if (i < list.ItemEntries.Length)
-                {
-                    ItemEntry entry = list.ItemEntries[i];
-                    bwriter.Write(entry.Index);
-
-                    if (!key)
-                    {
-                        bwriter.Write(entry.Count);
-                    }
-                }
-                else
-                {
-                    bwriter.Write((byte)0xff);
-
-                    if (!key)
-                    {
-                        bwriter.Write((byte)0xff);
-                    }
-                }
-            }
-            bwriter.Write(list.Terminator);
-        }
-
-        /// <summary>
-        /// Completely serialized a given <see cref="PokeList"/> into the file stream.
-        /// </summary>
-        public void SerializePokeList(BinaryWriter2 bwriter, Charset charset, bool full, int capacity, PokeList list)
-        {
-            bwriter.Write(list.Count);
-
-            // Species
-            for (int i = 0; i < capacity + 1; i++)
-            {
-                if (i < list.Count)
-                {
-                    bwriter.Write(list.Pokemon[i].species);
-                }
-                else
-                {
-                    bwriter.Write((byte)0xff);
-                }
-            }
-
-            // Pokemon
-            for (int i = 0; i < capacity; i++)
-            {
-                if (i < list.Count)
-                {
-                    SerializePokemon(bwriter, !full, charset, list.Pokemon[i]);
-                }
-                else
-                {
-                    bwriter.Fill(0xff, (full ? 48 : 32)); // sizeof pokemon
-                }
-            }
-
-            // OT Names
-            for (int i = 0; i < capacity; i++)
-            {
-                if (i < list.Count)
-                {
-                    bwriter.writeString(list.Pokemon[i].OTName, 11, charset);
-                }
-                else
-                {
-                    bwriter.Fill(0xff, 11);
-                }
-            }
-
-            // Names
-            for (int i = 0; i < capacity; i++)
-            {
-                if (i < list.Count)
-                {
-                    bwriter.writeString(list.Pokemon[i].Name, 11, charset);
-                }
-                else
-                {
-                    bwriter.Fill(0xff, 11);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Completely serialized a given <see cref="TMPocket"/> into the file stream.
-        /// </summary>
-        public void SerializeTMPocket(BinaryWriter2 bwriter, Charset charset, TMPocket pocket)
-        {
-            for (int i = 0; i < 50; i++)
-            {
-                bwriter.Write(pocket.TMs[i]);
-            }
-
-            for (int i = 0; i < 7; i++)
-            {
-                bwriter.Write(pocket.HMs[i]);
-            }
-        }
-
         /// <summary>
         /// Completely serialized a given <see cref="SAVFileModel"/> into the file stream.
         /// </summary>
@@ -340,5 +138,206 @@ namespace PokemonGenerator.IO
             }
         }
 
+        /// <summary>
+        /// Completely serialized a given <see cref="Pokemon"/> into the file stream.
+        /// </summary>
+        private void SerializePokemon(BinaryWriter2 bwriter, bool inBox, Charset charset, Pokemon poke)
+        {
+            byte[] buffer = new byte[1];
+
+            bwriter.Write(poke.species);
+            bwriter.Write(poke.heldItem);
+            bwriter.Write(poke.moveIndex1);
+            bwriter.Write(poke.moveIndex2);
+            bwriter.Write(poke.moveIndex3);
+            bwriter.Write(poke.moveIndex4);
+            bwriter.WriteInt16(poke.trainerID);
+            bwriter.WriteInt24(poke.experience);
+            bwriter.WriteInt16(poke.hpEV);
+            bwriter.WriteInt16(poke.attackEV);
+            bwriter.WriteInt16(poke.defenseEV);
+            bwriter.WriteInt16(poke.speedEV);
+            bwriter.WriteInt16(poke.specialEV);
+
+            buffer[0] = poke.attackIV;
+            bwriter.WriteBits(new BitArray(buffer), 4);
+
+            buffer[0] = poke.defenseIV;
+            bwriter.WriteBits(new BitArray(buffer), 4);
+
+            buffer[0] = poke.speedIV;
+            bwriter.WriteBits(new BitArray(buffer), 4);
+
+            buffer[0] = poke.specialIV;
+            bwriter.WriteBits(new BitArray(buffer), 4);
+
+
+            buffer[0] = poke.ppUps1;
+            bwriter.WriteBits(new BitArray(buffer), 2);
+
+            buffer[0] = poke.currentPP1;
+            bwriter.WriteBits(new BitArray(buffer), 6);
+
+            buffer[0] = poke.ppUps2;
+            bwriter.WriteBits(new BitArray(buffer), 2);
+
+            buffer[0] = poke.currentPP2;
+            bwriter.WriteBits(new BitArray(buffer), 6);
+
+            buffer[0] = poke.ppUps3;
+            bwriter.WriteBits(new BitArray(buffer), 2);
+
+            buffer[0] = poke.currentPP3;
+            bwriter.WriteBits(new BitArray(buffer), 6);
+
+            buffer[0] = poke.ppUps4;
+            bwriter.WriteBits(new BitArray(buffer), 2);
+
+            buffer[0] = poke.currentPP4;
+            bwriter.WriteBits(new BitArray(buffer), 6);
+
+            bwriter.Write(poke.friendship);
+
+            buffer[0] = poke.pokerusStrain;
+            bwriter.WriteBits(new BitArray(buffer), 4);
+
+            buffer[0] = poke.pokerusDuration;
+            bwriter.WriteBits(new BitArray(buffer), 4);
+
+            buffer[0] = poke.caughtTime;
+            bwriter.WriteBits(new BitArray(buffer), 2);
+
+            buffer[0] = poke.caughtLevel;
+            bwriter.WriteBits(new BitArray(buffer), 6);
+
+            buffer[0] = poke.OTGender;
+            bwriter.WriteBit(new BitArray(buffer));
+
+            buffer[0] = poke.caughtLocation;
+            bwriter.WriteBits(new BitArray(buffer), 7);
+
+            bwriter.Write(poke.level);
+
+            if (!inBox)
+            {
+                bwriter.Write(poke.status);
+                bwriter.Write(poke.unused);
+                bwriter.WriteInt16(poke.currentHp);
+                bwriter.WriteInt16(poke.maxHp);
+                bwriter.WriteInt16(poke.attack);
+                bwriter.WriteInt16(poke.defense);
+                bwriter.WriteInt16(poke.speed);
+                bwriter.WriteInt16(poke.spAttack);
+                bwriter.WriteInt16(poke.spDefense);
+            }
+        }
+
+        /// <summary>
+        /// Completely serialized a given <see cref="ItemList"/> into the file stream.
+        /// </summary>
+        private void SerializeItemList(BinaryWriter2 bwriter, Charset charset, int capacity, ItemList list, bool key = false)
+        {
+            bwriter.Write(list.Count);
+
+            for (int i = 0; i < capacity; i++)
+            {
+                if (i < list.ItemEntries.Length)
+                {
+                    ItemEntry entry = list.ItemEntries[i];
+                    bwriter.Write(entry.Index);
+
+                    if (!key)
+                    {
+                        bwriter.Write(entry.Count);
+                    }
+                }
+                else
+                {
+                    bwriter.Write((byte)0xff);
+
+                    if (!key)
+                    {
+                        bwriter.Write((byte)0xff);
+                    }
+                }
+            }
+            bwriter.Write(list.Terminator);
+        }
+
+        /// <summary>
+        /// Completely serialized a given <see cref="PokeList"/> into the file stream.
+        /// </summary>
+        private void SerializePokeList(BinaryWriter2 bwriter, Charset charset, bool full, int capacity, PokeList list)
+        {
+            bwriter.Write(list.Count);
+
+            // Species
+            for (int i = 0; i < capacity + 1; i++)
+            {
+                if (i < list.Count)
+                {
+                    bwriter.Write(list.Pokemon[i].species);
+                }
+                else
+                {
+                    bwriter.Write((byte)0xff);
+                }
+            }
+
+            // Pokemon
+            for (int i = 0; i < capacity; i++)
+            {
+                if (i < list.Count)
+                {
+                    SerializePokemon(bwriter, !full, charset, list.Pokemon[i]);
+                }
+                else
+                {
+                    bwriter.Fill(0xff, (full ? 48 : 32)); // sizeof pokemon
+                }
+            }
+
+            // OT Names
+            for (int i = 0; i < capacity; i++)
+            {
+                if (i < list.Count)
+                {
+                    bwriter.writeString(list.Pokemon[i].OTName, 11, charset);
+                }
+                else
+                {
+                    bwriter.Fill(0xff, 11);
+                }
+            }
+
+            // Names
+            for (int i = 0; i < capacity; i++)
+            {
+                if (i < list.Count)
+                {
+                    bwriter.writeString(list.Pokemon[i].Name, 11, charset);
+                }
+                else
+                {
+                    bwriter.Fill(0xff, 11);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Completely serialized a given <see cref="TMPocket"/> into the file stream.
+        /// </summary>
+        private void SerializeTMPocket(BinaryWriter2 bwriter, Charset charset, TMPocket pocket)
+        {
+            for (int i = 0; i < 50; i++)
+            {
+                bwriter.Write(pocket.TMs[i]);
+            }
+
+            for (int i = 0; i < 7; i++)
+            {
+                bwriter.Write(pocket.HMs[i]);
+            }
+        }
     }
 }

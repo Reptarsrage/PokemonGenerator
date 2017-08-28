@@ -5,7 +5,7 @@ namespace PokemonGenerator.Modals
     /// <summary>
     /// A modal used to store and serialize/deserialize information.
     /// </summary>
-    class ItemList
+    internal class ItemList
     {
         public byte Count; // 1
         public ItemEntry[] ItemEntries; // Capacity * 2 + 2

@@ -128,18 +128,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DAL\Interfaces\IPokemonDA.cs" />
+    <Compile Include="DAL\Queries\GetPokemonMoveSet.cs" />
+    <Compile Include="DAL\Queries\GetPossiblePokemon.cs" />
+    <Compile Include="DAL\Queries\GetWeaknesses.cs" />
     <Compile Include="DAL\Serialization\uspGetPokemonMoveSetResult.cs" />
     <Compile Include="IO\BinaryWriter2.cs" />
     <Compile Include="IO\BinaryReader2.cs" />
     <Compile Include="IO\Charset.cs" />
+    <Compile Include="IO\Interfaces\IPokeDeserializer.cs" />
+    <Compile Include="IO\Interfaces\IPokeSerializer.cs" />
+    <Compile Include="Interfaces\IPokemonGenerator.cs" />
+    <Compile Include="Interfaces\IPokemonGeneratorRunner.cs" />
+    <Compile Include="Modals\Likeliness.cs" />
     <Compile Include="Modals\ItemEntry.cs" />
     <Compile Include="Modals\ItemList.cs" />
     <Compile Include="Modals\PokeGeneratorArguments.cs" />
     <Compile Include="Modals\PokeList.cs" />
     <Compile Include="Modals\Pokemon.cs" />
+    <Compile Include="Modals\PokemonAndMoveInfo.cs" />
     <Compile Include="PokemonGenerator.cs" />
     <Compile Include="IO\PokeSerializer.cs" />
     <Compile Include="IO\PokeDeserializer.cs" />
+    <Compile Include="PokemonGeneratorRunner.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Modals\SAVFileModel.cs" />
@@ -149,7 +160,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="DAL\SQLManager.cs" />
+    <Compile Include="DAL\PokemonDA.cs" />
     <Compile Include="DAL\Serialization\tbl_vwBaseStats.cs" />
     <Compile Include="DAL\Serialization\tbl_vwEvolutions.cs" />
     <Compile Include="DAL\Serialization\tbl_vwGenIIItems.cs" />
@@ -171,27 +182,24 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DAL\ThePokeBase.sdf">
-      <Link>ThePokeBase.sdf</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-    <Content Include="Save Templates\Gold.sav">
-      <Link>Gold.sav</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Save Templates\Silver.sav">
-      <Link>Silver.sav</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Content Include="ThePokeBase.sdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Gold.sav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Silver.sav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
@@ -209,5 +217,6 @@
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -6,8 +6,9 @@ namespace PokemonGenerator.Modals
     /// <summary>
     /// A modal used to store and serialize/deserialize information.
     /// </summary>
-    class SAVFileModel
+    internal class SAVFileModel
     {
+        /// Property Name  |  Length (in bytes)
         public ulong Options; // 8
         public uint PlayerTrainerID; // 2
         public string Playername; // 11
