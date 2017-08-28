@@ -2,12 +2,12 @@
 using System.IO;
 using System.Text.RegularExpressions;
 
-namespace PokemonGeneratorGUI
+namespace PokemonGeneratorGUI.Editors
 {
     /// <summary>
     /// Reads Projects 64 Config file to get some info to auto-fill some forms.
     /// </summary>
-    public class P64ConfigEditor
+    public class P64ConfigEditor : IP64ConfigEditor
     {
         private string filename;
 

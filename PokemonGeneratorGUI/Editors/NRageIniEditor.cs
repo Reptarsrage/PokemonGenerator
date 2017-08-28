@@ -3,12 +3,12 @@ using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace PokemonGeneratorGUI
+namespace PokemonGeneratorGUI.Editors
 {
     /// <summary>
     /// Reads  and Writes to Projects 64's  NRage ini file to get some info to auto-fill some forms.
     /// </summary>
-    public class NRageIniEditor
+    public class NRageIniEditor : INRageIniEditor
     {
         private string filename;
 

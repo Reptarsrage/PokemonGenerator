@@ -67,8 +67,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="P64ConfigEditor.cs" />
-    <Compile Include="NRageIniEditor.cs" />
+    <Compile Include="Editors\Interfaces\INRageIniEditor.cs" />
+    <Compile Include="Editors\Interfaces\IP64ConfigEditor.cs" />
+    <Compile Include="Editors\P64ConfigEditor.cs" />
+    <Compile Include="Editors\NRageIniEditor.cs" />
     <Compile Include="PokemonGenerator.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -77,6 +79,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Models\WorkerArgs.cs" />
     <None Include="App.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
