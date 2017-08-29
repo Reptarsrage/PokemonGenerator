@@ -10,7 +10,7 @@
             FROM [tbl_vwevolutions] A 
             INNER JOIN [tbl_vwevolutions] B 
                 ON A.evolvedfromprevid = B.id 
-            WHERE COALESCE(A.minimum_level, 0) <= @p0 
+            WHERE COALESCE(A.minimum_level, 0) <= @level 
                 AND B.id IS NOT NULL
 
             UNION 
@@ -21,8 +21,8 @@
                ON A.evolvedfromprevid = B.id 
             INNER JOIN [tbl_vwevolutions] C 
                 ON B.evolvedfromprevid = C.id 
-            WHERE COALESCE(A.minimum_level, 0) <= @p0 
+            WHERE COALESCE(A.minimum_level, 0) <= @level 
                 AND C.id IS NOT NULL)
-                AND COALESCE(D.minimum_level, 0) < @p0";
+                AND COALESCE(D.minimum_level, 0) < @level";
     }
 }

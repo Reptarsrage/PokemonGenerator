@@ -73,7 +73,7 @@ namespace PokemonGenerator.Models
         // Additional Data
         public string OTName;
         public string Name;
-        public List<string> Types;
+        public IList<string> Types;
         public string MoveName1;
         public string MoveName2;
         public string MoveName3;

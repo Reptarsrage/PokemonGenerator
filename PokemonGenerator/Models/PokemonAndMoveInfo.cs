@@ -1,5 +1,4 @@
-﻿using PokemonGenerator.DAL.Serialization;
-using PokemonGenerator.Enumerations;
+﻿using PokemonGenerator.Enumerations;
 using System.Collections.Generic;
 
 namespace PokemonGenerator.Models
@@ -11,7 +10,7 @@ namespace PokemonGenerator.Models
     {
         public PokemonAndMoveInfo()
         {
-            AllPossibleMovesOrig = new List<uspGetPokemonMoveSetResult>();
+            AllPossibleMovesOrig = new List<PokemonMoveSetResult>();
             PokeTypes = new List<string>();
             AttackTypesToFavor = new List<string>();
             AlreadyPicked = new List<int>();
@@ -19,12 +18,12 @@ namespace PokemonGenerator.Models
         }
 
         public Pokemon Pokemon { get; set; }
-        public List<uspGetPokemonMoveSetResult> AllPossibleMovesOrig { get; set; }
-        public List<string> PokeTypes { get; set; }
+        public IList<PokemonMoveSetResult> AllPossibleMovesOrig { get; set; }
+        public IList<string> PokeTypes { get; set; }
         public DamageType DamageType { get; set; }
-        public List<string> AttackTypesToFavor { get; set; }
-        public List<int> AlreadyPicked { get; set; }
-        public List<string> AlreadyPickedEffects { get; set; }
+        public IList<string> AttackTypesToFavor { get; set; }
+        public IList<int> AlreadyPicked { get; set; }
+        public IList<string> AlreadyPickedEffects { get; set; }
         public bool DoSomeDamageFlag { get; set; }
     }
 }

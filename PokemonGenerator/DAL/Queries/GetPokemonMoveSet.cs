@@ -16,8 +16,8 @@
             FROM tbl_vwpokemonmoves 
             INNER JOIN tbl_vwgeniimoves moves 
                 ON moves.[moveid] = move_id 
-            WHERE pokemon_id = @p0 
-                AND ( level <= @p1 OR level IS NULL ) 
+            WHERE pokemon_id = @id 
+                AND ( level <= @level OR level IS NULL ) 
             ORDER BY level, moveid";
     }
 }

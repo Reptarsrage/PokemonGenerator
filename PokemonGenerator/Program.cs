@@ -27,6 +27,9 @@ namespace PokemonGenerator
             contentDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"PokemonGenerator\");
             outputDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
 #endif
+            // Init DAL
+            DapperMapper.Init();
+
             // ParseCommandLineOptions options
             var options = new PokeGeneratorArguments();
             if (!CommandLine.Parser.Default.ParseArguments(args, options,

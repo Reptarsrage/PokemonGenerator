@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using PokemonGenerator.DAL.Serialization;
 using PokemonGenerator.Models;
 using PokemonGenerator.Enumerations;
 
@@ -7,11 +6,11 @@ namespace PokemonGenerator.DAL
 {
     interface IPokemonDA
     {
-        List<uspGetPokemonMoveSetResult> GetMovesForPokemon(int id, int level);
-        List<int> GetPossiblePokemon(int level, Entropy entopy);
-        List<uspGetPokemonMoveSetResult> GetRandomMoves(int minPower, int maxPower);
-        List<tbl_vwBaseStats> GetTeamBaseStats(PokeList list);
-        List<string> GetWeaknesses(string v);
-        List<int> GetTMs();
+        IEnumerable<PokemonMoveSetResult> GetMovesForPokemon(int id, int level);
+        IEnumerable<int> GetPossiblePokemon(int level, Entropy entopy);
+        IEnumerable<PokemonMoveSetResult> GetRandomMoves(int minPower, int maxPower);
+        IEnumerable<BaseStats> GetTeamBaseStats(PokeList list);
+        IEnumerable<string> GetWeaknesses(string v);
+        IEnumerable<int> GetTMs();
     }
 }

@@ -1,7 +1,11 @@
-﻿using PokemonGenerator.DAL.Serialization;
+﻿using Dapper;
 using PokemonGenerator.Enumerations;
 using PokemonGenerator.Models;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlServerCe;
 using System.Linq;
 
 namespace PokemonGenerator.DAL
@@ -11,93 +15,69 @@ namespace PokemonGenerator.DAL
     /// <para/> 
     /// Data base is a modified version of of the project found here: https://github.com/veekun/pokedex
     /// </summary>
-    internal class PokemonDA : IPokemonDA
+    internal class PokemonDA : IPokemonDA, IDisposable
     {
+        private readonly IDbConnection _dbConnection;
+
+        public PokemonDA(string connectionStringName)
+        {
+            if (string.IsNullOrWhiteSpace(connectionStringName))
+                throw new ArgumentNullException("connectionStringName");
+            _dbConnection = new SqlCeConnection(ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString);
+        }
+
+        public void Dispose()
+        {
+            _dbConnection.Dispose();
+        }
+
         /// <summary>
         /// Gets a list of all pokemon at the given level, eliminating pokemon that would have already evolved at this level, as well as pokemon that haven't evelolved at this level.
         /// </summary>
-        public List<int> GetPossiblePokemon(int level, Entropy entopy)
+        public IEnumerable<int> GetPossiblePokemon(int level, Entropy entopy)
         {
-            var list = new List<int>();
-            using (var ctx = new ThePokeBase())
-            {
-                //Get student name of string type
-                var results = ctx.tbl_vwEvolutions.SqlQuery(Queries.Queries.GetPossiblePokemon, level).ToList();
-                results.ForEach(s => list.Add(s.id));
-            }
-            return list;
+            return _dbConnection.Query<int>(Queries.Queries.GetPossiblePokemon, new { level = level }, commandType: CommandType.Text);
         }
 
         /// <summary>
         /// Gets a list of all moves available to the pokemon at the given level, eliminating moves that would only be avaialable at later levels.
         /// </summary>
-        public List<uspGetPokemonMoveSetResult> GetMovesForPokemon(int id, int level)
+        public IEnumerable<PokemonMoveSetResult> GetMovesForPokemon(int id, int level)
         {
-            using (var ctx = new ThePokeBase())
-            {
-                //Get student name of string type
-                var results = ctx.Database.SqlQuery<uspGetPokemonMoveSetResult>(Queries.Queries.GetPokemonMoveSet, id, level).ToList();
-
-
-                var ret = results.ToList();
-                return ret;
-            }
+            return _dbConnection.Query<PokemonMoveSetResult>(Queries.Queries.GetPokemonMoveSet, new { level = level, id = id }, commandType: CommandType.Text);
         }
 
         /// <summary>
         /// Gets the base stats for the team of pokemon.
         /// </summary>
-        public List<tbl_vwBaseStats> GetTeamBaseStats(PokeList list)
+        public IEnumerable<BaseStats> GetTeamBaseStats(PokeList list)
         {
-            using (var ctx = new ThePokeBase())
-            {
-                var iList = list.Species.ToList();
-                var query = from mon in ctx.tbl_vwBaseStats
-                            where iList.Contains((byte)mon.id)
-                            select mon;
-                return query.ToList();
-            }
+            return _dbConnection.Query<BaseStats>(Queries.Queries.GetTeamBaseStats, new { ids = list.Species.Select(s => (int)s).ToList() }, commandType: CommandType.Text);
         }
 
         /// <summary>
         /// Gets a random move. Completely random, but with a min and max power.
         /// </summary>
-        public List<uspGetPokemonMoveSetResult> GetRandomMoves(int minPower, int maxPower)
+        public IEnumerable<PokemonMoveSetResult> GetRandomMoves(int minPower, int maxPower)
         {
-            using (var ctx = new ThePokeBase())
-            {
-                //Get student name of string type
-                var results = ctx.Database.SqlQuery<uspGetPokemonMoveSetResult>("SELECT level, moveId, moveName, identifier AS Type, power, pp, damageType, effect FROM tbl_vwPokemonMoves INNER JOIN tbl_vwGenIIMoves moves ON moves.[moveId] = move_id WHERE [power] >= @p0 AND [power] <= @p1 ORDER BY level, moveId", minPower, maxPower);
-
-                return results.ToList();
-            }
+            return _dbConnection.Query<PokemonMoveSetResult>(Queries.Queries.GetRandomMoves
+                , new { minPower = minPower, maxPower = maxPower }, commandType: CommandType.Text);
         }
 
         /// <summary>
         /// Gets the types that are strong against the given type.
         /// </summary>
-        public List<string> GetWeaknesses(string v)
+        public IEnumerable<string> GetWeaknesses(string type)
         {
-            using (var ctx = new ThePokeBase())
-            {
-                //Get student name of string type
-                var results = ctx.Database.SqlQuery<string>(Queries.Queries.GetWeaknesses, v).ToList();
-                return results.ToList();
-            }
+            return _dbConnection.Query<string>(Queries.Queries.GetWeaknesses, new { type = type }, commandType: CommandType.Text);
         }
 
         /// <summary>
         /// Gets all TMs.
         /// </summary>
-        public List<int> GetTMs()
+        public IEnumerable<int> GetTMs()
         {
-            using (var ctx = new ThePokeBase())
-            {
-                //Get student name of string type
-                var results = from tm in ctx.tbl_vwTMs
-                              select tm.move_id;
-                return results.ToList();
-            }
+            return _dbConnection.Query<int>(Queries.Queries.GetTMs, commandType: CommandType.Text);
         }
     }
 }

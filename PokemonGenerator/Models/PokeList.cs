@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Linq;
+using System.Text;
 
 namespace PokemonGenerator.Models
 {
@@ -13,13 +14,13 @@ namespace PokemonGenerator.Models
         public string[] OTNames; // Capacity * 11
         public string[] Names; // Capacity * 11
 
-        public PokeList(int v)
+        public PokeList(int count)
         {
-            Pokemon = new Pokemon[v];
-            Species = new byte[v];
-            Count = (byte)v;
-            Names = new string[v];
-            OTNames = new string[v];
+            Pokemon = new Pokemon[count];
+            Species = new byte[count];
+            Count = (byte)count;
+            Names = new string[count];
+            OTNames = new string[count];
         }
 
         /// <summary>
