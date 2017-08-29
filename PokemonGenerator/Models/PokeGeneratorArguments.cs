@@ -1,5 +1,6 @@
 ﻿using CommandLine;
 using CommandLine.Text;
+using PokemonGenerator.Enumerations;
 
 namespace PokemonGenerator.Models
 {
@@ -71,14 +72,14 @@ namespace PokemonGenerator.Models
                 Required = false,
                 HelpText = "The Name to use for player 1.",
                 DefaultValue = "Player1")]
-        public string NameOne { get; internal set; }
+        public string NameOne { get; set; }
 
         [Option('e',
                 "entropy",
                 Required = false,
                 HelpText = "The Name to use for player 2.",
                 DefaultValue = "Player2")]
-        public string NameTwo { get; internal set; }
+        public string NameTwo { get; set; }
 
         [HelpOption]
         public string GetUsage()

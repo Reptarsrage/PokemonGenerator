@@ -9,7 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonGeneratorGUI", "Poke
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{871427A5-3544-491D-A3F2-E0A707EA754E}"
 	ProjectSection(SolutionItems) = preProject
+		Gold.sav = Gold.sav
 		README.md = README.md
+		Silver.sav = Silver.sav
+		ThePokeBase.sdf = ThePokeBase.sdf
 	EndProjectSection
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Installer", "Installer\Installer.vdproj", "{AFD0FB2B-9E63-41AB-82B9-C586D5E65300}"
@@ -26,15 +29,14 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{DFF429CD-326E-4558-8319-E00B430DF65A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DFF429CD-326E-4558-8319-E00B430DF65A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DFF429CD-326E-4558-8319-E00B430DF65A}.Debug|x64.ActiveCfg = Debug|x64
-		{DFF429CD-326E-4558-8319-E00B430DF65A}.Debug|x64.Build.0 = Debug|x64
+		{DFF429CD-326E-4558-8319-E00B430DF65A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DFF429CD-326E-4558-8319-E00B430DF65A}.Debug|x64.Build.0 = Debug|Any CPU
 		{DFF429CD-326E-4558-8319-E00B430DF65A}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{DFF429CD-326E-4558-8319-E00B430DF65A}.Debug|x86.Build.0 = Debug|Any CPU
 		{DFF429CD-326E-4558-8319-E00B430DF65A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DFF429CD-326E-4558-8319-E00B430DF65A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DFF429CD-326E-4558-8319-E00B430DF65A}.Release|x64.ActiveCfg = Release|x64
-		{DFF429CD-326E-4558-8319-E00B430DF65A}.Release|x64.Build.0 = Release|x64
-		{DFF429CD-326E-4558-8319-E00B430DF65A}.Release|x64.Deploy.0 = Release|x64
+		{DFF429CD-326E-4558-8319-E00B430DF65A}.Release|x64.ActiveCfg = Release|Any CPU
+		{DFF429CD-326E-4558-8319-E00B430DF65A}.Release|x64.Build.0 = Release|Any CPU
 		{DFF429CD-326E-4558-8319-E00B430DF65A}.Release|x86.ActiveCfg = Release|Any CPU
 		{DFF429CD-326E-4558-8319-E00B430DF65A}.Release|x86.Build.0 = Release|Any CPU
 		{17F3B4DB-C29D-42B7-9278-4A638C0688F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

@@ -72,7 +72,7 @@ namespace PokemonGeneratorGUI.Editors
         /// <summary>
         /// Sets the sav file location for the player, and the ROM location as well
         /// </summary>
-        internal bool ChangeSavLocations(string text1, string text2)
+        public bool ChangeSavLocations(string text1, string text2)
         {
             string text;
 

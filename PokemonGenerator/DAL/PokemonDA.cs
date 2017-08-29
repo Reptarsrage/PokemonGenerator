@@ -1,4 +1,5 @@
 ﻿using PokemonGenerator.DAL.Serialization;
+using PokemonGenerator.Enumerations;
 using PokemonGenerator.Models;
 using System.Collections.Generic;
 using System.Linq;

@@ -13,7 +13,7 @@ namespace PokemonGeneratorGUI
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new PokemonGenerator());
+            Application.Run(new PokemonGeneratorForm());
         }
     }
 }

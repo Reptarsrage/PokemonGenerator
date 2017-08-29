@@ -1,6 +1,6 @@
 ﻿namespace PokemonGeneratorGUI
 {
-    partial class PokemonGenerator
+    partial class PokemonGeneratorForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,9 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PokemonGenerator));
-            this.TextPokemonGeneratorExeLocation = new System.Windows.Forms.TextBox();
-            this.LabelPokemonGeneratorExeLocation = new System.Windows.Forms.Label();
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PokemonGeneratorForm));
             this.HelpProvider = new System.Windows.Forms.HelpProvider();
             this.LabelProjN64Location = new System.Windows.Forms.Label();
             this.TextProjN64Location = new System.Windows.Forms.TextBox();
@@ -69,7 +68,6 @@
             this.LabelLevel = new System.Windows.Forms.Label();
             this.SelectEntropy = new System.Windows.Forms.ComboBox();
             this.LabelEntropy = new System.Windows.Forms.Label();
-            this.ButtonPokemonGeneratorExeLocation = new System.Windows.Forms.Button();
             this.ButtonProjN64Location = new System.Windows.Forms.Button();
             this.OpenFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.GroupBoxBottom = new System.Windows.Forms.GroupBox();
@@ -77,7 +75,7 @@
             this.BackgroundPokemonGenerator = new System.ComponentModel.BackgroundWorker();
             this.GroupBoxOuter = new System.Windows.Forms.GroupBox();
             this.ImageProjN64Location = new System.Windows.Forms.PictureBox();
-            this.ImagePokemonGeneratorExeLocation = new System.Windows.Forms.PictureBox();
+            this.ToolTipProjN64Location = new System.Windows.Forms.ToolTip(this.components);
             this.GroupBoxPlayerOne.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ImagePlayerOneName)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ImagePlayerOneOutLocation)).BeginInit();
@@ -92,32 +90,12 @@
             this.GroupBoxBottom.SuspendLayout();
             this.GroupBoxOuter.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ImageProjN64Location)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ImagePokemonGeneratorExeLocation)).BeginInit();
             this.SuspendLayout();
-            // 
-            // TextPokemonGeneratorExeLocation
-            // 
-            this.TextPokemonGeneratorExeLocation.Location = new System.Drawing.Point(18, 42);
-            this.TextPokemonGeneratorExeLocation.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.TextPokemonGeneratorExeLocation.MaxLength = 500;
-            this.TextPokemonGeneratorExeLocation.Name = "TextPokemonGeneratorExeLocation";
-            this.TextPokemonGeneratorExeLocation.Size = new System.Drawing.Size(410, 25);
-            this.TextPokemonGeneratorExeLocation.TabIndex = 1;
-            this.TextPokemonGeneratorExeLocation.Validated += new System.EventHandler(this.TextPokemonGeneratorExeLocationValidate);
-            // 
-            // LabelPokemonGeneratorExeLocation
-            // 
-            this.LabelPokemonGeneratorExeLocation.AutoSize = true;
-            this.LabelPokemonGeneratorExeLocation.Location = new System.Drawing.Point(12, 18);
-            this.LabelPokemonGeneratorExeLocation.Name = "LabelPokemonGeneratorExeLocation";
-            this.LabelPokemonGeneratorExeLocation.Size = new System.Drawing.Size(197, 17);
-            this.LabelPokemonGeneratorExeLocation.TabIndex = 0;
-            this.LabelPokemonGeneratorExeLocation.Text = "PokemonGenerator.exe location:";
             // 
             // LabelProjN64Location
             // 
             this.LabelProjN64Location.AutoSize = true;
-            this.LabelProjN64Location.Location = new System.Drawing.Point(471, 18);
+            this.LabelProjN64Location.Location = new System.Drawing.Point(22, 18);
             this.LabelProjN64Location.Name = "LabelProjN64Location";
             this.LabelProjN64Location.Size = new System.Drawing.Size(132, 17);
             this.LabelProjN64Location.TabIndex = 5;
@@ -125,11 +103,11 @@
             // 
             // TextProjN64Location
             // 
-            this.TextProjN64Location.Location = new System.Drawing.Point(476, 42);
+            this.TextProjN64Location.Location = new System.Drawing.Point(24, 42);
             this.TextProjN64Location.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.TextProjN64Location.MaxLength = 500;
             this.TextProjN64Location.Name = "TextProjN64Location";
-            this.TextProjN64Location.Size = new System.Drawing.Size(426, 25);
+            this.TextProjN64Location.Size = new System.Drawing.Size(878, 25);
             this.TextProjN64Location.TabIndex = 3;
             this.TextProjN64Location.Validated += new System.EventHandler(this.TextProjN64LocationValidate);
             // 
@@ -160,7 +138,9 @@
             // 
             // ImagePlayerOneName
             // 
+            this.ImagePlayerOneName.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ImagePlayerOneName.ErrorImage = null;
+            this.ImagePlayerOneName.Image = global::PokemonGeneratorGUI.Properties.Resources.BAD;
             this.ImagePlayerOneName.InitialImage = null;
             this.ImagePlayerOneName.Location = new System.Drawing.Point(328, 43);
             this.ImagePlayerOneName.Name = "ImagePlayerOneName";
@@ -168,6 +148,7 @@
             this.ImagePlayerOneName.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.ImagePlayerOneName.TabIndex = 0;
             this.ImagePlayerOneName.TabStop = false;
+            this.ToolTipProjN64Location.SetToolTip(this.ImagePlayerOneName, "Player name must be alpha numeric, and between one and eight characters long");
             this.ImagePlayerOneName.Visible = false;
             this.ImagePlayerOneName.Click += new System.EventHandler(this.PlayerValidater);
             // 
@@ -227,7 +208,9 @@
             // 
             // ImagePlayerOneOutLocation
             // 
+            this.ImagePlayerOneOutLocation.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ImagePlayerOneOutLocation.ErrorImage = null;
+            this.ImagePlayerOneOutLocation.Image = global::PokemonGeneratorGUI.Properties.Resources.BAD;
             this.ImagePlayerOneOutLocation.InitialImage = null;
             this.ImagePlayerOneOutLocation.Location = new System.Drawing.Point(329, 210);
             this.ImagePlayerOneOutLocation.Name = "ImagePlayerOneOutLocation";
@@ -235,12 +218,16 @@
             this.ImagePlayerOneOutLocation.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.ImagePlayerOneOutLocation.TabIndex = 9;
             this.ImagePlayerOneOutLocation.TabStop = false;
+            this.ToolTipProjN64Location.SetToolTip(this.ImagePlayerOneOutLocation, "Output Save location must be a valid path. Players cannot have the same output sa" +
+        "ve file.");
             this.ImagePlayerOneOutLocation.Visible = false;
             this.ImagePlayerOneOutLocation.Click += new System.EventHandler(this.PlayerValidater);
             // 
             // ImagePlayerOneInLocation
             // 
+            this.ImagePlayerOneInLocation.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ImagePlayerOneInLocation.ErrorImage = null;
+            this.ImagePlayerOneInLocation.Image = global::PokemonGeneratorGUI.Properties.Resources.BAD;
             this.ImagePlayerOneInLocation.InitialImage = null;
             this.ImagePlayerOneInLocation.Location = new System.Drawing.Point(329, 150);
             this.ImagePlayerOneInLocation.Name = "ImagePlayerOneInLocation";
@@ -248,6 +235,7 @@
             this.ImagePlayerOneInLocation.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.ImagePlayerOneInLocation.TabIndex = 10;
             this.ImagePlayerOneInLocation.TabStop = false;
+            this.ToolTipProjN64Location.SetToolTip(this.ImagePlayerOneInLocation, "Input Save location must be an existing sav file");
             this.ImagePlayerOneInLocation.Visible = false;
             this.ImagePlayerOneInLocation.Click += new System.EventHandler(this.PlayerValidater);
             // 
@@ -356,7 +344,9 @@
             // 
             // ImagePlayerTwoName
             // 
+            this.ImagePlayerTwoName.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ImagePlayerTwoName.ErrorImage = null;
+            this.ImagePlayerTwoName.Image = global::PokemonGeneratorGUI.Properties.Resources.BAD;
             this.ImagePlayerTwoName.InitialImage = null;
             this.ImagePlayerTwoName.Location = new System.Drawing.Point(326, 43);
             this.ImagePlayerTwoName.Name = "ImagePlayerTwoName";
@@ -364,6 +354,7 @@
             this.ImagePlayerTwoName.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.ImagePlayerTwoName.TabIndex = 0;
             this.ImagePlayerTwoName.TabStop = false;
+            this.ToolTipProjN64Location.SetToolTip(this.ImagePlayerTwoName, "Player name must be alpha numeric, and between one and eight characters long\r\n");
             this.ImagePlayerTwoName.Visible = false;
             this.ImagePlayerTwoName.Click += new System.EventHandler(this.PlayerValidater);
             // 
@@ -423,7 +414,9 @@
             // 
             // ImagePlayerTwoOutLocation
             // 
+            this.ImagePlayerTwoOutLocation.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ImagePlayerTwoOutLocation.ErrorImage = null;
+            this.ImagePlayerTwoOutLocation.Image = global::PokemonGeneratorGUI.Properties.Resources.BAD;
             this.ImagePlayerTwoOutLocation.InitialImage = null;
             this.ImagePlayerTwoOutLocation.Location = new System.Drawing.Point(326, 210);
             this.ImagePlayerTwoOutLocation.Name = "ImagePlayerTwoOutLocation";
@@ -431,12 +424,16 @@
             this.ImagePlayerTwoOutLocation.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.ImagePlayerTwoOutLocation.TabIndex = 15;
             this.ImagePlayerTwoOutLocation.TabStop = false;
+            this.ToolTipProjN64Location.SetToolTip(this.ImagePlayerTwoOutLocation, "Output Save location must be a valid path. Players cannot have the same output sa" +
+        "ve file.");
             this.ImagePlayerTwoOutLocation.Visible = false;
             this.ImagePlayerTwoOutLocation.Click += new System.EventHandler(this.PlayerValidater);
             // 
             // ImagePlayerTwoInLocation
             // 
+            this.ImagePlayerTwoInLocation.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ImagePlayerTwoInLocation.ErrorImage = null;
+            this.ImagePlayerTwoInLocation.Image = global::PokemonGeneratorGUI.Properties.Resources.BAD;
             this.ImagePlayerTwoInLocation.InitialImage = null;
             this.ImagePlayerTwoInLocation.Location = new System.Drawing.Point(326, 150);
             this.ImagePlayerTwoInLocation.Name = "ImagePlayerTwoInLocation";
@@ -444,6 +441,7 @@
             this.ImagePlayerTwoInLocation.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.ImagePlayerTwoInLocation.TabIndex = 16;
             this.ImagePlayerTwoInLocation.TabStop = false;
+            this.ToolTipProjN64Location.SetToolTip(this.ImagePlayerTwoInLocation, "Input Save location must be an existing sav file");
             this.ImagePlayerTwoInLocation.Visible = false;
             this.ImagePlayerTwoInLocation.Click += new System.EventHandler(this.PlayerValidater);
             // 
@@ -547,21 +545,10 @@
             this.LabelEntropy.TabIndex = 20;
             this.LabelEntropy.Text = "Entropy";
             // 
-            // ButtonPokemonGeneratorExeLocation
-            // 
-            this.ButtonPokemonGeneratorExeLocation.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ButtonPokemonGeneratorExeLocation.Location = new System.Drawing.Point(215, 17);
-            this.ButtonPokemonGeneratorExeLocation.Name = "ButtonPokemonGeneratorExeLocation";
-            this.ButtonPokemonGeneratorExeLocation.Size = new System.Drawing.Size(77, 21);
-            this.ButtonPokemonGeneratorExeLocation.TabIndex = 0;
-            this.ButtonPokemonGeneratorExeLocation.Text = "Choose File";
-            this.ButtonPokemonGeneratorExeLocation.UseVisualStyleBackColor = true;
-            this.ButtonPokemonGeneratorExeLocation.Click += new System.EventHandler(this.ButtonPokemonGeneratorExeLocationClick);
-            // 
             // ButtonProjN64Location
             // 
             this.ButtonProjN64Location.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ButtonProjN64Location.Location = new System.Drawing.Point(609, 17);
+            this.ButtonProjN64Location.Location = new System.Drawing.Point(160, 17);
             this.ButtonProjN64Location.Name = "ButtonProjN64Location";
             this.ButtonProjN64Location.Size = new System.Drawing.Size(77, 21);
             this.ButtonProjN64Location.TabIndex = 2;
@@ -603,17 +590,13 @@
             // 
             // GroupBoxOuter
             // 
-            this.GroupBoxOuter.Controls.Add(this.LabelPokemonGeneratorExeLocation);
-            this.GroupBoxOuter.Controls.Add(this.TextPokemonGeneratorExeLocation);
             this.GroupBoxOuter.Controls.Add(this.ImageProjN64Location);
             this.GroupBoxOuter.Controls.Add(this.TextProjN64Location);
-            this.GroupBoxOuter.Controls.Add(this.ImagePokemonGeneratorExeLocation);
             this.GroupBoxOuter.Controls.Add(this.LabelProjN64Location);
             this.GroupBoxOuter.Controls.Add(this.GroupBoxBottom);
             this.GroupBoxOuter.Controls.Add(this.GroupBoxPlayerOne);
             this.GroupBoxOuter.Controls.Add(this.ButtonProjN64Location);
             this.GroupBoxOuter.Controls.Add(this.GroupBoxPlayerTwo);
-            this.GroupBoxOuter.Controls.Add(this.ButtonPokemonGeneratorExeLocation);
             this.GroupBoxOuter.Location = new System.Drawing.Point(1, -7);
             this.GroupBoxOuter.Margin = new System.Windows.Forms.Padding(0);
             this.GroupBoxOuter.Name = "GroupBoxOuter";
@@ -624,7 +607,7 @@
             // 
             // ImageProjN64Location
             // 
-            this.ImageProjN64Location.Enabled = false;
+            this.ImageProjN64Location.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ImageProjN64Location.Image = global::PokemonGeneratorGUI.Properties.Resources.BAD;
             this.ImageProjN64Location.Location = new System.Drawing.Point(909, 42);
             this.ImageProjN64Location.Name = "ImageProjN64Location";
@@ -632,22 +615,11 @@
             this.ImageProjN64Location.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.ImageProjN64Location.TabIndex = 2;
             this.ImageProjN64Location.TabStop = false;
+            this.ToolTipProjN64Location.SetToolTip(this.ImageProjN64Location, "Path to the Project 64 executable must exist");
             this.ImageProjN64Location.Visible = false;
-            this.ImageProjN64Location.Click += new System.EventHandler(this.group1Validater);
+            this.ImageProjN64Location.Click += new System.EventHandler(this.TopSectionValidater);
             // 
-            // ImagePokemonGeneratorExeLocation
-            // 
-            this.ImagePokemonGeneratorExeLocation.Image = global::PokemonGeneratorGUI.Properties.Resources.BAD;
-            this.ImagePokemonGeneratorExeLocation.Location = new System.Drawing.Point(444, 42);
-            this.ImagePokemonGeneratorExeLocation.Name = "ImagePokemonGeneratorExeLocation";
-            this.ImagePokemonGeneratorExeLocation.Size = new System.Drawing.Size(25, 25);
-            this.ImagePokemonGeneratorExeLocation.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.ImagePokemonGeneratorExeLocation.TabIndex = 4;
-            this.ImagePokemonGeneratorExeLocation.TabStop = false;
-            this.ImagePokemonGeneratorExeLocation.Visible = false;
-            this.ImagePokemonGeneratorExeLocation.Click += new System.EventHandler(this.group1Validater);
-            // 
-            // PokemonGenerator
+            // PokemonGeneratorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -659,7 +631,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MaximizeBox = false;
-            this.Name = "PokemonGenerator";
+            this.Name = "PokemonGeneratorForm";
             this.Text = "PokéGenerator";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PokemonGeneratorClosing);
             this.Load += new System.EventHandler(this.PokemonGeneratorLoad);
@@ -681,15 +653,11 @@
             this.GroupBoxOuter.ResumeLayout(false);
             this.GroupBoxOuter.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ImageProjN64Location)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ImagePokemonGeneratorExeLocation)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.TextBox TextPokemonGeneratorExeLocation;
-        private System.Windows.Forms.Label LabelPokemonGeneratorExeLocation;
         private System.Windows.Forms.HelpProvider HelpProvider;
         private System.Windows.Forms.Label LabelProjN64Location;
         private System.Windows.Forms.TextBox TextProjN64Location;
@@ -709,7 +677,6 @@
         private System.Windows.Forms.Label LabelLevel;
         private System.Windows.Forms.ComboBox SelectEntropy;
         private System.Windows.Forms.Label LabelEntropy;
-        private System.Windows.Forms.Button ButtonPokemonGeneratorExeLocation;
         private System.Windows.Forms.Button ButtonProjN64Location;
         private System.Windows.Forms.OpenFileDialog OpenFileDialog;
         private System.Windows.Forms.GroupBox GroupBoxBottom;
@@ -736,6 +703,6 @@
         private System.Windows.Forms.Label LabelPlayerTwoName;
         private System.Windows.Forms.PictureBox ImagePlayerOneName;
         private System.Windows.Forms.PictureBox ImagePlayerTwoName;
-        private System.Windows.Forms.PictureBox ImagePokemonGeneratorExeLocation;
+        private System.Windows.Forms.ToolTip ToolTipProjN64Location;
     }
 }

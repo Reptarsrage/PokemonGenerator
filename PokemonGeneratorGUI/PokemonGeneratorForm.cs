@@ -1,4 +1,6 @@
-﻿using PokemonGeneratorGUI.Editors;
+﻿using PokemonGenerator;
+using PokemonGenerator.Models;
+using PokemonGeneratorGUI.Editors;
 using PokemonGeneratorGUI.Models;
 using System;
 using System.ComponentModel;
@@ -7,13 +9,12 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
 namespace PokemonGeneratorGUI
 {
-    public partial class PokemonGenerator : Form
+    public partial class PokemonGeneratorForm : Form
     {
         // Imported to handle out-of-focus macro handeling
         [DllImport("user32.dll")]
@@ -28,19 +29,25 @@ namespace PokemonGeneratorGUI
             Shift = 4,
             WinKey = 8
         }
-        private readonly string pokeGenEXELocation;
         private readonly string projN64Location;
         private INRageIniEditor editor;
         private IP64ConfigEditor n64Config;
+        private IPokemonGeneratorRunner pokemonGeneratorRunner;
+        private string contentDirectory;
+        private string outputDirectory;
 
-        public PokemonGenerator()
+        public PokemonGeneratorForm()
         {
 #if (DEBUG)
-            pokeGenEXELocation = Path.GetFullPath(Path.Combine(Assembly.GetAssembly(typeof(Program)).Location, @"..\..\..\..\PokemonGenerator\bin\Debug\PokemonGenerator.exe"));
             projN64Location = @"G:\Project64\Project64.exe"; // TODO remove
+            AppDomain.CurrentDomain.SetData("DataDirectory", AssemblyDirectory);
+            contentDirectory = AssemblyDirectory;
+            outputDirectory = Path.Combine(contentDirectory, "Output");
 #else
-            pokeGenEXELocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), @"PokeGenerator\PokemonGenerator.exe");
             projN64Location = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), @"Project64\Project64.exe");
+            AppDomain.CurrentDomain.SetData("DataDirectory", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"PokemonGenerator\"));
+            contentDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"PokemonGenerator\");
+            outputDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
 #endif
             InitializeComponent();
             RegisterHotKey(Handle, 0, (int)KeyModifier.Control, Keys.F12.GetHashCode());
@@ -73,13 +80,7 @@ namespace PokemonGeneratorGUI
         private void PokemonGeneratorLoad(object sender, EventArgs e)
         {
             SelectEntropy.SelectedIndex = 0;
-            TextPokemonGeneratorExeLocation.Text = pokeGenEXELocation;
             TextProjN64Location.Text = projN64Location;
-            ValidateTopSection();
-        }
-
-        private void TextPokemonGeneratorExeLocationValidate(object sender, EventArgs e)
-        {
             ValidateTopSection();
         }
 
@@ -90,10 +91,7 @@ namespace PokemonGeneratorGUI
 
         private bool ValidateTopSection()
         {
-            var good = true;
-            good &= CheckIfFileExistsAndAssignImage(TextProjN64Location, ImageProjN64Location, false);
-            good &= CheckIfFileExistsAndAssignImage(TextPokemonGeneratorExeLocation, ImagePokemonGeneratorExeLocation, false);
-            if (good)
+            if (CheckIfFileExistsAndAssignImage(TextProjN64Location, ImageProjN64Location, ".exe"))
             {
                 // get ini location
                 if (editor == null)
@@ -137,9 +135,20 @@ namespace PokemonGeneratorGUI
             }
         }
 
-        private bool CheckIfFileExistsAndAssignImage(TextBox textbox, PictureBox pic, bool allowEmpty = true)
+        private bool CheckIfFileExistsAndAssignImage(TextBox textbox, PictureBox pic, string expectedExtension)
         {
-            var error = string.IsNullOrEmpty(textbox.Text) || !File.Exists(textbox.Text);
+            var error = string.IsNullOrEmpty(textbox.Text) || 
+                !File.Exists(textbox.Text) ||
+                !Path.GetExtension(textbox.Text).Equals(expectedExtension, StringComparison.OrdinalIgnoreCase);
+            ToggleErrorImageToPic(pic, error);
+            return !error;
+        }
+
+        private bool CheckIfPathIsValidAndAssignImage(TextBox textbox, PictureBox pic, string expectedExtension)
+        {
+            var error = string.IsNullOrEmpty(textbox.Text) || 
+                textbox.Text.IndexOfAny(Path.GetInvalidPathChars()) != -1 ||
+                !Path.GetExtension(textbox.Text).Equals(expectedExtension, StringComparison.OrdinalIgnoreCase);
             ToggleErrorImageToPic(pic, error);
             return !error;
         }
@@ -161,8 +170,8 @@ namespace PokemonGeneratorGUI
             var good = true;
 
             // Check Player One In/Out Locations
-            good &= CheckIfFileExistsAndAssignImage(TextPlayerOneInLocation, ImagePlayerOneInLocation);
-            good &= CheckIfFileExistsAndAssignImage(TextPlayerOneOutLocation, ImagePlayerOneOutLocation);
+            good &= CheckIfFileExistsAndAssignImage(TextPlayerOneInLocation, ImagePlayerOneInLocation, ".sav");
+            good &= CheckIfPathIsValidAndAssignImage(TextPlayerOneOutLocation, ImagePlayerOneOutLocation, ".sav");
 
             // Check Player One Name
             var TextPlayerOneNameGood = !string.IsNullOrWhiteSpace(TextPlayerOneName.Text);
@@ -170,13 +179,23 @@ namespace PokemonGeneratorGUI
             good &= TextPlayerOneNameGood;
 
             // Check Player Two In/Out Locations
-            good &= CheckIfFileExistsAndAssignImage(TextPlayerTwoInLocation, ImagePlayerTwoInLocation);
-            good &= CheckIfFileExistsAndAssignImage(TextPlayerTwoOutLocation, ImagePlayerTwoOutLocation);
+            good &= CheckIfFileExistsAndAssignImage(TextPlayerTwoInLocation, ImagePlayerTwoInLocation, ".sav");
+            good &= CheckIfPathIsValidAndAssignImage(TextPlayerTwoOutLocation, ImagePlayerTwoOutLocation, ".sav");
 
             // Check Player Two Name
             var TextPlayerTwoNameGood = !string.IsNullOrWhiteSpace(TextPlayerTwoName.Text);
             ToggleErrorImageToPic(ImagePlayerTwoName, !TextPlayerTwoNameGood);
             good &= TextPlayerTwoNameGood;
+
+            // Check two outs are unique
+            if (!string.IsNullOrWhiteSpace(TextPlayerTwoOutLocation.Text) && 
+                !string.IsNullOrWhiteSpace(TextPlayerOneOutLocation.Text) && 
+                Path.GetFullPath(TextPlayerTwoOutLocation.Text).Equals(Path.GetFullPath(TextPlayerOneOutLocation.Text)))
+            {
+                ToggleErrorImageToPic(ImagePlayerTwoOutLocation, true);
+                ToggleErrorImageToPic(ImagePlayerOneOutLocation, true);
+                good = false;
+            }
 
             // Enable and Validate Bottom Section
             GroupBoxBottom.Enabled = good;
@@ -206,7 +225,7 @@ namespace PokemonGeneratorGUI
             return OpenFileDialog.ShowDialog().Equals(DialogResult.OK) ? OpenFileDialog.FileName : null;
         }
 
-        private void group1Validater(object sender, EventArgs e)
+        private void TopSectionValidater(object sender, EventArgs e)
         {
             ValidateTopSection();
         }
@@ -227,20 +246,22 @@ namespace PokemonGeneratorGUI
             PanelProgress.Show();
             PanelProgress.BringToFront();
 
-            var args = new WorkerArgs
+            var args = new BackgroundPokemonGeneratorArgs
             {
-                level = (int)SelectLevel.Value,
-                entropy = SelectEntropy.SelectedItem.ToString(),
-                i1 = TextPlayerOneInLocation.Text,
-                i2 = TextPlayerTwoInLocation.Text,
-                o1 = TextPlayerOneOutLocation.Text,
-                o2 = TextPlayerTwoOutLocation.Text,
-                p64 = TextProjN64Location.Text,
-                pgExe = TextPokemonGeneratorExeLocation.Text,
-                game1 = SelectPlayerOneGame.SelectedItem.ToString(),
-                game2 = SelectPlayerTwoGame.SelectedItem.ToString(),
-                name1 = TextPlayerOneName.Text,
-                name2 = TextPlayerTwoName.Text
+                PokeGeneratorArguments = new PokeGeneratorArguments
+                {
+                    Level = (int)SelectLevel.Value,
+                    EntropyVal = SelectEntropy.SelectedItem.ToString(),
+                    InputSavOne = TextPlayerOneInLocation.Text,
+                    InputSavTwo = TextPlayerTwoInLocation.Text,
+                    OutputSav1 = TextPlayerOneOutLocation.Text,
+                    OutputSav2 = TextPlayerTwoOutLocation.Text,
+                    GameOne = SelectPlayerOneGame.SelectedItem.ToString(),
+                    GameTwo = SelectPlayerTwoGame.SelectedItem.ToString(),
+                    NameOne = TextPlayerOneName.Text,
+                    NameTwo = TextPlayerTwoName.Text
+                },
+                Project64Location = TextProjN64Location.Text,
             };
             BackgroundPokemonGenerator.RunWorkerAsync(args);
         }
@@ -254,12 +275,6 @@ namespace PokemonGeneratorGUI
         private void ButtonProjN64LocationClick(object sender, EventArgs e)
         {
             TextProjN64Location.Text = ChooseFile() ?? TextProjN64Location.Text;
-            ValidateTopSection();
-        }
-
-        private void ButtonPokemonGeneratorExeLocationClick(object sender, EventArgs e)
-        {
-            TextPokemonGeneratorExeLocation.Text = ChooseFile() ?? TextPokemonGeneratorExeLocation.Text;
             ValidateTopSection();
         }
 
@@ -290,7 +305,7 @@ namespace PokemonGeneratorGUI
         private void BackgroundPokemonGeneratorDoWork(object sender, DoWorkEventArgs e)
         {
             var worker = sender as BackgroundWorker;
-            var wArg = (WorkerArgs)e.Argument;
+            var args = e.Argument as BackgroundPokemonGeneratorArgs;
 
             worker.ReportProgress(10, "CLOSING PROJECT64...");
             Thread.Sleep(500); // watch pika dance!
@@ -309,64 +324,37 @@ namespace PokemonGeneratorGUI
             worker.ReportProgress(20, "GENERATING POKEMON...");
 
             // Start generate pokemon process
-            StringBuilder args = new StringBuilder();
-            args.Append($" --level {wArg.level} ");
-            args.Append($" --entropy {wArg.entropy} ");
-            args.Append($" --game1  {wArg.game1}");
-            args.Append($" --game2 {wArg.game2}");
-            if (!string.IsNullOrWhiteSpace(wArg.i1)) { args.Append($" --i1 \"{wArg.i1}\" "); }
-            if (!string.IsNullOrWhiteSpace(wArg.i2)) { args.Append($" --i2 \"{wArg.i2}\" "); }
-            if (!string.IsNullOrWhiteSpace(wArg.o1)) { args.Append($" --o1 \"{wArg.o1}\" "); }
-            if (!string.IsNullOrWhiteSpace(wArg.o2)) { args.Append($" --o2 \"{wArg.o2}\" "); }
-            if (!string.IsNullOrWhiteSpace(wArg.name1)) { args.Append($" --name1 \"{wArg.name1}\" "); }
-            if (!string.IsNullOrWhiteSpace(wArg.name2)) { args.Append($" --name2 \"{wArg.name2}\" "); }
+            pokemonGeneratorRunner = new PokemonGeneratorRunner(contentDirectory, outputDirectory, args.PokeGeneratorArguments);
+            pokemonGeneratorRunner.Run();
+            Thread.Sleep(1000); // dance dance!
 
+            // Start P64
+            worker.ReportProgress(80, "STARTING PROJECT64...");
+
+            // Update ini file with new sav locations
+            if (!string.IsNullOrWhiteSpace(args.PokeGeneratorArguments.OutputSav1) && !string.IsNullOrWhiteSpace(args.PokeGeneratorArguments.OutputSav2))
+            {
+                editor.ChangeSavLocations(args.PokeGeneratorArguments.OutputSav1, args.PokeGeneratorArguments.OutputSav2);
+            }
+
+            // Get Recent N64 Rom
+            var rom = n64Config?.GetRecentRom() ?? "";
+
+            //  Start N64 back up again
             var startInfo = new ProcessStartInfo
             {
-                FileName = Path.GetFullPath(wArg.pgExe),
-                Arguments = args.ToString(),
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                UseShellExecute = false,
-                CreateNoWindow = true
+                FileName = Path.GetFullPath(args.Project64Location),
+                Arguments = $"\"{rom}\""
             };
-            var proc = Process.Start(startInfo);
-
-            if (proc.WaitForExit(10000))
-            {
-                worker.ReportProgress(80, "STARTING PROJECT64...");
-
-                // Update ini file with new sav locations
-                if (!string.IsNullOrWhiteSpace(wArg.o1) && !string.IsNullOrWhiteSpace(wArg.o2))
-                {
-                    editor.ChangeSavLocations(wArg.o1, wArg.o2);
-                }
-
-                // Get Recent N64 Rom
-                var rom = n64Config?.GetRecentRom() ?? "";
-
-                //  Start N64 back up again
-                startInfo = new ProcessStartInfo
-                {
-                    FileName = Path.GetFullPath(wArg.p64),
-                    Arguments = $"\"{rom}\""
-                };
-                Process.Start(startInfo);
-            }
-            else
-            {
-                // timed out
-                throw new TimeoutException("Timed out running pokemon generator. Please try again.");
-            }
-            Thread.Sleep(1000); // dance dance!
+            Process.Start(startInfo);
         }
 
-        private void BackgroundPokemonGeneratorProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
+        private void BackgroundPokemonGeneratorProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             LabelProgress.Text = e.UserState.ToString();
         }
 
-        private void BackgroundPokemonGeneratorCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+        private void BackgroundPokemonGeneratorCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             if (e.Error != null)
             {
@@ -380,6 +368,17 @@ namespace PokemonGeneratorGUI
         private void PlayerValidate(object sender, EventArgs e)
         {
             ValidatePlayerSection();
+        }
+
+        private string AssemblyDirectory
+        {
+            get
+            {
+                string codeBase = Assembly.GetExecutingAssembly().CodeBase;
+                UriBuilder uri = new UriBuilder(codeBase);
+                string path = Uri.UnescapeDataString(uri.Path);
+                return Path.GetDirectoryName(path);
+            }
         }
     }
 }

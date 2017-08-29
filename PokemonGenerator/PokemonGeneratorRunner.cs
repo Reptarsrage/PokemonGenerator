@@ -1,4 +1,5 @@
-﻿using PokemonGenerator.IO;
+﻿using PokemonGenerator.Enumerations;
+using PokemonGenerator.IO;
 using PokemonGenerator.Models;
 using System.Diagnostics;
 using System.IO;
@@ -21,6 +22,9 @@ namespace PokemonGenerator
             this.outputDirectory = outputDirectory;
             this.options = options;
             pokemonGenerator = new PokemonGenerator();
+            charset = new Charset();
+            pokeDeserializer = new PokeDeserializer();
+            pokeSerializer = new PokeSerializer();
         }
 
         public void Run()
