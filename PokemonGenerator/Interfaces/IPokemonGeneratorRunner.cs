@@ -1,6 +1,6 @@
 ﻿namespace PokemonGenerator
 {
-    interface IPokemonGeneratorRunner
+    public interface IPokemonGeneratorRunner
     {
         void Run();
     }

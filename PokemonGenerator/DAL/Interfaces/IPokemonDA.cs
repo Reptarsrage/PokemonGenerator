@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using PokemonGenerator.DAL.Serialization;
-using PokemonGenerator.Modals;
+using PokemonGenerator.Models;
+using PokemonGenerator.Enumerations;
 
 namespace PokemonGenerator.DAL
 {

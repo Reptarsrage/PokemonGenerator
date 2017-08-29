@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PokemonGenerator.DAL.Serialization
 {
-    public partial class tbl_vwTMs
+    internal partial class tbl_vwTMs
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]

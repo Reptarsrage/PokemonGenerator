@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PokemonGenerator.DAL.Serialization
 {
-    public partial class type_efficacy
+    internal partial class type_efficacy
     {
         [Key]
         [Column(Order = 0)]

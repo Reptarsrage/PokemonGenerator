@@ -98,16 +98,15 @@
     <StartupObject>PokemonGenerator.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CommandLine, Version=1.9.71.2, Culture=neutral, PublicKeyToken=de6f01bd326f8c32, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommandLineParser.1.9.71\lib\net45\CommandLine.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework.SqlServerCompact, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.SqlServerCompact.6.1.3\lib\net45\EntityFramework.SqlServerCompact.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="FluentCommandLineParser, Version=1.4.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\FluentCommandLineParser.1.4.3\lib\net35\FluentCommandLineParser.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -133,6 +132,8 @@
     <Compile Include="DAL\Queries\GetPossiblePokemon.cs" />
     <Compile Include="DAL\Queries\GetWeaknesses.cs" />
     <Compile Include="DAL\Serialization\uspGetPokemonMoveSetResult.cs" />
+    <Compile Include="Enumerations\DamageType.cs" />
+    <Compile Include="Enumerations\Entropy.cs" />
     <Compile Include="IO\BinaryWriter2.cs" />
     <Compile Include="IO\BinaryReader2.cs" />
     <Compile Include="IO\Charset.cs" />
@@ -140,21 +141,21 @@
     <Compile Include="IO\Interfaces\IPokeSerializer.cs" />
     <Compile Include="Interfaces\IPokemonGenerator.cs" />
     <Compile Include="Interfaces\IPokemonGeneratorRunner.cs" />
-    <Compile Include="Modals\Likeliness.cs" />
-    <Compile Include="Modals\ItemEntry.cs" />
-    <Compile Include="Modals\ItemList.cs" />
-    <Compile Include="Modals\PokeGeneratorArguments.cs" />
-    <Compile Include="Modals\PokeList.cs" />
-    <Compile Include="Modals\Pokemon.cs" />
-    <Compile Include="Modals\PokemonAndMoveInfo.cs" />
+    <Compile Include="Models\Likeliness.cs" />
+    <Compile Include="Models\ItemEntry.cs" />
+    <Compile Include="Models\ItemList.cs" />
+    <Compile Include="Models\PokeGeneratorArguments.cs" />
+    <Compile Include="Models\PokeList.cs" />
+    <Compile Include="Models\Pokemon.cs" />
+    <Compile Include="Models\PokemonAndMoveInfo.cs" />
     <Compile Include="PokemonGenerator.cs" />
     <Compile Include="IO\PokeSerializer.cs" />
     <Compile Include="IO\PokeDeserializer.cs" />
     <Compile Include="PokemonGeneratorRunner.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Modals\SAVFileModel.cs" />
-    <Compile Include="Modals\TMPocket.cs" />
+    <Compile Include="Models\SAVFileModel.cs" />
+    <Compile Include="Models\TMPocket.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>

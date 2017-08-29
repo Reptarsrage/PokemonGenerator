@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PokemonGenerator.DAL.Queries
+﻿namespace PokemonGenerator.DAL.Queries
 {
-    public static partial class Queries
+    internal static partial class Queries
     {
         public static readonly string GetPokemonMoveSet = @"
             SELECT 

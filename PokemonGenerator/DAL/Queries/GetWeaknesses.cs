@@ -1,6 +1,6 @@
 ﻿namespace PokemonGenerator.DAL.Queries
 {
-    public static partial class Queries
+    internal static partial class Queries
     {
         public static readonly string GetWeaknesses = @"
             SELECT dt.identifier 

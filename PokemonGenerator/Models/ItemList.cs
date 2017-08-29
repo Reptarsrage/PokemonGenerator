@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace PokemonGenerator.Modals
+namespace PokemonGenerator.Models
 {
     /// <summary>
     /// A modal used to store and serialize/deserialize information.

@@ -1,6 +1,6 @@
 ﻿using PokemonGenerator.DAL;
 using PokemonGenerator.DAL.Serialization;
-using PokemonGenerator.Modals;
+using PokemonGenerator.Enumerations;
 using PokemonGenerator.Models;
 using System;
 using System.Collections.Generic;
@@ -8,21 +8,6 @@ using System.Linq;
 
 namespace PokemonGenerator
 {
-    public enum Entropy
-    {
-        Low, // Pokemon adhere to all standards, moves are calculated based on priority and IV/EV values are gaussian curved
-        Medium, // TODO Pokemon adhere to all standards, moves are random but strictly enforced and IV/EV values are random
-        High, // TODO Pokemon base stats are adhered to but movesets, evolutions, and IV/EV levels are not
-        Chaos // TODO Pokemon base stats are randomly generated
-    }
-
-    public enum DamageType
-    {
-        Physical,
-        Special,
-        Both
-    }
-
     /// <summary>
     /// The real  MVP of this application. Contains all the logic for generating a team of pokemon.
     /// </summary>

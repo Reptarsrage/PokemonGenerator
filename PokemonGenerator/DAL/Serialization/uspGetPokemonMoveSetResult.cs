@@ -1,6 +1,6 @@
 ﻿namespace PokemonGenerator.DAL.Serialization
 {
-    public class uspGetPokemonMoveSetResult
+    internal class uspGetPokemonMoveSetResult
     {
         public int level { get; set; }
         public int moveId { get; set; }

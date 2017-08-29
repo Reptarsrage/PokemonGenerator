@@ -1,11 +1,11 @@
 ﻿using PokemonGenerator.IO;
-using PokemonGenerator.Modals;
+using PokemonGenerator.Models;
 using System.Diagnostics;
 using System.IO;
 
 namespace PokemonGenerator
 {
-    class PokemonGeneratorRunner : IPokemonGeneratorRunner
+    public class PokemonGeneratorRunner : IPokemonGeneratorRunner
     {
         private readonly string contentDirectory;
         private readonly string outputDirectory;

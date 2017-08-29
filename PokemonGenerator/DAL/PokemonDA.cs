@@ -1,5 +1,5 @@
 ﻿using PokemonGenerator.DAL.Serialization;
-using PokemonGenerator.Modals;
+using PokemonGenerator.Models;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,7 +10,7 @@ namespace PokemonGenerator.DAL
     /// <para/> 
     /// Data base is a modified version of of the project found here: https://github.com/veekun/pokedex
     /// </summary>
-    class PokemonDA : IPokemonDA
+    internal class PokemonDA : IPokemonDA
     {
         /// <summary>
         /// Gets a list of all pokemon at the given level, eliminating pokemon that would have already evolved at this level, as well as pokemon that haven't evelolved at this level.

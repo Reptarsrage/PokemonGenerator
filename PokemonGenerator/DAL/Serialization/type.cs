@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PokemonGenerator.DAL.Serialization
 {
-    public partial class type
+    internal partial class type
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public type()

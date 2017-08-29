@@ -1,4 +1,5 @@
-﻿using PokemonGenerator.Modals;
+﻿using PokemonGenerator.Enumerations;
+using PokemonGenerator.Models;
 
 namespace PokemonGenerator
 {

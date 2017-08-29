@@ -6,7 +6,7 @@ namespace PokemonGenerator.DAL
     /// <summary>
     /// Auto-Generated. DO NOT MODIFY!
     /// </summary>
-    public partial class ThePokeBase : DbContext
+    internal partial class ThePokeBase : DbContext
     {
         public ThePokeBase()
             : base("name=ThePokeBase")
