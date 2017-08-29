@@ -107,6 +107,7 @@
     <Compile Include="DAL\Queries\GetWeaknesses.cs" />
     <Compile Include="Enumerations\DamageType.cs" />
     <Compile Include="Enumerations\Entropy.cs" />
+    <Compile Include="Enumerations\PokemonClass.cs" />
     <Compile Include="IO\BinaryWriter2.cs" />
     <Compile Include="IO\BinaryReader2.cs" />
     <Compile Include="IO\Charset.cs" />
@@ -118,10 +119,13 @@
     <Compile Include="Models\Likeliness.cs" />
     <Compile Include="Models\ItemEntry.cs" />
     <Compile Include="Models\ItemList.cs" />
+    <Compile Include="Models\Interfaces\IChoice.cs" />
     <Compile Include="Models\PokeGeneratorArguments.cs" />
     <Compile Include="Models\PokeList.cs" />
     <Compile Include="Models\Pokemon.cs" />
     <Compile Include="Models\PokemonAndMoveInfo.cs" />
+    <Compile Include="Models\MoveChoice.cs" />
+    <Compile Include="Models\PokemonChoice.cs" />
     <Compile Include="Models\PokemonMoveSetResult.cs" />
     <Compile Include="PokemonGenerator.cs" />
     <Compile Include="IO\PokeSerializer.cs" />
@@ -162,6 +166,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
+    <Compile Include="PokemonGenerator.Config.cs" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

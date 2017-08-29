@@ -10,62 +10,13 @@ namespace PokemonGenerator
     /// <summary>
     /// The real  MVP of this application. Contains all the logic for generating a team of pokemon.
     /// </summary>
-    internal class PokemonGenerator : IPokemonGenerator
+    internal partial class PokemonGenerator : IPokemonGenerator
     {
-        readonly int[] LEGENDARIES = { 144, 145, 146, 151, 150, 243, 244, 245, 249, 250, 251 };
-        readonly int[] IGNOREPOKEMON = { 10, 11, 13, 14, 129, 201 }; /*caterpie, metapod, weedle, kakuna, magikarp, unown */
-        readonly int[] SPECIALPOKEMON = { 10, 11, 13, 14, 129, 132, 201, 202 }; /* Specially treated for move selection bc they can learn < 4 moves total
-                                                                                 * caterpie, metapod, weedle, kakuna, magikarp, ditto, unown, wobbuffet */
-        private readonly IDictionary<int, int[]> pairedMoves = new Dictionary<int, int[]>()
-        {
-            { 156, new int[] { 214, 173 } }, /* Rest = sleep-talk, snore */
-            { 47, new int[] { 138, 171 } }, /* sing = dream-eater, nightmare */
-            { 79, new int[] { 138, 171 } }, /* sleep-powder = dream-eater, nightmare */
-            { 95, new int[] { 138, 171 } }, /* hypnosis = dream-eater, nightmare */
-            { 142, new int[] { 138, 171 } }, /* lovely-kiss = dream-eater, nightmare */
-            { 147, new int[] { 138, 171 } }, /* spore = dream-eater, nightmare */
-        };
+        private readonly IPokemonDA dal;
+        private readonly Random r;
 
-        private readonly IDictionary<int, int[]> dependantMoves = new Dictionary<int, int[]>()
-        {
-            { 214, new int[] { 156 } }, /* Rest = sleep-talk, snore */
-            { 173, new int[] { 156 } }, /* hypnosis = dream-eater, nightmare */
-            { 138, new int[] { 47, 79, 95, 142, 147 } }, /* sing = dream-eater, nightmare */
-            { 171, new int[] { 47, 79, 95, 142, 147 } }, /* sleep-powder = dream-eater, nightmare */ 
-        };
-
-        private readonly IList<int> HMBank = new List<int>()
-        {
-            15, /* cut */
-            19, /* fly */
-            70, /* strength */
-            127, /* waterfall */
-            148, /* flash */
-            250, /* whirlpool */
-            57 /* surf */
-        };
-
-        private readonly IDictionary<string, double> moveEffectsFilters = new Dictionary<string, double>()
-        {
-             {"faint", Likeliness.Medium_Low }
-            ,{"sleep", Likeliness.Medium }
-            ,{"charge", Likeliness.Low }
-            ,{"no additional effect", Likeliness.High }
-            ,{"recoil", Likeliness.Low }
-            ,{"confuses the user", Likeliness.Very_Low }
-            ,{"heal", Likeliness.Very_High }
-            ,{"nothing", Likeliness.None }
-            ,{"Cannot lower", Likeliness.None }
-            ,{"ends wild battles", Likeliness.None }
-        };
-
-        const double MEAN = 0.5d;
-        const double STDEVIATION = 0.5d;
-
-        private IPokemonDA dal;
-        private int level;
-        private IList<int> possiblePokemon;
-        private Random r;
+        private IList<PokemonChoice> possiblePokemon { get; set; }
+        private int PreviousLevel { get; set; }
 
         public PokemonGenerator()
         {
@@ -134,53 +85,48 @@ namespace PokemonGenerator
         /// <returns><see cref="PokeList"/> containing the generated team.</returns>
         private PokeList ChooseTeam(int level, Entropy entropy)
         {
+            var ret = new PokeList(TEAM_SIZE);
+
             // Make sure both players end up with different pokemons, re-use the same list if possible
-            if (this.level != level || possiblePokemon == null || possiblePokemon.Count < 20)
+            if (PreviousLevel != level || possiblePokemon == null || possiblePokemon.Count < 20)
             {
-                this.level = level;
-                possiblePokemon = dal.GetPossiblePokemon(level, entropy).ToList();
+                PreviousLevel = level;
+                possiblePokemon = dal.GetPossiblePokemon(level, entropy).Select(id => new PokemonChoice { PokemonId = id }).ToList();
             }
 
-            var ret = new PokeList(6);
-
             // add initial probabilities
-            var elements = new List<double>();
-            possiblePokemon.ToList().ForEach(p =>
+            foreach (var choice in possiblePokemon)
             {
-                var prob = Likeliness.Full;
-
-                if (IGNOREPOKEMON.Contains(p))
+                if (IGNOREPOKEMON.Contains(choice.PokemonId))
                 {
-                    prob = Likeliness.None;
+                    choice.Probability = POKEMON_LIKLIHOOD[PokemonClass.Ignored];
                 }
-                else if (LEGENDARIES.Contains(p))
+                else if (LEGENDARIES.Contains(choice.PokemonId))
                 {
-                    prob = Likeliness.Very_Low;
-
-
+                    choice.Probability = POKEMON_LIKLIHOOD[PokemonClass.Legendary];
                 }
-                else if (SPECIALPOKEMON.Contains(p))
+                else if (SPECIALPOKEMON.Contains(choice.PokemonId))
                 {
-                    prob = Likeliness.Medium_Low;
+                    choice.Probability = POKEMON_LIKLIHOOD[PokemonClass.Special];
+                } else
+                {
+                    choice.Probability = POKEMON_LIKLIHOOD[PokemonClass.Standard];
                 }
-                elements.Add(prob);
-
-            });
+            }
 
             // choose team
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < TEAM_SIZE; i++)
             {
-                Pokemon ichooseYou = new Pokemon();
-                var chosen_one = ChooseWithProbability(elements);
+                var ichooseYou = new Pokemon();
+                var chosen_one = ChooseWithProbability(possiblePokemon.Cast<IChoice>().ToList());
                 if (chosen_one == null)
                 {
                     throw new ArgumentException("Not enough Pokemon to choose from.");
                 }
 
-                ichooseYou.species = (byte)possiblePokemon[(int)chosen_one];
-                ret.Species[i] = (byte)possiblePokemon[(int)chosen_one];
+                ichooseYou.species = (byte)possiblePokemon[(int)chosen_one].PokemonId;
+                ret.Species[i] = (byte)possiblePokemon[(int)chosen_one].PokemonId;
                 possiblePokemon.RemoveAt((int)chosen_one);
-                elements.RemoveAt((int)chosen_one);
                 ichooseYou.unused = 0x0;
                 ichooseYou.OTName = "ROBOT";
                 ichooseYou.heldItem = 0x0;
@@ -247,113 +193,103 @@ namespace PokemonGenerator
         /// 
         /// Considers the following when assigning probabilities: <para/>
         /// If the damage type of the move matches the pokemon's damage type (physical or special based on the pokemon's base attack and base spAttack values). <para/>
-        /// If the move has a certain effect, we can weigh it based on this effect. (e.g. moves that cause the user to faint are wighed very low). See: <see cref="moveEffectsFilters"/> <para/>
+        /// If the move has a certain effect, we can weigh it based on this effect. (e.g. moves that cause the user to faint are wighed very low). See: <see cref="MOVE_EFFECTS_FILTERS"/> <para/>
         /// If we are concerned about damage, we prefer moves that do the most damage. <para/>
-        /// If a move relies on another move being chosen in order to be effective, we must look at the previously chosen moves and decide a weight based on prerequisites being filled. See: <see cref="pairedMoves"/>.<para/> 
+        /// If a move relies on another move being chosen in order to be effective, we must look at the previously chosen moves and decide a weight based on prerequisites being filled. See: <see cref="PAIRED_MOVES"/>.<para/> 
         /// If a move has already been chosen, or a very simliar move has been chosen (same effect, same type), then the move will be very unlikely to be picked.  <para/>
         /// If the move type compliments the pokemon's type (either matches the type or is strong against pokemon that the current pokemon is usually weak against.), then the move is preferred. <parar/>
         /// 
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        private int? PickOneMove(PokemonAndMoveInfo info)
+        private bool PickOneMove(PokemonAndMoveInfo info, out int chosenMoveId)
         {
+            chosenMoveId = 0;
             var allPossibleMoves = new List<PokemonMoveSetResult>(info.AllPossibleMovesOrig);
 
             // filter out all non-damaging/damaging attacks
             if (info.DoSomeDamageFlag)
             {
-                allPossibleMoves.RemoveAll(m => (m.Power ?? 0) > 0);
+                allPossibleMoves.RemoveAll(m => (m.Power ?? 0) <= 0);
             }
             else
             {
-                allPossibleMoves.RemoveAll(m => (m.Power ?? 0) <= 0);
+                allPossibleMoves.RemoveAll(m => (m.Power ?? 0) > 0);
             }
 
             if (allPossibleMoves.Count == 0)
             {
-                return null;
+                return false;
             }
 
-            Dictionary<PokemonMoveSetResult, double> moveProbabilities = new Dictionary<PokemonMoveSetResult, double>();
-            allPossibleMoves.ForEach(m =>
+            // Calculate probabilities
+            var moveProbabilities =  allPossibleMoves.Select(m =>
             {
-                var prob = Likeliness.Full;
+                var moveChoice = new MoveChoice {
+                    Probability = Likeliness.Full,
+                    Move = m
+                };
 
                 // Apply weight on damage type
                 // if damage type does not mesh with the pokemon, make the likelyhood VERY unlikely
-                if (info.DamageType == DamageType.Special && (m.DamageType ?? "special").Equals("physical"))
+                if ((info.DamageType == DamageType.Special && (m.DamageType ?? "special").Equals("physical")) ||
+                    (info.DamageType == DamageType.Physical && (m.DamageType ?? "special").Equals("special")))
                 {
-                    prob *= Likeliness.Extremely_Low;
-                }
-                else if (info.DamageType == DamageType.Physical && (m.DamageType ?? "special").Equals("special"))
-                {
-                    prob *= Likeliness.Extremely_Low;
+                    moveChoice.Probability *= Likeliness.Extremely_Low;
                 }
 
                 // Apply weight on effect
-                foreach (var key in moveEffectsFilters.Keys)
+                foreach (var key in MOVE_EFFECTS_FILTERS.Keys)
                 {
                     if (m.Effect.Contains(key))
                     {
-                        prob *= moveEffectsFilters[key];
+                        moveChoice.Probability *= MOVE_EFFECTS_FILTERS[key];
                     }
                 }
 
                 // Apply weight on type
-                if (info.PokeTypes.Contains(m.Type, StringComparer.CurrentCultureIgnoreCase))
+                if ((info.PokeTypes.Contains(m.Type, StringComparer.CurrentCultureIgnoreCase)) ||
+                    (info.AttackTypesToFavor.Contains(m.Type, StringComparer.CurrentCultureIgnoreCase)))
                 {
-                    prob *= 1.5;
-                }
-                if (info.AttackTypesToFavor.Contains(m.Type, StringComparer.CurrentCultureIgnoreCase))
-                {
-                    prob *= 1.5;
+                    moveChoice.Probability *= SAME_TYPE_MODIFIER;
                 }
 
+                // Apply weight on damage
                 if (!info.DoSomeDamageFlag)
                 {
-                    // Apply weight on powers
-                    prob *= (1.00 + ((int)m.Power / 200.00));
+                    moveChoice.Probability *= Likeliness.Full + (m.Power ?? 0) / DAMAGE_MODIFIER;
                 }
 
                 // Apply special weight for paired moves
                 var paired = new List<int>();
-                foreach (var id in info.AlreadyPicked)
+                if (info.AlreadyPicked.Any(id => PAIRED_MOVES.ContainsKey(id) && PAIRED_MOVES[id].Contains(m.MoveId)))
                 {
-                    if (pairedMoves.ContainsKey(id) && pairedMoves[id].Contains(m.MoveId))
-                    {
-                        prob = Likeliness.Full * 2.0;
-                    }
+                    moveChoice.Probability = Likeliness.Full * PAIRED_MODIFIER;
                 }
 
-                if (dependantMoves.ContainsKey(m.MoveId) && (dependantMoves[m.MoveId].Intersect(info.AlreadyPicked)?.Count() ?? 0) == 0)
+                // Filter out dependant moves which do not already have their dependancy picked
+                if (DEPENDANT_MOVES.ContainsKey(m.MoveId) && (DEPENDANT_MOVES[m.MoveId].Intersect(info.AlreadyPicked)?.Count() ?? 0) == 0)
                 {
-                    prob = Likeliness.None; // do not meet pre-reqs for this move!
+                    moveChoice.Probability = Likeliness.None;
                 }
 
                 // Finally, apply weight on similar moves to already picked
-                if (info.AlreadyPickedEffects.Contains(m.Effect, StringComparer.CurrentCultureIgnoreCase))
+                if (info.AlreadyPickedEffects.Contains(m.Effect, StringComparer.CurrentCultureIgnoreCase) || info.AlreadyPicked.Contains(m.MoveId))
                 {
-                    prob *= Likeliness.Extremely_Low;
-                }
-                if (info.AlreadyPicked.Contains(m.MoveId))
-                {
-                    prob *= Likeliness.Extremely_Low;
+                    moveChoice.Probability *= Likeliness.Extremely_Low;
                 }
 
-                moveProbabilities.Add(m, prob);
-            });
+                return moveChoice;
+            }).ToList();
 
-            var chosen = ChooseWithProbability(moveProbabilities.Values.ToList());
-
+            // Choose with probabilities
+            var chosen = ChooseWithProbability(moveProbabilities.Cast<IChoice>().ToList());
             if (chosen != null)
             {
-                return moveProbabilities.Keys.ToList()[(int)chosen].MoveId;
+                chosenMoveId = moveProbabilities[(int)chosen].Move.MoveId;
+                return true;
             }
-            else
-            {
-                return null;
-            }
+            return false;
         }
 
         /// <summary>
@@ -364,21 +300,23 @@ namespace PokemonGenerator
         /// <exception cref="ArgumentException">If there are not enough moves to choose from.</exception>
         private int ChooseMove(PokemonAndMoveInfo info)
         {
-            int? chosenMoveId = null;
+            var chosenMoveId = 0;
 
-            if ((chosenMoveId = PickOneMove(info)) == null)
+            // Try with current damage setting
+            if (!PickOneMove(info, out chosenMoveId))
             {
+                // Try again with other damage setting
                 info.DoSomeDamageFlag = !info.DoSomeDamageFlag;
-                if ((chosenMoveId = PickOneMove(info)) == null)
+                if (!PickOneMove(info, out chosenMoveId))
                 {
+                    // Give up
                     throw new ArgumentException("Not enough moves to choose from!");
                 }
             }
-
-            info.AlreadyPicked.Add((int)chosenMoveId);
-            var move1Obj = info.AllPossibleMovesOrig.First(m => m.MoveId == (int)chosenMoveId);
+            info.AlreadyPicked.Add(chosenMoveId);
+            var move1Obj = info.AllPossibleMovesOrig.First(m => m.MoveId == chosenMoveId);
             info.AlreadyPickedEffects.Add(move1Obj.Effect);
-            return (int)chosenMoveId;
+            return chosenMoveId;
         }
 
         /// <summary>
@@ -397,7 +335,7 @@ namespace PokemonGenerator
                 PokeTypes = poke.Types,
                 DamageType = poke.spAttack > poke.attack ? DamageType.Special : DamageType.Physical
             };
-            info.DamageType = Math.Abs(poke.spAttack - poke.attack) < 15 ? DamageType.Both : info.DamageType;
+            info.DamageType = Math.Abs(poke.spAttack - poke.attack) < DAMAGE_TYPE_DELTA ? DamageType.Both : info.DamageType;
             var enemiesWeakAgainst = dal.GetWeaknesses(string.Join(",", info.PokeTypes));
             info.AttackTypesToFavor = dal.GetWeaknesses(string.Join(",", enemiesWeakAgainst)).ToList();
 
@@ -405,16 +343,19 @@ namespace PokemonGenerator
             for (int i = 0; i < allPossibleMoves.Count; i++)
             {
                 var move = allPossibleMoves[i];
+
                 // Generate random move for sketch
                 if (move.MoveId == 166)
                 {
-                    var randos = dal.GetRandomMoves(40, 100).ToList();
+                    var randos = dal.GetRandomMoves(RANDOM_MOVE_MIN_POWER, RANDOM_MOVE_MAX_POWER).ToList();
                     allPossibleMoves[i] = randos[r.Next(0, randos.Count)];
                 }
 
                 // remove duplicates
-                List<PokemonMoveSetResult> removeMoves = null;
-                if ((removeMoves = allPossibleMoves.ToList().FindAll(m => (m.LearnType ?? "#").Equals(move.LearnType ?? "@") && m.MoveId == move.MoveId && allPossibleMoves.IndexOf(m) != i)) != null && removeMoves.Count > 0)
+                var removeMoves = allPossibleMoves
+                    .ToList()
+                    .FindAll(m => (m.LearnType ?? "#").Equals(move.LearnType ?? "@") && m.MoveId == move.MoveId && allPossibleMoves.IndexOf(m) != i);
+                if (removeMoves?.Any() ?? false)
                 {
                     removeMoves.ForEach(m =>
                     {
@@ -428,7 +369,7 @@ namespace PokemonGenerator
                 }
 
                 // Remove if unavailable in TMBank
-                if ((move.LearnType ?? "").Equals("machine") && !HMBank.Contains(move.MoveId) && !TMBank.Contains(move.MoveId))
+                if ((move.LearnType ?? "").Equals("machine") && !HM_BANK.Contains(move.MoveId) && !TMBank.Contains(move.MoveId))
                 {
                     allPossibleMoves.Remove(move);
                 }
@@ -458,7 +399,6 @@ namespace PokemonGenerator
                     }
                 }
             }
-
 
             // We aren't using these
             poke.ppUps1 = 0;
@@ -553,26 +493,30 @@ namespace PokemonGenerator
         /// <summary>
         /// Chooses from a list of elements where each element is the relative probability of itself being chosen (Relative to all other elements). This may fail if there are elements with negative probabilties or if the list is empty.
         /// </summary>
-        /// <param name="elements">A list of relative probabilities.</param>
+        /// <param name="choices">A list of relative probabilities.</param>
         /// <returns>The index of the chosen element, null on failure.</returns>
-        private int? ChooseWithProbability(IList<double> elements)
+        private int? ChooseWithProbability(IList<IChoice> choices)
         {
-            // normalize probabilities
-            var norm = 1.0d / elements.Sum();
-            elements = elements.Select(k => k * norm).ToList();
-            double runningSum = 0.0;
-            for (int i = 0; i < elements.Count; i++)
+            // Normalize probabilities
+            var norm = 1D / choices.Select(pc => pc.Probability).Sum();
+            foreach (var choice in choices)
             {
-                runningSum += elements[i];
-                elements[i] = runningSum;
+                choice.Probability *= norm;
             }
 
-            // choose from list with probabilities
-            double diceRoll = r.NextDouble();
-
-            for (int i = 0; i < elements.Count; i++)
+            // Makes sure they all add up to 100 after being normalized
+            var runningSum = 0D;
+            for (int i = 0; i < choices.Count; i++)
             {
-                if (diceRoll < elements[i])
+                runningSum += choices[i].Probability;
+                choices[i].Probability = runningSum;
+            }
+
+            // Choose from list with probabilities
+            var diceRoll = r.NextDouble();
+            for (int i = 0; i < choices.Count; i++)
+            {
+                if (diceRoll < choices[i].Probability)
                 {
                     return i;
                 }
@@ -592,7 +536,6 @@ namespace PokemonGenerator
         /// <returns>The max HP for the pokemon</returns>
         private double HP(double @base, double iv, double ev, double lvl)
         {
-
             return Math.Floor(((@base + iv) * 2.0 + Math.Floor(Math.Ceiling(Math.Sqrt(ev)) / 4.0)) * lvl / 100.0) + lvl + 10;
         }
 
@@ -608,7 +551,6 @@ namespace PokemonGenerator
         /// <returns>The calculated stat for the pokemon</returns>
         private double STAT(double @base, double iv, double ev, double lvl)
         {
-
             return Math.Floor(((@base + iv) * 2.0 + Math.Floor(Math.Ceiling(Math.Sqrt(ev)) / 4.0)) * lvl / 100.0) + 5;
         }
 

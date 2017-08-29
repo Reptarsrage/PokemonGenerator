@@ -2,6 +2,7 @@
 {
     internal enum DamageType
     {
+        Unknown,
         Physical,
         Special,
         Both

@@ -1,8 +1,10 @@
 ﻿using PokemonGenerator.Enumerations;
 using PokemonGenerator.IO;
 using PokemonGenerator.Models;
+using System;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 
 namespace PokemonGenerator
 {
@@ -25,6 +27,17 @@ namespace PokemonGenerator
             charset = new Charset();
             pokeDeserializer = new PokeDeserializer();
             pokeSerializer = new PokeSerializer();
+        }
+
+        public static string AssemblyDirectory
+        {
+            get
+            {
+                string codeBase = Assembly.GetExecutingAssembly().CodeBase;
+                UriBuilder uri = new UriBuilder(codeBase);
+                string path = Uri.UnescapeDataString(uri.Path);
+                return Path.GetDirectoryName(path);
+            }
         }
 
         public void Run()
@@ -50,6 +63,11 @@ namespace PokemonGenerator
         /// <param name="level">The level to generate pokemon at. Must be 5-100.</param>
         private void CopyAndGen(string @out, string @in, SAVFileModel sav, int level)
         {
+            if (!Directory.Exists(Path.GetDirectoryName(@out)))
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(@out));
+            }
+
             var list = pokemonGenerator.GenerateRandomPokemon(level, Entropy.Low); // TODO: Entropy stuffs
             sav.TeamPokémonlist = list;
             WriteSavProperties(@out, @in, sav);

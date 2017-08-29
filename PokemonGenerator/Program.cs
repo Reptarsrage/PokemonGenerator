@@ -1,7 +1,6 @@
 ﻿using PokemonGenerator.Models;
 using System;
 using System.IO;
-using System.Reflection;
 
 namespace PokemonGenerator
 {
@@ -16,10 +15,10 @@ namespace PokemonGenerator
             // Used to set the defaults determined by system
 #if (DEBUG)
             // SET DataDirectory for connection string
-            AppDomain.CurrentDomain.SetData("DataDirectory", Path.GetDirectoryName(Assembly.GetAssembly(typeof(Program)).Location));
+            AppDomain.CurrentDomain.SetData("DataDirectory", PokemonGeneratorRunner.AssemblyDirectory);
             // SET content and output directories
-            contentDirectory = Path.GetDirectoryName(Assembly.GetAssembly(typeof(Program)).Location);
-            outputDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+            contentDirectory = PokemonGeneratorRunner.AssemblyDirectory;
+            outputDirectory = Path.Combine(PokemonGeneratorRunner.AssemblyDirectory, "Out");
 #else
             // SET DataDirectory for connection string
             AppDomain.CurrentDomain.SetData("DataDirectory", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"PokemonGenerator\"));

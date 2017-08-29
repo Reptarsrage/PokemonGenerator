@@ -58,6 +58,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PokemonGeneratorRunnerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DAL Tests\PokemonDATests.cs" />
   </ItemGroup>

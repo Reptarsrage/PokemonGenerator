@@ -7,7 +7,6 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
@@ -40,8 +39,8 @@ namespace PokemonGeneratorGUI
         {
 #if (DEBUG)
             projN64Location = @"G:\Project64\Project64.exe"; // TODO remove
-            AppDomain.CurrentDomain.SetData("DataDirectory", AssemblyDirectory);
-            contentDirectory = AssemblyDirectory;
+            AppDomain.CurrentDomain.SetData("DataDirectory", PokemonGeneratorRunner.AssemblyDirectory);
+            contentDirectory = PokemonGeneratorRunner.AssemblyDirectory;
             outputDirectory = Path.Combine(contentDirectory, "Output");
 #else
             projN64Location = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), @"Project64\Project64.exe");
@@ -137,7 +136,7 @@ namespace PokemonGeneratorGUI
 
         private bool CheckIfFileExistsAndAssignImage(TextBox textbox, PictureBox pic, string expectedExtension)
         {
-            var error = string.IsNullOrEmpty(textbox.Text) || 
+            var error = string.IsNullOrEmpty(textbox.Text) ||
                 !File.Exists(textbox.Text) ||
                 !Path.GetExtension(textbox.Text).Equals(expectedExtension, StringComparison.OrdinalIgnoreCase);
             ToggleErrorImageToPic(pic, error);
@@ -146,7 +145,7 @@ namespace PokemonGeneratorGUI
 
         private bool CheckIfPathIsValidAndAssignImage(TextBox textbox, PictureBox pic, string expectedExtension)
         {
-            var error = string.IsNullOrEmpty(textbox.Text) || 
+            var error = string.IsNullOrEmpty(textbox.Text) ||
                 textbox.Text.IndexOfAny(Path.GetInvalidPathChars()) != -1 ||
                 !Path.GetExtension(textbox.Text).Equals(expectedExtension, StringComparison.OrdinalIgnoreCase);
             ToggleErrorImageToPic(pic, error);
@@ -188,8 +187,8 @@ namespace PokemonGeneratorGUI
             good &= TextPlayerTwoNameGood;
 
             // Check two outs are unique
-            if (!string.IsNullOrWhiteSpace(TextPlayerTwoOutLocation.Text) && 
-                !string.IsNullOrWhiteSpace(TextPlayerOneOutLocation.Text) && 
+            if (!string.IsNullOrWhiteSpace(TextPlayerTwoOutLocation.Text) &&
+                !string.IsNullOrWhiteSpace(TextPlayerOneOutLocation.Text) &&
                 Path.GetFullPath(TextPlayerTwoOutLocation.Text).Equals(Path.GetFullPath(TextPlayerOneOutLocation.Text)))
             {
                 ToggleErrorImageToPic(ImagePlayerTwoOutLocation, true);
@@ -368,17 +367,6 @@ namespace PokemonGeneratorGUI
         private void PlayerValidate(object sender, EventArgs e)
         {
             ValidatePlayerSection();
-        }
-
-        private string AssemblyDirectory
-        {
-            get
-            {
-                string codeBase = Assembly.GetExecutingAssembly().CodeBase;
-                UriBuilder uri = new UriBuilder(codeBase);
-                string path = Uri.UnescapeDataString(uri.Path);
-                return Path.GetDirectoryName(path);
-            }
         }
     }
 }
