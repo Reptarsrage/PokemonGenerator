@@ -3,12 +3,13 @@ using PokemonGenerator.DAL;
 using PokemonGenerator.Models;
 using System.Linq;
 
-namespace PokemonGenerator.Tests.Unit
+namespace PokemonGenerator.Tests
 {
     [TestFixture]
     public class PokemonDATests
     {
         [Test]
+        [Category("Integration")]
         public void GetPossiblePokemonTest()
         {
             var da = new PokemonDA("ThePokeBase");
@@ -18,6 +19,7 @@ namespace PokemonGenerator.Tests.Unit
         }
 
         [Test]
+        [Category("Integration")]
         public void GetPossiblePokemonValuesTest()
         {
             var da = new PokemonDA("ThePokeBase");
@@ -26,6 +28,7 @@ namespace PokemonGenerator.Tests.Unit
         }
 
         [Test]
+        [Category("Integration")]
         public void GetMovesForPokemonTest()
         {
             var da = new PokemonDA("ThePokeBase");
@@ -35,6 +38,7 @@ namespace PokemonGenerator.Tests.Unit
         }
 
         [Test]
+        [Category("Integration")]
         public void GetMovesForPokemonValuesTest()
         {
             var da = new PokemonDA("ThePokeBase");
@@ -43,6 +47,7 @@ namespace PokemonGenerator.Tests.Unit
         }
 
         [Test]
+        [Category("Integration")]
         public void GetRandomMovesTest()
         {
             var da = new PokemonDA("ThePokeBase");
@@ -52,6 +57,7 @@ namespace PokemonGenerator.Tests.Unit
         }
 
         [Test]
+        [Category("Integration")]
         public void GetRandomMovesValuesTest()
         {
             var da = new PokemonDA("ThePokeBase");
@@ -60,6 +66,7 @@ namespace PokemonGenerator.Tests.Unit
         }
 
         [Test]
+        [Category("Integration")]
         public void GetTeamBaseStatsTest()
         {
             var da = new PokemonDA("ThePokeBase");
@@ -72,6 +79,7 @@ namespace PokemonGenerator.Tests.Unit
         }
 
         [Test]
+        [Category("Integration")]
         public void GetTeamBaseStatsValuesTest()
         {
             var da = new PokemonDA("ThePokeBase");
@@ -101,6 +109,7 @@ namespace PokemonGenerator.Tests.Unit
         }
 
         [Test]
+        [Category("Integration")]
         public void GetTMsTest()
         {
             var da = new PokemonDA("ThePokeBase");
@@ -110,6 +119,7 @@ namespace PokemonGenerator.Tests.Unit
         }
 
         [Test]
+        [Category("Integration")]
         public void GetTMsValueTest()
         {
             var da = new PokemonDA("ThePokeBase");
@@ -118,6 +128,7 @@ namespace PokemonGenerator.Tests.Unit
         }
 
         [Test]
+        [Category("Integration")]
         public void GetWeaknessesTest()
         {
             var da = new PokemonDA("ThePokeBase");
@@ -127,6 +138,7 @@ namespace PokemonGenerator.Tests.Unit
         }
 
         [Test]
+        [Category("Integration")]
         public void GetWeaknessesValuesTest()
         {
             var da = new PokemonDA("ThePokeBase");

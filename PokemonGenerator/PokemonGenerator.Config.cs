@@ -102,7 +102,7 @@ namespace PokemonGenerator
         /// <summary>
         /// Pokemon Team size
         /// </summary>
-        const int TEAM_SIZE = 6;
+        public const int TEAM_SIZE = 6;
 
         /// <summary>
         /// The higher this is, the more likely pokemon with a certain type will only know moves of that type.

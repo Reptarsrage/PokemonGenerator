@@ -17,7 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Installer", "Installer\Installer.vdproj", "{AFD0FB2B-9E63-41AB-82B9-C586D5E65300}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonGenerator.Tests.Unit", "PokemonGenerator.Tests.Unit\PokemonGenerator.Tests.Unit.csproj", "{8E087623-FA33-4E1C-A310-40D92D94F67A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonGenerator.Tests", "PokemonGenerator.Tests\PokemonGenerator.Tests.csproj", "{8E087623-FA33-4E1C-A310-40D92D94F67A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

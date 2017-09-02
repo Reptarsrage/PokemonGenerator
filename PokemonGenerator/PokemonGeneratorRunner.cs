@@ -20,9 +20,19 @@ namespace PokemonGenerator
 
         public PokemonGeneratorRunner(string contentDirectory, string outputDirectory, PokeGeneratorArguments options)
         {
+            if (string.IsNullOrWhiteSpace(contentDirectory) || !Directory.Exists(contentDirectory))
+            {
+                throw new ArgumentException("contentDirectory");
+            }
+
+            if (string.IsNullOrWhiteSpace(outputDirectory) || outputDirectory.IndexOfAny(Path.GetInvalidPathChars()) >= 0)
+            {
+                throw new ArgumentException("outputDirectory");
+            }
+
             this.contentDirectory = contentDirectory;
             this.outputDirectory = outputDirectory;
-            this.options = options;
+            this.options = options ?? throw new ArgumentException("options");
             pokemonGenerator = new PokemonGenerator();
             charset = new Charset();
             pokeDeserializer = new PokeDeserializer();
