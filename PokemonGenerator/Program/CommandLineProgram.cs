@@ -4,32 +4,27 @@ using System.IO;
 
 namespace PokemonGenerator
 {
-    class Program
+    /// <summary>
+    /// Runs the program as a command line tool
+    /// </summary>
+    class CommandLineProgram
     {
-        private static IPokemonGeneratorRunner runner;
-        private static string contentDirectory;
-        private static string outputDirectory;
-
         static void Main(string[] args)
         {
-            // Used to set the defaults determined by system
+            // Configure Directories
 #if (DEBUG)
-            // SET DataDirectory for connection string
             AppDomain.CurrentDomain.SetData("DataDirectory", PokemonGeneratorRunner.AssemblyDirectory);
-            // SET content and output directories
-            contentDirectory = PokemonGeneratorRunner.AssemblyDirectory;
-            outputDirectory = Path.Combine(PokemonGeneratorRunner.AssemblyDirectory, "Out");
+            var contentDirectory = PokemonGeneratorRunner.AssemblyDirectory;
+            var outputDirectory = Path.Combine(PokemonGeneratorRunner.AssemblyDirectory, "Out");
 #else
-            // SET DataDirectory for connection string
             AppDomain.CurrentDomain.SetData("DataDirectory", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"PokemonGenerator\"));
-            // SET content and output directories
-            contentDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"PokemonGenerator\");
-            outputDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+            var contentDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"PokemonGenerator\");
+            var outputDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
 #endif
             // Init DAL
             DapperMapper.Init();
 
-            // ParseCommandLineOptions options
+            // Parse Command Line Options
             var options = new PokeGeneratorArguments();
             if (!CommandLine.Parser.Default.ParseArguments(args, options,
                 (verb, subOptions) =>
@@ -45,8 +40,11 @@ namespace PokemonGenerator
                         Path.Combine(contentDirectory, "Gold.sav");
 
                     // Run the generator
-                    runner = new PokemonGeneratorRunner(contentDirectory, outputDirectory, subOptions as PokeGeneratorArguments);
-                    runner.Run();
+                    using (var injection = new NinjectWrapper())
+                    {
+                        var runner = injection.Get<IPokemonGeneratorRunner>();
+                        runner.Run(contentDirectory, outputDirectory, subOptions as PokeGeneratorArguments);
+                    }
                 }))
             {
                 Environment.Exit(CommandLine.Parser.DefaultExitCodeFail);

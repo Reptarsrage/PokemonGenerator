@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PokemonGeneratorGUI.Editors
+namespace PokemonGenerator.Editors
 {
     public interface INRageIniEditor
     {

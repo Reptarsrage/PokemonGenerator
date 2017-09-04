@@ -11,138 +11,146 @@ namespace PokemonGenerator.IO
     /// http://bulbapedia.bulbagarden.net/wiki/Save_data_structure_in_Generation_II <para/> 
     /// http://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_data_structure_in_Generation_II
     /// </summary>
-    internal class PokeDeserializer : IPokeDeserializer
+    public class PokeDeserializer : IPokeDeserializer
     {
+        private readonly IBinaryReader2 breader;
+        private readonly ICharset charset;
+
+        public PokeDeserializer(IBinaryReader2 breader, ICharset charset)
+        {
+            this.breader = breader;
+            this.charset = charset;
+        }
+
         /// <summary>
         /// Completely parses a given file stream into a <see cref="SAVFileModel"/> .
         /// </summary>
-        public SAVFileModel ParseSAVFileModel(string filename, Charset charset)
+        public SAVFileModel ParseSAVFileModel(string filename)
         {
-            using (var reader = File.OpenRead(filename))
-            using (var breader = new BinaryReader2(reader))
+            breader.Open(filename);
+
+            SAVFileModel sav = new SAVFileModel();
+
+            breader.Seek(0x2000, SeekOrigin.Begin);
+            sav.Options = breader.ReadInt64();
+
+            breader.Seek(0x2009, SeekOrigin.Begin);
+            sav.PlayerTrainerID = breader.ReadInt16();
+
+            breader.Seek(0x200B, SeekOrigin.Begin);
+            sav.Playername = breader.ReadString(11, charset);
+
+            breader.Seek(0x2021, SeekOrigin.Begin);
+            sav.Rivalname = breader.ReadString(11, charset);
+
+            breader.Seek(0x2037, SeekOrigin.Begin);
+            sav.Daylightsavings = (breader.ReadByte() & 0x80) == 1;
+
+            breader.Seek(0x2053, SeekOrigin.Begin);
+            sav.Timeplayed = breader.ReadInt32();
+
+            breader.Seek(0x206B, SeekOrigin.Begin);
+            sav.Playerpalette = breader.ReadByte();
+
+            breader.Seek(0x23DB, SeekOrigin.Begin);
+            sav.Money = breader.ReadInt24();
+
+            breader.Seek(0x23E4, SeekOrigin.Begin);
+            sav.JohtoBadges = breader.ReadByte();
+
+            BitArray arr = new BitArray(new byte[] { sav.JohtoBadges });
+            sav.JohtoBadges = 0;
+            foreach (bool bit in arr)
             {
-
-                SAVFileModel sav = new SAVFileModel();
-
-                breader.BaseStream.Seek(0x2000, SeekOrigin.Begin);
-                sav.Options = breader.ReadInt64();
-
-                breader.BaseStream.Seek(0x2009, SeekOrigin.Begin);
-                sav.PlayerTrainerID = breader.ReadInt16();
-
-                breader.BaseStream.Seek(0x200B, SeekOrigin.Begin);
-                sav.Playername = breader.ReadString(11, charset);
-
-                breader.BaseStream.Seek(0x2021, SeekOrigin.Begin);
-                sav.Rivalname = breader.ReadString(11, charset);
-
-                breader.BaseStream.Seek(0x2037, SeekOrigin.Begin);
-                sav.Daylightsavings = (breader.ReadByte() & 0x80) == 1;
-
-                breader.BaseStream.Seek(0x2053, SeekOrigin.Begin);
-                sav.Timeplayed = breader.ReadInt32();
-
-                breader.BaseStream.Seek(0x206B, SeekOrigin.Begin);
-                sav.Playerpalette = breader.ReadByte();
-
-                breader.BaseStream.Seek(0x23DB, SeekOrigin.Begin);
-                sav.Money = breader.ReadInt24();
-
-                breader.BaseStream.Seek(0x23E4, SeekOrigin.Begin);
-                sav.JohtoBadges = breader.ReadByte();
-
-                BitArray arr = new BitArray(new byte[] { sav.JohtoBadges });
-                sav.JohtoBadges = 0;
-                foreach (bool bit in arr)
+                if (bit)
                 {
-                    if (bit)
-                    {
-                        sav.JohtoBadges++;
-                    }
+                    sav.JohtoBadges++;
                 }
-
-                breader.BaseStream.Seek(0x23E6, SeekOrigin.Begin);
-                sav.TMpocket = this.ParseTMPocket(breader, charset);
-
-                breader.BaseStream.Seek(0x241F, SeekOrigin.Begin);
-                sav.Itempocketitemlist = this.ParseItemList(breader, charset, 20);
-
-                breader.BaseStream.Seek(0x2449, SeekOrigin.Begin);
-                sav.Keyitempocketitemlist = this.ParseItemList(breader, charset, 26, true);
-
-                breader.BaseStream.Seek(0x2464, SeekOrigin.Begin);
-                sav.Ballpocketitemlist = this.ParseItemList(breader, charset, 12);
-
-                breader.BaseStream.Seek(0x247E, SeekOrigin.Begin);
-                sav.PCitemlist = this.ParseItemList(breader, charset, 50);
-
-                breader.BaseStream.Seek(0x2724, SeekOrigin.Begin);
-                sav.CurrentPCBoxnumber = breader.ReadByte();
-
-                // Boxes
-                breader.BaseStream.Seek(0x2727, SeekOrigin.Begin);
-                sav.PCBoxnames = new string[14];
-                for (int i = 0; i < 14; i++)
-                {
-                    sav.PCBoxnames[i] = breader.ReadString(9, charset);
-                }
-
-                // Team
-                breader.BaseStream.Seek(0x288A, SeekOrigin.Begin);
-                sav.TeamPokémonlist = ParsePokeList(breader, charset, true, 6);
-
-                // Pokedex
-                breader.BaseStream.Seek(0x2A4C, SeekOrigin.Begin);
-                sav.Pokédexowned = new bool[32 * 8];
-                byte[] pokedex = breader.ReadBytes(32);
-                arr = new BitArray(pokedex);
-                arr.CopyTo(sav.Pokédexowned, 0);
-
-                breader.BaseStream.Seek(0x2A6C, SeekOrigin.Begin);
-                sav.Pokédexseen = new bool[32 * 8];
-                pokedex = breader.ReadBytes(32);
-                arr = new BitArray(pokedex);
-                arr.CopyTo(sav.Pokédexseen, 0);
-
-                // Current Box List
-                breader.BaseStream.Seek(0x2D6C, SeekOrigin.Begin);
-                sav.CurrentBoxPokémonlist = ParsePokeList(breader, charset, false, 20);
-
-                // GET 1-7 boxes
-                sav.Boxes = new PokeList[14];
-
-                for (int i = 0; i < 7; i++)
-                {
-                    breader.BaseStream.Seek(0x4000 + 0x450 * i, SeekOrigin.Begin);
-                    sav.Boxes[i] = ParsePokeList(breader, charset, false, 20);
-                }
-
-                // GET 8-14 boxes
-                for (int i = 7; i < 14; i++)
-                {
-                    breader.BaseStream.Seek(0x6000 + 0x450 * (i - 7), SeekOrigin.Begin);
-                    sav.Boxes[i] = ParsePokeList(breader, charset, false, 20);
-                }
-
-                // Checksum 0x2009 - 0x2D68
-                breader.BaseStream.Seek(0x2D69, SeekOrigin.Begin);
-                sav.Checksum1 = breader.ReadInt16LittleEndian();
-
-                // Calculate checksum
-                breader.BaseStream.Seek(0x2009, SeekOrigin.Begin);
-                ushort checksum = 0;
-                while (breader.BaseStream.Position <= 0x2D68)
-                {
-                    checksum += breader.ReadByte();
-                }
-
-                if (checksum != sav.Checksum1)
-                {
-                    throw new InvalidDataException("Checksum doesn't match. Data possibly corrupt.");
-                }
-
-                return sav;
             }
+
+            breader.Seek(0x23E6, SeekOrigin.Begin);
+            sav.TMpocket = this.ParseTMPocket(breader, charset);
+
+            breader.Seek(0x241F, SeekOrigin.Begin);
+            sav.Itempocketitemlist = this.ParseItemList(breader, charset, 20);
+
+            breader.Seek(0x2449, SeekOrigin.Begin);
+            sav.Keyitempocketitemlist = this.ParseItemList(breader, charset, 26, true);
+
+            breader.Seek(0x2464, SeekOrigin.Begin);
+            sav.Ballpocketitemlist = this.ParseItemList(breader, charset, 12);
+
+            breader.Seek(0x247E, SeekOrigin.Begin);
+            sav.PCitemlist = this.ParseItemList(breader, charset, 50);
+
+            breader.Seek(0x2724, SeekOrigin.Begin);
+            sav.CurrentPCBoxnumber = breader.ReadByte();
+
+            // Boxes
+            breader.Seek(0x2727, SeekOrigin.Begin);
+            sav.PCBoxnames = new string[14];
+            for (int i = 0; i < 14; i++)
+            {
+                sav.PCBoxnames[i] = breader.ReadString(9, charset);
+            }
+
+            // Team
+            breader.Seek(0x288A, SeekOrigin.Begin);
+            sav.TeamPokemonlist = ParsePokeList(breader, charset, true, 6);
+
+            // Pokedex
+            breader.Seek(0x2A4C, SeekOrigin.Begin);
+            sav.Pokédexowned = new bool[32 * 8];
+            byte[] pokedex = breader.ReadBytes(32);
+            arr = new BitArray(pokedex);
+            arr.CopyTo(sav.Pokédexowned, 0);
+
+            breader.Seek(0x2A6C, SeekOrigin.Begin);
+            sav.Pokédexseen = new bool[32 * 8];
+            pokedex = breader.ReadBytes(32);
+            arr = new BitArray(pokedex);
+            arr.CopyTo(sav.Pokédexseen, 0);
+
+            // Current Box List
+            breader.Seek(0x2D6C, SeekOrigin.Begin);
+            sav.CurrentBoxPokémonlist = ParsePokeList(breader, charset, false, 20);
+
+            // GET 1-7 boxes
+            sav.Boxes = new PokeList[14];
+
+            for (int i = 0; i < 7; i++)
+            {
+                breader.Seek(0x4000 + 0x450 * i, SeekOrigin.Begin);
+                sav.Boxes[i] = ParsePokeList(breader, charset, false, 20);
+            }
+
+            // GET 8-14 boxes
+            for (int i = 7; i < 14; i++)
+            {
+                breader.Seek(0x6000 + 0x450 * (i - 7), SeekOrigin.Begin);
+                sav.Boxes[i] = ParsePokeList(breader, charset, false, 20);
+            }
+
+            // Checksum 0x2009 - 0x2D68
+            breader.Seek(0x2D69, SeekOrigin.Begin);
+            sav.Checksum1 = breader.ReadInt16LittleEndian();
+
+            // Calculate checksum
+            breader.Seek(0x2009, SeekOrigin.Begin);
+            ushort checksum = 0;
+            while (breader.Position <= 0x2D68)
+            {
+                checksum += breader.ReadByte();
+            }
+            breader.Close();
+
+            if (checksum != sav.Checksum1)
+            {
+                throw new InvalidDataException("Checksum doesn't match. Data possibly corrupt.");
+            }
+
+            return sav;
+
         }
 
         /// <summary>
@@ -151,26 +159,25 @@ namespace PokemonGenerator.IO
         /// <param name="breader">Steam</param>
         /// <param name="inBox">Is the pokemon in a box or on a team?</param>
         /// <param name="charset">The charset to use for string literals</param>
-        private Pokemon ParsePokemon(BinaryReader2 breader, bool inBox, Charset charset)
+        private Pokemon ParsePokemon(IBinaryReader2 breader, bool inBox, ICharset charset)
         {
-            byte[] buffer = new byte[1];
-
-            Pokemon poke = new Pokemon();
-
-            poke.species = breader.ReadByte();
-            poke.heldItem = breader.ReadByte();
-            poke.moveIndex1 = breader.ReadByte();
-            poke.moveIndex2 = breader.ReadByte();
-            poke.moveIndex3 = breader.ReadByte();
-            poke.moveIndex4 = breader.ReadByte();
-            poke.trainerID = breader.ReadInt16();
-            poke.experience = breader.ReadInt24();
-            poke.hpEV = breader.ReadInt16();
-            poke.attackEV = breader.ReadInt16();
-            poke.defenseEV = breader.ReadInt16();
-            poke.speedEV = breader.ReadInt16();
-            poke.specialEV = breader.ReadInt16();
-
+            var buffer = new byte[1];
+            var poke = new Pokemon
+            {
+                species = breader.ReadByte(),
+                heldItem = breader.ReadByte(),
+                moveIndex1 = breader.ReadByte(),
+                moveIndex2 = breader.ReadByte(),
+                moveIndex3 = breader.ReadByte(),
+                moveIndex4 = breader.ReadByte(),
+                trainerID = breader.ReadInt16(),
+                experience = breader.ReadInt24(),
+                hpEV = breader.ReadInt16(),
+                attackEV = breader.ReadInt16(),
+                defenseEV = breader.ReadInt16(),
+                speedEV = breader.ReadInt16(),
+                specialEV = breader.ReadInt16()
+            };
 
             breader.ReadBits(4).CopyTo(buffer, 0);
             poke.attackIV = buffer[0];
@@ -249,16 +256,20 @@ namespace PokemonGenerator.IO
         /// <summary>
         /// Completely parses a given file stream into a <see cref="ItemList"/> .
         /// </summary>
-        private ItemList ParseItemList(BinaryReader2 breader, Charset charset, int capacity, bool key = false)
+        private ItemList ParseItemList(IBinaryReader2 breader, ICharset charset, int capacity, bool key = false)
         {
-            ItemList list = new ItemList(capacity);
-            list.Count = breader.ReadByte();
+            var list = new ItemList(capacity)
+            {
+                Count = breader.ReadByte()
+            };
             list.ItemEntries = new ItemEntry[list.Count];
 
             for (int i = 0; i < capacity; i++)
             {
-                ItemEntry entry = new ItemEntry();
-                entry.Index = breader.ReadByte();
+                var entry = new ItemEntry
+                {
+                    Index = breader.ReadByte()
+                };
 
                 if (key)
                 {
@@ -274,20 +285,19 @@ namespace PokemonGenerator.IO
                     list.ItemEntries[i] = entry;
                 }
             }
-
             list.Terminator = breader.ReadByte();
-
             return list;
-
         }
 
         /// <summary>
         /// Completely parses a given file stream into a <see cref="PokeList"/> .
         /// </summary>
-        private PokeList ParsePokeList(BinaryReader2 breader, Charset charset, bool full, int capacity)
+        private PokeList ParsePokeList(IBinaryReader2 breader, ICharset charset, bool full, int capacity)
         {
-            PokeList list = new PokeList(capacity);
-            list.Count = breader.ReadByte();
+            var list = new PokeList(capacity)
+            {
+                Count = breader.ReadByte()
+            };
             list.Pokemon = new Pokemon[list.Count];
 
             // Species
@@ -315,7 +325,7 @@ namespace PokemonGenerator.IO
                 }
                 else
                 {
-                    breader.BaseStream.Seek(full ? 48 : 32, SeekOrigin.Current); // sizeof pokemon
+                    breader.Seek(full ? 48 : 32, SeekOrigin.Current); // sizeof pokemon
                 }
             }
 
@@ -344,16 +354,15 @@ namespace PokemonGenerator.IO
                     breader.ReadString(11, charset);
                 }
             }
-
             return list;
         }
 
         /// <summary>
         /// Completely parses a given file stream into a <see cref="TMPocket"/> .
         /// </summary>
-        private TMPocket ParseTMPocket(BinaryReader2 breader, Charset charset)
+        private TMPocket ParseTMPocket(IBinaryReader2 breader, ICharset charset)
         {
-            TMPocket pocket = new TMPocket();
+            var pocket = new TMPocket();
             for (int i = 0; i < 50; i++)
             {
                 pocket.TMs[i] = breader.ReadByte();
@@ -363,7 +372,6 @@ namespace PokemonGenerator.IO
             {
                 pocket.HMs[i] = breader.ReadByte();
             }
-
             return pocket;
         }
     }

@@ -12,25 +12,40 @@ namespace PokemonGenerator.IO
     /// http://bulbapedia.bulbagarden.net/wiki/Save_data_structure_in_Generation_II <para/> 
     /// http://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_data_structure_in_Generation_II
     /// </summary>
-    internal class BinaryWriter2 : BinaryWriter
+    internal class BinaryWriter2 : IBinaryWriter2, IDisposable
     {
         private int offset = 0;
         private byte buffer = 0;
+        private BinaryWriter writer;
+        private string fileName;
 
-        public BinaryWriter2(Stream stream) : base(stream) { }
+        public string FileName => fileName;
 
-        public void writeString(string s, int length, Charset charset)
+        public void Open(string fileName)
+        {
+            if (writer != null) writer.Dispose();
+
+            this.fileName = fileName;
+            writer = new BinaryWriter(File.OpenWrite(fileName));
+        }
+
+        public void Close()
+        {
+            if (writer != null) writer.Dispose();
+        }
+
+        public void writeString(string s, int length, ICharset charset)
         {
             byte[] data = charset.encodeString(s, length);
             for (int i = 0; i < length; i++)
             {
-                Write(data[i]);
+                writer.Write(data[i]);
             }
         }
 
         public void WriteInt16LittleEndian(ushort i)
         {
-            Write(i);
+            writer.Write(i);
         }
 
         public void WriteInt16(ushort i)
@@ -38,7 +53,7 @@ namespace PokemonGenerator.IO
 
             byte ch1 = (byte)(i >> 8);
             byte ch2 = (byte)(i & 0xff);
-            Write(new byte[] { ch1, ch2 });
+            writer.Write(new byte[] { ch1, ch2 });
         }
 
 
@@ -47,7 +62,7 @@ namespace PokemonGenerator.IO
             byte ch1 = (byte)(i >> 16);
             byte ch2 = (byte)((i >> 8) & 0xff);
             byte ch3 = (byte)(i & 0xff);
-            Write(new byte[] { ch1, ch2, ch3 });
+            writer.Write(new byte[] { ch1, ch2, ch3 });
         }
 
         public void WriteInt32(uint i)
@@ -56,7 +71,7 @@ namespace PokemonGenerator.IO
             byte ch2 = (byte)((i >> 16) & 0xff);
             byte ch3 = (byte)((i >> 8) & 0xff);
             byte ch4 = (byte)(i & 0xff);
-            Write(new byte[] { ch1, ch2, ch3, ch4 });
+            writer.Write(new byte[] { ch1, ch2, ch3, ch4 });
         }
 
         public void WriteInt64(ulong i)
@@ -69,12 +84,12 @@ namespace PokemonGenerator.IO
             byte ch6 = (byte)((i >> 16) & 0xff);
             byte ch7 = (byte)((i >> 8) & 0xff);
             byte ch8 = (byte)(i & 0xff);
-            Write(new byte[] { ch1, ch2, ch3, ch4, ch5, ch6, ch7, ch8 });
+            writer.Write(new byte[] { ch1, ch2, ch3, ch4, ch5, ch6, ch7, ch8 });
         }
 
         public void WriteBoolean(bool b)
         {
-            Write(b);
+            writer.Write(b);
         }
 
         public void WriteBits(BitArray bitArray, int length)
@@ -93,7 +108,7 @@ namespace PokemonGenerator.IO
                 if (offset == 8)
                 {
                     offset = 0;
-                    Write(buffer);
+                    writer.Write(buffer);
                     buffer = 0;
                 }
             }
@@ -114,12 +129,27 @@ namespace PokemonGenerator.IO
             WriteBits(b, 1);
         }
 
-        internal void Fill(byte v1, int v2)
+        public void Fill(byte v1, int v2)
         {
             for (int i = 0; i < v2; i++)
             {
-                Write(v1);
+                writer.Write(v1);
             }
+        }
+
+        public void Write(byte b)
+        {
+            writer.Write(b);
+        }
+
+        public void Seek(long offset, SeekOrigin origin)
+        {
+            writer.BaseStream.Seek(offset, origin);
+        }
+
+        public void Dispose()
+        {
+            Close();
         }
     }
 }

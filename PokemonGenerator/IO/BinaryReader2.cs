@@ -11,71 +11,88 @@ namespace PokemonGenerator.IO
     /// http://bulbapedia.bulbagarden.net/wiki/Save_data_structure_in_Generation_II <para/> 
     /// http://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_data_structure_in_Generation_II
     /// </summary>
-    internal class BinaryReader2 : BinaryReader
+    internal class BinaryReader2 : IBinaryReader2, IDisposable
     {
+        private BinaryReader reader;
+        private string fileName;
         private int offset = 0;
         private byte buffer = 0;
 
-        public BinaryReader2(Stream stream) : base(stream) { }
+        public string FileName => fileName;
 
-        public string ReadString(int length, Charset charset)
+        public long Position => reader?.BaseStream?.Position ?? 0;
+
+        public void Open(string fileName)
+        {
+            if (reader != null) reader.Dispose();
+
+            this.fileName = fileName;
+            reader = new BinaryReader(File.OpenRead(fileName));
+        }
+
+        public void Close()
+        {
+            if (reader != null) reader.Dispose();
+        }
+
+        public string ReadString(int length, ICharset charset)
         {
             byte[] data = new byte[length];
             for (int i = 0; i < length; i++)
             {
-                data[i] = ReadByte();
+                data[i] = reader.ReadByte();
             }
             return charset.decodeString(data);
         }
 
         public ushort ReadInt16LittleEndian()
         {
-            ushort ch1 = ReadByte();
-            ushort ch2 = ReadByte();
+            ushort ch1 = reader.ReadByte();
+            ushort ch2 = reader.ReadByte();
             return (ushort)((ch1 << 0) + (ch2 << 8));
         }
 
-        public new ushort ReadInt16()
+        public ushort ReadInt16()
         {
-            ushort ch1 = ReadByte();
-            ushort ch2 = ReadByte();
+            ushort ch1 = reader.ReadByte();
+            ushort ch2 = reader.ReadByte();
             return (ushort)((ch1 << 8) + (ch2 << 0));
         }
 
 
         public uint ReadInt24()
         {
-            uint ch1 = ReadByte();
-            uint ch2 = ReadByte();
-            uint ch3 = ReadByte();
+            uint ch1 = reader.ReadByte();
+            uint ch2 = reader.ReadByte();
+            uint ch3 = reader.ReadByte();
             return (ch1 << 16) + (ch2 << 8) + (ch3 << 0);
         }
 
-        public new uint ReadInt32()
+        public uint ReadInt32()
         {
-            uint ch1 = ReadByte();
-            uint ch2 = ReadByte();
-            uint ch3 = ReadByte();
-            uint ch4 = ReadByte();
+            uint ch1 = reader.ReadByte();
+            uint ch2 = reader.ReadByte();
+            uint ch3 = reader.ReadByte();
+            uint ch4 = reader.ReadByte();
             return (ch1 << 24) + (ch2 << 16) + (ch3 << 8) + (ch4 << 0);
         }
 
-        public new ulong ReadInt64()
+        public ulong ReadInt64()
         {
-            ulong ch1 = ReadByte();
-            ulong ch2 = ReadByte();
-            ulong ch3 = ReadByte();
-            ulong ch4 = ReadByte();
-            ulong ch5 = ReadByte();
-            ulong ch6 = ReadByte();
-            ulong ch7 = ReadByte();
-            ulong ch8 = ReadByte();
+            ulong ch1 = reader.ReadByte();
+            ulong ch2 = reader.ReadByte();
+            ulong ch3 = reader.ReadByte();
+            ulong ch4 = reader.ReadByte();
+            ulong ch5 = reader.ReadByte();
+            ulong ch6 = reader.ReadByte();
+            ulong ch7 = reader.ReadByte();
+            ulong ch8 = reader.ReadByte();
             return (ch1 << 56) + (ch2 << 48) + (ch3 << 40) + (ch4 << 32) + (ch5 << 24) + (ch6 << 16) + (ch7 << 8) + (ch8 << 0);
         }
 
-        public new bool ReadBoolean()
+        public bool ReadBoolean()
         {
-            var ch1 = ReadByte();
+            var ch1 = reader.ReadByte();
             return (ch1 != 0);
         }
 
@@ -88,7 +105,7 @@ namespace PokemonGenerator.IO
             {
                 if (offset == 0)
                 {
-                    buffer = ReadByte();
+                    buffer = reader.ReadByte();
                     offset = 8;
                 }
                 length = Math.Min(offset, bitsToRead);
@@ -118,6 +135,26 @@ namespace PokemonGenerator.IO
         {
             var ch1 = ReadBits(1);
             return ch1;
+        }
+
+        public void Seek(long offset, SeekOrigin origin)
+        {
+            reader.BaseStream.Seek(offset, origin);
+        }
+
+        public byte ReadByte()
+        {
+            return reader.ReadByte();
+        }
+
+        public byte[] ReadBytes(int count)
+        {
+            return reader.ReadBytes(count);
+        }
+
+        public void Dispose()
+        {
+            Close();
         }
     }
 }

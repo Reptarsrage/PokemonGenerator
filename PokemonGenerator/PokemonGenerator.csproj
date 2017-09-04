@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{DFF429CD-326E-4558-8319-E00B430DF65A}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>PokemonGenerator</RootNamespace>
     <AssemblyName>PokemonGenerator</AssemblyName>
@@ -57,7 +57,11 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>PokemonGenerator.Program</StartupObject>
+    <StartupObject>PokemonGenerator.GUIProgram</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup>
+    <ApplicationIcon>Resources\favicon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CommandLine, Version=1.9.71.2, Culture=neutral, PublicKeyToken=de6f01bd326f8c32, processorArchitecture=MSIL">
@@ -77,6 +81,9 @@
       <HintPath>..\packages\EntityFramework.SqlServerCompact.6.1.3\lib\net45\EntityFramework.SqlServerCompact.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -90,6 +97,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Net.Http" />
@@ -97,6 +105,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\DapperMapper.cs" />
+    <Compile Include="App_Start\NinjectWrapper.cs" />
     <Compile Include="DAL\Interfaces\IPokemonDA.cs" />
     <Compile Include="DAL\PokemonDA.cs" />
     <Compile Include="DAL\Queries\GetPokemonMoveSet.cs" />
@@ -105,16 +114,29 @@
     <Compile Include="DAL\Queries\GetTeamBaseStats.cs" />
     <Compile Include="DAL\Queries\GetTMs.cs" />
     <Compile Include="DAL\Queries\GetWeaknesses.cs" />
+    <Compile Include="Editors\Interfaces\INRageIniEditor.cs" />
+    <Compile Include="Editors\Interfaces\IP64ConfigEditor.cs" />
+    <Compile Include="Editors\NRageIniEditor.cs" />
+    <Compile Include="Editors\P64ConfigEditor.cs" />
     <Compile Include="Enumerations\DamageType.cs" />
     <Compile Include="Enumerations\Entropy.cs" />
     <Compile Include="Enumerations\PokemonClass.cs" />
+    <Compile Include="Interfaces\IPokemonGenerator.cs" />
     <Compile Include="IO\BinaryWriter2.cs" />
     <Compile Include="IO\BinaryReader2.cs" />
     <Compile Include="IO\Charset.cs" />
+    <Compile Include="IO\Interfaces\ICharset.cs" />
+    <Compile Include="IO\Interfaces\IBinaryReader2.cs" />
+    <Compile Include="IO\Interfaces\IBinaryWriter2.cs" />
     <Compile Include="IO\Interfaces\IPokeDeserializer.cs" />
     <Compile Include="IO\Interfaces\IPokeSerializer.cs" />
-    <Compile Include="Interfaces\IPokemonGenerator.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Interfaces\IPokemonGeneratorRunner.cs" />
+    <Compile Include="Models\BackgroundPokemonGeneratorArgs.cs" />
     <Compile Include="Models\BaseStats.cs" />
     <Compile Include="Models\Likeliness.cs" />
     <Compile Include="Models\ItemEntry.cs" />
@@ -130,8 +152,15 @@
     <Compile Include="PokemonGenerator.cs" />
     <Compile Include="IO\PokeSerializer.cs" />
     <Compile Include="IO\PokeDeserializer.cs" />
+    <Compile Include="Forms\PokemonGeneratorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\PokemonGeneratorForm.Designer.cs">
+      <DependentUpon>PokemonGeneratorForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="PokemonGeneratorRunner.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Program\CommandLineProgram.cs" />
+    <Compile Include="Program\GUIProgram.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\SAVFileModel.cs" />
     <Compile Include="Models\TMPocket.cs" />
@@ -150,6 +179,14 @@
       <Link>x86\%(Filename)%(Extension)</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\banner.jpg" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\pikagif.gif" />
+    <EmbeddedResource Include="Resources\favicon.ico" />
+    <EmbeddedResource Include="Resources\BAD.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\ThePokeBase.sdf">
@@ -188,6 +225,10 @@
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Forms\PokemonGeneratorForm.resx">
+      <DependentUpon>PokemonGeneratorForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

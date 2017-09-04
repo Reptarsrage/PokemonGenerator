@@ -1,6 +1,4 @@
-﻿using PokemonGenerator.Models;
-
-namespace PokemonGeneratorGUI.Models
+﻿namespace PokemonGenerator.Models
 {
     class BackgroundPokemonGeneratorArgs
     {

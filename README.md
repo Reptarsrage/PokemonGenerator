@@ -21,7 +21,7 @@ Built in order to supply Pokemon Stadium 2 with a better selection of Pokemon.
 <h3>Contents</h3>
 <ol>
     <li><b>PokemonGenerator:</b> The core executable that generates sav files with the pokemon.</li>
-    <li><b>PokemonGeneratorGUI:</b> A GUI to use to easily interact with the core executable.</li>
+    <li><b>PokemonGenerator:</b> A GUI to use to easily interact with the core executable.</li>
     <li><b>PokemonGeneratorInstaller:</b> A friendly installer project for quick deployments.</li>
 </ol>
 

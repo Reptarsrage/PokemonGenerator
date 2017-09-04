@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text.RegularExpressions;
 
-namespace PokemonGeneratorGUI.Editors
+namespace PokemonGenerator.Editors
 {
     /// <summary>
     /// Reads Projects 64 Config file to get some info to auto-fill some forms.

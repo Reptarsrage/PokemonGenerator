@@ -11,6 +11,8 @@ namespace PokemonGenerator.Tests
     public class PokemonGeneratorRunnerTests
     {
         private IPokemonGeneratorRunner _runner;
+        private IPokeDeserializer _deserializer;
+
         private PokeGeneratorArguments _opts;
         private string _contentDir;
         private string _outputDir;
@@ -33,6 +35,12 @@ namespace PokemonGenerator.Tests
                 NameTwo = "Test2",
                 Level = 100
             };
+
+            using (var injector = new NinjectWrapper())
+            {
+                _runner = injector.Get<IPokemonGeneratorRunner>();
+                _deserializer = injector.Get<IPokeDeserializer>();
+            }
         }
 
         [TearDown]
@@ -49,8 +57,7 @@ namespace PokemonGenerator.Tests
         [Category("Integration")]
         public void RunOutputExistsTest()
         {
-            _runner = new PokemonGeneratorRunner(_contentDir, _outputDir, _opts);
-            _runner.Run();
+            _runner.Run(_contentDir, _outputDir, _opts);
 
             Assert.True(File.Exists(Path.Combine(_outputDir, _opts.OutputSav1)));
             Assert.True(File.Exists(Path.Combine(_outputDir, _opts.OutputSav2)));
@@ -60,16 +67,16 @@ namespace PokemonGenerator.Tests
         [Category("Integration")]
         public void RunOutputValidTest()
         {
-            _runner = new PokemonGeneratorRunner(_contentDir, _outputDir, _opts);
-            _runner.Run();
+            _runner.Run(_contentDir, _outputDir, _opts);
 
             SAVFileModel model1 = null, model2 = null;
             try
             {
-                model1 = new PokeDeserializer().ParseSAVFileModel(Path.Combine(_outputDir, _opts.OutputSav1), new Charset());
-                model2 = new PokeDeserializer().ParseSAVFileModel(Path.Combine(_outputDir, _opts.OutputSav2), new Charset());
+                model1 = _deserializer.ParseSAVFileModel(Path.Combine(_outputDir, _opts.OutputSav1));
+                model2 = _deserializer.ParseSAVFileModel(Path.Combine(_outputDir, _opts.OutputSav2));
 
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 Assert.Fail($"Failed to parse the output save files: {e}");
             }
@@ -80,9 +87,9 @@ namespace PokemonGenerator.Tests
             // Basic checks
             Assert.AreEqual("Test1", model1.Playername, "Name not set correctly");
             Assert.AreEqual("Test2", model2.Playername, "Name not set correctly");
-            Assert.AreEqual(PokemonGenerator.TEAM_SIZE, model1.TeamPokémonlist.Pokemon.Count(), "Team not set correctly");
-            Assert.AreEqual(PokemonGenerator.TEAM_SIZE, model2.TeamPokémonlist.Pokemon.Count(), "Team not set correctly");
-            foreach (var pokemon in model1.TeamPokémonlist.Pokemon)
+            Assert.AreEqual(PokemonGenerator.TEAM_SIZE, model1.TeamPokemonlist.Pokemon.Count(), "Team not set correctly");
+            Assert.AreEqual(PokemonGenerator.TEAM_SIZE, model2.TeamPokemonlist.Pokemon.Count(), "Team not set correctly");
+            foreach (var pokemon in model1.TeamPokemonlist.Pokemon)
             {
                 Assert.AreEqual(100, pokemon.level, "Level not set correctly");
             }
@@ -100,7 +107,7 @@ namespace PokemonGenerator.Tests
         {
             Assert.Throws<ArgumentException>(() =>
             {
-                _runner = new PokemonGeneratorRunner(path, _outputDir, _opts);
+                _runner.Run(path, _outputDir, _opts);
             });
         }
 
@@ -114,7 +121,8 @@ namespace PokemonGenerator.Tests
         {
             Assert.Throws<ArgumentException>(() =>
             {
-                _runner = new PokemonGeneratorRunner(_contentDir, path, _opts);
+                _runner.Run(_contentDir, path, _opts);
+
             });
         }
     }

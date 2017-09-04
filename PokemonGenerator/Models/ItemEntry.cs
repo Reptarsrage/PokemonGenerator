@@ -3,7 +3,7 @@
     /// <summary>
     /// A modal used to store and serialize/deserialize information.
     /// </summary>
-    internal class ItemEntry
+    public class ItemEntry
     {
         public byte Count; // 1
         public byte Index; // 1

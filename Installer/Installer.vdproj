@@ -15,8 +15,20 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_06F074A78D0046174634412F3536348A"
+        "OwnerKey" = "8:_B87EE181D4F043D79F4195752F9EC052"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_07D0E164605BAEDDFCDC445E4FECD053"
+        "OwnerKey" = "8:_B87EE181D4F043D79F4195752F9EC052"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_0C4BA268C8D2029E2988215721A90CE4"
-        "OwnerKey" = "8:_C538EBFE9CEC4C56ABB0EA4C0E2EEEE7"
+        "OwnerKey" = "8:_B87EE181D4F043D79F4195752F9EC052"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -27,74 +39,68 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_1036CCEEA7DE4354B0F7E11DBFE25D2F"
+        "MsmKey" = "8:_27C8F4135555954967082D73E44FAC2A"
+        "OwnerKey" = "8:_B87EE181D4F043D79F4195752F9EC052"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_78AB0CE0DCD3A81ADAD4206A687BFDC5"
+        "OwnerKey" = "8:_B87EE181D4F043D79F4195752F9EC052"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B87EE181D4F043D79F4195752F9EC052"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_43EDAD11CECF47ED91B08669659A60D5"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_78AA43186404DFE35C21A2F33BDFCD9F"
-        "OwnerKey" = "8:_1036CCEEA7DE4354B0F7E11DBFE25D2F"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_78AA43186404DFE35C21A2F33BDFCD9F"
-        "OwnerKey" = "8:_C538EBFE9CEC4C56ABB0EA4C0E2EEEE7"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_9B95C3179280C4CCD4F84617283FE0D3"
-        "OwnerKey" = "8:_C538EBFE9CEC4C56ABB0EA4C0E2EEEE7"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_C538EBFE9CEC4C56ABB0EA4C0E2EEEE7"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_DA7C45D871179486041ACD1580F464F5"
-        "OwnerKey" = "8:_C538EBFE9CEC4C56ABB0EA4C0E2EEEE7"
+        "MsmKey" = "8:_D55B1FD9F7795929B0BCD92559342C81"
+        "OwnerKey" = "8:_B87EE181D4F043D79F4195752F9EC052"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_DA7C45D871179486041ACD1580F464F5"
         "OwnerKey" = "8:_ECA0AF280174766A4D971B6319F9487E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_DA7C45D871179486041ACD1580F464F5"
+        "OwnerKey" = "8:_B87EE181D4F043D79F4195752F9EC052"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_ECA0AF280174766A4D971B6319F9487E"
-        "OwnerKey" = "8:_C538EBFE9CEC4C56ABB0EA4C0E2EEEE7"
+        "OwnerKey" = "8:_B87EE181D4F043D79F4195752F9EC052"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_ED89D7FF6B97434AA521303703D56FBF"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F61DE834B5E94423BBE163EC57998397"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_1036CCEEA7DE4354B0F7E11DBFE25D2F"
+        "OwnerKey" = "8:_B87EE181D4F043D79F4195752F9EC052"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_C538EBFE9CEC4C56ABB0EA4C0E2EEEE7"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_9B95C3179280C4CCD4F84617283FE0D3"
+        "OwnerKey" = "8:_07D0E164605BAEDDFCDC445E4FECD053"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -118,7 +124,25 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_78AA43186404DFE35C21A2F33BDFCD9F"
+        "OwnerKey" = "8:_78AB0CE0DCD3A81ADAD4206A687BFDC5"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_27C8F4135555954967082D73E44FAC2A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_06F074A78D0046174634412F3536348A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_D55B1FD9F7795929B0BCD92559342C81"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -146,6 +170,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.6.1"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.6.1 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.6.1"
+                    }
+                }
             }
         }
         "Release"
@@ -200,7 +232,7 @@
                 {
                 "Name" = "8:.NET Framework"
                 "Message" = "8:[VSDNETMSG]"
-                "FrameworkVersion" = "8:.NETFramework,Version=v4.6.1"
+                "FrameworkVersion" = "8:.NETFramework,Version=v4.6.2"
                 "AllowLaterVersions" = "11:FALSE"
                 "InstallUrl" = "8:http://go.microsoft.com/fwlink/?LinkId=671728"
                 }
@@ -208,6 +240,68 @@
         }
         "File"
         {
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_06F074A78D0046174634412F3536348A"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:CommandLine, Version=1.9.71.2, Culture=neutral, PublicKeyToken=de6f01bd326f8c32, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_06F074A78D0046174634412F3536348A"
+                    {
+                    "Name" = "8:CommandLine.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:CommandLine.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_14FB2FD172F74A64AAB1EE96D2C51191"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_07D0E164605BAEDDFCDC445E4FECD053"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_07D0E164605BAEDDFCDC445E4FECD053"
+                    {
+                    "Name" = "8:Ninject.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Ninject.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_14FB2FD172F74A64AAB1EE96D2C51191"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_0C4BA268C8D2029E2988215721A90CE4"
             {
             "AssemblyRegister" = "3:1"
@@ -239,40 +333,20 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_43EDAD11CECF47ED91B08669659A60D5"
-            {
-            "SourcePath" = "8:..\\PokemonGeneratorGUI\\Resources\\Pikachu 2.ico"
-            "TargetName" = "8:favicon.ico"
-            "Tag" = "8:"
-            "Folder" = "8:_14FB2FD172F74A64AAB1EE96D2C51191"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_78AA43186404DFE35C21A2F33BDFCD9F"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_27C8F4135555954967082D73E44FAC2A"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:System.Net.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
+            "AssemblyAsmDisplayName" = "8:Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_78AA43186404DFE35C21A2F33BDFCD9F"
+                    "_27C8F4135555954967082D73E44FAC2A"
                     {
-                    "Name" = "8:System.Net.Http.dll"
+                    "Name" = "8:Dapper.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:System.Net.Http.dll"
+            "SourcePath" = "8:Dapper.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_14FB2FD172F74A64AAB1EE96D2C51191"
@@ -290,20 +364,51 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_9B95C3179280C4CCD4F84617283FE0D3"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_78AB0CE0DCD3A81ADAD4206A687BFDC5"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:FluentCommandLineParser, Version=1.4.3.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Dapper.ColumnMapper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_9B95C3179280C4CCD4F84617283FE0D3"
+                    "_78AB0CE0DCD3A81ADAD4206A687BFDC5"
                     {
-                    "Name" = "8:FluentCommandLineParser.dll"
+                    "Name" = "8:Dapper.ColumnMapper.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:FluentCommandLineParser.dll"
+            "SourcePath" = "8:Dapper.ColumnMapper.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_14FB2FD172F74A64AAB1EE96D2C51191"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_D55B1FD9F7795929B0BCD92559342C81"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:System.Net.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
+                "ScatterAssemblies"
+                {
+                    "_D55B1FD9F7795929B0BCD92559342C81"
+                    {
+                    "Name" = "8:System.Net.Http.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:System.Net.Http.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_14FB2FD172F74A64AAB1EE96D2C51191"
@@ -381,6 +486,46 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_ED89D7FF6B97434AA521303703D56FBF"
+            {
+            "SourcePath" = "8:..\\PokemonGenerator\\Resources\\favicon.ico"
+            "TargetName" = "8:favicon.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_14FB2FD172F74A64AAB1EE96D2C51191"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F61DE834B5E94423BBE163EC57998397"
+            {
+            "SourcePath" = "8:..\\PokemonGenerator\\Resources\\banner.jpg"
+            "TargetName" = "8:banner.jpg"
+            "Tag" = "8:"
+            "Folder" = "8:_14FB2FD172F74A64AAB1EE96D2C51191"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:TRUE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
         }
@@ -473,7 +618,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Pokémon Generator"
         "ProductCode" = "8:{FECEAED0-4BE7-4012-8968-599D5A262569}"
-        "PackageCode" = "8:{F3BF25AD-A554-4D8A-ADA3-A260CE080D72}"
+        "PackageCode" = "8:{CF53B9D7-D487-4893-B3F1-EADEE1964C96}"
         "UpgradeCode" = "8:{55C106F0-C2AA-4482-83A2-FA0E293AD3A4}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -490,7 +635,7 @@
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:Pokémon Generator Windows Application"
         "ARPURLINFOABOUT" = "8:https://github.com/reptarsrage"
-        "ARPPRODUCTICON" = "8:_43EDAD11CECF47ED91B08669659A60D5"
+        "ARPPRODUCTICON" = "8:_ED89D7FF6B97434AA521303703D56FBF"
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
         "UseSystemSearchPath" = "11:TRUE"
@@ -601,10 +746,10 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_1036CCEEA7DE4354B0F7E11DBFE25D2F"
+            "Target" = "8:_B87EE181D4F043D79F4195752F9EC052"
             "Folder" = "8:_FF826A6287C248D380D6C9EDC0EB7727"
             "WorkingFolder" = "8:_14FB2FD172F74A64AAB1EE96D2C51191"
-            "Icon" = "8:_43EDAD11CECF47ED91B08669659A60D5"
+            "Icon" = "8:_ED89D7FF6B97434AA521303703D56FBF"
             "Feature" = "8:"
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_A75A150153D8474F8A844483AA294136"
@@ -615,10 +760,10 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_1036CCEEA7DE4354B0F7E11DBFE25D2F"
+            "Target" = "8:_B87EE181D4F043D79F4195752F9EC052"
             "Folder" = "8:_8CCAB31156E5436A9318C930467C62DE"
             "WorkingFolder" = "8:_14FB2FD172F74A64AAB1EE96D2C51191"
-            "Icon" = "8:_43EDAD11CECF47ED91B08669659A60D5"
+            "Icon" = "8:_ED89D7FF6B97434AA521303703D56FBF"
             "Feature" = "8:"
             }
         }
@@ -660,7 +805,8 @@
                             "Type" = "3:8"
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
-                            "Setting" = "3:1"
+                            "Setting" = "3:2"
+                            "Value" = "8:_F61DE834B5E94423BBE163EC57998397"
                             "UsePlugInResources" = "11:TRUE"
                             }
                             "UpdateText"
@@ -704,7 +850,8 @@
                             "Type" = "3:8"
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
-                            "Setting" = "3:1"
+                            "Setting" = "3:2"
+                            "Value" = "8:_F61DE834B5E94423BBE163EC57998397"
                             "UsePlugInResources" = "11:TRUE"
                             }
                         }
@@ -726,7 +873,8 @@
                             "Type" = "3:8"
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
-                            "Setting" = "3:1"
+                            "Setting" = "3:2"
+                            "Value" = "8:_F61DE834B5E94423BBE163EC57998397"
                             "UsePlugInResources" = "11:TRUE"
                             }
                         }
@@ -748,7 +896,8 @@
                             "Type" = "3:8"
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
-                            "Setting" = "3:1"
+                            "Setting" = "3:2"
+                            "Value" = "8:_F61DE834B5E94423BBE163EC57998397"
                             "UsePlugInResources" = "11:TRUE"
                             }
                             "CopyrightWarning"
@@ -805,7 +954,8 @@
                             "Type" = "3:8"
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
-                            "Setting" = "3:1"
+                            "Setting" = "3:2"
+                            "Value" = "8:_F61DE834B5E94423BBE163EC57998397"
                             "UsePlugInResources" = "11:TRUE"
                             }
                             "ShowProgress"
@@ -849,7 +999,8 @@
                             "Type" = "3:8"
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
-                            "Setting" = "3:1"
+                            "Setting" = "3:2"
+                            "Value" = "8:_F61DE834B5E94423BBE163EC57998397"
                             "UsePlugInResources" = "11:TRUE"
                             }
                         }
@@ -871,7 +1022,8 @@
                             "Type" = "3:8"
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
-                            "Setting" = "3:1"
+                            "Setting" = "3:2"
+                            "Value" = "8:_F61DE834B5E94423BBE163EC57998397"
                             "UsePlugInResources" = "11:TRUE"
                             }
                             "InstallAllUsersVisible"
@@ -906,7 +1058,8 @@
                             "Type" = "3:8"
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
-                            "Setting" = "3:1"
+                            "Setting" = "3:2"
+                            "Value" = "8:_F61DE834B5E94423BBE163EC57998397"
                             "UsePlugInResources" = "11:TRUE"
                             }
                             "CopyrightWarning"
@@ -963,7 +1116,8 @@
                             "Type" = "3:8"
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
-                            "Setting" = "3:1"
+                            "Setting" = "3:2"
+                            "Value" = "8:_F61DE834B5E94423BBE163EC57998397"
                             "UsePlugInResources" = "11:TRUE"
                             }
                             "ShowProgress"
@@ -1007,7 +1161,8 @@
                             "Type" = "3:8"
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
-                            "Setting" = "3:1"
+                            "Setting" = "3:2"
+                            "Value" = "8:_F61DE834B5E94423BBE163EC57998397"
                             "UsePlugInResources" = "11:TRUE"
                             }
                         }
@@ -1020,34 +1175,6 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_1036CCEEA7DE4354B0F7E11DBFE25D2F"
-            {
-            "SourcePath" = "8:..\\PokemonGeneratorGUI\\obj\\Release\\PokemonGeneratorGUI.exe"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_14FB2FD172F74A64AAB1EE96D2C51191"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:Built"
-            "OutputProjectGuid" = "8:{17F3B4DB-C29D-42B7-9278-4A638C0688F2}"
-            "ShowKeyOutput" = "11:TRUE"
-                "ExcludeFilters"
-                {
-                }
-            }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_24B3445098F14845870EF9909A83460F"
             {
             "SourcePath" = "8:"
@@ -1077,7 +1204,7 @@
                 "ExcludeFilter" = "8:*.dll"
                 }
             }
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_C538EBFE9CEC4C56ABB0EA4C0E2EEEE7"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_B87EE181D4F043D79F4195752F9EC052"
             {
             "SourcePath" = "8:..\\PokemonGenerator\\obj\\Release\\PokemonGenerator.exe"
             "TargetName" = "8:"

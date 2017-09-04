@@ -10,33 +10,15 @@ namespace PokemonGenerator
 {
     public class PokemonGeneratorRunner : IPokemonGeneratorRunner
     {
-        private readonly string contentDirectory;
-        private readonly string outputDirectory;
-        private readonly IPokemonGenerator pokemonGenerator;
-        private readonly IPokeSerializer pokeSerializer;
-        private readonly IPokeDeserializer pokeDeserializer;
-        private readonly Charset charset;
-        private readonly PokeGeneratorArguments options;
+        private readonly IPokemonGenerator _pokemonGenerator;
+        private readonly IPokeSerializer _pokeSerializer;
+        private readonly IPokeDeserializer _pokeDeserializer;
 
-        public PokemonGeneratorRunner(string contentDirectory, string outputDirectory, PokeGeneratorArguments options)
+        public PokemonGeneratorRunner(IPokemonGenerator pokemonGenerator, IPokeSerializer pokeSerializer, IPokeDeserializer pokeDeserializer)
         {
-            if (string.IsNullOrWhiteSpace(contentDirectory) || !Directory.Exists(contentDirectory))
-            {
-                throw new ArgumentException("contentDirectory");
-            }
-
-            if (string.IsNullOrWhiteSpace(outputDirectory) || outputDirectory.IndexOfAny(Path.GetInvalidPathChars()) >= 0)
-            {
-                throw new ArgumentException("outputDirectory");
-            }
-
-            this.contentDirectory = contentDirectory;
-            this.outputDirectory = outputDirectory;
-            this.options = options ?? throw new ArgumentException("options");
-            pokemonGenerator = new PokemonGenerator();
-            charset = new Charset();
-            pokeDeserializer = new PokeDeserializer();
-            pokeSerializer = new PokeSerializer();
+            _pokemonGenerator = pokemonGenerator;
+            _pokeSerializer = pokeSerializer;
+            _pokeDeserializer = pokeDeserializer;
         }
 
         public static string AssemblyDirectory
@@ -50,8 +32,21 @@ namespace PokemonGenerator
             }
         }
 
-        public void Run()
+        public void Run(string contentDirectory, string outputDirectory, PokeGeneratorArguments options)
         {
+            if (string.IsNullOrWhiteSpace(contentDirectory) || !Directory.Exists(contentDirectory))
+            {
+                throw new ArgumentException("contentDirectory");
+            }
+
+            if (string.IsNullOrWhiteSpace(outputDirectory) || outputDirectory.IndexOfAny(Path.GetInvalidPathChars()) >= 0)
+            {
+                throw new ArgumentException("outputDirectory");
+            }
+
+            if (options == null)
+                throw new ArgumentException("options");
+
             var sav = ReadSavProperties(options.InputSavOne);
 
             // Generate Player One and Team
@@ -78,10 +73,10 @@ namespace PokemonGenerator
                 Directory.CreateDirectory(Path.GetDirectoryName(@out));
             }
 
-            var list = pokemonGenerator.GenerateRandomPokemon(level, Entropy.Low); // TODO: Entropy stuffs
-            sav.TeamPokémonlist = list;
+            var list = _pokemonGenerator.GenerateRandomPokemon(level, Entropy.Low); // TODO: Entropy stuffs
+            sav.TeamPokemonlist = list;
             WriteSavProperties(@out, @in, sav);
-            ReadSavProperties(@out);
+            ReadSavProperties(@out); // Verification only
             Debug.Print($"Created file {@out}");
         }
 
@@ -108,7 +103,7 @@ namespace PokemonGenerator
                 File.Copy(filename, outname);
             }
 
-            pokeSerializer.SerializeSAVFileModal(outname, charset, sav);
+            _pokeSerializer.SerializeSAVFileModal(outname, sav);
         }
 
         /// <summary>
@@ -118,7 +113,7 @@ namespace PokemonGenerator
         /// <returns></returns>
         private SAVFileModel ReadSavProperties(string filename)
         {
-            return pokeDeserializer.ParseSAVFileModel(filename, charset);
+            return _pokeDeserializer.ParseSAVFileModel(filename);
         }
     }
 }

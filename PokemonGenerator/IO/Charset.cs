@@ -7,7 +7,7 @@ namespace PokemonGenerator.IO
     /// <para/>
     /// See: http://bulbapedia.bulbagarden.net/wiki/Character_encoding_in_Generation_II
     /// </summary>
-    internal class Charset
+    internal class Charset : ICharset
     {
         private char[] charset = { '_', '?', '?', '?', '?', 'ガ', 'ギ', 'グ', 'ゲ', 'ゴ', 'ザ', 'ジ', 'ズ', 'ゼ', 'ゾ', 'ダ', 'ヂ',
             'ヅ', 'デ', 'ド', '?', '?', '?', '?', '?',

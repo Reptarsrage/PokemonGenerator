@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace PokemonGeneratorGUI.Editors
+namespace PokemonGenerator.Editors
 {
     /// <summary>
     /// Reads  and Writes to Projects 64's  NRage ini file to get some info to auto-fill some forms.

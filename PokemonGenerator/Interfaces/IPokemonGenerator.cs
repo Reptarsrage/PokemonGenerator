@@ -3,7 +3,7 @@ using PokemonGenerator.Models;
 
 namespace PokemonGenerator
 {
-    internal interface IPokemonGenerator
+    public interface IPokemonGenerator
     {
         PokeList GenerateRandomPokemon(int level, Entropy entropy);
     }

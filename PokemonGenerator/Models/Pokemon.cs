@@ -6,7 +6,7 @@ namespace PokemonGenerator.Models
     /// <summary>
     /// A modal used to store and serialize/deserialize information.
     /// </summary>
-    internal class Pokemon
+    public class Pokemon
     {
         public byte species; // 1
 

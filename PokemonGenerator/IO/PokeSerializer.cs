@@ -11,137 +11,143 @@ namespace PokemonGenerator.IO
     /// http://bulbapedia.bulbagarden.net/wiki/Save_data_structure_in_Generation_II <para/> 
     /// http://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_data_structure_in_Generation_II
     /// </summary>
-    internal class PokeSerializer : IPokeSerializer
+    public class PokeSerializer : IPokeSerializer
     {
+        private readonly ICharset _charset;
+        private readonly IBinaryWriter2 _bwriter;
+        private readonly IBinaryReader2 _breader;
+
+        public PokeSerializer(ICharset charset, IBinaryWriter2 writer, IBinaryReader2 reader)
+        {
+            _charset = charset;
+            _bwriter = writer;
+            _breader = reader;
+        }
+
         /// <summary>
         /// Completely serialized a given <see cref="SAVFileModel"/> into the file stream.
         /// </summary>
-        public void SerializeSAVFileModal(string @out, Charset charset, SAVFileModel sav)
+        public void SerializeSAVFileModal(string @out, SAVFileModel sav)
         {
-            using (FileStream writer = File.OpenWrite(@out))
-            using (BinaryWriter2 bwriter = new BinaryWriter2(writer))
+            _bwriter.Open(@out);
+
+            _bwriter.Seek(0x2000, SeekOrigin.Begin);
+            _bwriter.WriteInt64(sav.Options);
+
+            _bwriter.Seek(0x2009, SeekOrigin.Begin);
+            _bwriter.WriteInt16((ushort)sav.PlayerTrainerID);
+
+            _bwriter.Seek(0x200B, SeekOrigin.Begin);
+            _bwriter.writeString(sav.Playername, 11, _charset);
+
+            _bwriter.Seek(0x2021, SeekOrigin.Begin);
+            _bwriter.writeString(sav.Rivalname, 11, _charset);
+
+            _bwriter.Seek(0x2037, SeekOrigin.Begin);
+            _bwriter.Write((byte)(sav.Daylightsavings ? 0x80 : 0));
+
+            _bwriter.Seek(0x2053, SeekOrigin.Begin);
+            _bwriter.WriteInt32(sav.Timeplayed);
+
+            _bwriter.Seek(0x206B, SeekOrigin.Begin);
+            _bwriter.Write(sav.Playerpalette);
+
+            _bwriter.Seek(0x23DB, SeekOrigin.Begin);
+            _bwriter.WriteInt24(sav.Money);
+
+            _bwriter.Seek(0x23E4, SeekOrigin.Begin);
+
+            _bwriter.Write((byte)0xff); // TODO  ?
+
+            _bwriter.Seek(0x23E6, SeekOrigin.Begin);
+            SerializeTMPocket(_bwriter, _charset, sav.TMpocket);
+
+            _bwriter.Seek(0x241F, SeekOrigin.Begin);
+            SerializeItemList(_bwriter, _charset, 20, sav.Itempocketitemlist);
+
+            _bwriter.Seek(0x2449, SeekOrigin.Begin);
+            SerializeItemList(_bwriter, _charset, 26, sav.Keyitempocketitemlist, true);
+
+            _bwriter.Seek(0x2464, SeekOrigin.Begin);
+            SerializeItemList(_bwriter, _charset, 12, sav.Ballpocketitemlist);
+
+            _bwriter.Seek(0x247E, SeekOrigin.Begin);
+            SerializeItemList(_bwriter, _charset, 50, sav.PCitemlist);
+
+            _bwriter.Seek(0x2724, SeekOrigin.Begin);
+            _bwriter.Write(sav.CurrentPCBoxnumber);
+
+            // Boxes
+            _bwriter.Seek(0x2727, SeekOrigin.Begin);
+            for (int i = 0; i < 14; i++)
             {
-
-                bwriter.BaseStream.Seek(0x2000, SeekOrigin.Begin);
-                bwriter.WriteInt64(sav.Options);
-
-                bwriter.BaseStream.Seek(0x2009, SeekOrigin.Begin);
-                bwriter.WriteInt16((ushort)sav.PlayerTrainerID);
-
-                bwriter.BaseStream.Seek(0x200B, SeekOrigin.Begin);
-                bwriter.writeString(sav.Playername, 11, charset);
-
-                bwriter.BaseStream.Seek(0x2021, SeekOrigin.Begin);
-                bwriter.writeString(sav.Rivalname, 11, charset);
-
-                bwriter.BaseStream.Seek(0x2037, SeekOrigin.Begin);
-                bwriter.Write((byte)(sav.Daylightsavings ? 0x80 : 0));
-
-                bwriter.BaseStream.Seek(0x2053, SeekOrigin.Begin);
-                bwriter.WriteInt32(sav.Timeplayed);
-
-                bwriter.BaseStream.Seek(0x206B, SeekOrigin.Begin);
-                bwriter.Write(sav.Playerpalette);
-
-                bwriter.BaseStream.Seek(0x23DB, SeekOrigin.Begin);
-                bwriter.WriteInt24(sav.Money);
-
-                bwriter.BaseStream.Seek(0x23E4, SeekOrigin.Begin);
-
-                bwriter.Write((byte)0xff); // TODO  ?
-
-                bwriter.BaseStream.Seek(0x23E6, SeekOrigin.Begin);
-                this.SerializeTMPocket(bwriter, charset, sav.TMpocket);
-
-                bwriter.BaseStream.Seek(0x241F, SeekOrigin.Begin);
-                this.SerializeItemList(bwriter, charset, 20, sav.Itempocketitemlist);
-
-                bwriter.BaseStream.Seek(0x2449, SeekOrigin.Begin);
-                this.SerializeItemList(bwriter, charset, 26, sav.Keyitempocketitemlist, true);
-
-                bwriter.BaseStream.Seek(0x2464, SeekOrigin.Begin);
-                this.SerializeItemList(bwriter, charset, 12, sav.Ballpocketitemlist);
-
-                bwriter.BaseStream.Seek(0x247E, SeekOrigin.Begin);
-                this.SerializeItemList(bwriter, charset, 50, sav.PCitemlist);
-
-                bwriter.BaseStream.Seek(0x2724, SeekOrigin.Begin);
-                bwriter.Write(sav.CurrentPCBoxnumber);
-
-                // Boxes
-                bwriter.BaseStream.Seek(0x2727, SeekOrigin.Begin);
-                for (int i = 0; i < 14; i++)
-                {
-                    bwriter.writeString(sav.PCBoxnames[i], 9, charset);
-                }
-
-                // Team
-                bwriter.BaseStream.Seek(0x288A, SeekOrigin.Begin);
-                SerializePokeList(bwriter, charset, true, 6, sav.TeamPokémonlist);
-
-                // Pokedex
-                bwriter.BaseStream.Seek(0x2A4C, SeekOrigin.Begin);
-                BitArray arr = new BitArray(sav.Pokédexowned);
-                byte[] bytes = new byte[32];
-                arr.CopyTo(bytes, 0);
-                foreach (byte b in bytes)
-                {
-                    bwriter.Write(b);
-                }
-
-                bwriter.BaseStream.Seek(0x2A6C, SeekOrigin.Begin);
-                arr = new BitArray(sav.Pokédexseen);
-                bytes = new byte[32];
-                arr.CopyTo(bytes, 0);
-                foreach (byte b in bytes)
-                {
-                    bwriter.Write(b);
-                }
-
-                // Current Box List
-                bwriter.BaseStream.Seek(0x2D6C, SeekOrigin.Begin);
-                SerializePokeList(bwriter, charset, false, 20, sav.CurrentBoxPokémonlist);
-
-                // GET 1-7 boxes
-                for (int i = 0; i < 7; i++)
-                {
-                    bwriter.BaseStream.Seek(0x4000 + 0x450 * i, SeekOrigin.Begin);
-                    SerializePokeList(bwriter, charset, false, 20, sav.Boxes[i]);
-                }
-
-                // GET 8-14 boxes
-                for (int i = 7; i < 14; i++)
-                {
-                    bwriter.BaseStream.Seek(0x6000 + 0x450 * (i - 7), SeekOrigin.Begin);
-                    SerializePokeList(bwriter, charset, false, 20, sav.Boxes[i]);
-                }
+                _bwriter.writeString(sav.PCBoxnames[i], 9, _charset);
             }
 
+            // Team
+            _bwriter.Seek(0x288A, SeekOrigin.Begin);
+            SerializePokeList(_bwriter, _charset, true, 6, sav.TeamPokemonlist);
+
+            // Pokedex
+            _bwriter.Seek(0x2A4C, SeekOrigin.Begin);
+            BitArray arr = new BitArray(sav.Pokédexowned);
+            byte[] bytes = new byte[32];
+            arr.CopyTo(bytes, 0);
+            foreach (byte b in bytes)
+            {
+                _bwriter.Write(b);
+            }
+
+            _bwriter.Seek(0x2A6C, SeekOrigin.Begin);
+            arr = new BitArray(sav.Pokédexseen);
+            bytes = new byte[32];
+            arr.CopyTo(bytes, 0);
+            foreach (byte b in bytes)
+            {
+                _bwriter.Write(b);
+            }
+
+            // Current Box List
+            _bwriter.Seek(0x2D6C, SeekOrigin.Begin);
+            SerializePokeList(_bwriter, _charset, false, 20, sav.CurrentBoxPokémonlist);
+
+            // GET 1-7 boxes
+            for (int i = 0; i < 7; i++)
+            {
+                _bwriter.Seek(0x4000 + 0x450 * i, SeekOrigin.Begin);
+                SerializePokeList(_bwriter, _charset, false, 20, sav.Boxes[i]);
+            }
+
+            // GET 8-14 boxes
+            for (int i = 7; i < 14; i++)
+            {
+                _bwriter.Seek(0x6000 + 0x450 * (i - 7), SeekOrigin.Begin);
+                SerializePokeList(_bwriter, _charset, false, 20, sav.Boxes[i]);
+            }
+            _bwriter.Close();
+
+            // Calculate checksum
             ushort checksum = 0;
-            using (FileStream reader = File.OpenRead(@out))
-            using (BinaryReader2 breader = new BinaryReader2(reader))
+            _breader.Open(@out);
+            _breader.Seek(0x2009, SeekOrigin.Begin);
+            while (_breader.Position <= 0x2D68)
             {
-                // Calculate checksum
-                breader.BaseStream.Seek(0x2009, SeekOrigin.Begin);
-                while (breader.BaseStream.Position <= 0x2D68)
-                {
-                    checksum += breader.ReadByte();
-                }
+                checksum += _breader.ReadByte();
             }
+            _breader.Close();
 
-            using (FileStream writer = File.OpenWrite(@out))
-            using (BinaryWriter2 bwriter = new BinaryWriter2(writer))
-            {
-                // Checksum 0x2009 - 0x2D68
-                bwriter.BaseStream.Seek(0x2D69, SeekOrigin.Begin);
-                bwriter.WriteInt16LittleEndian(checksum);
-            }
+            // Write Checksum
+            _bwriter.Open(@out);
+            // Checksum 0x2009 - 0x2D68
+            _bwriter.Seek(0x2D69, SeekOrigin.Begin);
+            _bwriter.WriteInt16LittleEndian(checksum);
+            _bwriter.Close();
         }
 
         /// <summary>
         /// Completely serialized a given <see cref="Pokemon"/> into the file stream.
         /// </summary>
-        private void SerializePokemon(BinaryWriter2 bwriter, bool inBox, Charset charset, Pokemon poke)
+        private void SerializePokemon(IBinaryWriter2 bwriter, bool inBox, ICharset charset, Pokemon poke)
         {
             byte[] buffer = new byte[1];
 
@@ -235,7 +241,7 @@ namespace PokemonGenerator.IO
         /// <summary>
         /// Completely serialized a given <see cref="ItemList"/> into the file stream.
         /// </summary>
-        private void SerializeItemList(BinaryWriter2 bwriter, Charset charset, int capacity, ItemList list, bool key = false)
+        private void SerializeItemList(IBinaryWriter2 bwriter, ICharset charset, int capacity, ItemList list, bool key = false)
         {
             bwriter.Write(list.Count);
 
@@ -267,7 +273,7 @@ namespace PokemonGenerator.IO
         /// <summary>
         /// Completely serialized a given <see cref="PokeList"/> into the file stream.
         /// </summary>
-        private void SerializePokeList(BinaryWriter2 bwriter, Charset charset, bool full, int capacity, PokeList list)
+        private void SerializePokeList(IBinaryWriter2 bwriter, ICharset charset, bool full, int capacity, PokeList list)
         {
             bwriter.Write(list.Count);
 
@@ -327,7 +333,7 @@ namespace PokemonGenerator.IO
         /// <summary>
         /// Completely serialized a given <see cref="TMPocket"/> into the file stream.
         /// </summary>
-        private void SerializeTMPocket(BinaryWriter2 bwriter, Charset charset, TMPocket pocket)
+        private void SerializeTMPocket(IBinaryWriter2 bwriter, ICharset charset, TMPocket pocket)
         {
             for (int i = 0; i < 50; i++)
             {

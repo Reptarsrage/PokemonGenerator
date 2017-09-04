@@ -19,6 +19,8 @@ namespace PokemonGenerator.DAL
     {
         private readonly IDbConnection _dbConnection;
 
+        public PokemonDA() : this("ThePokeBase") { }
+
         public PokemonDA(string connectionStringName)
         {
             if (string.IsNullOrWhiteSpace(connectionStringName))

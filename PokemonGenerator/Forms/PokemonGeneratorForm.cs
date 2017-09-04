@@ -1,7 +1,5 @@
-﻿using PokemonGenerator;
+﻿using PokemonGenerator.Editors;
 using PokemonGenerator.Models;
-using PokemonGeneratorGUI.Editors;
-using PokemonGeneratorGUI.Models;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -11,7 +9,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace PokemonGeneratorGUI
+namespace PokemonGenerator.Forms
 {
     public partial class PokemonGeneratorForm : Form
     {
@@ -28,26 +26,20 @@ namespace PokemonGeneratorGUI
             Shift = 4,
             WinKey = 8
         }
-        private readonly string projN64Location;
+        private readonly string _projN64Location;
         private INRageIniEditor editor;
         private IP64ConfigEditor n64Config;
-        private IPokemonGeneratorRunner pokemonGeneratorRunner;
-        private string contentDirectory;
-        private string outputDirectory;
+        private readonly IPokemonGeneratorRunner _pokemonGeneratorRunner;
+        private readonly string _contentDirectory;
+        private readonly string _outputDirectory;
 
-        public PokemonGeneratorForm()
+        public PokemonGeneratorForm(IPokemonGeneratorRunner pokemonGeneratorRunner, string contentDirectory, string outputDirectory, string projN64Location)
         {
-#if (DEBUG)
-            projN64Location = @"G:\Project64\Project64.exe"; // TODO remove
-            AppDomain.CurrentDomain.SetData("DataDirectory", PokemonGeneratorRunner.AssemblyDirectory);
-            contentDirectory = PokemonGeneratorRunner.AssemblyDirectory;
-            outputDirectory = Path.Combine(contentDirectory, "Output");
-#else
-            projN64Location = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), @"Project64\Project64.exe");
-            AppDomain.CurrentDomain.SetData("DataDirectory", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"PokemonGenerator\"));
-            contentDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"PokemonGenerator\");
-            outputDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-#endif
+            _contentDirectory = contentDirectory;
+            _outputDirectory = outputDirectory;
+            _pokemonGeneratorRunner = pokemonGeneratorRunner;
+            _projN64Location = projN64Location;
+
             InitializeComponent();
             RegisterHotKey(Handle, 0, (int)KeyModifier.Control, Keys.F12.GetHashCode());
         }
@@ -79,7 +71,7 @@ namespace PokemonGeneratorGUI
         private void PokemonGeneratorLoad(object sender, EventArgs e)
         {
             SelectEntropy.SelectedIndex = 0;
-            TextProjN64Location.Text = projN64Location;
+            TextProjN64Location.Text = _projN64Location;
             ValidateTopSection();
         }
 
@@ -323,8 +315,7 @@ namespace PokemonGeneratorGUI
             worker.ReportProgress(20, "GENERATING POKEMON...");
 
             // Start generate pokemon process
-            pokemonGeneratorRunner = new PokemonGeneratorRunner(contentDirectory, outputDirectory, args.PokeGeneratorArguments);
-            pokemonGeneratorRunner.Run();
+            _pokemonGeneratorRunner.Run(_contentDirectory, _outputDirectory, args.PokeGeneratorArguments);
             Thread.Sleep(1000); // dance dance!
 
             // Start P64

@@ -1,6 +1,6 @@
 ﻿namespace PokemonGenerator.Models
 {
-    internal struct Likeliness
+    public struct Likeliness
     {
         public const double None = 0d;
         public const double Extremely_Low = 0.001d;

@@ -1,7 +1,9 @@
-﻿namespace PokemonGenerator
+﻿using PokemonGenerator.Models;
+
+namespace PokemonGenerator
 {
     public interface IPokemonGeneratorRunner
     {
-        void Run();
+        void Run(string contentDirectory, string outputDirectory, PokeGeneratorArguments options);
     }
 }

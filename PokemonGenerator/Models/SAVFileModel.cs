@@ -6,7 +6,7 @@ namespace PokemonGenerator.Models
     /// <summary>
     /// A modal used to store and serialize/deserialize information.
     /// </summary>
-    internal class SAVFileModel
+    public class SAVFileModel
     {
         /// Property Name  |  Length (in bytes)
         public ulong Options; // 8
@@ -28,7 +28,7 @@ namespace PokemonGenerator.Models
         public ItemList PCitemlist; // 102 (capacity 50)
         public byte CurrentPCBoxnumber; // 1 (ignore 4 high bits)
         public string[] PCBoxnames; // 126 (14 box names * 9 bytes each)
-        public PokeList TeamPokémonlist; // 428
+        public PokeList TeamPokemonlist; // 428
         public bool[] Pokédexowned; // 32
         public bool[] Pokédexseen; // 32
         public PokeList CurrentBoxPokémonlist; // 1102
@@ -84,9 +84,9 @@ namespace PokemonGenerator.Models
                 }
             }
 
-            for (int i = 0; i < TeamPokémonlist.Count; i++)
+            for (int i = 0; i < TeamPokemonlist.Count; i++)
             {
-                builder.AppendLine(TeamPokémonlist.Pokemon[i].ToString());
+                builder.AppendLine(TeamPokemonlist.Pokemon[i].ToString());
             }
 
             builder.AppendLine("Pokedex:");

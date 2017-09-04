@@ -1,4 +1,4 @@
-﻿namespace PokemonGeneratorGUI
+﻿namespace PokemonGenerator.Forms
 {
     partial class PokemonGeneratorForm
     {
@@ -140,7 +140,7 @@
             // 
             this.ImagePlayerOneName.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ImagePlayerOneName.ErrorImage = null;
-            this.ImagePlayerOneName.Image = global::PokemonGeneratorGUI.Properties.Resources.BAD;
+            this.ImagePlayerOneName.Image = global::PokemonGenerator.Properties.Resources.BAD;
             this.ImagePlayerOneName.InitialImage = null;
             this.ImagePlayerOneName.Location = new System.Drawing.Point(328, 43);
             this.ImagePlayerOneName.Name = "ImagePlayerOneName";
@@ -210,7 +210,7 @@
             // 
             this.ImagePlayerOneOutLocation.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ImagePlayerOneOutLocation.ErrorImage = null;
-            this.ImagePlayerOneOutLocation.Image = global::PokemonGeneratorGUI.Properties.Resources.BAD;
+            this.ImagePlayerOneOutLocation.Image = global::PokemonGenerator.Properties.Resources.BAD;
             this.ImagePlayerOneOutLocation.InitialImage = null;
             this.ImagePlayerOneOutLocation.Location = new System.Drawing.Point(329, 210);
             this.ImagePlayerOneOutLocation.Name = "ImagePlayerOneOutLocation";
@@ -227,7 +227,7 @@
             // 
             this.ImagePlayerOneInLocation.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ImagePlayerOneInLocation.ErrorImage = null;
-            this.ImagePlayerOneInLocation.Image = global::PokemonGeneratorGUI.Properties.Resources.BAD;
+            this.ImagePlayerOneInLocation.Image = global::PokemonGenerator.Properties.Resources.BAD;
             this.ImagePlayerOneInLocation.InitialImage = null;
             this.ImagePlayerOneInLocation.Location = new System.Drawing.Point(329, 150);
             this.ImagePlayerOneInLocation.Name = "ImagePlayerOneInLocation";
@@ -310,7 +310,7 @@
             // 
             // ImageProgress
             // 
-            this.ImageProgress.Image = global::PokemonGeneratorGUI.Properties.Resources.pikagif;
+            this.ImageProgress.Image = global::PokemonGenerator.Properties.Resources.pikagif;
             this.ImageProgress.Location = new System.Drawing.Point(66, 4);
             this.ImageProgress.Name = "ImageProgress";
             this.ImageProgress.Size = new System.Drawing.Size(62, 66);
@@ -346,7 +346,7 @@
             // 
             this.ImagePlayerTwoName.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ImagePlayerTwoName.ErrorImage = null;
-            this.ImagePlayerTwoName.Image = global::PokemonGeneratorGUI.Properties.Resources.BAD;
+            this.ImagePlayerTwoName.Image = global::PokemonGenerator.Properties.Resources.BAD;
             this.ImagePlayerTwoName.InitialImage = null;
             this.ImagePlayerTwoName.Location = new System.Drawing.Point(326, 43);
             this.ImagePlayerTwoName.Name = "ImagePlayerTwoName";
@@ -416,7 +416,7 @@
             // 
             this.ImagePlayerTwoOutLocation.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ImagePlayerTwoOutLocation.ErrorImage = null;
-            this.ImagePlayerTwoOutLocation.Image = global::PokemonGeneratorGUI.Properties.Resources.BAD;
+            this.ImagePlayerTwoOutLocation.Image = global::PokemonGenerator.Properties.Resources.BAD;
             this.ImagePlayerTwoOutLocation.InitialImage = null;
             this.ImagePlayerTwoOutLocation.Location = new System.Drawing.Point(326, 210);
             this.ImagePlayerTwoOutLocation.Name = "ImagePlayerTwoOutLocation";
@@ -433,7 +433,7 @@
             // 
             this.ImagePlayerTwoInLocation.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ImagePlayerTwoInLocation.ErrorImage = null;
-            this.ImagePlayerTwoInLocation.Image = global::PokemonGeneratorGUI.Properties.Resources.BAD;
+            this.ImagePlayerTwoInLocation.Image = global::PokemonGenerator.Properties.Resources.BAD;
             this.ImagePlayerTwoInLocation.InitialImage = null;
             this.ImagePlayerTwoInLocation.Location = new System.Drawing.Point(326, 150);
             this.ImagePlayerTwoInLocation.Name = "ImagePlayerTwoInLocation";
@@ -608,7 +608,7 @@
             // ImageProjN64Location
             // 
             this.ImageProjN64Location.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.ImageProjN64Location.Image = global::PokemonGeneratorGUI.Properties.Resources.BAD;
+            this.ImageProjN64Location.Image = global::PokemonGenerator.Properties.Resources.BAD;
             this.ImageProjN64Location.Location = new System.Drawing.Point(909, 42);
             this.ImageProjN64Location.Name = "ImageProjN64Location";
             this.ImageProjN64Location.Size = new System.Drawing.Size(25, 25);

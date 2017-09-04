@@ -12,15 +12,15 @@ namespace PokemonGenerator
     /// </summary>
     internal partial class PokemonGenerator : IPokemonGenerator
     {
-        private readonly IPokemonDA dal;
+        private readonly IPokemonDA _pokemonDA;
         private readonly Random r;
 
         private IList<PokemonChoice> possiblePokemon { get; set; }
         private int PreviousLevel { get; set; }
 
-        public PokemonGenerator()
+        public PokemonGenerator(IPokemonDA pokemonDA)
         {
-            dal = new PokemonDA("ThePokeBase");
+            _pokemonDA = pokemonDA;
             r = new Random();
         }
 
@@ -91,7 +91,7 @@ namespace PokemonGenerator
             if (PreviousLevel != level || possiblePokemon == null || possiblePokemon.Count < 20)
             {
                 PreviousLevel = level;
-                possiblePokemon = dal.GetPossiblePokemon(level, entropy).Select(id => new PokemonChoice { PokemonId = id }).ToList();
+                possiblePokemon = _pokemonDA.GetPossiblePokemon(level, entropy).Select(id => new PokemonChoice { PokemonId = id }).ToList();
             }
 
             // add initial probabilities
@@ -156,7 +156,7 @@ namespace PokemonGenerator
         /// <param name="level"></param>
         private void ChooseTeamStats(ref PokeList list, int level)
         {
-            var stats = dal.GetTeamBaseStats(list);
+            var stats = _pokemonDA.GetTeamBaseStats(list);
             foreach (var s in stats)
             {
                 var idx = list.Species.ToList().IndexOf((byte)s.Id);
@@ -336,8 +336,8 @@ namespace PokemonGenerator
                 DamageType = poke.spAttack > poke.attack ? DamageType.Special : DamageType.Physical
             };
             info.DamageType = Math.Abs(poke.spAttack - poke.attack) < DAMAGE_TYPE_DELTA ? DamageType.Both : info.DamageType;
-            var enemiesWeakAgainst = dal.GetWeaknesses(string.Join(",", info.PokeTypes));
-            info.AttackTypesToFavor = dal.GetWeaknesses(string.Join(",", enemiesWeakAgainst)).ToList();
+            var enemiesWeakAgainst = _pokemonDA.GetWeaknesses(string.Join(",", info.PokeTypes));
+            info.AttackTypesToFavor = _pokemonDA.GetWeaknesses(string.Join(",", enemiesWeakAgainst)).ToList();
 
             // Prune moves removing and replacing as needed
             for (int i = 0; i < allPossibleMoves.Count; i++)
@@ -347,7 +347,7 @@ namespace PokemonGenerator
                 // Generate random move for sketch
                 if (move.MoveId == 166)
                 {
-                    var randos = dal.GetRandomMoves(RANDOM_MOVE_MIN_POWER, RANDOM_MOVE_MAX_POWER).ToList();
+                    var randos = _pokemonDA.GetRandomMoves(RANDOM_MOVE_MIN_POWER, RANDOM_MOVE_MAX_POWER).ToList();
                     allPossibleMoves[i] = randos[r.Next(0, randos.Count)];
                 }
 
@@ -437,11 +437,11 @@ namespace PokemonGenerator
         /// <param name="level">The level of each pokemon.</param>
         private void AssignMovesToTeam(ref PokeList list, int level)
         {
-            var TMBank = dal.GetTMs().ToList();
+            var TMBank = _pokemonDA.GetTMs().ToList();
             for (int i = 0; i < list.Pokemon.Length; i++)
             {
                 var poke = list.Pokemon[i];
-                var moves = dal.GetMovesForPokemon(poke.species, level).ToList();
+                var moves = _pokemonDA.GetMovesForPokemon(poke.species, level).ToList();
                 list.Pokemon[i] = AssignMovestoPokemon(poke, moves, TMBank);
             }
         }

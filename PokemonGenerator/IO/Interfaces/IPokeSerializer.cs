@@ -2,8 +2,8 @@
 
 namespace PokemonGenerator.IO
 {
-    internal interface IPokeSerializer
+    public interface IPokeSerializer
     {
-        void SerializeSAVFileModal(string @out, Charset charset, SAVFileModel sav);
+        void SerializeSAVFileModal(string @out, SAVFileModel sav);
     }
 }
