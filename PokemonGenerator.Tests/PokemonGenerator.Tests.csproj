@@ -61,6 +61,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IO Tests\CharsetTests.cs" />
     <Compile Include="IO Tests\PersistentConfigManagerTests.cs" />
     <Compile Include="PokemonGeneratorRunnerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

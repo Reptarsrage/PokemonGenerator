@@ -9,6 +9,8 @@ namespace PokemonGenerator.IO
     /// </summary>
     internal class Charset : ICharset
     {
+        private const byte NULL_TERMINATOR = 0x50;
+
         private char[] charset = { '_', '?', '?', '?', '?', 'ガ', 'ギ', 'グ', 'ゲ', 'ゴ', 'ザ', 'ジ', 'ズ', 'ゼ', 'ゾ', 'ダ', 'ヂ',
             'ヅ', 'デ', 'ド', '?', '?', '?', '?', '?',
             'バ', 'ビ', 'ブ', 'ボ', '?', '?', '?', '?', '?', '?', '?', '?', '?', 'が', 'ぎ', 'ぐ', 'げ',
@@ -31,18 +33,28 @@ namespace PokemonGenerator.IO
         /// <summary>
         /// Encodes a c# string into a pokemon string.
         /// </summary>
-        public byte[] encodeString(string value, int length)
+        public byte[] EncodeString(string value, int length)
         {
-            byte[] data = new byte[length];
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                throw new System.ArgumentException("value");
+            }
+
+            if (length <= 0)
+            {
+                throw new System.ArgumentException("length");
+            }
+
+            var data = new byte[length];
             for (var i = 0; i < length; i++)
             {
                 if (i < value.Length)
                 {
-                    data[i] = lookupChar(value[i]);
+                    data[i] = LookupChar(value[i]);
                 }
                 else
                 {
-                    data[i] = 0x50;
+                    data[i] = NULL_TERMINATOR;
                 }
             }
             return data;
@@ -51,12 +63,17 @@ namespace PokemonGenerator.IO
         /// <summary>
         /// Decodes a pokemon string into a c# string.
         /// </summary>
-        public string decodeString(byte[] data)
+        public string DecodeString(byte[] data)
         {
-            StringBuilder builder = new StringBuilder();
+            if (data == null || data.Length == 0)
+            {
+                throw new System.ArgumentException("data");
+            }
+
+            var builder = new StringBuilder();
             for (var i = 0; i < data.Length; i++)
             {
-                if (data[i] == 80)
+                if (data[i] == NULL_TERMINATOR)
                 {
                     break;
                 }
@@ -71,7 +88,7 @@ namespace PokemonGenerator.IO
         /// <summary>
         /// Looks up a char in the charset table
         /// </summary>
-        private byte lookupChar(char value)
+        private byte LookupChar(char value)
         {
             for (var i = 0; i < charset.Length; i++)
             {

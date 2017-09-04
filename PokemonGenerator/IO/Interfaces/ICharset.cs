@@ -2,7 +2,7 @@
 {
     public interface ICharset
     {
-        string decodeString(byte[] data);
-        byte[] encodeString(string value, int length);
+        string DecodeString(byte[] data);
+        byte[] EncodeString(string value, int length);
     }
 }

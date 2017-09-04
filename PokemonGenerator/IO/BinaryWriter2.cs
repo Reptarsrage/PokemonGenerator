@@ -36,7 +36,7 @@ namespace PokemonGenerator.IO
 
         public void writeString(string s, int length, ICharset charset)
         {
-            byte[] data = charset.encodeString(s, length);
+            byte[] data = charset.EncodeString(s, length);
             for (int i = 0; i < length; i++)
             {
                 writer.Write(data[i]);

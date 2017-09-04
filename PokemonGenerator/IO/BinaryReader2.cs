@@ -42,7 +42,7 @@ namespace PokemonGenerator.IO
             {
                 data[i] = reader.ReadByte();
             }
-            return charset.decodeString(data);
+            return charset.DecodeString(data);
         }
 
         public ushort ReadInt16LittleEndian()
