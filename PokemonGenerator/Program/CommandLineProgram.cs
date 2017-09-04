@@ -1,6 +1,7 @@
 ﻿using PokemonGenerator.Models;
 using System;
 using System.IO;
+using System.Reflection;
 
 namespace PokemonGenerator
 {
@@ -9,13 +10,24 @@ namespace PokemonGenerator
     /// </summary>
     class CommandLineProgram
     {
+        public static string AssemblyDirectory
+        {
+            get
+            {
+                string codeBase = Assembly.GetExecutingAssembly().CodeBase;
+                UriBuilder uri = new UriBuilder(codeBase);
+                string path = Uri.UnescapeDataString(uri.Path);
+                return Path.GetDirectoryName(path);
+            }
+        }
+
         static void Main(string[] args)
         {
             // Configure Directories
 #if (DEBUG)
-            AppDomain.CurrentDomain.SetData("DataDirectory", PokemonGeneratorRunner.AssemblyDirectory);
-            var contentDirectory = PokemonGeneratorRunner.AssemblyDirectory;
-            var outputDirectory = Path.Combine(PokemonGeneratorRunner.AssemblyDirectory, "Out");
+            AppDomain.CurrentDomain.SetData("DataDirectory", CommandLineProgram.AssemblyDirectory);
+            var contentDirectory = CommandLineProgram.AssemblyDirectory;
+            var outputDirectory = Path.Combine(CommandLineProgram.AssemblyDirectory, "Out");
 #else
             AppDomain.CurrentDomain.SetData("DataDirectory", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"PokemonGenerator\"));
             var contentDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"PokemonGenerator\");
@@ -25,17 +37,17 @@ namespace PokemonGenerator
             DapperMapper.Init();
 
             // Parse Command Line Options
-            var options = new PokeGeneratorArguments();
+            var options = new PokeGeneratorOptions();
             if (!CommandLine.Parser.Default.ParseArguments(args, options,
                 (verb, subOptions) =>
                 {
                     // Set Game and save for player 1
-                    options.InputSavOne = (options.GameOne ?? string.Empty).Equals("Silver", StringComparison.InvariantCultureIgnoreCase) ?
+                    options.InputSaveOne = (options.GameOne ?? string.Empty).Equals("Silver", StringComparison.InvariantCultureIgnoreCase) ?
                         Path.Combine(contentDirectory, "Silver.sav") :
                         Path.Combine(contentDirectory, "Gold.sav");
 
                     // Set Game and save for player 2
-                    options.InputSavTwo = (options.GameTwo ?? string.Empty).Equals("Silver", StringComparison.InvariantCultureIgnoreCase) ?
+                    options.InputSaveTwo = (options.GameTwo ?? string.Empty).Equals("Silver", StringComparison.InvariantCultureIgnoreCase) ?
                         Path.Combine(contentDirectory, "Silver.sav") :
                         Path.Combine(contentDirectory, "Gold.sav");
 
@@ -43,7 +55,10 @@ namespace PokemonGenerator
                     using (var injection = new NinjectWrapper())
                     {
                         var runner = injection.Get<IPokemonGeneratorRunner>();
-                        runner.Run(contentDirectory, outputDirectory, subOptions as PokeGeneratorArguments);
+                        runner.Run(new PersistentConfig {
+                            Options =  subOptions as PokeGeneratorOptions,
+                            Configuration = new PokemonGeneratorConfig()
+                        });
                     }
                 }))
             {

@@ -12,28 +12,30 @@ namespace PokemonGenerator.Tests
     {
         private IPokemonGeneratorRunner _runner;
         private IPokeDeserializer _deserializer;
-
-        private PokeGeneratorArguments _opts;
+        private PersistentConfig _opts;
         private string _contentDir;
         private string _outputDir;
 
         [SetUp]
         public void Init()
         {
-            _contentDir = PokemonGeneratorRunner.AssemblyDirectory;
-            _outputDir = Path.Combine(PokemonGeneratorRunner.AssemblyDirectory, "Out");
-            _opts = new PokeGeneratorArguments
+            _contentDir = GUIProgram.AssemblyDirectory;
+            _outputDir = Path.Combine(GUIProgram.AssemblyDirectory, "Out");
+            _opts = new PersistentConfig
             {
-                EntropyVal = "Low",
-                GameOne = "Gold",
-                GameTwo = "Gold",
-                InputSavOne = Path.Combine(_contentDir, "gold.sav"),
-                InputSavTwo = Path.Combine(_contentDir, "gold.sav"),
-                OutputSav1 = Path.Combine(_outputDir, "out1.sav"),
-                OutputSav2 = Path.Combine(_outputDir, "out2.sav"),
-                NameOne = "Test1",
-                NameTwo = "Test2",
-                Level = 100
+                Options = new PokeGeneratorOptions {
+                    EntropyVal = "Low",
+                    GameOne = "Gold",
+                    GameTwo = "Gold",
+                    InputSaveOne = Path.Combine(_contentDir, "gold.sav"),
+                    InputSaveTwo = Path.Combine(_contentDir, "gold.sav"),
+                    OutputSaveOne = Path.Combine(_outputDir, "out1.sav"),
+                    OutputSaveTwo = Path.Combine(_outputDir, "out2.sav"),
+                    NameOne = "Test1",
+                    NameTwo = "Test2",
+                    Level = 100
+                },
+                Configuration = new PokemonGeneratorConfig()
             };
 
             using (var injector = new NinjectWrapper())
@@ -57,23 +59,23 @@ namespace PokemonGenerator.Tests
         [Category("Integration")]
         public void RunOutputExistsTest()
         {
-            _runner.Run(_contentDir, _outputDir, _opts);
+            _runner.Run(_opts);
 
-            Assert.True(File.Exists(Path.Combine(_outputDir, _opts.OutputSav1)));
-            Assert.True(File.Exists(Path.Combine(_outputDir, _opts.OutputSav2)));
+            Assert.True(File.Exists(Path.Combine(_outputDir, _opts.Options.OutputSaveOne)));
+            Assert.True(File.Exists(Path.Combine(_outputDir, _opts.Options.OutputSaveTwo)));
         }
 
         [Test]
         [Category("Integration")]
         public void RunOutputValidTest()
         {
-            _runner.Run(_contentDir, _outputDir, _opts);
+            _runner.Run(_opts);
 
             SAVFileModel model1 = null, model2 = null;
             try
             {
-                model1 = _deserializer.ParseSAVFileModel(Path.Combine(_outputDir, _opts.OutputSav1));
-                model2 = _deserializer.ParseSAVFileModel(Path.Combine(_outputDir, _opts.OutputSav2));
+                model1 = _deserializer.ParseSAVFileModel(Path.Combine(_outputDir, _opts.Options.OutputSaveOne));
+                model2 = _deserializer.ParseSAVFileModel(Path.Combine(_outputDir, _opts.Options.OutputSaveTwo));
 
             }
             catch (Exception e)
@@ -87,8 +89,8 @@ namespace PokemonGenerator.Tests
             // Basic checks
             Assert.AreEqual("Test1", model1.Playername, "Name not set correctly");
             Assert.AreEqual("Test2", model2.Playername, "Name not set correctly");
-            Assert.AreEqual(PokemonGenerator.TEAM_SIZE, model1.TeamPokemonlist.Pokemon.Count(), "Team not set correctly");
-            Assert.AreEqual(PokemonGenerator.TEAM_SIZE, model2.TeamPokemonlist.Pokemon.Count(), "Team not set correctly");
+            Assert.AreEqual(_opts.Configuration.TEAM_SIZE, model1.TeamPokemonlist.Pokemon.Count(), "Team not set correctly");
+            Assert.AreEqual(_opts.Configuration.TEAM_SIZE, model2.TeamPokemonlist.Pokemon.Count(), "Team not set correctly");
             foreach (var pokemon in model1.TeamPokemonlist.Pokemon)
             {
                 Assert.AreEqual(100, pokemon.level, "Level not set correctly");
@@ -102,12 +104,14 @@ namespace PokemonGenerator.Tests
         [TestCase("/Fakey/Fake/Dir/")]
         [TestCase(@"C:\%^&#%$&((&#$\")]
         [TestCase(@"myFile.txt")]
-        [Category("Unit")]
+        [Category("Integration")]
         public void RunInvalidContentPathTest(string path)
         {
             Assert.Throws<ArgumentException>(() =>
             {
-                _runner.Run(path, _outputDir, _opts);
+                _opts.Options.InputSaveOne = path;
+                _opts.Options.InputSaveTwo = path;
+                _runner.Run(_opts);
             });
         }
 
@@ -116,13 +120,14 @@ namespace PokemonGenerator.Tests
         [TestCase(null)]
         [TestCase("\t     \n\r")]
         [TestCase(@"C:\<>:""/\|?*")]
-        [Category("Unit")]
+        [Category("Integration")]
         public void RunInvalidOutputPathTest(string path)
         {
             Assert.Throws<ArgumentException>(() =>
             {
-                _runner.Run(_contentDir, path, _opts);
-
+                _opts.Options.OutputSaveOne = path;
+                _opts.Options.OutputSaveTwo = path;
+                _runner.Run(_opts);
             });
         }
     }

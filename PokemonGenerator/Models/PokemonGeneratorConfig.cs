@@ -1,31 +1,35 @@
-﻿using PokemonGenerator.Models;
+﻿using Newtonsoft.Json;
 using PokemonGenerator.Enumerations;
 using System.Collections.Generic;
 
-namespace PokemonGenerator
+namespace PokemonGenerator.Models
 {
-    internal partial class PokemonGenerator : IPokemonGenerator
+    public class PokemonGeneratorConfig
     {
         /// <summary>
         /// All Legendary pokemon Ids
         /// </summary>
-        readonly int[] LEGENDARIES = { 144, 145, 146, 151, 150, 243, 244, 245, 249, 250, 251 };
+        [JsonIgnore]
+        public readonly int[] LEGENDARIES = { 144, 145, 146, 151, 150, 243, 244, 245, 249, 250, 251 };
 
         /// <summary>
         /// All Useless pokemon Ids
         /// </summary>
-        readonly int[] IGNOREPOKEMON = { 10, 11, 13, 14, 129, 201 }; /*caterpie, metapod, weedle, kakuna, magikarp, unown */
+        [JsonIgnore]
+        public readonly int[] IGNOREPOKEMON = { 10, 11, 13, 14, 129, 201 }; /*caterpie, metapod, weedle, kakuna, magikarp, unown */
 
         /// <summary>
         /// All Special pokemon Ids
         /// Specially treated for move selection bc they can learn &lt; 4 moves total
         /// </summary>
-        readonly int[] SPECIALPOKEMON = { 10, 11, 13, 14, 129, 132, 201, 202 }; /* caterpie, metapod, weedle, kakuna, magikarp, ditto, unown, wobbuffet */
+        [JsonIgnore]
+        public readonly int[] SPECIALPOKEMON = { 10, 11, 13, 14, 129, 132, 201, 202 }; /* caterpie, metapod, weedle, kakuna, magikarp, ditto, unown, wobbuffet */
 
         /// <summary>
         /// Moves that go well together
         /// </summary>
-        private readonly IDictionary<int, int[]> PAIRED_MOVES = new Dictionary<int, int[]>()
+        [JsonIgnore]
+        public readonly IDictionary<int, int[]> PAIRED_MOVES = new Dictionary<int, int[]>()
         {
             { 156, new int[] { 214, 173 } }, /* Rest = sleep-talk, snore */
             { 47, new int[] { 138, 171 } }, /* sing = dream-eater, nightmare */
@@ -38,7 +42,8 @@ namespace PokemonGenerator
         /// <summary>
         /// Moves that depend on another to be any use at all
         /// </summary>
-        private readonly IDictionary<int, int[]> DEPENDANT_MOVES = new Dictionary<int, int[]>()
+        [JsonIgnore]
+        public readonly IDictionary<int, int[]> DEPENDANT_MOVES = new Dictionary<int, int[]>()
         {
             { 214, new int[] { 156 } }, /* Rest = sleep-talk, snore */
             { 173, new int[] { 156 } }, /* hypnosis = dream-eater, nightmare */
@@ -49,7 +54,8 @@ namespace PokemonGenerator
         /// <summary>
         /// A list of all HM moves
         /// </summary>
-        private readonly IList<int> HM_BANK = new List<int>()
+        [JsonIgnore]
+        public readonly IList<int> HM_BANK = new List<int>()
         {
             15, /* cut */
             19, /* fly */
@@ -61,9 +67,15 @@ namespace PokemonGenerator
         };
 
         /// <summary>
+        /// Pokemon Team size
+        /// </summary>
+        [JsonIgnore]
+        public readonly int TEAM_SIZE = 6;
+
+        /// <summary>
         /// Liklihood of the move based on how strong the type generally is
         /// </summary>
-        private readonly IDictionary<string, double> MOVE_EFFECTS_FILTERS = new Dictionary<string, double>()
+        public IDictionary<string, double> MoveEffectFilters = new Dictionary<string, double>()
         {
              {"faint", Likeliness.Medium_Low }
             ,{"sleep", Likeliness.Medium }
@@ -80,61 +92,55 @@ namespace PokemonGenerator
         /// <summary>
         /// How likly a pokemon is to be put on a team, based on the class of the pokemon
         /// </summary>
-        private readonly IDictionary<PokemonClass, double> POKEMON_LIKLIHOOD = new Dictionary<PokemonClass, double>()
+        public IDictionary<PokemonClass, double> POKEMON_LIKLIHOOD = new Dictionary<PokemonClass, double>()
         {
              {PokemonClass.Ignored, Likeliness.None },
              {PokemonClass.Standard, Likeliness.Full },
              {PokemonClass.Legendary, Likeliness.Very_Low },
              {PokemonClass.Special, Likeliness.Medium_Low }
-
         };
 
         /// <summary>
         /// Average
         /// </summary>
-        const double MEAN = 0.5D;
+        public double Mean = 0.5D;
 
         /// <summary>
         /// Standard deviation
         /// </summary>
-        const double STDEVIATION = 0.5D;
-
-        /// <summary>
-        /// Pokemon Team size
-        /// </summary>
-        public const int TEAM_SIZE = 6;
+        public double StandardDeviation = 0.5D;
 
         /// <summary>
         /// The higher this is, the more likely pokemon with a certain type will only know moves of that type.
         /// </summary>
-        const double SAME_TYPE_MODIFIER = 1.5D;
+        public double SameTypeModifier = 1.5D;
 
         /// <summary>
         /// The higher this is, the less damage will affect move probability. 
         /// At low values, damage will play a key role in choosing moves
         /// </summary>
-        const double DAMAGE_MODIFIER = 200D;
+        public double DamageModifier = 200D;
 
         /// <summary>
         /// The higher this is, pokemon are more likely to have paired moves (<see cref="PAIRED_MOVES"/>)
         /// </summary>
-        const double PAIRED_MODIFIER = 2D;
+        public double PairedModifier = 2D;
 
         /// <summary>
         /// if the difference between a pokemon's attack and special attack
         /// exceeds this delta, the pokemon will favor a certain damage type.
         /// Else, it will favor all damage types
         /// </summary>
-        const int DAMAGE_TYPE_DELTA = 15;
+        public int DamageTypeDelta = 15;
 
         /// <summary>
         /// When a move must be chosen at random (e.g. for sketch), then this is the minimum damage that the move must to
         /// </summary>
-        const int RANDOM_MOVE_MIN_POWER = 40;
+        public int RandomMoveMinPower = 40;
 
         /// <summary>
         /// When a move must be chosen at random (e.g. for sketch), then this is the maxinimum damage that the move can to
         /// </summary>
-        const int RANDOM_MOVE_MAX_POWER = 100;
+        public int RandomMoveMaxPower = 100;
     }
 }

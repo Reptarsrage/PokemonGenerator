@@ -10,16 +10,22 @@ namespace PokemonGenerator.Editors
     /// </summary>
     public class NRageIniEditor : INRageIniEditor
     {
-        private string filename;
+        private string fileName;
 
-        public NRageIniEditor(string ini)
-        {
-            this.filename = ini;
-
-            if (!File.Exists(filename))
+        public string FileName {
+            get
             {
-                throw new FileNotFoundException($"{ini} file not found.");
+                return fileName;
             }
+            set
+            {
+                fileName = File.Exists(value) ? value : throw new FileNotFoundException($"{value} file not found.");
+            }
+        }
+
+        public NRageIniEditor()
+        {
+            fileName = string.Empty;
         }
 
         /// <summary>
@@ -28,8 +34,8 @@ namespace PokemonGenerator.Editors
         /// </summary>
         public Tuple<string, string> GetRomAndSavFileLocation(int playerNum)
         {
-
-            using (var file = File.OpenRead(this.filename))
+            FileName = fileName; // quick validation
+            using (var file = File.OpenRead(FileName))
             using (var stream = new StreamReader(file))
             {
                 while (!stream.EndOfStream && !stream.ReadLine().Equals($"[Controller {playerNum}]")) { }
@@ -38,7 +44,6 @@ namespace PokemonGenerator.Editors
                 {
                     return null;
                 }
-
 
                 string two = null;
                 string one = null;
@@ -74,9 +79,9 @@ namespace PokemonGenerator.Editors
         /// </summary>
         public bool ChangeSavLocations(string text1, string text2)
         {
+            FileName = fileName; // quick validation
             string text;
-
-            using (var file = File.OpenRead(this.filename))
+            using (var file = File.OpenRead(FileName))
             using (var stream = new StreamReader(file))
             {
                 text = stream.ReadToEnd();
@@ -88,7 +93,6 @@ namespace PokemonGenerator.Editors
             {
                 return false;
             }
-
 
             texts[1] = Regex.Replace(texts[1], @"GBRomSave=.*\r\n", $"GBRomSave={text1}\r\n");
             texts[2] = Regex.Replace(texts[2], @"GBRomSave=.*\r\n", $"GBRomSave={text2}\r\n");
@@ -104,7 +108,7 @@ namespace PokemonGenerator.Editors
 
             text = builder.ToString();
 
-            File.WriteAllText(filename, text);
+            File.WriteAllText(FileName, text);
 
             return true;
         }

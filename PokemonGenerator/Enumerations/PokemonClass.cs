@@ -1,6 +1,6 @@
 ﻿namespace PokemonGenerator.Enumerations
 {
-    internal enum PokemonClass
+    public enum PokemonClass
     {
         Standard,
         Legendary,

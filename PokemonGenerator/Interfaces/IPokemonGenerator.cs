@@ -5,6 +5,8 @@ namespace PokemonGenerator
 {
     public interface IPokemonGenerator
     {
+        PokemonGeneratorConfig Config { get; set; }
+
         PokeList GenerateRandomPokemon(int level, Entropy entropy);
     }
 }

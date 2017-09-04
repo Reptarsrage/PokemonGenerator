@@ -9,16 +9,23 @@ namespace PokemonGenerator.Editors
     /// </summary>
     public class P64ConfigEditor : IP64ConfigEditor
     {
-        private string filename;
+        private string fileName;
 
-        public P64ConfigEditor(string cfg)
+        public string FileName
         {
-            this.filename = cfg;
-
-            if (!File.Exists(filename))
+            get
             {
-                throw new FileNotFoundException($"{cfg} file not found.");
+                return fileName;
             }
+            set
+            {
+                fileName = File.Exists(value) ? value : throw new FileNotFoundException($"{value} file not found.");
+            }
+        }
+
+        public P64ConfigEditor()
+        {
+            fileName = string.Empty;
         }
 
         /// <summary>
@@ -26,8 +33,8 @@ namespace PokemonGenerator.Editors
         /// </summary>
         public string GetRecentRom()
         {
-
-            using (var file = File.OpenRead(this.filename))
+            FileName = fileName; // quick validation
+            using (var file = File.OpenRead(this.FileName))
             using (var stream = new StreamReader(file))
             {
                 while (!stream.EndOfStream && !stream.ReadLine().Trim().Equals("[Recent File]")) { }

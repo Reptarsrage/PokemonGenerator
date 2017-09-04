@@ -1,6 +1,10 @@
-﻿using PokemonGenerator.Forms;
+﻿using PokemonGenerator.Editors;
+using PokemonGenerator.Forms;
+using PokemonGenerator.IO;
+using PokemonGenerator.Validators;
 using System;
 using System.IO;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace PokemonGenerator
@@ -10,6 +14,17 @@ namespace PokemonGenerator
     /// </summary>
     static class GUIProgram
     {
+        public static string AssemblyDirectory
+        {
+            get
+            {
+                string codeBase = Assembly.GetExecutingAssembly().CodeBase;
+                UriBuilder uri = new UriBuilder(codeBase);
+                string path = Uri.UnescapeDataString(uri.Path);
+                return Path.GetDirectoryName(path);
+            }
+        }
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -18,12 +33,10 @@ namespace PokemonGenerator
         {
             // Cofigure Directories
 #if (DEBUG)
-            var projN64Location = @"G:\Project64\Project64.exe"; // TODO remove
-            AppDomain.CurrentDomain.SetData("DataDirectory", PokemonGeneratorRunner.AssemblyDirectory);
-            var contentDirectory = PokemonGeneratorRunner.AssemblyDirectory;
+            AppDomain.CurrentDomain.SetData("DataDirectory", GUIProgram.AssemblyDirectory);
+            var contentDirectory = GUIProgram.AssemblyDirectory;
             var outputDirectory = Path.Combine(contentDirectory, "Output");
-#else
-            var projN64Location = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), @"Project64\Project64.exe");
+#else            
             AppDomain.CurrentDomain.SetData("DataDirectory", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"PokemonGenerator\"));
             var contentDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"PokemonGenerator\");
             var outputDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
@@ -37,7 +50,12 @@ namespace PokemonGenerator
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new PokemonGeneratorForm(injector.Get<IPokemonGeneratorRunner>(), contentDirectory, outputDirectory, projN64Location));
+                Application.Run(new PokemonGeneratorForm(injector.Get<IPokemonGeneratorRunner>(),
+                    injector.Get<IPersistentConfigManager>(),
+                    injector.Get<IP64ConfigEditor>(),
+                    injector.Get<INRageIniEditor>(),
+                    injector.Get<IPokeGeneratorOptionsValidator>(),
+                    contentDirectory, outputDirectory));
             }
         }
     }

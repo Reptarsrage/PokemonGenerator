@@ -1,6 +1,8 @@
 ﻿using Ninject;
 using PokemonGenerator.DAL;
+using PokemonGenerator.Editors;
 using PokemonGenerator.IO;
+using PokemonGenerator.Validators;
 using System;
 
 namespace PokemonGenerator
@@ -32,9 +34,17 @@ namespace PokemonGenerator
             kernel.Bind<IPokeDeserializer>().To<PokeDeserializer>();
             kernel.Bind<IPokeSerializer>().To<PokeSerializer>();
             kernel.Bind<ICharset>().To<Charset>();
+            kernel.Bind<IPersistentConfigManager>().To<PersistentConfigManager>();
 
             // DAL
             kernel.Bind<IPokemonDA>().To<PokemonDA>();
+
+            // Editors
+            kernel.Bind<INRageIniEditor>().To<NRageIniEditor>();
+            kernel.Bind<IP64ConfigEditor>().To<P64ConfigEditor>();
+
+            // Validators
+            kernel.Bind<IPokeGeneratorOptionsValidator>().To<PokeGeneratorOptionsValidator>();
 
             // Other
             kernel.Bind<IPokemonGeneratorRunner>().To<PokemonGeneratorRunner>();

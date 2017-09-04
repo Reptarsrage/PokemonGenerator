@@ -1,10 +1,10 @@
 ﻿using PokemonGenerator.Enumerations;
 using PokemonGenerator.IO;
 using PokemonGenerator.Models;
+using PokemonGenerator.Validators;
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Reflection;
 
 namespace PokemonGenerator
 {
@@ -13,49 +13,34 @@ namespace PokemonGenerator
         private readonly IPokemonGenerator _pokemonGenerator;
         private readonly IPokeSerializer _pokeSerializer;
         private readonly IPokeDeserializer _pokeDeserializer;
+        private readonly IPokeGeneratorOptionsValidator _optionsValidator;
 
-        public PokemonGeneratorRunner(IPokemonGenerator pokemonGenerator, IPokeSerializer pokeSerializer, IPokeDeserializer pokeDeserializer)
+        public PokemonGeneratorRunner(IPokemonGenerator pokemonGenerator, IPokeSerializer pokeSerializer,
+            IPokeDeserializer pokeDeserializer, IPokeGeneratorOptionsValidator optionsValidator)
         {
             _pokemonGenerator = pokemonGenerator;
             _pokeSerializer = pokeSerializer;
             _pokeDeserializer = pokeDeserializer;
+            _optionsValidator = optionsValidator;
         }
 
-        public static string AssemblyDirectory
+        public void Run(PersistentConfig configOptions)
         {
-            get
-            {
-                string codeBase = Assembly.GetExecutingAssembly().CodeBase;
-                UriBuilder uri = new UriBuilder(codeBase);
-                string path = Uri.UnescapeDataString(uri.Path);
-                return Path.GetDirectoryName(path);
-            }
-        }
+            if (!_optionsValidator.Validate(configOptions.Options))
+                throw new ArgumentException("configOptions");
 
-        public void Run(string contentDirectory, string outputDirectory, PokeGeneratorArguments options)
-        {
-            if (string.IsNullOrWhiteSpace(contentDirectory) || !Directory.Exists(contentDirectory))
-            {
-                throw new ArgumentException("contentDirectory");
-            }
+            var options = configOptions.Options;
+            _pokemonGenerator.Config = configOptions.Configuration;
 
-            if (string.IsNullOrWhiteSpace(outputDirectory) || outputDirectory.IndexOfAny(Path.GetInvalidPathChars()) >= 0)
-            {
-                throw new ArgumentException("outputDirectory");
-            }
-
-            if (options == null)
-                throw new ArgumentException("options");
-
-            var sav = ReadSavProperties(options.InputSavOne);
+            var sav = ReadSavProperties(options.InputSaveOne);
 
             // Generate Player One and Team
             sav.Playername = options.NameOne;
-            CopyAndGen(options.OutputSav1, options.InputSavOne, sav, options.Level);
+            CopyAndGen(options.OutputSaveOne, options.InputSaveOne, sav, options.Level);
 
             // Generate Player Two and Team
             sav.Playername = options.NameTwo;
-            CopyAndGen(options.OutputSav2, options.InputSavTwo, sav, options.Level);
+            CopyAndGen(options.OutputSaveTwo, options.InputSaveTwo, sav, options.Level);
         }
 
         /// <summary>

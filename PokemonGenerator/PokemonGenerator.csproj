@@ -81,6 +81,9 @@
       <HintPath>..\packages\EntityFramework.SqlServerCompact.6.1.3\lib\net45\EntityFramework.SqlServerCompact.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
     </Reference>
@@ -130,19 +133,21 @@
     <Compile Include="IO\Interfaces\IBinaryWriter2.cs" />
     <Compile Include="IO\Interfaces\IPokeDeserializer.cs" />
     <Compile Include="IO\Interfaces\IPokeSerializer.cs" />
+    <Compile Include="IO\Interfaces\IPersistentConfigManager.cs" />
+    <Compile Include="IO\PersistentConfigManager.cs" />
+    <Compile Include="Models\PersistentConfig.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\IPokemonGeneratorRunner.cs" />
-    <Compile Include="Models\BackgroundPokemonGeneratorArgs.cs" />
     <Compile Include="Models\BaseStats.cs" />
     <Compile Include="Models\Likeliness.cs" />
     <Compile Include="Models\ItemEntry.cs" />
     <Compile Include="Models\ItemList.cs" />
     <Compile Include="Models\Interfaces\IChoice.cs" />
-    <Compile Include="Models\PokeGeneratorArguments.cs" />
+    <Compile Include="Models\PokeGeneratorOptions.cs" />
     <Compile Include="Models\PokeList.cs" />
     <Compile Include="Models\Pokemon.cs" />
     <Compile Include="Models\PokemonAndMoveInfo.cs" />
@@ -169,6 +174,8 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Validators\Interfaces\IPokeGeneratorOptionsValidator.cs" />
+    <Compile Include="Validators\PokeGeneratorOptionsValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\packages\Microsoft.SqlServer.Compact*\NativeBinaries\amd64\*.dll">
@@ -203,7 +210,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
-    <Compile Include="PokemonGenerator.Config.cs" />
+    <Compile Include="Models\PokemonGeneratorConfig.cs" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

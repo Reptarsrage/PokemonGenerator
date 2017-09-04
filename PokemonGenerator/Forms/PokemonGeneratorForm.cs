@@ -1,7 +1,10 @@
 ﻿using PokemonGenerator.Editors;
+using PokemonGenerator.IO;
 using PokemonGenerator.Models;
+using PokemonGenerator.Validators;
 using System;
 using System.ComponentModel;
+using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -26,22 +29,56 @@ namespace PokemonGenerator.Forms
             Shift = 4,
             WinKey = 8
         }
-        private readonly string _projN64Location;
-        private INRageIniEditor editor;
-        private IP64ConfigEditor n64Config;
+        private readonly INRageIniEditor _nRageIniEditor;
+        private readonly IP64ConfigEditor _p64ConfigEditor;
         private readonly IPokemonGeneratorRunner _pokemonGeneratorRunner;
+        private readonly IPersistentConfigManager _configManager;
+        private readonly IPokeGeneratorOptionsValidator _optionsValidator;
         private readonly string _contentDirectory;
         private readonly string _outputDirectory;
 
-        public PokemonGeneratorForm(IPokemonGeneratorRunner pokemonGeneratorRunner, string contentDirectory, string outputDirectory, string projN64Location)
+        private PersistentConfig _config;
+
+        public PokemonGeneratorForm(IPokemonGeneratorRunner pokemonGeneratorRunner,
+            IPersistentConfigManager configManager,
+            IP64ConfigEditor p64ConfigEditor,
+            INRageIniEditor nRageIniEditor,
+            IPokeGeneratorOptionsValidator optionsValidator,
+            string contentDirectory, string outputDirectory)
         {
             _contentDirectory = contentDirectory;
             _outputDirectory = outputDirectory;
             _pokemonGeneratorRunner = pokemonGeneratorRunner;
-            _projN64Location = projN64Location;
+            _configManager = configManager;
+            _nRageIniEditor = nRageIniEditor;
+            _p64ConfigEditor = p64ConfigEditor;
+            _optionsValidator = optionsValidator;
 
+            // Load Persistent Config
+            var configFileName = ConfigurationManager.AppSettings["configFileName"];
+            if (!Path.IsPathRooted(configFileName))
+            {
+                configFileName = Path.Combine(_contentDirectory, configFileName);
+            }
+            _configManager.ConfigFilePath = configFileName;
+            _config = _configManager.Load();
+
+            // Init
             InitializeComponent();
             RegisterHotKey(Handle, 0, (int)KeyModifier.Control, Keys.F12.GetHashCode());
+
+            // Data Bind
+            TextPlayerOneInLocation.DataBindings.Add(new Binding("Text", _config.Options, "InputSaveOne", true, DataSourceUpdateMode.OnPropertyChanged, string.Empty));
+            TextPlayerTwoInLocation.DataBindings.Add(new Binding("Text", _config.Options, "InputSaveTwo", true, DataSourceUpdateMode.OnPropertyChanged, string.Empty));
+            TextPlayerOneName.DataBindings.Add(new Binding("Text", _config.Options, "NameOne", true, DataSourceUpdateMode.OnPropertyChanged, string.Empty));
+            TextPlayerTwoName.DataBindings.Add(new Binding("Text", _config.Options, "NameTwo", true, DataSourceUpdateMode.OnPropertyChanged, string.Empty));
+            TextPlayerOneOutLocation.DataBindings.Add(new Binding("Text", _config.Options, "OutputSaveOne", true, DataSourceUpdateMode.OnPropertyChanged, string.Empty));
+            TextPlayerTwoOutLocation.DataBindings.Add(new Binding("Text", _config.Options, "OutputSaveTwo", true, DataSourceUpdateMode.OnPropertyChanged, string.Empty));
+            TextProjN64Location.DataBindings.Add(new Binding("Text", _config.Options, "Project64Location", true, DataSourceUpdateMode.OnPropertyChanged, string.Empty));
+            SelectLevel.DataBindings.Add(new Binding("Value", _config.Options, "Level", true, DataSourceUpdateMode.OnPropertyChanged, 0));
+            SelectPlayerOneGame.DataBindings.Add(new Binding("Text", _config.Options, "GameOne", true, DataSourceUpdateMode.OnPropertyChanged, 0));
+            SelectPlayerTwoGame.DataBindings.Add(new Binding("Text", _config.Options, "GameTwo", true, DataSourceUpdateMode.OnPropertyChanged, 0));
+            SelectEntropy.SelectedIndex = 0;
         }
 
         /// <summary>
@@ -49,30 +86,43 @@ namespace PokemonGenerator.Forms
         /// </summary>
         protected override void WndProc(ref Message m)
         {
-            base.WndProc(ref m);
-
-            if (m.Msg == 0x0312)
+            try
             {
-                /* Note that the three lines below are not needed if you only want to register one hotkey.
-                 * The below lines are useful in case you want to register multiple keys, which you can use a switch with the id as argument, 
-                 * or if you want to know which key/modifier was pressed for some particular reason. */
-                Keys key = (Keys)(((int)m.LParam >> 16) & 0xFFFF);                  // The key of the hotkey that was pressed.
-                KeyModifier modifier = (KeyModifier)((int)m.LParam & 0xFFFF);       // The modifier of the hotkey that was pressed.
-                var id = m.WParam.ToInt32();                                        // The id of the hotkey that was pressed.
+                base.WndProc(ref m);
 
-                // do something
-                if (id == 0 && ButtonGenerate.Enabled)
+                if (m.Msg == 0x0312)
                 {
-                    ButtonGenerateClick(null, null);
+                    /* Note that the three lines below are not needed if you only want to register one hotkey.
+                     * The below lines are useful in case you want to register multiple keys, which you can use a switch with the id as argument, 
+                     * or if you want to know which key/modifier was pressed for some particular reason. */
+                    Keys key = (Keys)(((int)m.LParam >> 16) & 0xFFFF);                  // The key of the hotkey that was pressed.
+                    KeyModifier modifier = (KeyModifier)((int)m.LParam & 0xFFFF);       // The modifier of the hotkey that was pressed.
+                    var id = m.WParam.ToInt32();                                        // The id of the hotkey that was pressed.
+
+                    // do something
+                    if (id == 0 && ButtonGenerate.Enabled)
+                    {
+                        ButtonGenerateClick(null, null);
+                    }
                 }
+            }
+            catch
+            {
+                UnregisterHotKey(Handle, 0);
+                WndProc(ref m);
             }
         }
 
         private void PokemonGeneratorLoad(object sender, EventArgs e)
         {
             SelectEntropy.SelectedIndex = 0;
-            TextProjN64Location.Text = _projN64Location;
             ValidateTopSection();
+        }
+
+        private void UpdateText(TextBox textBox, string val)
+        {
+            textBox.Text = val;
+            textBox.DataBindings[0].WriteValue();
         }
 
         private void TextProjN64LocationValidate(object sender, EventArgs e)
@@ -84,35 +134,36 @@ namespace PokemonGenerator.Forms
         {
             if (CheckIfFileExistsAndAssignImage(TextProjN64Location, ImageProjN64Location, ".exe"))
             {
+                GroupBoxPlayerOne.Enabled = true;
+                GroupBoxPlayerTwo.Enabled = true;
+
                 // get ini location
-                if (editor == null)
+                if (string.IsNullOrWhiteSpace(_nRageIniEditor.FileName))
                 {
                     var ini = Path.Combine(Path.GetDirectoryName(TextProjN64Location.Text), @"Config\NRage.ini");
                     var cfg = Path.Combine(Path.GetDirectoryName(TextProjN64Location.Text), @"Config\Project64.cfg");
 
                     if (File.Exists(ini))
                     {
-                        editor = new NRageIniEditor(ini);
-                        var tup = editor.GetRomAndSavFileLocation(1);
-                        var tup2 = editor.GetRomAndSavFileLocation(2);
+                        _nRageIniEditor.FileName = ini;
+                        var tup = _nRageIniEditor.GetRomAndSavFileLocation(1);
+                        var tup2 = _nRageIniEditor.GetRomAndSavFileLocation(2);
 
-                        SelectPlayerOneGame.SelectedIndex = 0;
-                        TextPlayerOneInLocation.Text = tup.Item2;
-                        TextPlayerOneOutLocation.Text = string.IsNullOrWhiteSpace(tup.Item2) ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), @"Player2.sav") : tup.Item2;
+                        SelectPlayerOneGame.SelectedIndex = string.IsNullOrWhiteSpace(_config.Options.GameOne) ? 0 : SelectPlayerOneGame.Items.IndexOf(_config.Options.GameOne);
+                        if (string.IsNullOrWhiteSpace(_config.Options.InputSaveOne)) UpdateText(TextPlayerOneInLocation, tup.Item2);
+                        if (string.IsNullOrWhiteSpace(_config.Options.OutputSaveOne)) UpdateText(TextPlayerOneOutLocation, string.IsNullOrWhiteSpace(tup.Item2) ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), @"Player2.sav") : tup.Item2);
 
-                        SelectPlayerTwoGame.SelectedIndex = 0;
-                        TextPlayerTwoInLocation.Text = tup2.Item2;
-                        TextPlayerTwoOutLocation.Text = string.IsNullOrWhiteSpace(tup2.Item2) ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), @"Player2.sav") : tup2.Item2;
+                        SelectPlayerTwoGame.SelectedIndex = string.IsNullOrWhiteSpace(_config.Options.GameOne) ? 0 : SelectPlayerTwoGame.Items.IndexOf(_config.Options.GameOne);
+                        if (string.IsNullOrWhiteSpace(_config.Options.InputSaveOne)) UpdateText(TextPlayerTwoInLocation, tup2.Item2);
+                        if (string.IsNullOrWhiteSpace(_config.Options.OutputSaveOne)) UpdateText(TextPlayerTwoOutLocation, string.IsNullOrWhiteSpace(tup2.Item2) ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), @"Player2.sav") : tup2.Item2);
                     }
                     if (File.Exists(cfg))
                     {
-                        n64Config = new P64ConfigEditor(cfg);
+                        _p64ConfigEditor.FileName = cfg;
                     }
                 }
-                TextPlayerOneName.Text = "PLAYER1";
-                TextPlayerTwoName.Text = "PLAYER2";
-                GroupBoxPlayerOne.Enabled = true;
-                GroupBoxPlayerTwo.Enabled = true;
+                UpdateText(TextPlayerOneName, _config.Options.NameOne);
+                UpdateText(TextPlayerTwoName, _config.Options.NameTwo);
                 return ValidatePlayerSection();
             }
             else
@@ -120,26 +171,20 @@ namespace PokemonGenerator.Forms
                 GroupBoxPlayerOne.Enabled = false;
                 GroupBoxPlayerTwo.Enabled = false;
                 GroupBoxBottom.Enabled = false;
-                editor = null;
-                n64Config = null;
                 return false;
             }
         }
 
         private bool CheckIfFileExistsAndAssignImage(TextBox textbox, PictureBox pic, string expectedExtension)
         {
-            var error = string.IsNullOrEmpty(textbox.Text) ||
-                !File.Exists(textbox.Text) ||
-                !Path.GetExtension(textbox.Text).Equals(expectedExtension, StringComparison.OrdinalIgnoreCase);
+            var error = _optionsValidator.ValidateFileOption(textbox.Text, expectedExtension);
             ToggleErrorImageToPic(pic, error);
             return !error;
         }
 
         private bool CheckIfPathIsValidAndAssignImage(TextBox textbox, PictureBox pic, string expectedExtension)
         {
-            var error = string.IsNullOrEmpty(textbox.Text) ||
-                textbox.Text.IndexOfAny(Path.GetInvalidPathChars()) != -1 ||
-                !Path.GetExtension(textbox.Text).Equals(expectedExtension, StringComparison.OrdinalIgnoreCase);
+            var error = _optionsValidator.ValidateFilePathOption(textbox.Text, expectedExtension);
             ToggleErrorImageToPic(pic, error);
             return !error;
         }
@@ -158,14 +203,12 @@ namespace PokemonGenerator.Forms
 
         private bool ValidatePlayerSection()
         {
-            var good = true;
-
             // Check Player One In/Out Locations
-            good &= CheckIfFileExistsAndAssignImage(TextPlayerOneInLocation, ImagePlayerOneInLocation, ".sav");
+            var good = CheckIfFileExistsAndAssignImage(TextPlayerOneInLocation, ImagePlayerOneInLocation, ".sav");
             good &= CheckIfPathIsValidAndAssignImage(TextPlayerOneOutLocation, ImagePlayerOneOutLocation, ".sav");
 
             // Check Player One Name
-            var TextPlayerOneNameGood = !string.IsNullOrWhiteSpace(TextPlayerOneName.Text);
+            var TextPlayerOneNameGood = _optionsValidator.ValidateName(TextPlayerOneName.Text);
             ToggleErrorImageToPic(ImagePlayerOneName, !TextPlayerOneNameGood);
             good &= TextPlayerOneNameGood;
 
@@ -174,14 +217,12 @@ namespace PokemonGenerator.Forms
             good &= CheckIfPathIsValidAndAssignImage(TextPlayerTwoOutLocation, ImagePlayerTwoOutLocation, ".sav");
 
             // Check Player Two Name
-            var TextPlayerTwoNameGood = !string.IsNullOrWhiteSpace(TextPlayerTwoName.Text);
+            var TextPlayerTwoNameGood = _optionsValidator.ValidateName(TextPlayerTwoName.Text);
             ToggleErrorImageToPic(ImagePlayerTwoName, !TextPlayerTwoNameGood);
             good &= TextPlayerTwoNameGood;
 
             // Check two outs are unique
-            if (!string.IsNullOrWhiteSpace(TextPlayerTwoOutLocation.Text) &&
-                !string.IsNullOrWhiteSpace(TextPlayerOneOutLocation.Text) &&
-                Path.GetFullPath(TextPlayerTwoOutLocation.Text).Equals(Path.GetFullPath(TextPlayerOneOutLocation.Text)))
+            if (!_optionsValidator.ValidateUniquePath(TextPlayerTwoOutLocation.Text, TextPlayerOneOutLocation.Text))
             {
                 ToggleErrorImageToPic(ImagePlayerTwoOutLocation, true);
                 ToggleErrorImageToPic(ImagePlayerOneOutLocation, true);
@@ -198,11 +239,10 @@ namespace PokemonGenerator.Forms
             var good = true;
 
             // Check Entropy
-            var EntropyGood = SelectEntropy.SelectedIndex >= 0 && SelectEntropy.SelectedIndex <= SelectEntropy.Items.Count;
-            good &= EntropyGood;
+            var EntropyGood = _optionsValidator.ValidateEntropy(SelectEntropy.Text);
 
             // Check Level
-            var LevelGood = SelectLevel.Value >= 5 && SelectLevel.Value <= 100;
+            var LevelGood = _optionsValidator.ValidateLevel((int)SelectLevel.Value);
             good &= LevelGood;
 
             ButtonGenerate.Enabled = good;
@@ -237,66 +277,52 @@ namespace PokemonGenerator.Forms
             PanelProgress.Show();
             PanelProgress.BringToFront();
 
-            var args = new BackgroundPokemonGeneratorArgs
-            {
-                PokeGeneratorArguments = new PokeGeneratorArguments
-                {
-                    Level = (int)SelectLevel.Value,
-                    EntropyVal = SelectEntropy.SelectedItem.ToString(),
-                    InputSavOne = TextPlayerOneInLocation.Text,
-                    InputSavTwo = TextPlayerTwoInLocation.Text,
-                    OutputSav1 = TextPlayerOneOutLocation.Text,
-                    OutputSav2 = TextPlayerTwoOutLocation.Text,
-                    GameOne = SelectPlayerOneGame.SelectedItem.ToString(),
-                    GameTwo = SelectPlayerTwoGame.SelectedItem.ToString(),
-                    NameOne = TextPlayerOneName.Text,
-                    NameTwo = TextPlayerTwoName.Text
-                },
-                Project64Location = TextProjN64Location.Text,
-            };
-            BackgroundPokemonGenerator.RunWorkerAsync(args);
+            BackgroundPokemonGenerator.RunWorkerAsync(_config);
         }
 
         private void PokemonGeneratorClosing(object sender, FormClosingEventArgs e)
         {
             // Unregister hotkey with id 0
             UnregisterHotKey(Handle, 0);
+
+            // Save configuration
+            _configManager.Save(_config);
         }
 
         private void ButtonProjN64LocationClick(object sender, EventArgs e)
         {
-            TextProjN64Location.Text = ChooseFile() ?? TextProjN64Location.Text;
+            UpdateText(TextProjN64Location, ChooseFile() ?? TextProjN64Location.Text);
             ValidateTopSection();
         }
 
         private void ButtonPlayerOneInLocationClick(object sender, EventArgs e)
         {
-            TextPlayerOneInLocation.Text = ChooseFile("Save Files|*.sav") ?? TextPlayerOneInLocation.Text;
+            UpdateText(TextPlayerOneInLocation, ChooseFile("Save Files|*.sav") ?? TextPlayerOneInLocation.Text);
             ValidatePlayerSection();
         }
 
         private void ButtonPlayerOneOutLocationClick(object sender, EventArgs e)
         {
-            TextPlayerOneOutLocation.Text = ChooseFile("Save Files|*.sav") ?? TextPlayerOneOutLocation.Text;
+            UpdateText(TextPlayerOneOutLocation, ChooseFile("Save Files|*.sav") ?? TextPlayerOneOutLocation.Text);
             ValidatePlayerSection();
         }
 
         private void ButtonPlayerTwoOutLocationClick(object sender, EventArgs e)
         {
-            TextPlayerTwoOutLocation.Text = ChooseFile("Save Files|*.sav") ?? TextPlayerTwoOutLocation.Text;
+            UpdateText(TextPlayerTwoOutLocation, ChooseFile("Save Files|*.sav") ?? TextPlayerTwoOutLocation.Text);
             ValidatePlayerSection();
         }
 
         private void ButtonPlayerTwoInLocationClick(object sender, EventArgs e)
         {
-            TextPlayerTwoInLocation.Text = ChooseFile("Save Files|*.sav") ?? TextPlayerTwoInLocation.Text;
+            UpdateText(TextPlayerTwoInLocation, ChooseFile("Save Files|*.sav") ?? TextPlayerTwoInLocation.Text);
             ValidatePlayerSection();
         }
 
         private void BackgroundPokemonGeneratorDoWork(object sender, DoWorkEventArgs e)
         {
             var worker = sender as BackgroundWorker;
-            var args = e.Argument as BackgroundPokemonGeneratorArgs;
+            var args = e.Argument as PersistentConfig;
 
             worker.ReportProgress(10, "CLOSING PROJECT64...");
             Thread.Sleep(500); // watch pika dance!
@@ -315,25 +341,25 @@ namespace PokemonGenerator.Forms
             worker.ReportProgress(20, "GENERATING POKEMON...");
 
             // Start generate pokemon process
-            _pokemonGeneratorRunner.Run(_contentDirectory, _outputDirectory, args.PokeGeneratorArguments);
+            _pokemonGeneratorRunner.Run(args);
             Thread.Sleep(1000); // dance dance!
 
             // Start P64
             worker.ReportProgress(80, "STARTING PROJECT64...");
 
             // Update ini file with new sav locations
-            if (!string.IsNullOrWhiteSpace(args.PokeGeneratorArguments.OutputSav1) && !string.IsNullOrWhiteSpace(args.PokeGeneratorArguments.OutputSav2))
+            if (!string.IsNullOrWhiteSpace(args.Options.OutputSaveOne) && !string.IsNullOrWhiteSpace(args.Options.OutputSaveTwo))
             {
-                editor.ChangeSavLocations(args.PokeGeneratorArguments.OutputSav1, args.PokeGeneratorArguments.OutputSav2);
+                _nRageIniEditor.ChangeSavLocations(args.Options.OutputSaveOne, args.Options.OutputSaveTwo);
             }
 
             // Get Recent N64 Rom
-            var rom = n64Config?.GetRecentRom() ?? "";
+            var rom = _p64ConfigEditor?.GetRecentRom() ?? "";
 
             //  Start N64 back up again
             var startInfo = new ProcessStartInfo
             {
-                FileName = Path.GetFullPath(args.Project64Location),
+                FileName = Path.GetFullPath(args.Options.Project64Location),
                 Arguments = $"\"{rom}\""
             };
             Process.Start(startInfo);
@@ -348,7 +374,7 @@ namespace PokemonGenerator.Forms
         {
             if (e.Error != null)
             {
-                MessageBox.Show(e.Error.Message);
+                MessageBox.Show($"Error encountered while running generator:\n{e.Error.Message}\nPlease check your input and try again.");
             }
 
             GroupBoxOuter.Enabled = true;

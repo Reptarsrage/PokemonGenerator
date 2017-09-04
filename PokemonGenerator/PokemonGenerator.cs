@@ -10,18 +10,21 @@ namespace PokemonGenerator
     /// <summary>
     /// The real  MVP of this application. Contains all the logic for generating a team of pokemon.
     /// </summary>
-    internal partial class PokemonGenerator : IPokemonGenerator
+    internal class PokemonGenerator : IPokemonGenerator
     {
         private readonly IPokemonDA _pokemonDA;
         private readonly Random r;
+        private PokemonGeneratorConfig _config;
 
         private IList<PokemonChoice> possiblePokemon { get; set; }
         private int PreviousLevel { get; set; }
+        public PokemonGeneratorConfig Config { get => _config; set { _config = value; } }
 
         public PokemonGenerator(IPokemonDA pokemonDA)
         {
             _pokemonDA = pokemonDA;
             r = new Random();
+            _config = new PokemonGeneratorConfig();
         }
 
         /// <summary>
@@ -85,7 +88,7 @@ namespace PokemonGenerator
         /// <returns><see cref="PokeList"/> containing the generated team.</returns>
         private PokeList ChooseTeam(int level, Entropy entropy)
         {
-            var ret = new PokeList(TEAM_SIZE);
+            var ret = new PokeList(_config.TEAM_SIZE);
 
             // Make sure both players end up with different pokemons, re-use the same list if possible
             if (PreviousLevel != level || possiblePokemon == null || possiblePokemon.Count < 20)
@@ -97,25 +100,26 @@ namespace PokemonGenerator
             // add initial probabilities
             foreach (var choice in possiblePokemon)
             {
-                if (IGNOREPOKEMON.Contains(choice.PokemonId))
+                if (_config.IGNOREPOKEMON.Contains(choice.PokemonId))
                 {
-                    choice.Probability = POKEMON_LIKLIHOOD[PokemonClass.Ignored];
+                    choice.Probability = _config.POKEMON_LIKLIHOOD[PokemonClass.Ignored];
                 }
-                else if (LEGENDARIES.Contains(choice.PokemonId))
+                else if (_config.LEGENDARIES.Contains(choice.PokemonId))
                 {
-                    choice.Probability = POKEMON_LIKLIHOOD[PokemonClass.Legendary];
+                    choice.Probability = _config.POKEMON_LIKLIHOOD[PokemonClass.Legendary];
                 }
-                else if (SPECIALPOKEMON.Contains(choice.PokemonId))
+                else if (_config.SPECIALPOKEMON.Contains(choice.PokemonId))
                 {
-                    choice.Probability = POKEMON_LIKLIHOOD[PokemonClass.Special];
-                } else
+                    choice.Probability = _config.POKEMON_LIKLIHOOD[PokemonClass.Special];
+                }
+                else
                 {
-                    choice.Probability = POKEMON_LIKLIHOOD[PokemonClass.Standard];
+                    choice.Probability = _config.POKEMON_LIKLIHOOD[PokemonClass.Standard];
                 }
             }
 
             // choose team
-            for (int i = 0; i < TEAM_SIZE; i++)
+            for (int i = 0; i < _config.TEAM_SIZE; i++)
             {
                 var ichooseYou = new Pokemon();
                 var chosen_one = ChooseWithProbability(possiblePokemon.Cast<IChoice>().ToList());
@@ -223,64 +227,65 @@ namespace PokemonGenerator
             }
 
             // Calculate probabilities
-            var moveProbabilities =  allPossibleMoves.Select(m =>
-            {
-                var moveChoice = new MoveChoice {
-                    Probability = Likeliness.Full,
-                    Move = m
-                };
+            var moveProbabilities = allPossibleMoves.Select(m =>
+           {
+               var moveChoice = new MoveChoice
+               {
+                   Probability = Likeliness.Full,
+                   Move = m
+               };
 
                 // Apply weight on damage type
                 // if damage type does not mesh with the pokemon, make the likelyhood VERY unlikely
                 if ((info.DamageType == DamageType.Special && (m.DamageType ?? "special").Equals("physical")) ||
-                    (info.DamageType == DamageType.Physical && (m.DamageType ?? "special").Equals("special")))
-                {
-                    moveChoice.Probability *= Likeliness.Extremely_Low;
-                }
+                   (info.DamageType == DamageType.Physical && (m.DamageType ?? "special").Equals("special")))
+               {
+                   moveChoice.Probability *= Likeliness.Extremely_Low;
+               }
 
                 // Apply weight on effect
-                foreach (var key in MOVE_EFFECTS_FILTERS.Keys)
-                {
-                    if (m.Effect.Contains(key))
-                    {
-                        moveChoice.Probability *= MOVE_EFFECTS_FILTERS[key];
-                    }
-                }
+                foreach (var key in _config.MoveEffectFilters.Keys)
+               {
+                   if (m.Effect.Contains(key))
+                   {
+                       moveChoice.Probability *= _config.MoveEffectFilters[key];
+                   }
+               }
 
                 // Apply weight on type
                 if ((info.PokeTypes.Contains(m.Type, StringComparer.CurrentCultureIgnoreCase)) ||
-                    (info.AttackTypesToFavor.Contains(m.Type, StringComparer.CurrentCultureIgnoreCase)))
-                {
-                    moveChoice.Probability *= SAME_TYPE_MODIFIER;
-                }
+                   (info.AttackTypesToFavor.Contains(m.Type, StringComparer.CurrentCultureIgnoreCase)))
+               {
+                   moveChoice.Probability *= _config.SameTypeModifier;
+               }
 
                 // Apply weight on damage
                 if (!info.DoSomeDamageFlag)
-                {
-                    moveChoice.Probability *= Likeliness.Full + (m.Power ?? 0) / DAMAGE_MODIFIER;
-                }
+               {
+                   moveChoice.Probability *= Likeliness.Full + (m.Power ?? 0) / _config.DamageModifier;
+               }
 
                 // Apply special weight for paired moves
                 var paired = new List<int>();
-                if (info.AlreadyPicked.Any(id => PAIRED_MOVES.ContainsKey(id) && PAIRED_MOVES[id].Contains(m.MoveId)))
-                {
-                    moveChoice.Probability = Likeliness.Full * PAIRED_MODIFIER;
-                }
+               if (info.AlreadyPicked.Any(id => _config.PAIRED_MOVES.ContainsKey(id) && _config.PAIRED_MOVES[id].Contains(m.MoveId)))
+               {
+                   moveChoice.Probability = Likeliness.Full * _config.PairedModifier;
+               }
 
                 // Filter out dependant moves which do not already have their dependancy picked
-                if (DEPENDANT_MOVES.ContainsKey(m.MoveId) && (DEPENDANT_MOVES[m.MoveId].Intersect(info.AlreadyPicked)?.Count() ?? 0) == 0)
-                {
-                    moveChoice.Probability = Likeliness.None;
-                }
+                if (_config.DEPENDANT_MOVES.ContainsKey(m.MoveId) && (_config.DEPENDANT_MOVES[m.MoveId].Intersect(info.AlreadyPicked)?.Count() ?? 0) == 0)
+               {
+                   moveChoice.Probability = Likeliness.None;
+               }
 
                 // Finally, apply weight on similar moves to already picked
                 if (info.AlreadyPickedEffects.Contains(m.Effect, StringComparer.CurrentCultureIgnoreCase) || info.AlreadyPicked.Contains(m.MoveId))
-                {
-                    moveChoice.Probability *= Likeliness.Extremely_Low;
-                }
+               {
+                   moveChoice.Probability *= Likeliness.Extremely_Low;
+               }
 
-                return moveChoice;
-            }).ToList();
+               return moveChoice;
+           }).ToList();
 
             // Choose with probabilities
             var chosen = ChooseWithProbability(moveProbabilities.Cast<IChoice>().ToList());
@@ -335,7 +340,7 @@ namespace PokemonGenerator
                 PokeTypes = poke.Types,
                 DamageType = poke.spAttack > poke.attack ? DamageType.Special : DamageType.Physical
             };
-            info.DamageType = Math.Abs(poke.spAttack - poke.attack) < DAMAGE_TYPE_DELTA ? DamageType.Both : info.DamageType;
+            info.DamageType = Math.Abs(poke.spAttack - poke.attack) < _config.DamageTypeDelta ? DamageType.Both : info.DamageType;
             var enemiesWeakAgainst = _pokemonDA.GetWeaknesses(string.Join(",", info.PokeTypes));
             info.AttackTypesToFavor = _pokemonDA.GetWeaknesses(string.Join(",", enemiesWeakAgainst)).ToList();
 
@@ -347,7 +352,7 @@ namespace PokemonGenerator
                 // Generate random move for sketch
                 if (move.MoveId == 166)
                 {
-                    var randos = _pokemonDA.GetRandomMoves(RANDOM_MOVE_MIN_POWER, RANDOM_MOVE_MAX_POWER).ToList();
+                    var randos = _pokemonDA.GetRandomMoves(_config.RandomMoveMinPower, _config.RandomMoveMaxPower).ToList();
                     allPossibleMoves[i] = randos[r.Next(0, randos.Count)];
                 }
 
@@ -369,14 +374,14 @@ namespace PokemonGenerator
                 }
 
                 // Remove if unavailable in TMBank
-                if ((move.LearnType ?? "").Equals("machine") && !HM_BANK.Contains(move.MoveId) && !TMBank.Contains(move.MoveId))
+                if ((move.LearnType ?? "").Equals("machine") && !_config.HM_BANK.Contains(move.MoveId) && !TMBank.Contains(move.MoveId))
                 {
                     allPossibleMoves.Remove(move);
                 }
             }
 
             // Choose moves
-            if (SPECIALPOKEMON.Contains(poke.species))
+            if (_config.SPECIALPOKEMON.Contains(poke.species))
             {
                 foreach (var m in allPossibleMoves)
                 {
@@ -472,7 +477,7 @@ namespace PokemonGenerator
 
 
         /// <summary>
-        /// Use Box-Muller transform to simulate a gaussian distribution with a mean of <see cref="STDEVIATION"/> and a standard deviation of <see cref="STDEVIATION"/>.
+        /// Use Box-Muller transform to simulate a gaussian distribution with a mean of <see cref="PokemonGeneratorConfig.StandardDeviation"/> and a standard deviation of <see cref="PokemonGeneratorConfig.StandardDeviation"/>.
         /// </summary>
         /// <param name="low">The low bound</param>
         /// <param name="high">The High bound.</param>
@@ -484,7 +489,7 @@ namespace PokemonGenerator
             double randStdNormal = Math.Sqrt(-2.0 * Math.Log(u1)) *
                          Math.Sin(2.0 * Math.PI * u2); //random normal(0,1)
             double randNormal =
-                         MEAN + STDEVIATION * randStdNormal; //random normal(mean,stdDev^2)
+                         _config.Mean + _config.StandardDeviation * randStdNormal; //random normal(mean,stdDev^2)
 
             int range = high - low;
             return low + (int)Math.Round(range * randNormal);

@@ -4,6 +4,6 @@ namespace PokemonGenerator
 {
     public interface IPokemonGeneratorRunner
     {
-        void Run(string contentDirectory, string outputDirectory, PokeGeneratorArguments options);
+        void Run(PersistentConfig configOptions);
     }
 }
