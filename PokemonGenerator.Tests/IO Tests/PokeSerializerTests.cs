@@ -1,7 +1,6 @@
 ﻿using Moq;
 using NUnit.Framework;
 using PokemonGenerator.IO;
-using PokemonGenerator.Models;
 using System;
 using System.Collections;
 using System.IO;
@@ -10,7 +9,7 @@ using System.Text;
 namespace PokemonGenerator.Tests.IO_Tests
 {
     [TestFixture]
-    public class PokeSerializerTests
+    public class PokeSerializerTests : SerializerTestsBase
     {
         private IPokeSerializer _serializer;
         private Mock<ICharset> _charsetMock;
@@ -128,15 +127,15 @@ namespace PokemonGenerator.Tests.IO_Tests
 
             // Read trainer name
             _testReader.BaseStream.Seek(0x200B, SeekOrigin.Begin);
-            Assert.AreEqual(PadString(model.Playername, 11), Encoding.ASCII.GetString(_testReader.ReadBytes(11)), "Player Name");
+            Assert.AreEqual(PadString(model.PlayerName, 11), Encoding.ASCII.GetString(_testReader.ReadBytes(11)), "Player Name");
 
             // Read rival name
             _testReader.BaseStream.Seek(0x2021, SeekOrigin.Begin);
-            Assert.AreEqual(PadString(model.Rivalname, 11), Encoding.ASCII.GetString(_testReader.ReadBytes(11)), "Rival Name");
+            Assert.AreEqual(PadString(model.RivalName, 11), Encoding.ASCII.GetString(_testReader.ReadBytes(11)), "Rival Name");
 
             // Read Time played
             _testReader.BaseStream.Seek(0x2053, SeekOrigin.Begin);
-            Assert.AreEqual(model.Timeplayed, _testReader.ReadUInt32(), "Time played");
+            Assert.AreEqual(model.TimePlayed, _testReader.ReadUInt32(), "Time played");
 
             // Read Team Pokemon List Size
             _testReader.BaseStream.Seek(0x288A, SeekOrigin.Begin);
@@ -144,7 +143,7 @@ namespace PokemonGenerator.Tests.IO_Tests
 
             // Read Team Pokemon List Species
             var counter = 0;
-            foreach (var pokemon in model.TeamPokemonlist.Pokemon)
+            foreach (var pokemon in model.TeamPokemonList.Pokemon)
             {
                 _testReader.BaseStream.Seek(0x2892 + counter * 0x30, SeekOrigin.Begin);
                 Assert.AreEqual(pokemon.Species, _testReader.ReadByte(), $"Pokemon ({counter}) Species");
@@ -259,69 +258,6 @@ namespace PokemonGenerator.Tests.IO_Tests
         private string PadString(string s, int i)
         {
             return s.PadRight(i, '`');
-        }
-
-        private SAVFileModel BuildTestModel()
-        {
-            var model = new SAVFileModel
-            {
-                Options = 23,
-                PlayerTrainerID = 13,
-                Playername = "Tester",
-                UnusedPlayersmomname = "Mom",
-                Rivalname = "Rival",
-                UnusedRedsname = "Red",
-                UnusedBluesname = "Blue",
-                Daylightsavings = false,
-                Timeplayed = 12345,
-                Playerpalette = 0xA,
-                Money = 321,
-                JohtoBadges = 0x8,
-                TMpocket = new TMPocket
-                {
-                    HMs = new byte[7],
-                    TMs = new byte[50],
-                },
-                Itempocketitemlist = new ItemList(0),
-                Keyitempocketitemlist = new ItemList(0),
-                Ballpocketitemlist = new ItemList(0),
-                PCitemlist = new ItemList(0),
-                CurrentPCBoxnumber = 0x1,
-                PCBoxnames = new string[14],
-                TeamPokemonlist = new PokeList(6),
-                Pokédexowned = new bool[256],
-                Pokédexseen = new bool[256],
-                CurrentBoxPokemonlist = new PokeList(0),
-                Playergender = 0x1,
-                Boxes = new PokeList[14],
-                Checksum1 = 0xdead,
-                Checksum2 = 0xbeef,
-            };
-            for (int i = 0; i < model.Boxes.Length; i++)
-            {
-                model.Boxes[i] = new PokeList(0);
-                model.PCBoxnames[i] = i.ToString();
-            }
-
-            for (int i = 0; i < model.TeamPokemonlist.Count; i++)
-            {
-                model.TeamPokemonlist.Pokemon[i] = new Pokemon
-                {
-                    OTName = i.ToString(),
-                    Name = i.ToString(),
-                    Species = (byte)i,
-                    Types = new string[] { "Fake" },
-                    MoveName1 = "Move1",
-                    MoveName2 = "Move2",
-                    MoveName3 = "Move3",
-                    MoveName4 = "Move4"
-                };
-                model.TeamPokemonlist.Species[i] = model.TeamPokemonlist.Pokemon[i].Species;
-                model.TeamPokemonlist.OTNames[i] = model.TeamPokemonlist.Pokemon[i].OTName;
-                model.TeamPokemonlist.Names[i] = model.TeamPokemonlist.Pokemon[i].Name;
-            }
-
-            return model;
         }
     }
 }

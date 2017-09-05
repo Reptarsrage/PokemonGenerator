@@ -35,11 +35,11 @@ namespace PokemonGenerator
             var sav = ReadSavProperties(options.InputSaveOne);
 
             // Generate Player One and Team
-            sav.Playername = options.NameOne;
+            sav.PlayerName = options.NameOne;
             CopyAndGen(options.OutputSaveOne, options.InputSaveOne, sav, options.Level);
 
             // Generate Player Two and Team
-            sav.Playername = options.NameTwo;
+            sav.PlayerName = options.NameTwo;
             CopyAndGen(options.OutputSaveTwo, options.InputSaveTwo, sav, options.Level);
         }
 
@@ -59,7 +59,7 @@ namespace PokemonGenerator
             }
 
             var list = _pokemonGenerator.GenerateRandomPokemon(level, Entropy.Low); // TODO: Entropy stuffs
-            sav.TeamPokemonlist = list;
+            sav.TeamPokemonList = list;
             WriteSavProperties(@out, @in, sav);
             ReadSavProperties(@out); // Verification only
             Debug.Print($"Created file {@out}");

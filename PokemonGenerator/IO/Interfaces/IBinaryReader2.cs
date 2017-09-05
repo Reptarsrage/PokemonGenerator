@@ -5,7 +5,6 @@ namespace PokemonGenerator.IO
 {
     public interface IBinaryReader2
     {
-        string FileName { get; }
         long Position { get; }
 
         void Open(string fileName);

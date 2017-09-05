@@ -60,16 +60,16 @@ namespace PokemonGenerator.IO
             _bwriter.WriteInt16((ushort)sav.PlayerTrainerID);
 
             _bwriter.Seek(0x200B, SeekOrigin.Begin);
-            _bwriter.WriteString(sav.Playername, 11, _charset);
+            _bwriter.WriteString(sav.PlayerName, 11, _charset);
 
             _bwriter.Seek(0x2021, SeekOrigin.Begin);
-            _bwriter.WriteString(sav.Rivalname, 11, _charset);
+            _bwriter.WriteString(sav.RivalName, 11, _charset);
 
             _bwriter.Seek(0x2037, SeekOrigin.Begin);
             _bwriter.Write((byte)(sav.Daylightsavings ? 0x80 : 0));
 
             _bwriter.Seek(0x2053, SeekOrigin.Begin);
-            _bwriter.WriteInt32(sav.Timeplayed);
+            _bwriter.WriteInt32(sav.TimePlayed);
 
             _bwriter.Seek(0x206B, SeekOrigin.Begin);
             _bwriter.Write(sav.Playerpalette);
@@ -85,34 +85,34 @@ namespace PokemonGenerator.IO
             SerializeTMPocket(_bwriter, _charset, sav.TMpocket);
 
             _bwriter.Seek(0x241F, SeekOrigin.Begin);
-            SerializeItemList(_bwriter, _charset, 20, sav.Itempocketitemlist);
+            SerializeItemList(_bwriter, _charset, 20, sav.PocketItemList);
 
             _bwriter.Seek(0x2449, SeekOrigin.Begin);
-            SerializeItemList(_bwriter, _charset, 26, sav.Keyitempocketitemlist, true);
+            SerializeItemList(_bwriter, _charset, 26, sav.PocketKeyItemList, true);
 
             _bwriter.Seek(0x2464, SeekOrigin.Begin);
-            SerializeItemList(_bwriter, _charset, 12, sav.Ballpocketitemlist);
+            SerializeItemList(_bwriter, _charset, 12, sav.PocketBallItemList);
 
             _bwriter.Seek(0x247E, SeekOrigin.Begin);
-            SerializeItemList(_bwriter, _charset, 50, sav.PCitemlist);
+            SerializeItemList(_bwriter, _charset, 50, sav.PCItemList);
 
             _bwriter.Seek(0x2724, SeekOrigin.Begin);
-            _bwriter.Write(sav.CurrentPCBoxnumber);
+            _bwriter.Write(sav.CurrentPCBoxNumber);
 
             // Boxes
             _bwriter.Seek(0x2727, SeekOrigin.Begin);
             for (int i = 0; i < 14; i++)
             {
-                _bwriter.WriteString(sav.PCBoxnames[i], 9, _charset);
+                _bwriter.WriteString(sav.PCBoxNames[i], 9, _charset);
             }
 
             // Team
             _bwriter.Seek(0x288A, SeekOrigin.Begin);
-            SerializePokeList(_bwriter, _charset, true, 6, sav.TeamPokemonlist);
+            SerializePokeList(_bwriter, _charset, true, 6, sav.TeamPokemonList);
 
             // Pokedex
             _bwriter.Seek(0x2A4C, SeekOrigin.Begin);
-            BitArray arr = new BitArray(sav.Pokédexowned);
+            BitArray arr = new BitArray(sav.PokedexOwned);
             byte[] bytes = new byte[32];
             arr.CopyTo(bytes, 0);
             foreach (byte b in bytes)
@@ -121,7 +121,7 @@ namespace PokemonGenerator.IO
             }
 
             _bwriter.Seek(0x2A6C, SeekOrigin.Begin);
-            arr = new BitArray(sav.Pokédexseen);
+            arr = new BitArray(sav.PokedexSeen);
             bytes = new byte[32];
             arr.CopyTo(bytes, 0);
             foreach (byte b in bytes)

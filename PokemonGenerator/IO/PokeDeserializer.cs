@@ -61,16 +61,16 @@ namespace PokemonGenerator.IO
             sav.PlayerTrainerID = breader.ReadInt16();
 
             breader.Seek(0x200B, SeekOrigin.Begin);
-            sav.Playername = breader.ReadString(11, charset);
+            sav.PlayerName = breader.ReadString(11, charset);
 
             breader.Seek(0x2021, SeekOrigin.Begin);
-            sav.Rivalname = breader.ReadString(11, charset);
+            sav.RivalName = breader.ReadString(11, charset);
 
             breader.Seek(0x2037, SeekOrigin.Begin);
             sav.Daylightsavings = (breader.ReadByte() & 0x80) == 1;
 
             breader.Seek(0x2053, SeekOrigin.Begin);
-            sav.Timeplayed = breader.ReadInt32();
+            sav.TimePlayed = breader.ReadInt32();
 
             breader.Seek(0x206B, SeekOrigin.Begin);
             sav.Playerpalette = breader.ReadByte();
@@ -95,44 +95,44 @@ namespace PokemonGenerator.IO
             sav.TMpocket = this.ParseTMPocket(breader, charset);
 
             breader.Seek(0x241F, SeekOrigin.Begin);
-            sav.Itempocketitemlist = this.ParseItemList(breader, charset, 20);
+            sav.PocketItemList = this.ParseItemList(breader, charset, 20);
 
             breader.Seek(0x2449, SeekOrigin.Begin);
-            sav.Keyitempocketitemlist = this.ParseItemList(breader, charset, 26, true);
+            sav.PocketKeyItemList = this.ParseItemList(breader, charset, 26, true);
 
             breader.Seek(0x2464, SeekOrigin.Begin);
-            sav.Ballpocketitemlist = this.ParseItemList(breader, charset, 12);
+            sav.PocketBallItemList = this.ParseItemList(breader, charset, 12);
 
             breader.Seek(0x247E, SeekOrigin.Begin);
-            sav.PCitemlist = this.ParseItemList(breader, charset, 50);
+            sav.PCItemList = this.ParseItemList(breader, charset, 50);
 
             breader.Seek(0x2724, SeekOrigin.Begin);
-            sav.CurrentPCBoxnumber = breader.ReadByte();
+            sav.CurrentPCBoxNumber = breader.ReadByte();
 
             // Boxes
             breader.Seek(0x2727, SeekOrigin.Begin);
-            sav.PCBoxnames = new string[14];
+            sav.PCBoxNames = new string[14];
             for (int i = 0; i < 14; i++)
             {
-                sav.PCBoxnames[i] = breader.ReadString(9, charset);
+                sav.PCBoxNames[i] = breader.ReadString(9, charset);
             }
 
             // Team
             breader.Seek(0x288A, SeekOrigin.Begin);
-            sav.TeamPokemonlist = ParsePokeList(breader, charset, true, 6);
+            sav.TeamPokemonList = ParsePokeList(breader, charset, true, 6);
 
             // Pokedex
             breader.Seek(0x2A4C, SeekOrigin.Begin);
-            sav.Pokédexowned = new bool[32 * 8];
+            sav.PokedexOwned = new bool[32 * 8];
             byte[] pokedex = breader.ReadBytes(32);
             arr = new BitArray(pokedex);
-            arr.CopyTo(sav.Pokédexowned, 0);
+            arr.CopyTo(sav.PokedexOwned, 0);
 
             breader.Seek(0x2A6C, SeekOrigin.Begin);
-            sav.Pokédexseen = new bool[32 * 8];
+            sav.PokedexSeen = new bool[32 * 8];
             pokedex = breader.ReadBytes(32);
             arr = new BitArray(pokedex);
-            arr.CopyTo(sav.Pokédexseen, 0);
+            arr.CopyTo(sav.PokedexSeen, 0);
 
             // Current Box List
             breader.Seek(0x2D6C, SeekOrigin.Begin);

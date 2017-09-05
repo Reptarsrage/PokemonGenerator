@@ -88,11 +88,11 @@ namespace PokemonGenerator.Tests
             Assert.NotNull(model2);
 
             // Basic checks
-            Assert.AreEqual("Test1", model1.Playername, "Name not set correctly");
-            Assert.AreEqual("Test2", model2.Playername, "Name not set correctly");
-            Assert.AreEqual(_opts.Configuration.TEAM_SIZE, model1.TeamPokemonlist.Pokemon.Count(), "Team not set correctly");
-            Assert.AreEqual(_opts.Configuration.TEAM_SIZE, model2.TeamPokemonlist.Pokemon.Count(), "Team not set correctly");
-            foreach (var pokemon in model1.TeamPokemonlist.Pokemon)
+            Assert.AreEqual("Test1", model1.PlayerName, "Name not set correctly");
+            Assert.AreEqual("Test2", model2.PlayerName, "Name not set correctly");
+            Assert.AreEqual(_opts.Configuration.TEAM_SIZE, model1.TeamPokemonList.Pokemon.Count(), "Team not set correctly");
+            Assert.AreEqual(_opts.Configuration.TEAM_SIZE, model2.TeamPokemonList.Pokemon.Count(), "Team not set correctly");
+            foreach (var pokemon in model1.TeamPokemonList.Pokemon)
             {
                 Assert.AreEqual(100, pokemon.level, "Level not set correctly");
             }

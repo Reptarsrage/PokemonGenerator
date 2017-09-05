@@ -5,8 +5,6 @@ namespace PokemonGenerator.IO
 {
     public interface IBinaryWriter2
     {
-        string FileName { get; }
-
         void Open(string fileName);
         void Open(Stream stream);
         void Close();
