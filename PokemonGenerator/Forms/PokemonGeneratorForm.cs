@@ -44,7 +44,8 @@ namespace PokemonGenerator.Forms
             IP64ConfigEditor p64ConfigEditor,
             INRageIniEditor nRageIniEditor,
             IPokeGeneratorOptionsValidator optionsValidator,
-            string contentDirectory, string outputDirectory)
+            string contentDirectory, 
+            string outputDirectory)
         {
             _contentDirectory = contentDirectory;
             _outputDirectory = outputDirectory;
@@ -66,19 +67,10 @@ namespace PokemonGenerator.Forms
             // Init
             InitializeComponent();
             RegisterHotKey(Handle, 0, (int)KeyModifier.Control, Keys.F12.GetHashCode());
+            pokeGeneratorOptionsBindingSource.DataSource = _config.Options;
 
-            // Data Bind
-            TextPlayerOneInLocation.DataBindings.Add(new Binding("Text", _config.Options, "InputSaveOne", true, DataSourceUpdateMode.OnPropertyChanged, string.Empty));
-            TextPlayerTwoInLocation.DataBindings.Add(new Binding("Text", _config.Options, "InputSaveTwo", true, DataSourceUpdateMode.OnPropertyChanged, string.Empty));
-            TextPlayerOneName.DataBindings.Add(new Binding("Text", _config.Options, "NameOne", true, DataSourceUpdateMode.OnPropertyChanged, string.Empty));
-            TextPlayerTwoName.DataBindings.Add(new Binding("Text", _config.Options, "NameTwo", true, DataSourceUpdateMode.OnPropertyChanged, string.Empty));
-            TextPlayerOneOutLocation.DataBindings.Add(new Binding("Text", _config.Options, "OutputSaveOne", true, DataSourceUpdateMode.OnPropertyChanged, string.Empty));
-            TextPlayerTwoOutLocation.DataBindings.Add(new Binding("Text", _config.Options, "OutputSaveTwo", true, DataSourceUpdateMode.OnPropertyChanged, string.Empty));
-            TextProjN64Location.DataBindings.Add(new Binding("Text", _config.Options, "Project64Location", true, DataSourceUpdateMode.OnPropertyChanged, string.Empty));
-            SelectLevel.DataBindings.Add(new Binding("Value", _config.Options, "Level", true, DataSourceUpdateMode.OnPropertyChanged, 0));
-            SelectPlayerOneGame.DataBindings.Add(new Binding("Text", _config.Options, "GameOne", true, DataSourceUpdateMode.OnPropertyChanged, 0));
-            SelectPlayerTwoGame.DataBindings.Add(new Binding("Text", _config.Options, "GameTwo", true, DataSourceUpdateMode.OnPropertyChanged, 0));
-            SelectEntropy.SelectedIndex = 0;
+            // Start validation
+            ValidateTopSection();
         }
 
         /// <summary>
@@ -138,30 +130,45 @@ namespace PokemonGenerator.Forms
                 GroupBoxPlayerTwo.Enabled = true;
 
                 // get ini location
-                if (string.IsNullOrWhiteSpace(_nRageIniEditor.FileName))
+                var ini = Path.Combine(Path.GetDirectoryName(TextProjN64Location.Text), @"Config\NRage.ini");
+                var cfg = Path.Combine(Path.GetDirectoryName(TextProjN64Location.Text), @"Config\Project64.cfg");
+
+                if (File.Exists(ini))
                 {
-                    var ini = Path.Combine(Path.GetDirectoryName(TextProjN64Location.Text), @"Config\NRage.ini");
-                    var cfg = Path.Combine(Path.GetDirectoryName(TextProjN64Location.Text), @"Config\Project64.cfg");
+                    // Fill in blanks with ini data
+                    _nRageIniEditor.FileName = ini;
+                    var tup = _nRageIniEditor.GetRomAndSavFileLocation(1);
+                    var tup2 = _nRageIniEditor.GetRomAndSavFileLocation(2);
 
-                    if (File.Exists(ini))
+                    if (string.IsNullOrWhiteSpace(_config.Options.InputSaveOne))
                     {
-                        _nRageIniEditor.FileName = ini;
-                        var tup = _nRageIniEditor.GetRomAndSavFileLocation(1);
-                        var tup2 = _nRageIniEditor.GetRomAndSavFileLocation(2);
-
-                        SelectPlayerOneGame.SelectedIndex = string.IsNullOrWhiteSpace(_config.Options.GameOne) ? 0 : SelectPlayerOneGame.Items.IndexOf(_config.Options.GameOne);
-                        if (string.IsNullOrWhiteSpace(_config.Options.InputSaveOne)) UpdateText(TextPlayerOneInLocation, tup.Item2);
-                        if (string.IsNullOrWhiteSpace(_config.Options.OutputSaveOne)) UpdateText(TextPlayerOneOutLocation, string.IsNullOrWhiteSpace(tup.Item2) ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), @"Player2.sav") : tup.Item2);
-
-                        SelectPlayerTwoGame.SelectedIndex = string.IsNullOrWhiteSpace(_config.Options.GameOne) ? 0 : SelectPlayerTwoGame.Items.IndexOf(_config.Options.GameOne);
-                        if (string.IsNullOrWhiteSpace(_config.Options.InputSaveOne)) UpdateText(TextPlayerTwoInLocation, tup2.Item2);
-                        if (string.IsNullOrWhiteSpace(_config.Options.OutputSaveOne)) UpdateText(TextPlayerTwoOutLocation, string.IsNullOrWhiteSpace(tup2.Item2) ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), @"Player2.sav") : tup2.Item2);
+                        UpdateText(TextPlayerOneInLocation, tup.Item2);
                     }
-                    if (File.Exists(cfg))
+
+                    if (string.IsNullOrWhiteSpace(_config.Options.OutputSaveOne))
                     {
-                        _p64ConfigEditor.FileName = cfg;
+                        UpdateText(TextPlayerOneOutLocation, string.IsNullOrWhiteSpace(tup.Item2) ?
+                            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), @"Player1.sav") :
+                            tup.Item2);
+                    }
+
+                    if (string.IsNullOrWhiteSpace(_config.Options.InputSaveTwo))
+                    {
+                        UpdateText(TextPlayerTwoInLocation, tup2.Item2);
+                    }
+
+                    if (string.IsNullOrWhiteSpace(_config.Options.OutputSaveTwo))
+                    {
+                        UpdateText(TextPlayerTwoOutLocation, string.IsNullOrWhiteSpace(tup2.Item2) ?
+                            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), @"Player2.sav") :
+                            tup2.Item2);
                     }
                 }
+                if (File.Exists(cfg))
+                {
+                    _p64ConfigEditor.FileName = cfg;
+                }
+
                 UpdateText(TextPlayerOneName, _config.Options.NameOne);
                 UpdateText(TextPlayerTwoName, _config.Options.NameTwo);
                 return ValidatePlayerSection();
@@ -177,16 +184,16 @@ namespace PokemonGenerator.Forms
 
         private bool CheckIfFileExistsAndAssignImage(TextBox textbox, PictureBox pic, string expectedExtension)
         {
-            var error = _optionsValidator.ValidateFileOption(textbox.Text, expectedExtension);
-            ToggleErrorImageToPic(pic, error);
-            return !error;
+            var good = _optionsValidator.ValidateFileOption(textbox.Text, expectedExtension);
+            ToggleErrorImageToPic(pic, !good);
+            return good;
         }
 
         private bool CheckIfPathIsValidAndAssignImage(TextBox textbox, PictureBox pic, string expectedExtension)
         {
-            var error = _optionsValidator.ValidateFilePathOption(textbox.Text, expectedExtension);
-            ToggleErrorImageToPic(pic, error);
-            return !error;
+            var good = _optionsValidator.ValidateFilePathOption(textbox.Text, expectedExtension);
+            ToggleErrorImageToPic(pic, !good);
+            return good;
         }
 
         private void ToggleErrorImageToPic(PictureBox pic, bool error)
@@ -354,15 +361,22 @@ namespace PokemonGenerator.Forms
             }
 
             // Get Recent N64 Rom
-            var rom = _p64ConfigEditor?.GetRecentRom() ?? "";
-
-            //  Start N64 back up again
-            var startInfo = new ProcessStartInfo
+            try
             {
-                FileName = Path.GetFullPath(args.Options.Project64Location),
-                Arguments = $"\"{rom}\""
-            };
-            Process.Start(startInfo);
+                var rom = _p64ConfigEditor?.GetRecentRom() ?? "";
+
+                //  Start N64 back up again
+                var startInfo = new ProcessStartInfo
+                {
+                    FileName = Path.GetFullPath(args.Options.Project64Location),
+                    Arguments = $"\"{rom}\""
+                };
+
+                Process.Start(startInfo);
+            } catch
+            {
+                throw new ExternalException("Unable to launch Project64. Config file not found or corrupt.");
+            }
         }
 
         private void BackgroundPokemonGeneratorProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -374,7 +388,7 @@ namespace PokemonGenerator.Forms
         {
             if (e.Error != null)
             {
-                MessageBox.Show($"Error encountered while running generator:\n{e.Error.Message}\nPlease check your input and try again.");
+                MessageBox.Show($"Error encountered while running generator:\n{e.Error.ToString()}\nPlease check your input and try again.");
             }
 
             GroupBoxOuter.Enabled = true;

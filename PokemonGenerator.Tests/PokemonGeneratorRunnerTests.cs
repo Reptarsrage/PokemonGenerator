@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using PokemonGenerator.Enumerations;
 using PokemonGenerator.IO;
 using PokemonGenerator.Models;
 using System;
@@ -23,10 +24,11 @@ namespace PokemonGenerator.Tests
             _outputDir = Path.Combine(GUIProgram.AssemblyDirectory, "Out");
             _opts = new PersistentConfig
             {
-                Options = new PokeGeneratorOptions {
+                Options = new PokeGeneratorOptions
+                {
                     EntropyVal = "Low",
-                    GameOne = "Gold",
-                    GameTwo = "Gold",
+                    GameOne = PokemonGame.Gold.ToString(),
+                    GameTwo = PokemonGame.Gold.ToString(),
                     InputSaveOne = Path.Combine(_contentDir, "gold.sav"),
                     InputSaveTwo = Path.Combine(_contentDir, "gold.sav"),
                     OutputSaveOne = Path.Combine(_outputDir, "out1.sav"),
@@ -76,7 +78,6 @@ namespace PokemonGenerator.Tests
             {
                 model1 = _deserializer.ParseSAVFileModel(Path.Combine(_outputDir, _opts.Options.OutputSaveOne));
                 model2 = _deserializer.ParseSAVFileModel(Path.Combine(_outputDir, _opts.Options.OutputSaveTwo));
-
             }
             catch (Exception e)
             {

@@ -30,9 +30,21 @@ namespace PokemonGenerator.IO
             reader = new BinaryReader(File.OpenRead(fileName));
         }
 
-        public void Close()
+        public void Open(Stream stream)
         {
             if (reader != null) reader.Dispose();
+
+            fileName = null;
+            reader = new BinaryReader(stream);
+        }
+
+        public void Close()
+        {
+            if (reader != null)
+            {
+                reader.Close();
+                reader.Dispose();
+            }
         }
 
         public string ReadString(int length, ICharset charset)

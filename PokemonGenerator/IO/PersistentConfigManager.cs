@@ -7,6 +7,8 @@ namespace PokemonGenerator.IO
     class PersistentConfigManager : IPersistentConfigManager
     {
         private string _configFileName;
+        private readonly JsonSerializerSettings _settings;
+
         public string ConfigFilePath
         {
             get
@@ -19,11 +21,21 @@ namespace PokemonGenerator.IO
             }
         }
 
+        public PersistentConfigManager()
+        {
+            _settings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                DefaultValueHandling = DefaultValueHandling.Ignore,
+                Formatting = Formatting.Indented
+            };
+        }
+
         public PersistentConfig Load()
         {
             try
             {
-                return JsonConvert.DeserializeObject<PersistentConfig>(File.ReadAllText(_configFileName));
+                return JsonConvert.DeserializeObject<PersistentConfig>(File.ReadAllText(_configFileName), _settings);
             }
             catch { /* TODO: Error reporting */  }
 
@@ -38,7 +50,7 @@ namespace PokemonGenerator.IO
         {
             try
             {
-                File.WriteAllText(_configFileName, JsonConvert.SerializeObject(config, Formatting.Indented));
+                File.WriteAllText(_configFileName, JsonConvert.SerializeObject(config, _settings));
             }
             catch { /* TODO: Error reporting */  }
         }

@@ -10,7 +10,7 @@ namespace PokemonGenerator
     /// <summary>
     /// The real  MVP of this application. Contains all the logic for generating a team of pokemon.
     /// </summary>
-    internal class PokemonGenerator : IPokemonGenerator
+    internal class PokemonGeneratorWorker : IPokemonGeneratorWorker
     {
         private readonly IPokemonDA _pokemonDA;
         private readonly Random r;
@@ -20,7 +20,7 @@ namespace PokemonGenerator
         private int PreviousLevel { get; set; }
         public PokemonGeneratorConfig Config { get => _config; set { _config = value; } }
 
-        public PokemonGenerator(IPokemonDA pokemonDA)
+        public PokemonGeneratorWorker(IPokemonDA pokemonDA)
         {
             _pokemonDA = pokemonDA;
             r = new Random();
@@ -128,7 +128,7 @@ namespace PokemonGenerator
                     throw new ArgumentException("Not enough Pokemon to choose from.");
                 }
 
-                ichooseYou.species = (byte)possiblePokemon[(int)chosen_one].PokemonId;
+                ichooseYou.Species = (byte)possiblePokemon[(int)chosen_one].PokemonId;
                 ret.Species[i] = (byte)possiblePokemon[(int)chosen_one].PokemonId;
                 possiblePokemon.RemoveAt((int)chosen_one);
                 ichooseYou.unused = 0x0;
@@ -381,7 +381,7 @@ namespace PokemonGenerator
             }
 
             // Choose moves
-            if (_config.SPECIALPOKEMON.Contains(poke.species))
+            if (_config.SPECIALPOKEMON.Contains(poke.Species))
             {
                 foreach (var m in allPossibleMoves)
                 {
@@ -446,7 +446,7 @@ namespace PokemonGenerator
             for (int i = 0; i < list.Pokemon.Length; i++)
             {
                 var poke = list.Pokemon[i];
-                var moves = _pokemonDA.GetMovesForPokemon(poke.species, level).ToList();
+                var moves = _pokemonDA.GetMovesForPokemon(poke.Species, level).ToList();
                 list.Pokemon[i] = AssignMovestoPokemon(poke, moves, TMBank);
             }
         }

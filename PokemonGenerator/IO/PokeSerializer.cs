@@ -27,10 +27,32 @@ namespace PokemonGenerator.IO
         /// <summary>
         /// Completely serialized a given <see cref="SAVFileModel"/> into the file stream.
         /// </summary>
-        public void SerializeSAVFileModal(string @out, SAVFileModel sav)
+        public void SerializeSAVFileModal(string fileName, SAVFileModel sav)
         {
-            _bwriter.Open(@out);
+            using (var stream = File.Open(fileName, FileMode.Open))
+            {
+                _bwriter.Open(stream);
+                _breader.Open(stream);
+                SerializeSAVFileModal(sav);
+                _breader.Close();
+                _bwriter.Close();
+            }
+        }
 
+        /// <summary>
+        /// Completely serialized a given <see cref="SAVFileModel"/> into the file stream.
+        /// </summary>
+        public void SerializeSAVFileModal(Stream stream, SAVFileModel sav)
+        {
+            _bwriter.Open(stream);
+            _breader.Open(stream);
+            SerializeSAVFileModal(sav);
+            _breader.Close();
+            _bwriter.Close();
+        }
+
+        private void SerializeSAVFileModal(SAVFileModel sav)
+        {
             _bwriter.Seek(0x2000, SeekOrigin.Begin);
             _bwriter.WriteInt64(sav.Options);
 
@@ -38,10 +60,10 @@ namespace PokemonGenerator.IO
             _bwriter.WriteInt16((ushort)sav.PlayerTrainerID);
 
             _bwriter.Seek(0x200B, SeekOrigin.Begin);
-            _bwriter.writeString(sav.Playername, 11, _charset);
+            _bwriter.WriteString(sav.Playername, 11, _charset);
 
             _bwriter.Seek(0x2021, SeekOrigin.Begin);
-            _bwriter.writeString(sav.Rivalname, 11, _charset);
+            _bwriter.WriteString(sav.Rivalname, 11, _charset);
 
             _bwriter.Seek(0x2037, SeekOrigin.Begin);
             _bwriter.Write((byte)(sav.Daylightsavings ? 0x80 : 0));
@@ -81,7 +103,7 @@ namespace PokemonGenerator.IO
             _bwriter.Seek(0x2727, SeekOrigin.Begin);
             for (int i = 0; i < 14; i++)
             {
-                _bwriter.writeString(sav.PCBoxnames[i], 9, _charset);
+                _bwriter.WriteString(sav.PCBoxnames[i], 9, _charset);
             }
 
             // Team
@@ -109,7 +131,7 @@ namespace PokemonGenerator.IO
 
             // Current Box List
             _bwriter.Seek(0x2D6C, SeekOrigin.Begin);
-            SerializePokeList(_bwriter, _charset, false, 20, sav.CurrentBoxPokémonlist);
+            SerializePokeList(_bwriter, _charset, false, 20, sav.CurrentBoxPokemonlist);
 
             // GET 1-7 boxes
             for (int i = 0; i < 7; i++)
@@ -124,24 +146,18 @@ namespace PokemonGenerator.IO
                 _bwriter.Seek(0x6000 + 0x450 * (i - 7), SeekOrigin.Begin);
                 SerializePokeList(_bwriter, _charset, false, 20, sav.Boxes[i]);
             }
-            _bwriter.Close();
 
             // Calculate checksum
             ushort checksum = 0;
-            _breader.Open(@out);
             _breader.Seek(0x2009, SeekOrigin.Begin);
             while (_breader.Position <= 0x2D68)
             {
                 checksum += _breader.ReadByte();
             }
-            _breader.Close();
 
-            // Write Checksum
-            _bwriter.Open(@out);
-            // Checksum 0x2009 - 0x2D68
+            // Write Checksum 1 (0x2009 - 0x2D68)
             _bwriter.Seek(0x2D69, SeekOrigin.Begin);
             _bwriter.WriteInt16LittleEndian(checksum);
-            _bwriter.Close();
         }
 
         /// <summary>
@@ -151,7 +167,7 @@ namespace PokemonGenerator.IO
         {
             byte[] buffer = new byte[1];
 
-            bwriter.Write(poke.species);
+            bwriter.Write(poke.Species);
             bwriter.Write(poke.heldItem);
             bwriter.Write(poke.moveIndex1);
             bwriter.Write(poke.moveIndex2);
@@ -282,7 +298,7 @@ namespace PokemonGenerator.IO
             {
                 if (i < list.Count)
                 {
-                    bwriter.Write(list.Pokemon[i].species);
+                    bwriter.Write(list.Pokemon[i].Species);
                 }
                 else
                 {
@@ -308,7 +324,7 @@ namespace PokemonGenerator.IO
             {
                 if (i < list.Count)
                 {
-                    bwriter.writeString(list.Pokemon[i].OTName, 11, charset);
+                    bwriter.WriteString(list.Pokemon[i].OTName, 11, charset);
                 }
                 else
                 {
@@ -321,7 +337,7 @@ namespace PokemonGenerator.IO
             {
                 if (i < list.Count)
                 {
-                    bwriter.writeString(list.Pokemon[i].Name, 11, charset);
+                    bwriter.WriteString(list.Pokemon[i].Name, 11, charset);
                 }
                 else
                 {

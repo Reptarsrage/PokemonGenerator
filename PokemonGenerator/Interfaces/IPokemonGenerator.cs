@@ -3,7 +3,7 @@ using PokemonGenerator.Models;
 
 namespace PokemonGenerator
 {
-    public interface IPokemonGenerator
+    public interface IPokemonGeneratorWorker
     {
         PokemonGeneratorConfig Config { get; set; }
 

@@ -2,6 +2,7 @@
 using PokemonGenerator.Models;
 using System;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace PokemonGenerator.Validators
@@ -36,7 +37,7 @@ namespace PokemonGenerator.Validators
 
         public bool ValidateGame(string game)
         {
-            return !string.IsNullOrWhiteSpace(game) && (game.Equals("Silver") || game.Equals("Gold"));
+            return !string.IsNullOrWhiteSpace(game) && Enum.GetNames(typeof(PokemonGame)).ToList().Contains(game);
         }
 
         public bool ValidateName(string name)

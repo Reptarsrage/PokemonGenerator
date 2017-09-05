@@ -48,7 +48,7 @@ namespace PokemonGenerator
 
             // Other
             kernel.Bind<IPokemonGeneratorRunner>().To<PokemonGeneratorRunner>();
-            kernel.Bind<IPokemonGenerator>().To<PokemonGenerator>();
+            kernel.Bind<IPokemonGeneratorWorker>().To<PokemonGeneratorWorker>();
         }
 
         public void Dispose()

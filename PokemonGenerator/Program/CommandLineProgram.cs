@@ -1,4 +1,5 @@
-﻿using PokemonGenerator.Models;
+﻿using PokemonGenerator.Enumerations;
+using PokemonGenerator.Models;
 using System;
 using System.IO;
 using System.Reflection;
@@ -42,12 +43,12 @@ namespace PokemonGenerator
                 (verb, subOptions) =>
                 {
                     // Set Game and save for player 1
-                    options.InputSaveOne = (options.GameOne ?? string.Empty).Equals("Silver", StringComparison.InvariantCultureIgnoreCase) ?
+                    options.InputSaveOne = (options?.GameOne ?? PokemonGame.Gold.ToString()).Equals("Silver", StringComparison.InvariantCultureIgnoreCase) ?
                         Path.Combine(contentDirectory, "Silver.sav") :
                         Path.Combine(contentDirectory, "Gold.sav");
 
                     // Set Game and save for player 2
-                    options.InputSaveTwo = (options.GameTwo ?? string.Empty).Equals("Silver", StringComparison.InvariantCultureIgnoreCase) ?
+                    options.InputSaveTwo = (options?.GameTwo ?? PokemonGame.Gold.ToString()).Equals("Silver", StringComparison.InvariantCultureIgnoreCase) ?
                         Path.Combine(contentDirectory, "Silver.sav") :
                         Path.Combine(contentDirectory, "Gold.sav");
 

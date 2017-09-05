@@ -29,12 +29,23 @@ namespace PokemonGenerator.IO
             writer = new BinaryWriter(File.OpenWrite(fileName));
         }
 
-        public void Close()
+        public void Open(Stream stream)
         {
             if (writer != null) writer.Dispose();
+
+            fileName = null;
+            writer = new BinaryWriter(stream);
         }
 
-        public void writeString(string s, int length, ICharset charset)
+        public void Close()
+        {
+            if (writer != null) {
+                writer.Close();
+                writer.Dispose();
+            }
+        }
+
+        public void WriteString(string s, int length, ICharset charset)
         {
             byte[] data = charset.EncodeString(s, length);
             for (int i = 0; i < length; i++)
@@ -85,11 +96,6 @@ namespace PokemonGenerator.IO
             byte ch7 = (byte)((i >> 8) & 0xff);
             byte ch8 = (byte)(i & 0xff);
             writer.Write(new byte[] { ch1, ch2, ch3, ch4, ch5, ch6, ch7, ch8 });
-        }
-
-        public void WriteBoolean(bool b)
-        {
-            writer.Write(b);
         }
 
         public void WriteBits(BitArray bitArray, int length)

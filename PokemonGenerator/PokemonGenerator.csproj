@@ -123,6 +123,7 @@
     <Compile Include="Editors\P64ConfigEditor.cs" />
     <Compile Include="Enumerations\DamageType.cs" />
     <Compile Include="Enumerations\Entropy.cs" />
+    <Compile Include="Enumerations\PokemonGame.cs" />
     <Compile Include="Enumerations\PokemonClass.cs" />
     <Compile Include="Interfaces\IPokemonGenerator.cs" />
     <Compile Include="IO\BinaryWriter2.cs" />
@@ -186,6 +187,7 @@
       <Link>x86\%(Filename)%(Extension)</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Properties\DataSources\PokemonGenerator.Models.PokeGeneratorOptions.datasource" />
     <None Include="Resources\banner.jpg" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

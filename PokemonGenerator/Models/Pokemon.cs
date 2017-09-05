@@ -8,7 +8,7 @@ namespace PokemonGenerator.Models
     /// </summary>
     public class Pokemon
     {
-        public byte species; // 1
+        public byte Species; // 1
 
         public byte heldItem; // 1
 
@@ -85,7 +85,7 @@ namespace PokemonGenerator.Models
         public override string ToString()
         {
             StringBuilder builder = new StringBuilder();
-            builder.Append($"\n {(string.IsNullOrEmpty(Name) ? species.ToString() : Name)}");
+            builder.Append($"\n {(string.IsNullOrEmpty(Name) ? Species.ToString() : Name)}");
             builder.Append($"\n lvl {level}  {(OTGender == 1 ? "Female" : "Male")}");
             builder.Append($"\n heldItem: {heldItem}");
             builder.Append($"\n move 1: {(string.IsNullOrEmpty(MoveName1) ? moveIndex1.ToString() : MoveName1)}\t pp {currentPP1} (up {ppUps1})");

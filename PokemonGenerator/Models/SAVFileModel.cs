@@ -31,7 +31,7 @@ namespace PokemonGenerator.Models
         public PokeList TeamPokemonlist; // 428
         public bool[] Pokédexowned; // 32
         public bool[] Pokédexseen; // 32
-        public PokeList CurrentBoxPokémonlist; // 1102
+        public PokeList CurrentBoxPokemonlist; // 1102
         public byte Playergender; // 1
         public PokeList[] Boxes; // 1102 * 14
         public ushort Checksum1; // 2

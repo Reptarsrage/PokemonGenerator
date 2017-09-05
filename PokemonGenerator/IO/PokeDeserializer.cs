@@ -25,10 +25,33 @@ namespace PokemonGenerator.IO
         /// <summary>
         /// Completely parses a given file stream into a <see cref="SAVFileModel"/> .
         /// </summary>
-        public SAVFileModel ParseSAVFileModel(string filename)
+        public SAVFileModel ParseSAVFileModel(string fileName)
         {
-            breader.Open(filename);
+            using (var stream = File.Open(fileName, FileMode.Open))
+            {
+                breader.Open(stream);
+                var ret = ParseSAVFileModel();
+                breader.Close();
+                return ret;
+            }
+        }
 
+        /// <summary>
+        /// Completely parses a given file stream into a <see cref="SAVFileModel"/> .
+        /// </summary>
+        public SAVFileModel ParseSAVFileModel(Stream stream)
+        {
+            breader.Open(stream);
+            var ret = ParseSAVFileModel();
+            breader.Close();
+            return ret;
+        }
+
+        /// <summary>
+        /// Completely parses a given file stream into a <see cref="SAVFileModel"/> .
+        /// </summary>
+        private SAVFileModel ParseSAVFileModel()
+        {
             SAVFileModel sav = new SAVFileModel();
 
             breader.Seek(0x2000, SeekOrigin.Begin);
@@ -113,7 +136,7 @@ namespace PokemonGenerator.IO
 
             // Current Box List
             breader.Seek(0x2D6C, SeekOrigin.Begin);
-            sav.CurrentBoxPokémonlist = ParsePokeList(breader, charset, false, 20);
+            sav.CurrentBoxPokemonlist = ParsePokeList(breader, charset, false, 20);
 
             // GET 1-7 boxes
             sav.Boxes = new PokeList[14];
@@ -142,7 +165,6 @@ namespace PokemonGenerator.IO
             {
                 checksum += breader.ReadByte();
             }
-            breader.Close();
 
             if (checksum != sav.Checksum1)
             {
@@ -150,7 +172,6 @@ namespace PokemonGenerator.IO
             }
 
             return sav;
-
         }
 
         /// <summary>
@@ -164,7 +185,7 @@ namespace PokemonGenerator.IO
             var buffer = new byte[1];
             var poke = new Pokemon
             {
-                species = breader.ReadByte(),
+                Species = breader.ReadByte(),
                 heldItem = breader.ReadByte(),
                 moveIndex1 = breader.ReadByte(),
                 moveIndex2 = breader.ReadByte(),
@@ -306,7 +327,7 @@ namespace PokemonGenerator.IO
                 if (i < list.Count)
                 {
                     list.Pokemon[i] = new Pokemon();
-                    list.Pokemon[i].species = breader.ReadByte();
+                    list.Pokemon[i].Species = breader.ReadByte();
                 }
                 else
                 {
@@ -320,7 +341,7 @@ namespace PokemonGenerator.IO
                 if (i < list.Count)
                 {
                     Pokemon temp = ParsePokemon(breader, !full, charset);
-                    temp.species = list.Pokemon[i].species;
+                    temp.Species = list.Pokemon[i].Species;
                     list.Pokemon[i] = temp;
                 }
                 else

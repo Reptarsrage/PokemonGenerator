@@ -9,6 +9,7 @@ namespace PokemonGenerator.IO
         long Position { get; }
 
         void Open(string fileName);
+        void Open(Stream stream);
         void Close();
         BitArray ReadBit();
         BitArray ReadBits(int numBits);
