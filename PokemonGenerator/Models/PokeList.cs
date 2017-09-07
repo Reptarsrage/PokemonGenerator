@@ -21,6 +21,14 @@ namespace PokemonGenerator.Models
             Count = (byte)count;
             Names = new string[count];
             OTNames = new string[count];
+
+            for (var i = 0; i < count; i++)
+            {
+                Pokemon[i] = new Pokemon() { SpeciesId = 0, Name = "Empty", OTName = "Empty" };
+                Species[i] = 0;
+                Names[i] = "Empty";
+                OTNames[i] = "Empty";
+            }
         }
 
         /// <summary>
@@ -54,16 +62,16 @@ namespace PokemonGenerator.Models
                 b.AppendLine(string.Join(",", p.Types.ToArray()));
 
                 b.Append("\t");
-                b.AppendLine(p.MoveName1);
+                b.AppendLine(p.Move1Name);
 
                 b.Append("\t");
-                b.AppendLine(p.MoveName2);
+                b.AppendLine(p.Move2Name);
 
                 b.Append("\t");
-                b.AppendLine(p.MoveName3);
+                b.AppendLine(p.Move3Name);
 
                 b.Append("\t");
-                b.AppendLine(p.MoveName4);
+                b.AppendLine(p.Move4Name);
                 b.Append("\n");
             }
 

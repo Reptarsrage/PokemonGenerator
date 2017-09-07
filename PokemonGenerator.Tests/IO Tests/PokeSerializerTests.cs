@@ -1,9 +1,11 @@
 ﻿using Moq;
 using NUnit.Framework;
 using PokemonGenerator.IO;
+using PokemonGenerator.Models;
 using System;
 using System.Collections;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace PokemonGenerator.Tests.IO_Tests
@@ -146,7 +148,106 @@ namespace PokemonGenerator.Tests.IO_Tests
             foreach (var pokemon in model.TeamPokemonList.Pokemon)
             {
                 _testReader.BaseStream.Seek(0x2892 + counter * 0x30, SeekOrigin.Begin);
-                Assert.AreEqual(pokemon.Species, _testReader.ReadByte(), $"Pokemon ({counter}) Species");
+                Assert.AreEqual(pokemon.SpeciesId, _testReader.ReadByte(), $"Pokemon ({counter}) Species");
+                counter++;
+            }
+
+            // Verify
+            _charsetMock.VerifyAll();
+            _bwriterMock.VerifyAll();
+            _breaderMock.VerifyAll();
+        }
+
+        [Test]
+        [Category("Unit")]
+        public void SerializeSAVFileModalComplexValuesTest()
+        {
+            var model = BuildTestModel();
+
+            // Mock
+            SetUpMocksForSerialization();
+
+            // Run
+            _serializer = new PokeSerializer(_charsetMock.Object, _bwriterMock.Object, _breaderMock.Object);
+            _serializer.SerializeSAVFileModal(_testStream, model);
+
+            // Assert
+            var counter = 0;
+            foreach (var expectedPokemon in model.TeamPokemonList.Pokemon)
+            {
+                _testReader.BaseStream.Seek(0x2892 + counter * 0x30, SeekOrigin.Begin);
+
+                byte buffer;
+                var actualPokemon = new Pokemon
+                {
+                    SpeciesId = _testReader.ReadByte(),
+                    HeldItem = _testReader.ReadByte(),
+                    MoveIndex1 = _testReader.ReadByte(),
+                    MoveIndex2 = _testReader.ReadByte(),
+                    MoveIndex3 = _testReader.ReadByte(),
+                    MoveIndex4 = _testReader.ReadByte(),
+                    TrainerId = _testReader.ReadUInt16(),
+                    Experience = BitConverter.ToUInt32(_testReader.ReadBytes(3).Cast<byte>().Concat(new byte[] { 0x00 }).ToArray(), 0),
+                    HitPointsEV = _testReader.ReadUInt16(),
+                    AttackEV = _testReader.ReadUInt16(),
+                    DefenseEV = _testReader.ReadUInt16(),
+                    SpeedEV = _testReader.ReadUInt16(),
+                    SpecialEV = _testReader.ReadUInt16()
+                };
+
+                buffer = _testReader.ReadByte();
+                actualPokemon.AttackIV = (byte)(buffer >> 4);
+                actualPokemon.DefenseIV = (byte)(0xf & buffer);
+
+                buffer = _testReader.ReadByte();
+                actualPokemon.SpeedIV = (byte)(buffer >> 4);
+                actualPokemon.SpecialIV = (byte)(0xf & buffer);
+
+                buffer = _testReader.ReadByte();
+                actualPokemon.Move1PowerPointsUps = (byte)(buffer >> 6);
+                actualPokemon.Move1PowerPointsCurrent = (byte)(0x3f & buffer);
+
+                buffer = _testReader.ReadByte();
+                actualPokemon.Move2PowerPointsUps = (byte)(buffer >> 6);
+                actualPokemon.Move2PowerPointsCurrent = (byte)(0x3f & buffer);
+
+                buffer = _testReader.ReadByte();
+                actualPokemon.Move3PowerPointsUps = (byte)(buffer >> 6);
+                actualPokemon.Move3PowerPointsCurrent = (byte)(0x3f & buffer);
+
+                buffer = _testReader.ReadByte();
+                actualPokemon.Move4PowerPointsUps = (byte)(buffer >> 6);
+                actualPokemon.Move4PowerPointsCurrent = (byte)(0x3f & buffer);
+
+                actualPokemon.Friendship = _testReader.ReadByte();
+
+                buffer = _testReader.ReadByte();
+                actualPokemon.PokerusStrain = (byte)(buffer >> 4);
+                actualPokemon.PokerusDuration = (byte)(0xf & buffer);
+
+                buffer = _testReader.ReadByte();
+                actualPokemon.CaughtTime = (byte)(buffer >> 6);
+                actualPokemon.CaughtLevel = (byte)(0x3f & buffer);
+
+                buffer = _testReader.ReadByte();
+                actualPokemon.OTGender = (byte)(buffer >> 7);
+                actualPokemon.CaughtLocation = (byte)(0x7f & buffer);
+
+                actualPokemon.Level = _testReader.ReadByte();
+
+                actualPokemon.Status = _testReader.ReadByte();
+                actualPokemon.Unused = _testReader.ReadByte();
+                actualPokemon.CurrentHp = _testReader.ReadUInt16();
+                actualPokemon.MaxHp = _testReader.ReadUInt16();
+                actualPokemon.Attack = _testReader.ReadUInt16();
+                actualPokemon.Defense = _testReader.ReadUInt16();
+                actualPokemon.Speed = _testReader.ReadUInt16();
+                actualPokemon.SpAttack = _testReader.ReadUInt16();
+                actualPokemon.SpDefense = _testReader.ReadUInt16();
+                actualPokemon.OTName = expectedPokemon.OTName;
+                actualPokemon.Name = expectedPokemon.Name;
+
+                AssertPokemonEqualityThorough(expectedPokemon, actualPokemon);
                 counter++;
             }
 
@@ -206,19 +307,17 @@ namespace PokemonGenerator.Tests.IO_Tests
 
             // Mock Writer
             _bwriterMock.Setup(b => b.Write(It.IsAny<byte>())).Callback<byte>(_testWriter.Write);
-            _bwriterMock.Setup(b => b.WriteBit(It.IsAny<BitArray>())).Callback<BitArray>(b => AddBitsToBuffer(b, 1));
-            _bwriterMock.Setup(b => b.WriteBits(It.IsAny<BitArray>(), It.Is<int>(i => i >= 0))).Callback<BitArray, int>(AddBitsToBuffer);
-            _bwriterMock.Setup(b => b.WriteInt16(It.IsAny<ushort>())).Callback<ushort>(_testWriter.Write);
+            _bwriterMock.Setup(b => b.WriteUInt16(It.IsAny<ushort>())).Callback<ushort>(_testWriter.Write);
             _bwriterMock.Setup(b => b.WriteInt16LittleEndian(It.IsAny<ushort>())).Callback<ushort>(_testWriter.Write);
-            _bwriterMock.Setup(b => b.WriteInt32(It.IsAny<uint>())).Callback<uint>(_testWriter.Write);
-            _bwriterMock.Setup(b => b.WriteInt24(It.IsAny<uint>())).Callback<uint>(i =>
+            _bwriterMock.Setup(b => b.WriteUInt32(It.IsAny<uint>())).Callback<uint>(_testWriter.Write);
+            _bwriterMock.Setup(b => b.WriteUInt24(It.IsAny<uint>())).Callback<uint>(i =>
             {
                 var bytes = BitConverter.GetBytes(i);
                 byte[] subBytes = new byte[3];
                 Array.Copy(bytes, subBytes, 3);
                 _testWriter.Write(subBytes);
             });
-            _bwriterMock.Setup(b => b.WriteInt64(It.IsAny<ulong>())).Callback<ulong>(_testWriter.Write);
+            _bwriterMock.Setup(b => b.WriteUInt64(It.IsAny<ulong>())).Callback<ulong>(_testWriter.Write);
             _bwriterMock.Setup(b => b.WriteString(It.IsNotNull<string>(), It.Is<int>(i => i >= 0), _charsetMock.Object))
                 .Callback<string, int, ICharset>((s, i, c) => _testWriter.Write(c.EncodeString(s, i)));
             _bwriterMock.Setup(b => b.Seek(It.IsAny<long>(), It.IsAny<SeekOrigin>())).Callback<long, SeekOrigin>((l, o) => _testWriter.Seek((int)l, o));

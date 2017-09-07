@@ -8,13 +8,11 @@ namespace PokemonGenerator.IO
         void Open(string fileName);
         void Open(Stream stream);
         void Close();
-        void WriteBit(BitArray b);
-        void WriteBits(BitArray bitArray, int length);
-        void WriteInt16(ushort i);
+        void WriteUInt16(ushort i);
         void WriteInt16LittleEndian(ushort i);
-        void WriteInt24(uint i);
-        void WriteInt32(uint i);
-        void WriteInt64(ulong i);
+        void WriteUInt24(uint i);
+        void WriteUInt32(uint i);
+        void WriteUInt64(ulong i);
         void WriteString(string s, int length, ICharset charset);
         void Write(byte b);
         void Seek(long offset, SeekOrigin origin);

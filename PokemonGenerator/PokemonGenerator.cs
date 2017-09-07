@@ -58,13 +58,13 @@ namespace PokemonGenerator
             // Calculate final stats using formulae
             foreach (var poke in ret.Pokemon)
             {
-                poke.maxHp = (ushort)HP((double)poke.maxHp, 15d, (double)poke.hpEV, (double)level);
-                poke.currentHp = poke.maxHp;
-                poke.attack = (ushort)STAT((double)poke.attack, (double)poke.attackIV, (double)poke.attackEV, (double)level);
-                poke.defense = (ushort)STAT((double)poke.defense, (double)poke.defenseIV, (double)poke.defenseEV, (double)level);
-                poke.spAttack = (ushort)STAT((double)poke.spAttack, (double)poke.specialIV, (double)poke.specialEV, (double)level);
-                poke.spDefense = (ushort)STAT((double)poke.spDefense, (double)poke.specialIV, (double)poke.specialEV, (double)level);
-                poke.speed = (ushort)STAT((double)poke.speed, (double)poke.speedIV, (double)poke.speedEV, (double)level);
+                poke.MaxHp = (ushort)HP((double)poke.MaxHp, 15d, (double)poke.HitPointsEV, (double)level);
+                poke.CurrentHp = poke.MaxHp;
+                poke.Attack = (ushort)STAT((double)poke.Attack, (double)poke.AttackIV, (double)poke.AttackEV, (double)level);
+                poke.Defense = (ushort)STAT((double)poke.Defense, (double)poke.DefenseIV, (double)poke.DefenseEV, (double)level);
+                poke.SpAttack = (ushort)STAT((double)poke.SpAttack, (double)poke.SpecialIV, (double)poke.SpecialEV, (double)level);
+                poke.SpDefense = (ushort)STAT((double)poke.SpDefense, (double)poke.SpecialIV, (double)poke.SpecialEV, (double)level);
+                poke.Speed = (ushort)STAT((double)poke.Speed, (double)poke.SpeedIV, (double)poke.SpeedEV, (double)level);
             }
 
             // Assign moves
@@ -128,12 +128,12 @@ namespace PokemonGenerator
                     throw new ArgumentException("Not enough Pokemon to choose from.");
                 }
 
-                ichooseYou.Species = (byte)possiblePokemon[(int)chosen_one].PokemonId;
+                ichooseYou.SpeciesId = (byte)possiblePokemon[(int)chosen_one].PokemonId;
                 ret.Species[i] = (byte)possiblePokemon[(int)chosen_one].PokemonId;
                 possiblePokemon.RemoveAt((int)chosen_one);
-                ichooseYou.unused = 0x0;
+                ichooseYou.Unused = 0x0;
                 ichooseYou.OTName = "ROBOT";
-                ichooseYou.heldItem = 0x0;
+                ichooseYou.HeldItem = 0x0;
                 ret.Pokemon[i] = ichooseYou;
             }
 
@@ -169,14 +169,14 @@ namespace PokemonGenerator
                 list.Names[idx] = s.Identifier.ToUpper();
 
                 // Set Stats
-                list.Pokemon[idx].attack = (byte)s.Attack;
-                list.Pokemon[idx].defense = (byte)s.Defense;
-                list.Pokemon[idx].speed = (byte)s.Speed;
-                list.Pokemon[idx].maxHp = (ushort)s.Hp;
-                list.Pokemon[idx].spDefense = (byte)s.SpDefense;
-                list.Pokemon[idx].spAttack = (byte)s.SpAttack;
-                list.Pokemon[idx].level = (byte)level;
-                list.Pokemon[idx].experience = (uint)EXP(s.GrowthRate, level);
+                list.Pokemon[idx].Attack = (byte)s.Attack;
+                list.Pokemon[idx].Defense = (byte)s.Defense;
+                list.Pokemon[idx].Speed = (byte)s.Speed;
+                list.Pokemon[idx].MaxHp = (ushort)s.Hp;
+                list.Pokemon[idx].SpDefense = (byte)s.SpDefense;
+                list.Pokemon[idx].SpAttack = (byte)s.SpAttack;
+                list.Pokemon[idx].Level = (byte)level;
+                list.Pokemon[idx].Experience = (uint)EXP(s.GrowthRate, level);
 
                 // Set Others
                 list.Pokemon[idx].Name = s.Identifier.ToUpper();
@@ -338,9 +338,9 @@ namespace PokemonGenerator
             {
                 Pokemon = poke,
                 PokeTypes = poke.Types,
-                DamageType = poke.spAttack > poke.attack ? DamageType.Special : DamageType.Physical
+                DamageType = poke.SpAttack > poke.Attack ? DamageType.Special : DamageType.Physical
             };
-            info.DamageType = Math.Abs(poke.spAttack - poke.attack) < _config.DamageTypeDelta ? DamageType.Both : info.DamageType;
+            info.DamageType = Math.Abs(poke.SpAttack - poke.Attack) < _config.DamageTypeDelta ? DamageType.Both : info.DamageType;
             var enemiesWeakAgainst = _pokemonDA.GetWeaknesses(string.Join(",", info.PokeTypes));
             info.AttackTypesToFavor = _pokemonDA.GetWeaknesses(string.Join(",", enemiesWeakAgainst)).ToList();
 
@@ -381,7 +381,7 @@ namespace PokemonGenerator
             }
 
             // Choose moves
-            if (_config.SPECIALPOKEMON.Contains(poke.Species))
+            if (_config.SPECIALPOKEMON.Contains(poke.SpeciesId))
             {
                 foreach (var m in allPossibleMoves)
                 {
@@ -406,28 +406,28 @@ namespace PokemonGenerator
             }
 
             // We aren't using these
-            poke.ppUps1 = 0;
-            poke.ppUps2 = 0;
-            poke.ppUps3 = 0;
-            poke.ppUps4 = 0;
+            poke.Move1PowerPointsUps = 0;
+            poke.Move2PowerPointsUps = 0;
+            poke.Move3PowerPointsUps = 0;
+            poke.Move4PowerPointsUps = 0;
 
             // Set moves
-            poke.moveIndex1 = (byte)(chosenMoves.Count > 0 ? chosenMoves.Pop() : 0);
-            poke.moveIndex2 = (byte)(chosenMoves.Count > 0 ? chosenMoves.Pop() : 0);
-            poke.moveIndex3 = (byte)(chosenMoves.Count > 0 ? chosenMoves.Pop() : 0);
-            poke.moveIndex4 = (byte)(chosenMoves.Count > 0 ? chosenMoves.Pop() : 0);
+            poke.MoveIndex1 = (byte)(chosenMoves.Count > 0 ? chosenMoves.Pop() : 0);
+            poke.MoveIndex2 = (byte)(chosenMoves.Count > 0 ? chosenMoves.Pop() : 0);
+            poke.MoveIndex3 = (byte)(chosenMoves.Count > 0 ? chosenMoves.Pop() : 0);
+            poke.MoveIndex4 = (byte)(chosenMoves.Count > 0 ? chosenMoves.Pop() : 0);
 
             // Set move names
-            poke.MoveName1 = allPossibleMoves.ToList().Find(m => m.MoveId == poke.moveIndex1)?.MoveName ?? "";
-            poke.MoveName2 = allPossibleMoves.ToList().Find(m => m.MoveId == poke.moveIndex2)?.MoveName ?? "";
-            poke.MoveName3 = allPossibleMoves.ToList().Find(m => m.MoveId == poke.moveIndex3)?.MoveName ?? "";
-            poke.MoveName4 = allPossibleMoves.ToList().Find(m => m.MoveId == poke.moveIndex4)?.MoveName ?? "";
+            poke.Move1Name = allPossibleMoves.ToList().Find(m => m.MoveId == poke.MoveIndex1)?.MoveName ?? "";
+            poke.Move2Name = allPossibleMoves.ToList().Find(m => m.MoveId == poke.MoveIndex2)?.MoveName ?? "";
+            poke.Move3Name = allPossibleMoves.ToList().Find(m => m.MoveId == poke.MoveIndex3)?.MoveName ?? "";
+            poke.Move4Name = allPossibleMoves.ToList().Find(m => m.MoveId == poke.MoveIndex4)?.MoveName ?? "";
 
             // Set pp
-            poke.currentPP1 = (byte)(allPossibleMoves.ToList().Find(m => m.MoveId == poke.moveIndex1)?.Pp ?? 0);
-            poke.currentPP2 = (byte)(allPossibleMoves.ToList().Find(m => m.MoveId == poke.moveIndex2)?.Pp ?? 0);
-            poke.currentPP3 = (byte)(allPossibleMoves.ToList().Find(m => m.MoveId == poke.moveIndex3)?.Pp ?? 0);
-            poke.currentPP4 = (byte)(allPossibleMoves.ToList().Find(m => m.MoveId == poke.moveIndex4)?.Pp ?? 0);
+            poke.Move1PowerPointsCurrent = (byte)(allPossibleMoves.ToList().Find(m => m.MoveId == poke.MoveIndex1)?.Pp ?? 0);
+            poke.Move2PowerPointsCurrent = (byte)(allPossibleMoves.ToList().Find(m => m.MoveId == poke.MoveIndex2)?.Pp ?? 0);
+            poke.Move3PowerPointsCurrent = (byte)(allPossibleMoves.ToList().Find(m => m.MoveId == poke.MoveIndex3)?.Pp ?? 0);
+            poke.Move4PowerPointsCurrent = (byte)(allPossibleMoves.ToList().Find(m => m.MoveId == poke.MoveIndex4)?.Pp ?? 0);
 
             return poke;
         }
@@ -446,7 +446,7 @@ namespace PokemonGenerator
             for (int i = 0; i < list.Pokemon.Length; i++)
             {
                 var poke = list.Pokemon[i];
-                var moves = _pokemonDA.GetMovesForPokemon(poke.Species, level).ToList();
+                var moves = _pokemonDA.GetMovesForPokemon(poke.SpeciesId, level).ToList();
                 list.Pokemon[i] = AssignMovestoPokemon(poke, moves, TMBank);
             }
         }
@@ -461,17 +461,17 @@ namespace PokemonGenerator
             foreach (var poke in list.Pokemon)
             {
                 // EVs between 0-65535
-                poke.attackEV = (ushort)GaussianRandom(0, 65535);
-                poke.defenseEV = (ushort)GaussianRandom(0, 65535);
-                poke.hpEV = (ushort)GaussianRandom(0, 65535);
-                poke.specialEV = (ushort)GaussianRandom(0, 65535);
-                poke.speedEV = (ushort)GaussianRandom(0, 65535);
+                poke.AttackEV = (ushort)GaussianRandom(0, 65535);
+                poke.DefenseEV = (ushort)GaussianRandom(0, 65535);
+                poke.HitPointsEV = (ushort)GaussianRandom(0, 65535);
+                poke.SpecialEV = (ushort)GaussianRandom(0, 65535);
+                poke.SpeedEV = (ushort)GaussianRandom(0, 65535);
 
                 // IVs between 0-15
-                poke.attackIV = (byte)GaussianRandom(0, 15);
-                poke.defenseIV = (byte)GaussianRandom(0, 15);
-                poke.specialIV = (byte)GaussianRandom(0, 15);
-                poke.speedIV = (byte)GaussianRandom(0, 15);
+                poke.AttackIV = (byte)GaussianRandom(0, 15);
+                poke.DefenseIV = (byte)GaussianRandom(0, 15);
+                poke.SpecialIV = (byte)GaussianRandom(0, 15);
+                poke.SpeedIV = (byte)GaussianRandom(0, 15);
             }
         }
 

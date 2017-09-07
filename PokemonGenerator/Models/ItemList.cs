@@ -17,6 +17,11 @@ namespace PokemonGenerator.Models
         public ItemList(int capacity)
         {
             ItemEntries = new ItemEntry[capacity];
+            Count = (byte)capacity;
+            for (var i = 0; i < capacity; i++)
+            {
+                ItemEntries[i] = new ItemEntry();
+            }
         }
 
         /// <summary>

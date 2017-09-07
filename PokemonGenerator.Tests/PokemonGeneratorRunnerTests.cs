@@ -94,7 +94,7 @@ namespace PokemonGenerator.Tests
             Assert.AreEqual(_opts.Configuration.TEAM_SIZE, model2.TeamPokemonList.Pokemon.Count(), "Team not set correctly");
             foreach (var pokemon in model1.TeamPokemonList.Pokemon)
             {
-                Assert.AreEqual(100, pokemon.level, "Level not set correctly");
+                Assert.AreEqual(100, pokemon.Level, "Level not set correctly");
             }
         }
 

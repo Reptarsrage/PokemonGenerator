@@ -1,6 +1,8 @@
 ﻿using PokemonGenerator.Models;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace PokemonGenerator.IO
 {
@@ -54,10 +56,10 @@ namespace PokemonGenerator.IO
         private void SerializeSAVFileModal(SAVFileModel sav)
         {
             _bwriter.Seek(0x2000, SeekOrigin.Begin);
-            _bwriter.WriteInt64(sav.Options);
+            _bwriter.WriteUInt64(sav.Options);
 
             _bwriter.Seek(0x2009, SeekOrigin.Begin);
-            _bwriter.WriteInt16((ushort)sav.PlayerTrainerID);
+            _bwriter.WriteUInt16((ushort)sav.PlayerTrainerID);
 
             _bwriter.Seek(0x200B, SeekOrigin.Begin);
             _bwriter.WriteString(sav.PlayerName, 11, _charset);
@@ -69,17 +71,21 @@ namespace PokemonGenerator.IO
             _bwriter.Write((byte)(sav.Daylightsavings ? 0x80 : 0));
 
             _bwriter.Seek(0x2053, SeekOrigin.Begin);
-            _bwriter.WriteInt32(sav.TimePlayed);
+            _bwriter.WriteUInt32(sav.TimePlayed);
 
             _bwriter.Seek(0x206B, SeekOrigin.Begin);
             _bwriter.Write(sav.Playerpalette);
 
             _bwriter.Seek(0x23DB, SeekOrigin.Begin);
-            _bwriter.WriteInt24(sav.Money);
+            _bwriter.WriteUInt24(sav.Money);
 
             _bwriter.Seek(0x23E4, SeekOrigin.Begin);
 
-            _bwriter.Write((byte)0xff); // TODO  ?
+            // Johnto Badges
+            var arr = new BitArray(Enumerable.Repeat(true, sav.JohtoBadges).ToArray());
+            byte[] buffer = new byte[1];
+            arr.CopyTo(buffer, 0);
+            _bwriter.Write(buffer[0]);
 
             _bwriter.Seek(0x23E6, SeekOrigin.Begin);
             SerializeTMPocket(_bwriter, _charset, sav.TMpocket);
@@ -112,19 +118,19 @@ namespace PokemonGenerator.IO
 
             // Pokedex
             _bwriter.Seek(0x2A4C, SeekOrigin.Begin);
-            BitArray arr = new BitArray(sav.PokedexOwned);
-            byte[] bytes = new byte[32];
-            arr.CopyTo(bytes, 0);
-            foreach (byte b in bytes)
+            arr = new BitArray(sav.PokedexOwned);
+            buffer = new byte[32];
+            arr.CopyTo(buffer, 0);
+            foreach (byte b in buffer)
             {
                 _bwriter.Write(b);
             }
 
             _bwriter.Seek(0x2A6C, SeekOrigin.Begin);
             arr = new BitArray(sav.PokedexSeen);
-            bytes = new byte[32];
-            arr.CopyTo(bytes, 0);
-            foreach (byte b in bytes)
+            buffer = new byte[32];
+            arr.CopyTo(buffer, 0);
+            foreach (byte b in buffer)
             {
                 _bwriter.Write(b);
             }
@@ -165,92 +171,63 @@ namespace PokemonGenerator.IO
         /// </summary>
         private void SerializePokemon(IBinaryWriter2 bwriter, bool inBox, ICharset charset, Pokemon poke)
         {
-            byte[] buffer = new byte[1];
+            byte buffer;
+            bwriter.Write(poke.SpeciesId);
+            bwriter.Write(poke.HeldItem);
+            bwriter.Write(poke.MoveIndex1);
+            bwriter.Write(poke.MoveIndex2);
+            bwriter.Write(poke.MoveIndex3);
+            bwriter.Write(poke.MoveIndex4);
+            bwriter.WriteUInt16(poke.TrainerId);
+            bwriter.WriteUInt24(poke.Experience);
+            bwriter.WriteUInt16(poke.HitPointsEV);
+            bwriter.WriteUInt16(poke.AttackEV);
+            bwriter.WriteUInt16(poke.DefenseEV);
+            bwriter.WriteUInt16(poke.SpeedEV);
+            bwriter.WriteUInt16(poke.SpecialEV);
 
-            bwriter.Write(poke.Species);
-            bwriter.Write(poke.heldItem);
-            bwriter.Write(poke.moveIndex1);
-            bwriter.Write(poke.moveIndex2);
-            bwriter.Write(poke.moveIndex3);
-            bwriter.Write(poke.moveIndex4);
-            bwriter.WriteInt16(poke.trainerID);
-            bwriter.WriteInt24(poke.experience);
-            bwriter.WriteInt16(poke.hpEV);
-            bwriter.WriteInt16(poke.attackEV);
-            bwriter.WriteInt16(poke.defenseEV);
-            bwriter.WriteInt16(poke.speedEV);
-            bwriter.WriteInt16(poke.specialEV);
+            buffer = (byte)(poke.AttackIV << 0x4 | (0xf & poke.DefenseIV));
+            bwriter.Write(buffer);
 
-            buffer[0] = poke.attackIV;
-            bwriter.WriteBits(new BitArray(buffer), 4);
+            buffer = (byte)(poke.SpeedIV << 0x4 | (0xf & poke.SpecialIV));
+            bwriter.Write(buffer);
 
-            buffer[0] = poke.defenseIV;
-            bwriter.WriteBits(new BitArray(buffer), 4);
+            buffer = (byte)(poke.Move1PowerPointsUps << 0x6 | (0x3f & poke.Move1PowerPointsCurrent));
+            bwriter.Write(buffer);
 
-            buffer[0] = poke.speedIV;
-            bwriter.WriteBits(new BitArray(buffer), 4);
+            buffer = (byte)(poke.Move2PowerPointsUps << 0x6 | (0x3f & poke.Move2PowerPointsCurrent));
+            bwriter.Write(buffer);
 
-            buffer[0] = poke.specialIV;
-            bwriter.WriteBits(new BitArray(buffer), 4);
+            buffer = (byte)(poke.Move3PowerPointsUps << 0x6 | (0x3f & poke.Move3PowerPointsCurrent));
+            bwriter.Write(buffer);
 
+            buffer = (byte)(poke.Move4PowerPointsUps << 0x6 | (0x3f & poke.Move4PowerPointsCurrent));
+            bwriter.Write(buffer);
 
-            buffer[0] = poke.ppUps1;
-            bwriter.WriteBits(new BitArray(buffer), 2);
+            bwriter.Write(poke.Friendship);
 
-            buffer[0] = poke.currentPP1;
-            bwriter.WriteBits(new BitArray(buffer), 6);
+            buffer = (byte)(poke.PokerusStrain << 0x4 | (0xf & poke.PokerusDuration));
+            bwriter.Write(buffer);
 
-            buffer[0] = poke.ppUps2;
-            bwriter.WriteBits(new BitArray(buffer), 2);
+            buffer = (byte)(poke.CaughtTime << 0x6 | (0x3f & poke.CaughtLevel));
+            bwriter.Write(buffer);
 
-            buffer[0] = poke.currentPP2;
-            bwriter.WriteBits(new BitArray(buffer), 6);
+            buffer = (byte)(poke.OTGender << 0x7 | (0x7f & poke.CaughtLocation));
+            bwriter.Write(buffer);
 
-            buffer[0] = poke.ppUps3;
-            bwriter.WriteBits(new BitArray(buffer), 2);
-
-            buffer[0] = poke.currentPP3;
-            bwriter.WriteBits(new BitArray(buffer), 6);
-
-            buffer[0] = poke.ppUps4;
-            bwriter.WriteBits(new BitArray(buffer), 2);
-
-            buffer[0] = poke.currentPP4;
-            bwriter.WriteBits(new BitArray(buffer), 6);
-
-            bwriter.Write(poke.friendship);
-
-            buffer[0] = poke.pokerusStrain;
-            bwriter.WriteBits(new BitArray(buffer), 4);
-
-            buffer[0] = poke.pokerusDuration;
-            bwriter.WriteBits(new BitArray(buffer), 4);
-
-            buffer[0] = poke.caughtTime;
-            bwriter.WriteBits(new BitArray(buffer), 2);
-
-            buffer[0] = poke.caughtLevel;
-            bwriter.WriteBits(new BitArray(buffer), 6);
-
-            buffer[0] = poke.OTGender;
-            bwriter.WriteBit(new BitArray(buffer));
-
-            buffer[0] = poke.caughtLocation;
-            bwriter.WriteBits(new BitArray(buffer), 7);
-
-            bwriter.Write(poke.level);
+            bwriter.Write(poke.Level);
 
             if (!inBox)
             {
-                bwriter.Write(poke.status);
-                bwriter.Write(poke.unused);
-                bwriter.WriteInt16(poke.currentHp);
-                bwriter.WriteInt16(poke.maxHp);
-                bwriter.WriteInt16(poke.attack);
-                bwriter.WriteInt16(poke.defense);
-                bwriter.WriteInt16(poke.speed);
-                bwriter.WriteInt16(poke.spAttack);
-                bwriter.WriteInt16(poke.spDefense);
+                bwriter.Write(poke.Status);
+                bwriter.Write(poke.Unused);
+                bwriter.WriteUInt16(poke.CurrentHp);
+                bwriter.WriteUInt16(poke.MaxHp);
+                bwriter.WriteUInt16(poke.Attack);
+                bwriter.WriteUInt16(poke.Defense);
+                bwriter.WriteUInt16(poke.Speed);
+                bwriter.WriteUInt16(poke.SpAttack);
+                bwriter.WriteUInt16(poke.SpDefense);
             }
         }
 
@@ -298,7 +275,7 @@ namespace PokemonGenerator.IO
             {
                 if (i < list.Count)
                 {
-                    bwriter.Write(list.Pokemon[i].Species);
+                    bwriter.Write(list.Pokemon[i].SpeciesId);
                 }
                 else
                 {

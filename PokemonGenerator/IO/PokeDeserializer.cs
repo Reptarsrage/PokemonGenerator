@@ -1,6 +1,8 @@
 ﻿using PokemonGenerator.Models;
+using System;
 using System.Collections;
 using System.IO;
+using System.Linq;
 
 namespace PokemonGenerator.IO
 {
@@ -55,10 +57,10 @@ namespace PokemonGenerator.IO
             SAVFileModel sav = new SAVFileModel();
 
             breader.Seek(0x2000, SeekOrigin.Begin);
-            sav.Options = breader.ReadInt64();
+            sav.Options = breader.ReadUInt64();
 
             breader.Seek(0x2009, SeekOrigin.Begin);
-            sav.PlayerTrainerID = breader.ReadInt16();
+            sav.PlayerTrainerID = breader.ReadUInt16();
 
             breader.Seek(0x200B, SeekOrigin.Begin);
             sav.PlayerName = breader.ReadString(11, charset);
@@ -70,26 +72,19 @@ namespace PokemonGenerator.IO
             sav.Daylightsavings = (breader.ReadByte() & 0x80) == 1;
 
             breader.Seek(0x2053, SeekOrigin.Begin);
-            sav.TimePlayed = breader.ReadInt32();
+            sav.TimePlayed = breader.ReadUInt32();
 
             breader.Seek(0x206B, SeekOrigin.Begin);
             sav.Playerpalette = breader.ReadByte();
 
             breader.Seek(0x23DB, SeekOrigin.Begin);
-            sav.Money = breader.ReadInt24();
+            sav.Money = breader.ReadUInt24();
 
             breader.Seek(0x23E4, SeekOrigin.Begin);
             sav.JohtoBadges = breader.ReadByte();
 
             BitArray arr = new BitArray(new byte[] { sav.JohtoBadges });
-            sav.JohtoBadges = 0;
-            foreach (bool bit in arr)
-            {
-                if (bit)
-                {
-                    sav.JohtoBadges++;
-                }
-            }
+            sav.JohtoBadges = (byte)arr.Cast<bool>().Count(b => b);
 
             breader.Seek(0x23E6, SeekOrigin.Begin);
             sav.TMpocket = this.ParseTMPocket(breader, charset);
@@ -156,7 +151,7 @@ namespace PokemonGenerator.IO
 
             // Checksum 0x2009 - 0x2D68
             breader.Seek(0x2D69, SeekOrigin.Begin);
-            sav.Checksum1 = breader.ReadInt16LittleEndian();
+            sav.Checksum1 = breader.ReadUInt16LittleEndian();
 
             // Calculate checksum
             breader.Seek(0x2009, SeekOrigin.Begin);
@@ -182,96 +177,78 @@ namespace PokemonGenerator.IO
         /// <param name="charset">The charset to use for string literals</param>
         private Pokemon ParsePokemon(IBinaryReader2 breader, bool inBox, ICharset charset)
         {
-            var buffer = new byte[1];
-            var poke = new Pokemon
+            byte buffer;
+            var pokemon = new Pokemon
             {
-                Species = breader.ReadByte(),
-                heldItem = breader.ReadByte(),
-                moveIndex1 = breader.ReadByte(),
-                moveIndex2 = breader.ReadByte(),
-                moveIndex3 = breader.ReadByte(),
-                moveIndex4 = breader.ReadByte(),
-                trainerID = breader.ReadInt16(),
-                experience = breader.ReadInt24(),
-                hpEV = breader.ReadInt16(),
-                attackEV = breader.ReadInt16(),
-                defenseEV = breader.ReadInt16(),
-                speedEV = breader.ReadInt16(),
-                specialEV = breader.ReadInt16()
+                SpeciesId = breader.ReadByte(),
+                HeldItem = breader.ReadByte(),
+                MoveIndex1 = breader.ReadByte(),
+                MoveIndex2 = breader.ReadByte(),
+                MoveIndex3 = breader.ReadByte(),
+                MoveIndex4 = breader.ReadByte(),
+                TrainerId = breader.ReadUInt16(),
+                Experience = breader.ReadUInt24(),
+                HitPointsEV = breader.ReadUInt16(),
+                AttackEV = breader.ReadUInt16(),
+                DefenseEV = breader.ReadUInt16(),
+                SpeedEV = breader.ReadUInt16(),
+                SpecialEV = breader.ReadUInt16()
             };
 
-            breader.ReadBits(4).CopyTo(buffer, 0);
-            poke.attackIV = buffer[0];
+            buffer = breader.ReadByte();
+            pokemon.AttackIV = (byte)(buffer >> 4);
+            pokemon.DefenseIV = (byte)(0xf & buffer);
 
-            breader.ReadBits(4).CopyTo(buffer, 0);
-            poke.defenseIV = buffer[0];
+            buffer = breader.ReadByte();
+            pokemon.SpeedIV = (byte)(buffer >> 4); 
+            pokemon.SpecialIV = (byte)(0xf & buffer);
 
-            breader.ReadBits(4).CopyTo(buffer, 0);
-            poke.speedIV = buffer[0];
+            buffer = breader.ReadByte();
+            pokemon.Move1PowerPointsUps = (byte)(buffer >> 6);
+            pokemon.Move1PowerPointsCurrent = (byte)(0x3f & buffer);
 
-            breader.ReadBits(4).CopyTo(buffer, 0);
-            poke.specialIV = buffer[0];
+            buffer = breader.ReadByte();
+            pokemon.Move2PowerPointsUps = (byte)(buffer >> 6);
+            pokemon.Move2PowerPointsCurrent = (byte)(0x3f & buffer);
 
-            breader.ReadBits(2).CopyTo(buffer, 0);
-            poke.ppUps1 = buffer[0];
+            buffer = breader.ReadByte();
+            pokemon.Move3PowerPointsUps = (byte)(buffer >> 6);
+            pokemon.Move3PowerPointsCurrent = (byte)(0x3f & buffer);
 
-            breader.ReadBits(6).CopyTo(buffer, 0);
-            poke.currentPP1 = buffer[0];
+            buffer = breader.ReadByte();
+            pokemon.Move4PowerPointsUps = (byte)(buffer >> 6);
+            pokemon.Move4PowerPointsCurrent = (byte)(0x3f & buffer);
 
-            breader.ReadBits(2).CopyTo(buffer, 0);
-            poke.ppUps2 = buffer[0];
+            pokemon.Friendship = breader.ReadByte();
 
-            breader.ReadBits(6).CopyTo(buffer, 0);
-            poke.currentPP2 = buffer[0];
+            buffer = breader.ReadByte();
+            pokemon.PokerusStrain = (byte)(buffer >> 4);
+            pokemon.PokerusDuration = (byte)(0xf & buffer);
 
-            breader.ReadBits(2).CopyTo(buffer, 0);
-            poke.ppUps3 = buffer[0];
+            buffer = breader.ReadByte();
+            pokemon.CaughtTime = (byte)(buffer >> 6);
+            pokemon.CaughtLevel = (byte)(0x3f & buffer);
 
-            breader.ReadBits(6).CopyTo(buffer, 0);
-            poke.currentPP3 = buffer[0];
+            buffer = breader.ReadByte();
+            pokemon.OTGender = (byte)(buffer >> 7);
+            pokemon.CaughtLocation = (byte)(0x7f & buffer);
 
-            breader.ReadBits(2).CopyTo(buffer, 0);
-            poke.ppUps4 = buffer[0];
-
-            breader.ReadBits(6).CopyTo(buffer, 0);
-            poke.currentPP4 = buffer[0];
-
-            poke.friendship = breader.ReadByte();
-
-            breader.ReadBits(4).CopyTo(buffer, 0);
-            poke.pokerusStrain = buffer[0];
-
-            breader.ReadBits(4).CopyTo(buffer, 0);
-            poke.pokerusDuration = buffer[0];
-
-            breader.ReadBits(2).CopyTo(buffer, 0);
-            poke.caughtTime = buffer[0];
-
-            breader.ReadBits(6).CopyTo(buffer, 0);
-            poke.caughtLevel = buffer[0];
-
-            breader.ReadBit().CopyTo(buffer, 0);
-            poke.OTGender = buffer[0];
-
-            breader.ReadBits(7).CopyTo(buffer, 0);
-            poke.caughtLocation = buffer[0];
-
-            poke.level = breader.ReadByte();
+            pokemon.Level = breader.ReadByte();
 
             if (!inBox)
             {
-                poke.status = breader.ReadByte();
-                poke.unused = breader.ReadByte();
-                poke.currentHp = breader.ReadInt16();
-                poke.maxHp = breader.ReadInt16();
-                poke.attack = breader.ReadInt16();
-                poke.defense = breader.ReadInt16();
-                poke.speed = breader.ReadInt16();
-                poke.spAttack = breader.ReadInt16();
-                poke.spDefense = breader.ReadInt16();
+                pokemon.Status = breader.ReadByte();
+                pokemon.Unused = breader.ReadByte();
+                pokemon.CurrentHp = breader.ReadUInt16();
+                pokemon.MaxHp = breader.ReadUInt16();
+                pokemon.Attack = breader.ReadUInt16();
+                pokemon.Defense = breader.ReadUInt16();
+                pokemon.Speed = breader.ReadUInt16();
+                pokemon.SpAttack = breader.ReadUInt16();
+                pokemon.SpDefense = breader.ReadUInt16();
             }
 
-            return poke;
+            return pokemon;
         }
 
         /// <summary>
@@ -327,7 +304,7 @@ namespace PokemonGenerator.IO
                 if (i < list.Count)
                 {
                     list.Pokemon[i] = new Pokemon();
-                    list.Pokemon[i].Species = breader.ReadByte();
+                    list.Pokemon[i].SpeciesId = breader.ReadByte();
                 }
                 else
                 {
@@ -341,7 +318,7 @@ namespace PokemonGenerator.IO
                 if (i < list.Count)
                 {
                     Pokemon temp = ParsePokemon(breader, !full, charset);
-                    temp.Species = list.Pokemon[i].Species;
+                    temp.SpeciesId = list.Pokemon[i].SpeciesId;
                     list.Pokemon[i] = temp;
                 }
                 else

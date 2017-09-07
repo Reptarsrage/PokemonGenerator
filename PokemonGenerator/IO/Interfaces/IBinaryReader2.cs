@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.IO;
+﻿using System.IO;
 
 namespace PokemonGenerator.IO
 {
@@ -10,14 +9,11 @@ namespace PokemonGenerator.IO
         void Open(string fileName);
         void Open(Stream stream);
         void Close();
-        BitArray ReadBit();
-        BitArray ReadBits(int numBits);
-        bool ReadBoolean();
-        ushort ReadInt16();
-        ushort ReadInt16LittleEndian();
-        uint ReadInt24();
-        uint ReadInt32();
-        ulong ReadInt64();
+        ushort ReadUInt16();
+        ushort ReadUInt16LittleEndian();
+        uint ReadUInt24();
+        uint ReadUInt32();
+        ulong ReadUInt64();
         string ReadString(int length, ICharset charset);
         void Seek(long offset, SeekOrigin origin);
         byte ReadByte();
