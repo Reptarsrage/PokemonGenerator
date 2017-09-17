@@ -67,6 +67,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IO Tests\BinaryReader2Tests.cs" />
     <Compile Include="IO Tests\BinaryWriter2Tests.cs" />
     <Compile Include="IO Tests\CharsetTests.cs" />
     <Compile Include="IO Tests\PersistentConfigManagerTests.cs" />
