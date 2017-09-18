@@ -16,7 +16,8 @@
 [Rr]elease/
 [Rr]eleases/
 [Xx]64/
-[Xx]86/
+PokemonGenerator/**/[Xx]86/
+PokemonGenerator.Tests/**/[Xx]86/
 [Bb]uild/
 bld/
 [Bb]in/

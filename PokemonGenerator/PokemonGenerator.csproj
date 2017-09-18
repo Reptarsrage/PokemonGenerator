@@ -1,243 +1,44 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DFF429CD-326E-4558-8319-E00B430DF65A}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PokemonGenerator</RootNamespace>
-    <AssemblyName>PokemonGenerator</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>\\192.168.1.1\tv\PokePublish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Unc</InstallFrom>
-    <UpdateEnabled>true</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <TargetCulture>en</TargetCulture>
-    <ProductName>PokémonGenerator</ProductName>
-    <PublisherName>Reptarsrage</PublisherName>
-    <SuiteName>PokémonGenerator</SuiteName>
-    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
-    <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>10</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <CreateDesktopShortcut>true</CreateDesktopShortcut>
-    <PublishWizardCompleted>true</PublishWizardCompleted>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup>
+    <TargetFramework>net47</TargetFramework>
     <StartupObject>PokemonGenerator.GUIProgram</StartupObject>
-  </PropertyGroup>
-  <PropertyGroup />
-  <PropertyGroup>
     <ApplicationIcon>Resources\favicon.ico</ApplicationIcon>
   </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="CommandLine, Version=1.9.71.2, Culture=neutral, PublicKeyToken=de6f01bd326f8c32, processorArchitecture=MSIL">
-      <HintPath>..\packages\CommandLineParser.1.9.71\lib\net45\CommandLine.dll</HintPath>
-    </Reference>
-    <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Dapper.1.50.2\lib\net451\Dapper.dll</HintPath>
-    </Reference>
-    <Reference Include="Dapper.ColumnMapper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Dapper.ColumnMapper.1.1.1\lib\Dapper.ColumnMapper.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServerCompact, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.SqlServerCompact.6.1.3\lib\net45\EntityFramework.SqlServerCompact.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Data.Linq" />
-    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SqlServer.Compact.4.0.8876.1\lib\net40\System.Data.SqlServerCe.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Security" />
+    <PackageReference Include="CommandLineParser" Version="1.9.71" />
+    <PackageReference Include="Dapper.ColumnMapper" Version="1.1.1" />
+    <PackageReference Include="EntityFramework.SqlServerCompact" Version="6.1.3" />
+    <PackageReference Include="Microsoft.SqlServer.Compact" Version="4.0.8876.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="Ninject" Version="3.2.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
   </ItemGroup>
+  
   <ItemGroup>
-    <Compile Include="App_Start\DapperMapper.cs" />
-    <Compile Include="App_Start\NinjectWrapper.cs" />
-    <Compile Include="DAL\Interfaces\IPokemonDA.cs" />
-    <Compile Include="DAL\PokemonDA.cs" />
-    <Compile Include="DAL\Queries\GetPokemonMoveSet.cs" />
-    <Compile Include="DAL\Queries\GetPossiblePokemon.cs" />
-    <Compile Include="DAL\Queries\GetRandomMoves.cs" />
-    <Compile Include="DAL\Queries\GetTeamBaseStats.cs" />
-    <Compile Include="DAL\Queries\GetTMs.cs" />
-    <Compile Include="DAL\Queries\GetWeaknesses.cs" />
-    <Compile Include="Editors\Interfaces\INRageIniEditor.cs" />
-    <Compile Include="Editors\Interfaces\IP64ConfigEditor.cs" />
-    <Compile Include="Editors\NRageIniEditor.cs" />
-    <Compile Include="Editors\P64ConfigEditor.cs" />
-    <Compile Include="Enumerations\DamageType.cs" />
-    <Compile Include="Enumerations\Entropy.cs" />
-    <Compile Include="Enumerations\PokemonGame.cs" />
-    <Compile Include="Enumerations\PokemonClass.cs" />
-    <Compile Include="Interfaces\IPokemonGenerator.cs" />
-    <Compile Include="IO\BinaryWriter2.cs" />
-    <Compile Include="IO\BinaryReader2.cs" />
-    <Compile Include="IO\Charset.cs" />
-    <Compile Include="IO\Interfaces\ICharset.cs" />
-    <Compile Include="IO\Interfaces\IBinaryReader2.cs" />
-    <Compile Include="IO\Interfaces\IBinaryWriter2.cs" />
-    <Compile Include="IO\Interfaces\IPokeDeserializer.cs" />
-    <Compile Include="IO\Interfaces\IPokeSerializer.cs" />
-    <Compile Include="IO\Interfaces\IPersistentConfigManager.cs" />
-    <Compile Include="IO\PersistentConfigManager.cs" />
-    <Compile Include="Models\PersistentConfig.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Interfaces\IPokemonGeneratorRunner.cs" />
-    <Compile Include="Models\BaseStats.cs" />
-    <Compile Include="Models\Likeliness.cs" />
-    <Compile Include="Models\ItemEntry.cs" />
-    <Compile Include="Models\ItemList.cs" />
-    <Compile Include="Models\Interfaces\IChoice.cs" />
-    <Compile Include="Models\PokeGeneratorOptions.cs" />
-    <Compile Include="Models\PokeList.cs" />
-    <Compile Include="Models\Pokemon.cs" />
-    <Compile Include="Models\PokemonAndMoveInfo.cs" />
-    <Compile Include="Models\MoveChoice.cs" />
-    <Compile Include="Models\PokemonChoice.cs" />
-    <Compile Include="Models\PokemonMoveSetResult.cs" />
-    <Compile Include="PokemonGenerator.cs" />
-    <Compile Include="IO\PokeSerializer.cs" />
-    <Compile Include="IO\PokeDeserializer.cs" />
-    <Compile Include="Forms\PokemonGeneratorForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\PokemonGeneratorForm.Designer.cs">
-      <DependentUpon>PokemonGeneratorForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="PokemonGeneratorRunner.cs" />
-    <Compile Include="Program\CommandLineProgram.cs" />
-    <Compile Include="Program\GUIProgram.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Models\SAVFileModel.cs" />
-    <Compile Include="Models\TMPocket.cs" />
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
-    <Compile Include="Validators\Interfaces\IPokeGeneratorOptionsValidator.cs" />
-    <Compile Include="Validators\PokeGeneratorOptionsValidator.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="..\packages\Microsoft.SqlServer.Compact*\NativeBinaries\amd64\*.dll">
-      <Link>amd64\%(Filename)%(Extension)</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\packages\Microsoft.SqlServer.Compact*\NativeBinaries\x86\*.dll">
-      <Link>x86\%(Filename)%(Extension)</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Include="Properties\DataSources\PokemonGenerator.Models.PokeGeneratorOptions.datasource" />
-    <None Include="Resources\banner.jpg" />
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\banner.jpg" />
     <EmbeddedResource Include="Resources\pikagif.gif" />
     <EmbeddedResource Include="Resources\favicon.ico" />
     <EmbeddedResource Include="Resources\BAD.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="..\ThePokeBase.sdf">
-      <Link>%(Filename)%(Extension)</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\*.sav">
-      <Link>%(Filename)%(Extension)</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="packages.config" />
-    <Compile Include="Models\PokemonGeneratorConfig.cs" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <BootstrapperPackage Include=".NETFramework,Version=v4.5">
-      <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Forms\PokemonGeneratorForm.resx">
-      <DependentUpon>PokemonGeneratorForm.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <ItemGroup>
+      <NativeBinariesx64 Include="$(SolutionDir)NativeBinaries\amd64\*.dll" />
+      <NativeBinariesx86 Include="$(SolutionDir)NativeBinaries\x86\*.dll" />
+      <SaveFiles Include="$(SolutionDir)*.sav" />
+    </ItemGroup>
+
+    <Copy SourceFiles="@(NativeBinariesx64)" DestinationFolder="$(OutputPath)amd64\" />
+    <Copy SourceFiles="@(NativeBinariesx86)" DestinationFolder="$(OutputPath)x86\" />
+    <Copy SourceFiles="$(SolutionDir)ThePokeBase.sdf" DestinationFolder="$(OutputPath)" />
+    <Copy SourceFiles="@(SaveFiles)" DestinationFolder="$(OutputPath)" />
+  </Target>
+
 </Project>
