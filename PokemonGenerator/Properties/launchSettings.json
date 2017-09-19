@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "PokemonGenerator": {
+      "commandName": "Executable",
+      "executablePath": "bin\\Debug\\net47\\PokemonGenerator.exe"
+    }
+  }
+}

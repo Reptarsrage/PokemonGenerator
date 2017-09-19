@@ -5,6 +5,7 @@
     <TargetFramework>net47</TargetFramework>
     <StartupObject>PokemonGenerator.GUIProgram</StartupObject>
     <ApplicationIcon>Resources\favicon.ico</ApplicationIcon>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
