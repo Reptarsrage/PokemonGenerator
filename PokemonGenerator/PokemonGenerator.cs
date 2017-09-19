@@ -1,6 +1,7 @@
 ﻿using PokemonGenerator.DAL;
 using PokemonGenerator.Enumerations;
 using PokemonGenerator.Models;
+using PokemonGenerator.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,18 +14,23 @@ namespace PokemonGenerator
     internal class PokemonGeneratorWorker : IPokemonGeneratorWorker
     {
         private readonly IPokemonDA _pokemonDA;
-        private readonly Random r;
-        private PokemonGeneratorConfig _config;
+        private readonly IPokemonStatUtility _pokemonStatUtility;
+        private readonly IProbabilityUtility _probabilityUtility;
 
+        private readonly Random _random;
+        private PokemonGeneratorConfig _config;
         private IList<PokemonChoice> possiblePokemon { get; set; }
         private int PreviousLevel { get; set; }
+
         public PokemonGeneratorConfig Config { get => _config; set { _config = value; } }
 
-        public PokemonGeneratorWorker(IPokemonDA pokemonDA)
+        public PokemonGeneratorWorker(IPokemonDA pokemonDA, IPokemonStatUtility pokemonStatUtility, IProbabilityUtility probabilityUtility, Random random)
         {
             _pokemonDA = pokemonDA;
-            r = new Random();
+            _pokemonStatUtility = pokemonStatUtility;
+            _probabilityUtility = probabilityUtility;
             _config = new PokemonGeneratorConfig();
+            _random = random;
         }
 
         /// <summary>
@@ -58,13 +64,13 @@ namespace PokemonGenerator
             // Calculate final stats using formulae
             foreach (var poke in ret.Pokemon)
             {
-                poke.MaxHp = (ushort)HP((double)poke.MaxHp, 15d, (double)poke.HitPointsEV, (double)level);
+                poke.MaxHp = (ushort)_pokemonStatUtility.CalculateHitPoints(poke.MaxHp, 15D, poke.HitPointsEV, level);
                 poke.CurrentHp = poke.MaxHp;
-                poke.Attack = (ushort)STAT((double)poke.Attack, (double)poke.AttackIV, (double)poke.AttackEV, (double)level);
-                poke.Defense = (ushort)STAT((double)poke.Defense, (double)poke.DefenseIV, (double)poke.DefenseEV, (double)level);
-                poke.SpAttack = (ushort)STAT((double)poke.SpAttack, (double)poke.SpecialIV, (double)poke.SpecialEV, (double)level);
-                poke.SpDefense = (ushort)STAT((double)poke.SpDefense, (double)poke.SpecialIV, (double)poke.SpecialEV, (double)level);
-                poke.Speed = (ushort)STAT((double)poke.Speed, (double)poke.SpeedIV, (double)poke.SpeedEV, (double)level);
+                poke.Attack = (ushort)_pokemonStatUtility.CalculateStat(poke.Attack, poke.AttackIV, poke.AttackEV, level);
+                poke.Defense = (ushort)_pokemonStatUtility.CalculateStat(poke.Defense, poke.DefenseIV, poke.DefenseEV, level);
+                poke.SpAttack = (ushort)_pokemonStatUtility.CalculateStat(poke.SpAttack, poke.SpecialIV, poke.SpecialEV, level);
+                poke.SpDefense = (ushort)_pokemonStatUtility.CalculateStat(poke.SpDefense, poke.SpecialIV, poke.SpecialEV, level);
+                poke.Speed = (ushort)_pokemonStatUtility.CalculateStat(poke.Speed, poke.SpeedIV, poke.SpeedEV, level);
             }
 
             // Assign moves
@@ -122,7 +128,7 @@ namespace PokemonGenerator
             for (int i = 0; i < _config.TEAM_SIZE; i++)
             {
                 var ichooseYou = new Pokemon();
-                var chosen_one = ChooseWithProbability(possiblePokemon.Cast<IChoice>().ToList());
+                var chosen_one = _probabilityUtility.ChooseWithProbability(possiblePokemon.Cast<IChoice>().ToList());
                 if (chosen_one == null)
                 {
                     throw new ArgumentException("Not enough Pokemon to choose from.");
@@ -176,7 +182,7 @@ namespace PokemonGenerator
                 list.Pokemon[idx].SpDefense = (byte)s.SpDefense;
                 list.Pokemon[idx].SpAttack = (byte)s.SpAttack;
                 list.Pokemon[idx].Level = (byte)level;
-                list.Pokemon[idx].Experience = (uint)EXP(s.GrowthRate, level);
+                list.Pokemon[idx].Experience = (uint)_pokemonStatUtility.CalculateExperiencePoints(s.GrowthRate, level);
 
                 // Set Others
                 list.Pokemon[idx].Name = s.Identifier.ToUpper();
@@ -235,16 +241,16 @@ namespace PokemonGenerator
                    Move = m
                };
 
-                // Apply weight on damage type
-                // if damage type does not mesh with the pokemon, make the likelyhood VERY unlikely
-                if ((info.DamageType == DamageType.Special && (m.DamageType ?? "special").Equals("physical")) ||
-                   (info.DamageType == DamageType.Physical && (m.DamageType ?? "special").Equals("special")))
+               // Apply weight on damage type
+               // if damage type does not mesh with the pokemon, make the likelyhood VERY unlikely
+               if ((info.DamageType == DamageType.Special && (m.DamageType ?? "special").Equals("physical")) ||
+                  (info.DamageType == DamageType.Physical && (m.DamageType ?? "special").Equals("special")))
                {
                    moveChoice.Probability *= Likeliness.Extremely_Low;
                }
 
-                // Apply weight on effect
-                foreach (var key in _config.MoveEffectFilters.Keys)
+               // Apply weight on effect
+               foreach (var key in _config.MoveEffectFilters.Keys)
                {
                    if (m.Effect.Contains(key))
                    {
@@ -252,34 +258,34 @@ namespace PokemonGenerator
                    }
                }
 
-                // Apply weight on type
-                if ((info.PokeTypes.Contains(m.Type, StringComparer.CurrentCultureIgnoreCase)) ||
-                   (info.AttackTypesToFavor.Contains(m.Type, StringComparer.CurrentCultureIgnoreCase)))
+               // Apply weight on type
+               if ((info.PokeTypes.Contains(m.Type, StringComparer.CurrentCultureIgnoreCase)) ||
+                  (info.AttackTypesToFavor.Contains(m.Type, StringComparer.CurrentCultureIgnoreCase)))
                {
                    moveChoice.Probability *= _config.SameTypeModifier;
                }
 
-                // Apply weight on damage
-                if (!info.DoSomeDamageFlag)
+               // Apply weight on damage
+               if (!info.DoSomeDamageFlag)
                {
                    moveChoice.Probability *= Likeliness.Full + (m.Power ?? 0) / _config.DamageModifier;
                }
 
-                // Apply special weight for paired moves
-                var paired = new List<int>();
+               // Apply special weight for paired moves
+               var paired = new List<int>();
                if (info.AlreadyPicked.Any(id => _config.PAIRED_MOVES.ContainsKey(id) && _config.PAIRED_MOVES[id].Contains(m.MoveId)))
                {
                    moveChoice.Probability = Likeliness.Full * _config.PairedModifier;
                }
 
-                // Filter out dependant moves which do not already have their dependancy picked
-                if (_config.DEPENDANT_MOVES.ContainsKey(m.MoveId) && (_config.DEPENDANT_MOVES[m.MoveId].Intersect(info.AlreadyPicked)?.Count() ?? 0) == 0)
+               // Filter out dependant moves which do not already have their dependancy picked
+               if (_config.DEPENDANT_MOVES.ContainsKey(m.MoveId) && (_config.DEPENDANT_MOVES[m.MoveId].Intersect(info.AlreadyPicked)?.Count() ?? 0) == 0)
                {
                    moveChoice.Probability = Likeliness.None;
                }
 
-                // Finally, apply weight on similar moves to already picked
-                if (info.AlreadyPickedEffects.Contains(m.Effect, StringComparer.CurrentCultureIgnoreCase) || info.AlreadyPicked.Contains(m.MoveId))
+               // Finally, apply weight on similar moves to already picked
+               if (info.AlreadyPickedEffects.Contains(m.Effect, StringComparer.CurrentCultureIgnoreCase) || info.AlreadyPicked.Contains(m.MoveId))
                {
                    moveChoice.Probability *= Likeliness.Extremely_Low;
                }
@@ -288,7 +294,7 @@ namespace PokemonGenerator
            }).ToList();
 
             // Choose with probabilities
-            var chosen = ChooseWithProbability(moveProbabilities.Cast<IChoice>().ToList());
+            var chosen = _probabilityUtility.ChooseWithProbability(moveProbabilities.Cast<IChoice>().ToList());
             if (chosen != null)
             {
                 chosenMoveId = moveProbabilities[(int)chosen].Move.MoveId;
@@ -353,7 +359,7 @@ namespace PokemonGenerator
                 if (move.MoveId == 166)
                 {
                     var randos = _pokemonDA.GetRandomMoves(_config.RandomMoveMinPower, _config.RandomMoveMaxPower).ToList();
-                    allPossibleMoves[i] = randos[r.Next(0, randos.Count)];
+                    allPossibleMoves[i] = randos[_random.Next(0, randos.Count)];
                 }
 
                 // remove duplicates
@@ -461,128 +467,17 @@ namespace PokemonGenerator
             foreach (var poke in list.Pokemon)
             {
                 // EVs between 0-65535
-                poke.AttackEV = (ushort)GaussianRandom(0, 65535);
-                poke.DefenseEV = (ushort)GaussianRandom(0, 65535);
-                poke.HitPointsEV = (ushort)GaussianRandom(0, 65535);
-                poke.SpecialEV = (ushort)GaussianRandom(0, 65535);
-                poke.SpeedEV = (ushort)GaussianRandom(0, 65535);
+                poke.AttackEV = (ushort)_probabilityUtility.GaussianRandom(0, 65535);
+                poke.DefenseEV = (ushort)_probabilityUtility.GaussianRandom(0, 65535);
+                poke.HitPointsEV = (ushort)_probabilityUtility.GaussianRandom(0, 65535);
+                poke.SpecialEV = (ushort)_probabilityUtility.GaussianRandom(0, 65535);
+                poke.SpeedEV = (ushort)_probabilityUtility.GaussianRandom(0, 65535);
 
                 // IVs between 0-15
-                poke.AttackIV = (byte)GaussianRandom(0, 15);
-                poke.DefenseIV = (byte)GaussianRandom(0, 15);
-                poke.SpecialIV = (byte)GaussianRandom(0, 15);
-                poke.SpeedIV = (byte)GaussianRandom(0, 15);
-            }
-        }
-
-
-        /// <summary>
-        /// Use Box-Muller transform to simulate a gaussian distribution with a mean of <see cref="PokemonGeneratorConfig.StandardDeviation"/> and a standard deviation of <see cref="PokemonGeneratorConfig.StandardDeviation"/>.
-        /// </summary>
-        /// <param name="low">The low bound</param>
-        /// <param name="high">The High bound.</param>
-        /// <returns></returns>
-        private int GaussianRandom(int low, int high)
-        {
-            double u1 = r.NextDouble(); //these are uniform(0,1) random doubles
-            double u2 = r.NextDouble();
-            double randStdNormal = Math.Sqrt(-2.0 * Math.Log(u1)) *
-                         Math.Sin(2.0 * Math.PI * u2); //random normal(0,1)
-            double randNormal =
-                         _config.Mean + _config.StandardDeviation * randStdNormal; //random normal(mean,stdDev^2)
-
-            int range = high - low;
-            return low + (int)Math.Round(range * randNormal);
-        }
-
-        /// <summary>
-        /// Chooses from a list of elements where each element is the relative probability of itself being chosen (Relative to all other elements). This may fail if there are elements with negative probabilties or if the list is empty.
-        /// </summary>
-        /// <param name="choices">A list of relative probabilities.</param>
-        /// <returns>The index of the chosen element, null on failure.</returns>
-        private int? ChooseWithProbability(IList<IChoice> choices)
-        {
-            // Normalize probabilities
-            var norm = 1D / choices.Select(pc => pc.Probability).Sum();
-            foreach (var choice in choices)
-            {
-                choice.Probability *= norm;
-            }
-
-            // Makes sure they all add up to 100 after being normalized
-            var runningSum = 0D;
-            for (int i = 0; i < choices.Count; i++)
-            {
-                runningSum += choices[i].Probability;
-                choices[i].Probability = runningSum;
-            }
-
-            // Choose from list with probabilities
-            var diceRoll = r.NextDouble();
-            for (int i = 0; i < choices.Count; i++)
-            {
-                if (diceRoll < choices[i].Probability)
-                {
-                    return i;
-                }
-            }
-            return null;
-        }
-
-        /// <summary>
-        /// Calculates the max hp for a pokemon based on it's base stat value, IV and EV values using a standard formula for Generations I and II.
-        /// <para />
-        /// http://bulbapedia.bulbagarden.net/wiki/Statistic
-        /// </summary>
-        /// <param name="base">Base HP Stat</param>
-        /// <param name="iv">IV (0-15)</param>
-        /// <param name="ev">EV (0-65535)</param>
-        /// <param name="lvl">level of pokemon (5-100)</param>
-        /// <returns>The max HP for the pokemon</returns>
-        private double HP(double @base, double iv, double ev, double lvl)
-        {
-            return Math.Floor(((@base + iv) * 2.0 + Math.Floor(Math.Ceiling(Math.Sqrt(ev)) / 4.0)) * lvl / 100.0) + lvl + 10;
-        }
-
-        /// <summary>
-        /// Calculates the stat for a pokemon based on it's base stat value, IV and EV values using a standard formula for Generations I and II.
-        /// <para />
-        /// http://bulbapedia.bulbagarden.net/wiki/Statistic
-        /// </summary>
-        /// <param name="base">Base HP Stat</param>
-        /// <param name="iv">IV (0-15)</param>
-        /// <param name="ev">EV (0-65535)</param>
-        /// <param name="lvl">level of pokemon (5-100)</param>
-        /// <returns>The calculated stat for the pokemon</returns>
-        private double STAT(double @base, double iv, double ev, double lvl)
-        {
-            return Math.Floor(((@base + iv) * 2.0 + Math.Floor(Math.Ceiling(Math.Sqrt(ev)) / 4.0)) * lvl / 100.0) + 5;
-        }
-
-        /// <summary>
-        /// Calcualtes the experience points a pokemon would need to attain the given level.
-        /// <para/> 
-        /// http://bulbapedia.bulbagarden.net/wiki/Experience
-        /// </summary>
-        /// <param name="group">The experience group  of the pokemon (See: http://bulbapedia.bulbagarden.net/wiki/Experience )</param>
-        /// <param name="n">The level of the pokemon</param>
-        /// <returns></returns>
-        private double EXP(string group, int n)
-        {
-            switch (group)
-            {
-                case "medium-slow":
-                    return (6d / 5d) * Math.Pow(n, 3) - 15d * Math.Pow(n, 2) + 100d * n - 140d;
-                case "medium":
-                    return Math.Pow(n, 3);
-                case "fast":
-                    return 4d * Math.Pow(n, 3) / 5d;
-                case "slow":
-                    return 5d * Math.Pow(n, 3) / 4d;
-                case "medium-fast":
-                    return Math.Pow(n, 3);
-                default:
-                    return Math.Pow(n, 3);
+                poke.AttackIV = (byte)_probabilityUtility.GaussianRandom(0, 15);
+                poke.DefenseIV = (byte)_probabilityUtility.GaussianRandom(0, 15);
+                poke.SpecialIV = (byte)_probabilityUtility.GaussianRandom(0, 15);
+                poke.SpeedIV = (byte)_probabilityUtility.GaussianRandom(0, 15);
             }
         }
     }

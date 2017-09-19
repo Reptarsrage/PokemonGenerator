@@ -103,12 +103,12 @@ namespace PokemonGenerator.Models
         /// <summary>
         /// Average
         /// </summary>
-        public double Mean = 0.5D;
+        public double Mean = 0.7D;
 
         /// <summary>
         /// Standard deviation
         /// </summary>
-        public double StandardDeviation = 0.5D;
+        public double StandardDeviation = 0.1D;
 
         /// <summary>
         /// The higher this is, the more likely pokemon with a certain type will only know moves of that type.
