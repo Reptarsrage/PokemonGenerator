@@ -18,11 +18,7 @@ namespace PokemonGenerator.Tests.IO_Tests
         {
             _manager = new PersistentConfigManager();
             _outDir = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Out");
-            _testConfig = new PersistentConfig
-            {
-                Options = new PokeGeneratorOptions(),
-                Configuration = new PokemonGeneratorConfig()
-            };
+            _testConfig = new PersistentConfig(new PokemonGeneratorConfig(), new PokeGeneratorOptions());
         }
 
         [SetUp]
@@ -87,7 +83,7 @@ namespace PokemonGenerator.Tests.IO_Tests
             var outFile = Path.Combine(_outDir, "test.json");
             _manager.ConfigFilePath = outFile;
             _manager.Save(_testConfig);
-            var saved = JsonConvert.DeserializeObject<PersistentConfig>(File.ReadAllText(outFile));
+            var saved = JsonConvert.DeserializeObject<PersistentConfig>(File.ReadAllText(outFile), new JsonSerializerSettings { ObjectCreationHandling = ObjectCreationHandling.Replace });
 
             foreach (var propertyInfo in typeof(PokemonGeneratorConfig).GetProperties(BindingFlags.Public | BindingFlags.Instance))
             {
@@ -121,18 +117,13 @@ namespace PokemonGenerator.Tests.IO_Tests
         public void LoadMissingConfigurationsTest()
         {
             var outFile = Path.Combine(_outDir, "test.json");
-            var config = new PersistentConfig
-            {
-                Options = new PokeGeneratorOptions(),
-                Configuration = new PokemonGeneratorConfig(),
-            };
+            var config = new PersistentConfig(new PokemonGeneratorConfig(), new PokeGeneratorOptions());
             config.Configuration.MoveEffectFilters.Remove("heal");
             File.WriteAllText(outFile, JsonConvert.SerializeObject(config));
             _manager.ConfigFilePath = outFile;
             var loaded = _manager.Load();
 
-            Assert.True(loaded.Configuration.MoveEffectFilters.ContainsKey("heal"));
-            Assert.AreEqual(_testConfig.Configuration.MoveEffectFilters["heal"], loaded.Configuration.MoveEffectFilters["heal"]);
+            Assert.False(loaded.Configuration.MoveEffectFilters.ContainsKey("heal"));
         }
 
         [Test]
@@ -140,11 +131,7 @@ namespace PokemonGenerator.Tests.IO_Tests
         public void LoadEmptyConfigurationsTest()
         {
             var outFile = Path.Combine(_outDir, "test.json");
-            var config = new PersistentConfig
-            {
-                Options = new PokeGeneratorOptions(),
-                Configuration = null
-            };
+            var config = new PersistentConfig(null, new PokeGeneratorOptions());
             File.WriteAllText(outFile, JsonConvert.SerializeObject(_testConfig));
             _manager.ConfigFilePath = outFile;
             var loaded = _manager.Load();

@@ -8,13 +8,12 @@ namespace PokemonGenerator.Utilities
     class ProbabilityUtility : IProbabilityUtility
     {
         private readonly Random _random;
+        private readonly PokemonGeneratorConfig _pokemonGeneratorConfig;
 
-        public PokemonGeneratorConfig Config { get; set; }
-
-        public ProbabilityUtility(Random random)
+        public ProbabilityUtility(Random random, PokemonGeneratorConfig pokemonGeneratorConfig)
         {
             _random = random;
-            Config = new PokemonGeneratorConfig();
+            _pokemonGeneratorConfig = pokemonGeneratorConfig;
         }
 
         /// <summary>
@@ -30,8 +29,8 @@ namespace PokemonGenerator.Utilities
             var u1 = 1D - _random.NextDouble();                                                      // (0, 1]
             var u2 = 1D - _random.NextDouble();                                                      // (0, 1]
             var randStdNormal = Math.Sqrt(-2D * Math.Log(u1)) * Math.Sin(2D * Math.PI * u2);   // random with a standard normal distribution
-            var mean = low + (high - low) * Config.Mean;
-            var stdDeviation = (high - low) * Config.StandardDeviation;
+            var mean = low + (high - low) * _pokemonGeneratorConfig.Mean;
+            var stdDeviation = (high - low) * _pokemonGeneratorConfig.StandardDeviation;
             var randNormal = mean + stdDeviation * randStdNormal;                              // random scaled with the standard deviation and translated with the mean
             return (int)Math.Max(Math.Min(randNormal, high), low);                             // clamp [low, high]
         }

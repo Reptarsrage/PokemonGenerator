@@ -27,23 +27,23 @@ namespace PokemonGenerator.IO
             {
                 NullValueHandling = NullValueHandling.Ignore,
                 DefaultValueHandling = DefaultValueHandling.Ignore,
-                Formatting = Formatting.Indented
+                Formatting = Formatting.Indented,
+                ObjectCreationHandling = ObjectCreationHandling.Replace
             };
         }
 
         public PersistentConfig Load()
         {
+            var ret = new PersistentConfig(new PokemonGeneratorConfig(), new PokeGeneratorOptions());
             try
             {
-                return JsonConvert.DeserializeObject<PersistentConfig>(File.ReadAllText(_configFileName), _settings);
+                var parsed = JsonConvert.DeserializeObject<PersistentConfig>(File.ReadAllText(_configFileName), _settings);
+                ret.Configuration = parsed.Configuration ?? ret.Configuration;
+                ret.Options = parsed.Options ?? ret.Options;
             }
             catch { /* TODO: Error reporting */  }
 
-            return new PersistentConfig
-            {
-                Configuration = new PokemonGeneratorConfig(),
-                Options = new PokeGeneratorOptions()
-            };
+            return ret;
         }
 
         public void Save(PersistentConfig config)

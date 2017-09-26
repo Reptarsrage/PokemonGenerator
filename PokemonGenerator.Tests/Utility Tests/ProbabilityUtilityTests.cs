@@ -9,23 +9,18 @@ namespace PokemonGenerator.Tests.Utility_Tests
     [TestFixture]
     public class ProbabilityUtilityTests
     {
-        private Random _random;
+        private Random random;
         private IProbabilityUtility probabilityUtility;
         private PokemonGeneratorConfig config;
         private const int iterations = 50000;
         private const double stdDeviation = 0.05;
 
-        [OneTimeSetUp]
-        public void Init()
-        {
-            _random = new Random("The cake is a lie".GetHashCode());
-            config = new PokemonGeneratorConfig();
-        }
-
         [SetUp]
         public void SetUp()
         {
-            probabilityUtility = new ProbabilityUtility(_random);
+            config = new PokemonGeneratorConfig();
+            random = new Random("The cake is a lie".GetHashCode());
+            probabilityUtility = new ProbabilityUtility(random, config);
         }
 
         [Test]
@@ -216,8 +211,10 @@ namespace PokemonGenerator.Tests.Utility_Tests
         [TestCase(40, 4000, 0.90, 0.05)]
         public void GaussianRandomWithConfigTest(int low, int high, double meanConfig, double stdDeviationConfig)
         {
-            probabilityUtility.Config.Mean = meanConfig;
-            probabilityUtility.Config.StandardDeviation = stdDeviationConfig;
+            config.Mean = meanConfig;
+            config.StandardDeviation = stdDeviationConfig;
+            probabilityUtility = new ProbabilityUtility(random, config);
+
             var result = Enumerable.Range(0, iterations).Select(i => probabilityUtility.GaussianRandom(low, high));
             var resultMean = result.Average();
             var resultStdDeviation = Math.Sqrt(result.Select(i => Math.Pow(i - resultMean, 2D)).Average());

@@ -2,10 +2,10 @@
 {
     public class PersistentConfig
     {
-        public PersistentConfig()
+        public PersistentConfig(PokemonGeneratorConfig pokemonGeneratorConfig, PokeGeneratorOptions pokeGeneratorOptions)
         {
-            Configuration = new PokemonGeneratorConfig();
-            Options = new PokeGeneratorOptions();
+            Configuration = pokemonGeneratorConfig;
+            Options = pokeGeneratorOptions;
         }
 
         public PokemonGeneratorConfig Configuration { get; set; }

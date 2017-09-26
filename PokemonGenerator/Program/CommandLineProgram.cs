@@ -56,10 +56,9 @@ namespace PokemonGenerator
                     using (var injection = new NinjectWrapper())
                     {
                         var runner = injection.Get<IPokemonGeneratorRunner>();
-                        runner.Run(new PersistentConfig {
-                            Options =  subOptions as PokeGeneratorOptions,
-                            Configuration = new PokemonGeneratorConfig()
-                        });
+                        var config = injection.Get<PersistentConfig>();
+                        config.Options = subOptions as PokeGeneratorOptions;
+                        runner.Run(config);
                     }
                 }))
             {

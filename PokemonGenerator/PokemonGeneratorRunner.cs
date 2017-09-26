@@ -30,7 +30,6 @@ namespace PokemonGenerator
                 throw new ArgumentException("configOptions");
 
             var options = configOptions.Options;
-            _pokemonGenerator.Config = configOptions.Configuration;
 
             var sav = ReadSavProperties(options.InputSaveOne);
 

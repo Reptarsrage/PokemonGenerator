@@ -2,6 +2,7 @@
 using PokemonGenerator.DAL;
 using PokemonGenerator.Editors;
 using PokemonGenerator.IO;
+using PokemonGenerator.Models;
 using PokemonGenerator.Utilities;
 using PokemonGenerator.Validators;
 using System;
@@ -55,6 +56,9 @@ namespace PokemonGenerator
             kernel.Bind<IPokemonGeneratorRunner>().To<PokemonGeneratorRunner>();
             kernel.Bind<IPokemonGeneratorWorker>().To<PokemonGeneratorWorker>();
             kernel.Bind<Random>().To<Random>().InSingletonScope();
+            kernel.Bind<PokemonGeneratorConfig>().To<PokemonGeneratorConfig>();
+            kernel.Bind<PokeGeneratorOptions>().To<PokeGeneratorOptions>();
+            kernel.Bind<PersistentConfig>().To<PersistentConfig>();
         }
 
         public void Dispose()

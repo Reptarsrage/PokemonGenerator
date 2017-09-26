@@ -22,9 +22,7 @@ namespace PokemonGenerator.Tests
         {
             _contentDir = GUIProgram.AssemblyDirectory;
             _outputDir = Path.Combine(GUIProgram.AssemblyDirectory, "Out");
-            _opts = new PersistentConfig
-            {
-                Options = new PokeGeneratorOptions
+            _opts = new PersistentConfig(new PokemonGeneratorConfig(), new PokeGeneratorOptions
                 {
                     EntropyVal = "Low",
                     GameOne = PokemonGame.Gold.ToString(),
@@ -36,9 +34,7 @@ namespace PokemonGenerator.Tests
                     NameOne = "Test1",
                     NameTwo = "Test2",
                     Level = 100
-                },
-                Configuration = new PokemonGeneratorConfig()
-            };
+                });
 
             using (var injector = new NinjectWrapper())
             {
@@ -90,8 +86,8 @@ namespace PokemonGenerator.Tests
             // Basic checks
             Assert.AreEqual("Test1", model1.PlayerName, "Name not set correctly");
             Assert.AreEqual("Test2", model2.PlayerName, "Name not set correctly");
-            Assert.AreEqual(_opts.Configuration.TEAM_SIZE, model1.TeamPokemonList.Pokemon.Count(), "Team not set correctly");
-            Assert.AreEqual(_opts.Configuration.TEAM_SIZE, model2.TeamPokemonList.Pokemon.Count(), "Team not set correctly");
+            Assert.AreEqual(_opts.Configuration.TeamSize, model1.TeamPokemonList.Pokemon.Count(), "Team not set correctly");
+            Assert.AreEqual(_opts.Configuration.TeamSize, model2.TeamPokemonList.Pokemon.Count(), "Team not set correctly");
             foreach (var pokemon in model1.TeamPokemonList.Pokemon)
             {
                 Assert.AreEqual(100, pokemon.Level, "Level not set correctly");
