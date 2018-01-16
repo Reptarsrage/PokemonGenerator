@@ -1,15 +1,14 @@
 ﻿using Moq;
-using NUnit.Framework;
 using PokemonGenerator.IO;
 using System;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Xunit;
 
 namespace PokemonGenerator.Tests.IO_Tests
 {
-    [TestFixture]
-    public class BinaryWriter2Tests
+    public class BinaryWriter2Tests : IDisposable
     {
         private readonly IBinaryWriter2 _bwriter;
         private readonly Mock<ICharset> _charsetMock;
@@ -17,6 +16,7 @@ namespace PokemonGenerator.Tests.IO_Tests
 
         public BinaryWriter2Tests()
         {
+            _testStream = new MemoryStream();
             _bwriter = new BinaryWriter2();
             _charsetMock = new Mock<ICharset>();
             _charsetMock.Setup(c => c.DecodeString(It.IsNotNull<byte[]>())).Returns<byte[]>(b => Encoding.ASCII.GetString(b));
@@ -24,29 +24,22 @@ namespace PokemonGenerator.Tests.IO_Tests
 
         }
 
-        [SetUp]
-        public void SetUp()
-        {
-            _testStream = new MemoryStream();
-        }
-
-        [TearDown]
-        public void TearDown()
+        public void Dispose()
         {
             _testStream.Close();
             _testStream.Dispose();
         }
 
-        [Test]
-        [Category("Unit")]
+        [Fact]
+        [Trait("Category", "Unit")]
         public void OpenStreamTest()
         {
             _bwriter.Open(_testStream);
             Assert.True(_testStream.CanWrite);
         }
 
-        [Test]
-        [Category("Unit")]
+        [Fact]
+        [Trait("Category", "Unit")]
         public void OpenStreamDisposedOldTest()
         {
             using (var tempStream = new MemoryStream())
@@ -58,8 +51,8 @@ namespace PokemonGenerator.Tests.IO_Tests
             }
         }
 
-        [Test]
-        [Category("Unit")]
+        [Fact]
+        [Trait("Category", "Unit")]
         public void CloseStreamTest()
         {
             _bwriter.Open(_testStream);
@@ -67,8 +60,8 @@ namespace PokemonGenerator.Tests.IO_Tests
             Assert.False(_testStream.CanWrite);
         }
 
-        [Test]
-        [Category("Unit")]
+        [Fact]
+        [Trait("Category", "Unit")]
         public void CloseStreamMultipleTest()
         {
             _bwriter.Open(_testStream);
@@ -79,13 +72,13 @@ namespace PokemonGenerator.Tests.IO_Tests
             Assert.False(_testStream.CanWrite);
         }
 
-        [Test]
-        [Category("Unit")]
-        [TestCase((ushort)99)]
-        [TestCase((ushort)1)]
-        [TestCase((ushort)5003)]
-        [TestCase(UInt16.MaxValue)]
-        [TestCase(UInt16.MinValue)]
+        [Theory]
+        [Trait("Category", "Unit")]
+        [InlineData((ushort)99)]
+        [InlineData((ushort)1)]
+        [InlineData((ushort)5003)]
+        [InlineData(UInt16.MaxValue)]
+        [InlineData(UInt16.MinValue)]
         public void WriteUInt16Test(ushort val)
         {
             // Write
@@ -97,16 +90,16 @@ namespace PokemonGenerator.Tests.IO_Tests
             var result = BitConverter.ToUInt16(bytes, 0);
 
             // Assert
-            Assert.AreEqual(val, result);
+            Assert.Equal(val, result);
         }
 
-        [Test]
-        [Category("Unit")]
-        [TestCase((uint)99)]
-        [TestCase((uint)1)]
-        [TestCase((uint)500003)]
-        [TestCase((uint)16777215)]
-        [TestCase((uint)0)]
+        [Theory]
+        [Trait("Category", "Unit")]
+        [InlineData((uint)99)]
+        [InlineData((uint)1)]
+        [InlineData((uint)500003)]
+        [InlineData((uint)16777215)]
+        [InlineData((uint)0)]
         public void WriteUInt24Test(uint val)
         {
             // Write
@@ -119,16 +112,16 @@ namespace PokemonGenerator.Tests.IO_Tests
             var result = BitConverter.ToUInt32(paddedbytes, 0);
 
             // Assert
-            Assert.AreEqual(val, result);
+            Assert.Equal(val, result);
         }
 
-        [Test]
-        [Category("Unit")]
-        [TestCase((uint)99)]
-        [TestCase((uint)1)]
-        [TestCase((uint)500003)]
-        [TestCase(UInt32.MaxValue)]
-        [TestCase(UInt32.MinValue)]
+        [Theory]
+        [Trait("Category", "Unit")]
+        [InlineData((uint)99)]
+        [InlineData((uint)1)]
+        [InlineData((uint)500003)]
+        [InlineData(UInt32.MaxValue)]
+        [InlineData(UInt32.MinValue)]
         public void WriteUInt32Test(uint val)
         {
             // Write
@@ -140,16 +133,16 @@ namespace PokemonGenerator.Tests.IO_Tests
             var result = BitConverter.ToUInt32(bytes, 0);
 
             // Assert
-            Assert.AreEqual(val, result);
+            Assert.Equal(val, result);
         }
 
-        [Test]
-        [Category("Unit")]
-        [TestCase((ulong)99)]
-        [TestCase((ulong)1)]
-        [TestCase((ulong)5000000003)]
-        [TestCase(UInt64.MaxValue)]
-        [TestCase(UInt64.MinValue)]
+        [Theory]
+        [Trait("Category", "Unit")]
+        [InlineData((ulong)99)]
+        [InlineData((ulong)1)]
+        [InlineData((ulong)5000000003)]
+        [InlineData(UInt64.MaxValue)]
+        [InlineData(UInt64.MinValue)]
         public void WriteUInt64Test(ulong val)
         {
             // Write
@@ -161,15 +154,15 @@ namespace PokemonGenerator.Tests.IO_Tests
             var result = BitConverter.ToUInt64(bytes, 0);
 
             // Assert
-            Assert.AreEqual(val, result);
+            Assert.Equal(val, result);
         }
 
-        [Test]
-        [Category("Unit")]
-        [TestCase("Test", 4)]
-        [TestCase("", 0)]
-        [TestCase("T", 1)]
-        [TestCase("Test", 11)]
+        [Theory]
+        [Trait("Category", "Unit")]
+        [InlineData("Test", 4)]
+        [InlineData("", 0)]
+        [InlineData("T", 1)]
+        [InlineData("Test", 11)]
         public void WriteStringTest(string test, int length)
         {
             // Write
@@ -183,7 +176,7 @@ namespace PokemonGenerator.Tests.IO_Tests
             var result = _charsetMock.Object.DecodeString(buffer);
 
             // Assert
-            Assert.AreEqual(PadString(test, length), result);
+            Assert.Equal(PadString(test, length), result);
         }
 
         private byte[] ReadAsBigEndian(int offset, int length)

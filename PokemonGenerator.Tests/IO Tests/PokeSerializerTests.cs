@@ -1,5 +1,5 @@
 ﻿using Moq;
-using NUnit.Framework;
+using Xunit;
 using PokemonGenerator.IO;
 using PokemonGenerator.Models;
 using System;
@@ -10,8 +10,7 @@ using System.Text;
 
 namespace PokemonGenerator.Tests.IO_Tests
 {
-    [TestFixture]
-    public class PokeSerializerTests : SerializerTestsBase
+    public class PokeSerializerTests : SerializerTestsBase, IDisposable
     {
         private IPokeSerializer _serializer;
         private Mock<ICharset> _charsetMock;
@@ -23,8 +22,7 @@ namespace PokemonGenerator.Tests.IO_Tests
         private int offset;
         private byte buffer;
 
-        [SetUp]
-        public void SetUp()
+        public PokeSerializerTests()
         {
             _charsetMock = new Mock<ICharset>(MockBehavior.Strict);
             _breaderMock = new Mock<IBinaryReader2>(MockBehavior.Strict);
@@ -34,8 +32,7 @@ namespace PokemonGenerator.Tests.IO_Tests
             _testReader = new BinaryReader(_testStream);
         }
 
-        [TearDown]
-        public void CleanUp()
+        public void Dispose()
         {
             _testReader.Dispose();
             _testWriter.Dispose();
@@ -47,8 +44,8 @@ namespace PokemonGenerator.Tests.IO_Tests
             _charsetMock = null;
         }
 
-        [Test]
-        [Category("Unit")]
+        [Fact]
+        [Trait("Category","Unit")]
         public void SerializeSAVFileModalHasCorrectLengthTest()
         {
             var model = BuildTestModel();
@@ -64,8 +61,8 @@ namespace PokemonGenerator.Tests.IO_Tests
             _testReader.BaseStream.Seek(0, SeekOrigin.Begin);
             var result = _testReader.ReadBytes((int)_testStream.Length);
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual(result.Length, 0x7E2E); // End of PC Box 14 Pokémon list
+            Assert.NotNull(result);
+            Assert.Equal(result.Length, 0x7E2E); // End of PC Box 14 Pokémon list
 
             // Verify
             _charsetMock.VerifyAll();
@@ -73,8 +70,8 @@ namespace PokemonGenerator.Tests.IO_Tests
             _breaderMock.VerifyAll();
         }
 
-        [Test]
-        [Category("Unit")]
+        [Fact]
+        [Trait("Category","Unit")]
         public void SerializeSAVFileModalDoesNotOverwriteBeginningTest()
         {
             var model = BuildTestModel();
@@ -101,7 +98,7 @@ namespace PokemonGenerator.Tests.IO_Tests
             _testReader.BaseStream.Seek(0, SeekOrigin.Begin);
             for (int i = 0; i < 0x2000 / sizeof(UInt32); i++)
             {
-                Assert.AreEqual(0xdeadbeef, _testReader.ReadUInt32());
+                Assert.Equal(0xdeadbeef, _testReader.ReadUInt32());
             }
 
             // Verify
@@ -110,8 +107,8 @@ namespace PokemonGenerator.Tests.IO_Tests
             _breaderMock.VerifyAll();
         }
 
-        [Test]
-        [Category("Unit")]
+        [Fact]
+        [Trait("Category","Unit")]
         public void SerializeSAVFileModalBasicValuesTest()
         {
             var model = BuildTestModel();
@@ -129,26 +126,26 @@ namespace PokemonGenerator.Tests.IO_Tests
 
             // Read trainer name
             _testReader.BaseStream.Seek(0x200B, SeekOrigin.Begin);
-            Assert.AreEqual(PadString(model.PlayerName, 11), Encoding.ASCII.GetString(_testReader.ReadBytes(11)), "Player Name");
+            Assert.True(PadString(model.PlayerName, 11).Equals(Encoding.ASCII.GetString(_testReader.ReadBytes(11))), "Player Name");
 
             // Read rival name
             _testReader.BaseStream.Seek(0x2021, SeekOrigin.Begin);
-            Assert.AreEqual(PadString(model.RivalName, 11), Encoding.ASCII.GetString(_testReader.ReadBytes(11)), "Rival Name");
+            Assert.True(PadString(model.RivalName, 11).Equals(Encoding.ASCII.GetString(_testReader.ReadBytes(11))), "Rival Name");
 
             // Read Time played
             _testReader.BaseStream.Seek(0x2053, SeekOrigin.Begin);
-            Assert.AreEqual(model.TimePlayed, _testReader.ReadUInt32(), "Time played");
+            Assert.True(model.TimePlayed.Equals(_testReader.ReadUInt32()), "Time played");
 
             // Read Team Pokemon List Size
             _testReader.BaseStream.Seek(0x288A, SeekOrigin.Begin);
-            Assert.AreEqual(6, _testReader.ReadByte(), "Team Pokemon List Size");
+            Assert.True(6 == _testReader.ReadByte(), "Team Pokemon List Size");
 
             // Read Team Pokemon List Species
             var counter = 0;
             foreach (var pokemon in model.TeamPokemonList.Pokemon)
             {
                 _testReader.BaseStream.Seek(0x2892 + counter * 0x30, SeekOrigin.Begin);
-                Assert.AreEqual(pokemon.SpeciesId, _testReader.ReadByte(), $"Pokemon ({counter}) Species");
+                Assert.True(pokemon.SpeciesId.Equals(_testReader.ReadByte()), $"Pokemon ({counter}) Species");
                 counter++;
             }
 
@@ -158,8 +155,8 @@ namespace PokemonGenerator.Tests.IO_Tests
             _breaderMock.VerifyAll();
         }
 
-        [Test]
-        [Category("Unit")]
+        [Fact]
+        [Trait("Category","Unit")]
         public void SerializeSAVFileModalComplexValuesTest()
         {
             var model = BuildTestModel();
@@ -257,8 +254,8 @@ namespace PokemonGenerator.Tests.IO_Tests
             _breaderMock.VerifyAll();
         }
 
-        [Test]
-        [Category("Unit")]
+        [Fact]
+        [Trait("Category","Unit")]
         public void SerializeSAVFileModalCheckSumTest()
         {
             var model = BuildTestModel();
@@ -284,7 +281,7 @@ namespace PokemonGenerator.Tests.IO_Tests
 
             // Read Checksum 1
             _testReader.BaseStream.Seek(0x2D69, SeekOrigin.Begin);
-            Assert.AreEqual(checksum, _testReader.ReadUInt16(), "Checksum 1");
+            Assert.True(checksum.Equals(_testReader.ReadUInt16()), "Checksum 1");
 
             // Verify
             _charsetMock.VerifyAll();

@@ -1,14 +1,14 @@
 ﻿using Newtonsoft.Json;
-using NUnit.Framework;
 using PokemonGenerator.IO;
 using PokemonGenerator.Models;
+using System;
 using System.IO;
 using System.Reflection;
+using Xunit;
 
 namespace PokemonGenerator.Tests.IO_Tests
 {
-    [TestFixture]
-    public class PersistentConfigManagerTests
+    public class PersistentConfigManagerTests : IDisposable
     {
         private readonly IPersistentConfigManager _manager;
         private readonly string _outDir;
@@ -19,28 +19,25 @@ namespace PokemonGenerator.Tests.IO_Tests
             _manager = new PersistentConfigManager();
             _outDir = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Out");
             _testConfig = new PersistentConfig(new PokemonGeneratorConfig(), new PokeGeneratorOptions());
-        }
 
-        [SetUp]
-        public void SetUp()
-        {
+            // Check directory exists
             if (!Directory.Exists(_outDir))
             {
                 Directory.CreateDirectory(_outDir);
             }
         }
 
-        [TearDown]
-        public void CleanUp()
+        public void Dispose()
         {
+            // Clean directory
             if (Directory.Exists(_outDir))
             {
                 Directory.Delete(_outDir, true);
             }
         }
 
-        [Test]
-        [Category("Integration")]
+        [Fact]
+        [Trait("Category", "Integration")]
         public void LoadValidOptionsTest()
         {
             var outFile = Path.Combine(_outDir, "test.json");
@@ -52,13 +49,13 @@ namespace PokemonGenerator.Tests.IO_Tests
             {
                 if (propertyInfo.CanWrite)
                 {
-                    Assert.AreEqual(propertyInfo.GetValue(_testConfig.Options), propertyInfo.GetValue(loaded.Options), propertyInfo.Name);
+                    Assert.Equal(propertyInfo.GetValue(_testConfig.Options), (propertyInfo.GetValue(loaded.Options)));
                 }
             }
         }
 
-        [Test]
-        [Category("Integration")]
+        [Fact]
+        [Trait("Category", "Integration")]
         public void LoadValidConfigurationsTest()
         {
             var outFile = Path.Combine(_outDir, "test.json");
@@ -70,14 +67,14 @@ namespace PokemonGenerator.Tests.IO_Tests
             {
                 if (propertyInfo.CanWrite)
                 {
-                    Assert.AreEqual(propertyInfo.GetValue(_testConfig.Configuration), propertyInfo.GetValue(loaded.Configuration), propertyInfo.Name);
+                    Assert.Equal(propertyInfo.GetValue(_testConfig.Configuration), (propertyInfo.GetValue(loaded.Configuration)));
                 }
             }
         }
 
 
-        [Test]
-        [Category("Integration")]
+        [Fact]
+        [Trait("Category", "Integration")]
         public void SaveValidConfigurationsTest()
         {
             var outFile = Path.Combine(_outDir, "test.json");
@@ -89,13 +86,13 @@ namespace PokemonGenerator.Tests.IO_Tests
             {
                 if (propertyInfo.CanWrite)
                 {
-                    Assert.AreEqual(propertyInfo.GetValue(_testConfig.Configuration), propertyInfo.GetValue(saved.Configuration), propertyInfo.Name);
+                    Assert.Equal(propertyInfo.GetValue(_testConfig.Configuration), (propertyInfo.GetValue(saved.Configuration)));
                 }
             }
         }
 
-        [Test]
-        [Category("Integration")]
+        [Fact]
+        [Trait("Category", "Integration")]
         public void SaveValidOptionsTest()
         {
             var outFile = Path.Combine(_outDir, "test.json");
@@ -107,13 +104,13 @@ namespace PokemonGenerator.Tests.IO_Tests
             {
                 if (propertyInfo.CanWrite)
                 {
-                    Assert.AreEqual(propertyInfo.GetValue(_testConfig.Options), propertyInfo.GetValue(saved.Options), propertyInfo.Name);
+                    Assert.Equal(propertyInfo.GetValue(_testConfig.Options), (propertyInfo.GetValue(saved.Options)));
                 }
             }
         }
 
-        [Test]
-        [Category("Integration")]
+        [Fact]
+        [Trait("Category", "Integration")]
         public void LoadMissingConfigurationsTest()
         {
             var outFile = Path.Combine(_outDir, "test.json");
@@ -126,8 +123,8 @@ namespace PokemonGenerator.Tests.IO_Tests
             Assert.False(loaded.Configuration.MoveEffectFilters.ContainsKey("heal"));
         }
 
-        [Test]
-        [Category("Integration")]
+        [Fact]
+        [Trait("Category", "Integration")]
         public void LoadEmptyConfigurationsTest()
         {
             var outFile = Path.Combine(_outDir, "test.json");
@@ -140,8 +137,8 @@ namespace PokemonGenerator.Tests.IO_Tests
             Assert.NotNull(loaded?.Options);
         }
 
-        [Test]
-        [Category("Integration")]
+        [Fact]
+        [Trait("Category", "Integration")]
         public void LoadNotFoundConfigurationsTest()
         {
             var outFile = Path.Combine(_outDir, "fake.json");
@@ -152,13 +149,13 @@ namespace PokemonGenerator.Tests.IO_Tests
             Assert.NotNull(loaded?.Options);
         }
 
-        [Test]
-        [Category("Integration")]
+        [Fact]
+        [Trait("Category", "Integration")]
         public void SaveNullTest()
         {
             var outFile = Path.Combine(_outDir, "test.json");
             _manager.ConfigFilePath = outFile;
-            Assert.DoesNotThrow(() => _manager.Save(_testConfig));
+            _manager.Save(_testConfig);
         }
     }
 }

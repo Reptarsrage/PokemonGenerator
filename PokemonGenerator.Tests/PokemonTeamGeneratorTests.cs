@@ -1,5 +1,4 @@
 ﻿using Moq;
-using NUnit.Framework;
 using PokemonGenerator.Enumerations;
 using PokemonGenerator.Generators;
 using PokemonGenerator.Models;
@@ -7,10 +6,10 @@ using PokemonGenerator.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Xunit;
 
 namespace PokemonGenerator.Tests
 {
-    [TestFixture]
     public class PokemonTeamGeneratorTests
     {
         private PokemonTeamGenerator _pokemonGeneratorWorker;
@@ -20,8 +19,7 @@ namespace PokemonGenerator.Tests
         private PokemonGeneratorConfig config;
         private Random random;
 
-        [SetUp]
-        public void SetUp()
+        public PokemonTeamGeneratorTests()
         {
             random = new Random("The cake is a lie".GetHashCode());
             config = new PokemonGeneratorConfig
@@ -49,7 +47,7 @@ namespace PokemonGenerator.Tests
             pokemonMoveGeneratorMock = new Mock<IPokemonMoveGenerator>(MockBehavior.Strict);
         }
 
-        [Test]
+        [Fact]
         public void GenerateRandomPokemonTeamTest()
         {
             // SetUP
@@ -74,7 +72,7 @@ namespace PokemonGenerator.Tests
 
             // Assert
             Assert.NotNull(team);
-            Assert.AreEqual(config.TeamSize, team.Pokemon.Count());
+            Assert.Equal(config.TeamSize, team.Pokemon.Count());
 
             // Verify
             pokemonStatUtilityMock.VerifyAll();

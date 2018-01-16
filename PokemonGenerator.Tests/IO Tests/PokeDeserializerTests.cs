@@ -1,13 +1,12 @@
 ﻿using Moq;
-using NUnit.Framework;
 using PokemonGenerator.IO;
+using System;
 using System.IO;
-using System.Reflection;
+using Xunit;
 
 namespace PokemonGenerator.Tests.IO_Tests
 {
-    [TestFixture]
-    public class PokeDeserializerTests : SerializerTestsBase
+    public class PokeDeserializerTests : SerializerTestsBase, IDisposable
     {
         private IPokeDeserializer _deserializer;
         private IPokeSerializer _serializer;
@@ -16,8 +15,7 @@ namespace PokemonGenerator.Tests.IO_Tests
         private Mock<BinaryWriter2> _bwriterMock;
         private Stream _testStream;
 
-        [SetUp]
-        public void SetUp()
+        public PokeDeserializerTests()
         {
             _bwriterMock = new Mock<BinaryWriter2>
             {
@@ -37,8 +35,7 @@ namespace PokemonGenerator.Tests.IO_Tests
             };
         }
 
-        [TearDown]
-        public void CleanUp()
+        public void Dispose()
         {
             _testStream.Close();
             _testStream.Dispose();
@@ -50,12 +47,12 @@ namespace PokemonGenerator.Tests.IO_Tests
             _charsetMock = null;
         }
 
-        [Test]
-        [Category("Integration")]
+        [Fact]
+        [Trait("Category", "Integration")]
         public void SerializeSAVFileModalHasCorrectLengthTest()
         {
             // Setup
-            _testStream = File.OpenRead(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Gold.sav"));
+            _testStream = File.OpenRead(Path.Combine(Directory.GetCurrentDirectory(), "Gold.sav"));
 
             // Run
             _deserializer = new PokeDeserializer(_breaderMock.Object, _charsetMock.Object);
@@ -63,15 +60,15 @@ namespace PokemonGenerator.Tests.IO_Tests
 
             // Assert
             Assert.NotNull(resultModel);
-            Assert.AreEqual(6, resultModel.TeamPokemonList.Count);
+            Assert.Equal(6, resultModel.TeamPokemonList.Count);
         }
 
-        [Test]
-        [Category("Integration")]
+        [Fact]
+        [Trait("Category", "Integration")]
         public void SerializeSAVFileModalBadChecksumTest()
         {
             // Setup
-            _testStream = new MemoryStream(File.ReadAllBytes(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Gold.sav")));
+            _testStream = new MemoryStream(File.ReadAllBytes(Path.Combine(Directory.GetCurrentDirectory(), "Gold.sav")));
             _testStream.Seek(0x2D69, SeekOrigin.Begin);
             _testStream.Write(new byte[2] { 0xbe, 0xef }, 0, 2);
 
@@ -80,8 +77,8 @@ namespace PokemonGenerator.Tests.IO_Tests
             Assert.Throws<InvalidDataException>(() => _deserializer.ParseSAVFileModel(_testStream));
         }
 
-        [Test]
-        [Category("Integration")]
+        [Fact]
+        [Trait("Category", "Integration")]
         public void SerializeAndDeserializeSAVFileModalTest()
         {
             // generate a model
@@ -102,12 +99,12 @@ namespace PokemonGenerator.Tests.IO_Tests
             AssertSavModelEqualityThorough(model, resultModel);
         }
 
-        [Test]
-        [Category("Integration")]
+        [Fact]
+        [Trait("Category", "Integration")]
         public void SerializeSAVFileModalCorrectValuesTest()
         {
             // Setup
-            _testStream = File.OpenRead(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Gold.sav"));
+            _testStream = File.OpenRead(Path.Combine(Directory.GetCurrentDirectory(), "Gold.sav"));
             var _expectedModel = BuildTestModel();
 
             // Run
@@ -118,12 +115,12 @@ namespace PokemonGenerator.Tests.IO_Tests
             AssertSavModelEqualityThorough(_expectedModel, resultModel);
         }
 
-        [Test]
-        [Category("Integration")]
+        [Fact]
+        [Trait("Category", "Integration")]
         public void SerializeSAVFileModalChecksumTest()
         {
             // Setup
-            _testStream = File.OpenRead(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Gold.sav"));
+            _testStream = File.OpenRead(Path.Combine(Directory.GetCurrentDirectory(), "Gold.sav"));
             var _expectedModel = BuildTestModel();
 
             // Run
@@ -131,7 +128,7 @@ namespace PokemonGenerator.Tests.IO_Tests
             var resultModel = _deserializer.ParseSAVFileModel(_testStream);
 
             // Assert some values
-            Assert.AreEqual(_expectedModel.Checksum1, resultModel.Checksum1, "Checksum1");
+            Assert.True(_expectedModel.Checksum1.Equals(resultModel.Checksum1), "Checksum1");
         }
     }
 }

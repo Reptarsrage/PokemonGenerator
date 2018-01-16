@@ -1,17 +1,15 @@
-﻿using NUnit.Framework;
-using PokemonGenerator.Enumerations;
+﻿using PokemonGenerator.Enumerations;
 using PokemonGenerator.Generators;
 using PokemonGenerator.IO;
 using PokemonGenerator.Models;
 using System;
 using System.IO;
 using System.Linq;
-using System.Reflection;
+using Xunit;
 
 namespace PokemonGenerator.Tests
 {
-    [TestFixture]
-    public class PokemonGeneratorRunnerTests
+    public class PokemonGeneratorRunnerTests : IDisposable
     {
         private IPokemonGeneratorRunner _runner;
         private IPokeDeserializer _deserializer;
@@ -19,10 +17,9 @@ namespace PokemonGenerator.Tests
         private string _contentDir;
         private string _outputDir;
 
-        [SetUp]
-        public void Init()
+        public PokemonGeneratorRunnerTests()
         {
-            _contentDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            _contentDir = Directory.GetCurrentDirectory();
             _outputDir = Path.Combine(_contentDir, "Out");
             _opts = new PersistentConfig(new PokemonGeneratorConfig(), new PokeGeneratorOptions
             {
@@ -45,8 +42,7 @@ namespace PokemonGenerator.Tests
             }
         }
 
-        [TearDown]
-        public void Teardown()
+        public void Dispose()
         {
             if (Directory.Exists(_outputDir))
             {
@@ -55,8 +51,8 @@ namespace PokemonGenerator.Tests
             _runner = null;
         }
 
-        [Test]
-        [Category("Integration")]
+        [Fact]
+        [Trait("Category", "Integration")]
         public void RunOutputExistsTest()
         {
             _runner.Run(_opts);
@@ -65,8 +61,8 @@ namespace PokemonGenerator.Tests
             Assert.True(File.Exists(Path.Combine(_outputDir, _opts.Options.OutputSaveTwo)));
         }
 
-        [Test]
-        [Category("Integration")]
+        [Fact]
+        [Trait("Category", "Integration")]
         public void RunOutputValidTest()
         {
             _runner.Run(_opts);
@@ -79,31 +75,31 @@ namespace PokemonGenerator.Tests
             }
             catch (Exception e)
             {
-                Assert.Fail($"Failed to parse the output save files: {e}");
+                Assert.True(false, $"Failed to parse the output save files: {e}");
             }
 
             Assert.NotNull(model1);
             Assert.NotNull(model2);
 
             // Basic checks
-            Assert.AreEqual("Test1", model1.PlayerName, "Name not set correctly");
-            Assert.AreEqual("Test2", model2.PlayerName, "Name not set correctly");
-            Assert.AreEqual(_opts.Configuration.TeamSize, model1.TeamPokemonList.Pokemon.Count(), "Team not set correctly");
-            Assert.AreEqual(_opts.Configuration.TeamSize, model2.TeamPokemonList.Pokemon.Count(), "Team not set correctly");
+            Assert.Equal("Test1", model1.PlayerName);
+            Assert.Equal("Test2", model2.PlayerName);
+            Assert.Equal(_opts.Configuration.TeamSize, model1.TeamPokemonList.Pokemon.Count());
+            Assert.Equal(_opts.Configuration.TeamSize, model2.TeamPokemonList.Pokemon.Count());
             foreach (var pokemon in model1.TeamPokemonList.Pokemon)
             {
-                Assert.AreEqual(100, pokemon.Level, "Level not set correctly");
+                Assert.Equal(100, pokemon.Level);
             }
         }
 
-        [Test]
-        [TestCase("")]
-        [TestCase(null)]
-        [TestCase("\t     \n\r")]
-        [TestCase("/Fakey/Fake/Dir/")]
-        [TestCase(@"C:\%^&#%$&((&#$\")]
-        [TestCase(@"myFile.txt")]
-        [Category("Integration")]
+        [Theory]
+        [InlineData("")]
+        [InlineData(null)]
+        [InlineData("\t     \n\r")]
+        [InlineData("/Fakey/Fake/Dir/")]
+        [InlineData(@"C:\%^&#%$&((&#$\")]
+        [InlineData(@"myFile.txt")]
+        [Trait("Category", "Integration")]
         public void RunInvalidContentPathTest(string path)
         {
             Assert.Throws<ArgumentException>(() =>
@@ -114,12 +110,12 @@ namespace PokemonGenerator.Tests
             });
         }
 
-        [Test]
-        [TestCase("")]
-        [TestCase(null)]
-        [TestCase("\t     \n\r")]
-        [TestCase(@"C:\<>:""/\|?*")]
-        [Category("Integration")]
+        [Theory]
+        [InlineData("")]
+        [InlineData(null)]
+        [InlineData("\t     \n\r")]
+        [InlineData(@"C:\<>:""/\|?*")]
+        [Trait("Category", "Integration")]
         public void RunInvalidOutputPathTest(string path)
         {
             Assert.Throws<ArgumentException>(() =>

@@ -1,10 +1,9 @@
-﻿using NUnit.Framework;
+﻿using Xunit;
 using PokemonGenerator.IO;
 using System;
 
 namespace PokemonGenerator.Tests.IO_Tests
 {
-    [TestFixture]
     public class CharsetTests
     {
         private readonly ICharset _charset;
@@ -14,17 +13,17 @@ namespace PokemonGenerator.Tests.IO_Tests
             _charset = new Charset();
         }
 
-        [Test]
-        [Category("Unit")]
+        [Fact]
+        [Trait("Category","Unit")]
         public void EncodeStringBasicTest()
         {
             var result = _charset.EncodeString("Test", 4);
             var expected = new byte[] { 0x93, 0xA4, 0xB2, 0xB3 };
-            Assert.AreEqual(expected, result);
+            Assert.Equal(expected, result);
         }
 
-        [Test]
-        [Category("Unit")]
+        [Fact]
+        [Trait("Category","Unit")]
         public void EncodeStringAlphaUpperCaseTest()
         {
             var result = _charset.EncodeString("ABCDEFGHIJKLMNOPQRSTUVWXYZ", 26);
@@ -33,11 +32,11 @@ namespace PokemonGenerator.Tests.IO_Tests
             {
                 expected[i] = b;
             }
-            Assert.AreEqual(expected, result);
+            Assert.Equal(expected, result);
         }
 
-        [Test]
-        [Category("Unit")]
+        [Fact]
+        [Trait("Category","Unit")]
         public void EncodeStringAlphaLowerCaseTest()
         {
             var result = _charset.EncodeString("abcdefghijklmnopqrstuvwxyz", 26);
@@ -46,12 +45,12 @@ namespace PokemonGenerator.Tests.IO_Tests
             {
                 expected[i] = b;
             }
-            Assert.AreEqual(expected, result);
+            Assert.Equal(expected, result);
         }
 
 
-        [Test]
-        [Category("Unit")]
+        [Fact]
+        [Trait("Category","Unit")]
         public void EncodeStringNumericTest()
         {
             var result = _charset.EncodeString("0123456789", 10);
@@ -60,68 +59,68 @@ namespace PokemonGenerator.Tests.IO_Tests
             {
                 expected[i] = b;
             }
-            Assert.AreEqual(expected, result);
+            Assert.Equal(expected, result);
         }
 
-        [Test]
-        [Category("Unit")]
+        [Fact]
+        [Trait("Category","Unit")]
         public void EncodeStringNullEndingTest()
         {
             var result = _charset.EncodeString("Test", 8);
             var expected = new byte[] { 0x93, 0xA4, 0xB2, 0xB3, 0x50, 0x50, 0x50, 0x50 };
-            Assert.AreEqual(expected, result);
+            Assert.Equal(expected, result);
         }
 
-        [Test]
-        [Category("Unit")]
+        [Fact]
+        [Trait("Category","Unit")]
         public void DecodeStringBasicTest()
         {
             var encoded = new byte[] { 0x93, 0xA4, 0xB2, 0xB3 };
             var expected = "Test";
             var result = _charset.DecodeString(encoded);
-            Assert.AreEqual(expected, result);
+            Assert.Equal(expected, result);
         }
 
-        [Test]
-        [Category("Unit")]
+        [Fact]
+        [Trait("Category","Unit")]
         public void DecodeStringNullEndingTest()
         {
             var encoded = new byte[] { 0x93, 0xA4, 0xB2, 0xB3, 0x50, 0x50, 0x50, 0x50 };
             var expected = "Test";
             var result = _charset.DecodeString(encoded);
-            Assert.AreEqual(expected, result);
+            Assert.Equal(expected, result);
         }
 
-        [Test]
-        [Category("Unit")]
+        [Fact]
+        [Trait("Category","Unit")]
         public void DecodeStringNullArgumentExceptionTest()
         {
             Assert.Throws<ArgumentException>(() => _charset.DecodeString(null));
         }
 
-        [Test]
-        [Category("Unit")]
+        [Fact]
+        [Trait("Category","Unit")]
         public void DecodeStringEmptyArgumentExceptionTest()
         {
             Assert.Throws<ArgumentException>(() => _charset.DecodeString(new byte[] { }));
         }
 
-        [Test]
-        [Category("Unit")]
+        [Fact]
+        [Trait("Category","Unit")]
         public void EncodeStringNullArgumentExceptionTest()
         {
             Assert.Throws<ArgumentException>(() => _charset.EncodeString(null, 10));
         }
 
-        [Test]
-        [Category("Unit")]
+        [Fact]
+        [Trait("Category","Unit")]
         public void EncodeStringEmptyArgumentExceptionTest()
         {
             Assert.Throws<ArgumentException>(() => _charset.EncodeString("", 10));
         }
 
-        [Test]
-        [Category("Unit")]
+        [Fact]
+        [Trait("Category","Unit")]
         public void EncodeStringZeroLengthArgumentExceptionTest()
         {
             Assert.Throws<ArgumentException>(() => _charset.EncodeString("Test", 0));
