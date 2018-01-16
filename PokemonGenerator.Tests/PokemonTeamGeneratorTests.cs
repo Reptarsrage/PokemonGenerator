@@ -1,7 +1,7 @@
 ﻿using Moq;
 using NUnit.Framework;
 using PokemonGenerator.Enumerations;
-using PokemonGenerator.Interfaces;
+using PokemonGenerator.Generators;
 using PokemonGenerator.Models;
 using PokemonGenerator.Utilities;
 using System;

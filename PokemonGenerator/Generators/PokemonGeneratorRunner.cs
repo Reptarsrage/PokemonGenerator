@@ -6,8 +6,13 @@ using System;
 using System.Diagnostics;
 using System.IO;
 
-namespace PokemonGenerator
+namespace PokemonGenerator.Generators
 {
+    public interface IPokemonGeneratorRunner
+    {
+        void Run(PersistentConfig configOptions);
+    }
+
     public class PokemonGeneratorRunner : IPokemonGeneratorRunner
     {
         private readonly IPokemonTeamGenerator _pokemonGenerator;

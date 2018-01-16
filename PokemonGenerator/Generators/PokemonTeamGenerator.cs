@@ -1,5 +1,5 @@
 ﻿using PokemonGenerator.Enumerations;
-using PokemonGenerator.Interfaces;
+using PokemonGenerator.Generators;
 using PokemonGenerator.Models;
 using PokemonGenerator.Utilities;
 using System;
@@ -8,6 +8,11 @@ using System.Linq;
 
 namespace PokemonGenerator
 {
+    public interface IPokemonTeamGenerator
+    {
+        PokeList GenerateRandomPokemonTeam(int level, Entropy entropy);
+    }
+
     /// <summary>
     /// The real  MVP of this application. Contains all the logic for generating a team of pokemon.
     /// </summary>

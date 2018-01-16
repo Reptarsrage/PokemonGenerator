@@ -4,6 +4,13 @@ using System.Text.RegularExpressions;
 
 namespace PokemonGenerator.Editors
 {
+    public interface IP64ConfigEditor
+    {
+        string FileName { get; set; }
+
+        string GetRecentRom();
+    }
+
     /// <summary>
     /// Reads Projects 64 Config file to get some info to auto-fill some forms.
     /// </summary>

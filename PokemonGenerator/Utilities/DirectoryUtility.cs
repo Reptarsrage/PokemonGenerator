@@ -1,10 +1,16 @@
-﻿using PokemonGenerator.Utilities.Interfaces;
-using System;
+﻿using System;
 using System.IO;
 using System.Reflection;
 
 namespace PokemonGenerator.Utilities
 {
+    public interface IDirectoryUtility
+    {
+        string AssemblyDirectory();
+        string ContentDirectory();
+        string OutputDirectory();
+    }
+
     public class DirectoryUtility : IDirectoryUtility
     {
         private readonly string _assemblyDirectory;

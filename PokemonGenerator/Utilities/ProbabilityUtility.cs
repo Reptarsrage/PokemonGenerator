@@ -5,6 +5,12 @@ using System.Linq;
 
 namespace PokemonGenerator.Utilities
 {
+    interface IProbabilityUtility
+    {
+        int? ChooseWithProbability(IList<IChoice> choices);
+        int GaussianRandom(int low, int high);
+    }
+
     class ProbabilityUtility : IProbabilityUtility
     {
         private readonly Random _random;

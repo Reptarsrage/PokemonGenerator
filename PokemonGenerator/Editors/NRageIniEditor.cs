@@ -5,6 +5,14 @@ using System.Text.RegularExpressions;
 
 namespace PokemonGenerator.Editors
 {
+    public interface INRageIniEditor
+    {
+        string FileName { get; set; }
+
+        Tuple<string, string> GetRomAndSavFileLocation(int playerNum);
+        bool ChangeSavLocations(string text1, string text2);
+    }
+
     /// <summary>
     /// Reads  and Writes to Projects 64's  NRage ini file to get some info to auto-fill some forms.
     /// </summary>

@@ -3,11 +3,9 @@ using PokemonGenerator.DAL;
 using PokemonGenerator.Editors;
 using PokemonGenerator.Forms;
 using PokemonGenerator.Generators;
-using PokemonGenerator.Interfaces;
 using PokemonGenerator.IO;
 using PokemonGenerator.Models;
 using PokemonGenerator.Utilities;
-using PokemonGenerator.Utilities.Interfaces;
 using PokemonGenerator.Validators;
 using System;
 

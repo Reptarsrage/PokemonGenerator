@@ -4,6 +4,14 @@ using System.IO;
 
 namespace PokemonGenerator.IO
 {
+    public interface IPersistentConfigManager
+    {
+        string ConfigFilePath { get; set; }
+
+        PersistentConfig Load();
+        void Save(PersistentConfig config);
+    }
+
     class PersistentConfigManager : IPersistentConfigManager
     {
         private string _configFileName;

@@ -7,6 +7,14 @@ using System.Linq;
 
 namespace PokemonGenerator.Utilities
 {
+    interface IPokemonStatUtility
+    {
+        void GetTeamBaseStats(PokeList list, int level);
+        void AssignIVsAndEVsToTeam(PokeList list);
+        IEnumerable<int> GetPossiblePokemon(int level, Entropy entopy);
+        void CalculateStatsForTeam(PokeList list, int level);
+    }
+
     class PokemonStatUtility : IPokemonStatUtility
     {
         private readonly IPokemonDA _pokemonDA;

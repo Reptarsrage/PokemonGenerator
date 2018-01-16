@@ -1,11 +1,16 @@
 ﻿using PokemonGenerator.Models;
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
 namespace PokemonGenerator.IO
 {
+    public interface IPokeSerializer
+    {
+        void SerializeSAVFileModal(string outFilePath, SAVFileModel sav);
+        void SerializeSAVFileModal(Stream stream, SAVFileModel sav);
+    }
+
     /// <summary>
     /// Contains all tools needed to serialize data into a pokemon Gold/Silver sav file. <para/> 
     /// 

@@ -1,11 +1,16 @@
 ﻿using PokemonGenerator.Models;
-using System;
 using System.Collections;
 using System.IO;
 using System.Linq;
 
 namespace PokemonGenerator.IO
 {
+    public interface IPokeDeserializer
+    {
+        SAVFileModel ParseSAVFileModel(string filename);
+        SAVFileModel ParseSAVFileModel(Stream stream);
+    }
+
     /// <summary>
     /// Contains all tools needed to parse data from a pokemon Gold/Silver sav file. <para/> 
     /// 
@@ -200,7 +205,7 @@ namespace PokemonGenerator.IO
             pokemon.DefenseIV = (byte)(0xf & buffer);
 
             buffer = breader.ReadByte();
-            pokemon.SpeedIV = (byte)(buffer >> 4); 
+            pokemon.SpeedIV = (byte)(buffer >> 4);
             pokemon.SpecialIV = (byte)(0xf & buffer);
 
             buffer = breader.ReadByte();

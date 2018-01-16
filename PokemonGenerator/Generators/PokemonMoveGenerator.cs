@@ -1,6 +1,5 @@
 ﻿using PokemonGenerator.DAL;
 using PokemonGenerator.Enumerations;
-using PokemonGenerator.Interfaces;
 using PokemonGenerator.Models;
 using PokemonGenerator.Utilities;
 using System;
@@ -9,6 +8,11 @@ using System.Linq;
 
 namespace PokemonGenerator.Generators
 {
+    internal interface IPokemonMoveGenerator
+    {
+        void AssignMovesToTeam(PokeList list, int level);
+    }
+
     internal class PokemonMoveGenerator : IPokemonMoveGenerator
     {
         private readonly IPokemonDA _pokemonDA;
@@ -16,8 +20,6 @@ namespace PokemonGenerator.Generators
         private readonly IProbabilityUtility _probabilityUtility;
         private readonly PokemonGeneratorConfig _pokemonGeneratorConfig;
         private readonly Random _random;
-        private IList<PokemonChoice> possiblePokemon;
-        private int previousLevel;
 
         public PokemonMoveGenerator(IPokemonDA pokemonDA, IPokemonStatUtility pokemonStatUtility,
             IProbabilityUtility probabilityUtility, PokemonGeneratorConfig pokemonGeneratorConfig, Random random)

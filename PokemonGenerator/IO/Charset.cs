@@ -2,6 +2,12 @@
 
 namespace PokemonGenerator.IO
 {
+    public interface ICharset
+    {
+        string DecodeString(byte[] data);
+        byte[] EncodeString(string value, int length);
+    }
+
     /// <summary>
     /// The Charset used in pokemon Gold/Silver version.
     /// <para/>

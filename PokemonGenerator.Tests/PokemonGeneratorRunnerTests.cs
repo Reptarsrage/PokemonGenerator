@@ -1,9 +1,8 @@
-﻿using Moq;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using PokemonGenerator.Enumerations;
+using PokemonGenerator.Generators;
 using PokemonGenerator.IO;
 using PokemonGenerator.Models;
-using PokemonGenerator.Utilities.Interfaces;
 using System;
 using System.IO;
 using System.Linq;
@@ -26,18 +25,18 @@ namespace PokemonGenerator.Tests
             _contentDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             _outputDir = Path.Combine(_contentDir, "Out");
             _opts = new PersistentConfig(new PokemonGeneratorConfig(), new PokeGeneratorOptions
-                {
-                    EntropyVal = "Low",
-                    GameOne = PokemonGame.Gold.ToString(),
-                    GameTwo = PokemonGame.Gold.ToString(),
-                    InputSaveOne = Path.Combine(_contentDir, "gold.sav"),
-                    InputSaveTwo = Path.Combine(_contentDir, "gold.sav"),
-                    OutputSaveOne = Path.Combine(_outputDir, "out1.sav"),
-                    OutputSaveTwo = Path.Combine(_outputDir, "out2.sav"),
-                    NameOne = "Test1",
-                    NameTwo = "Test2",
-                    Level = 100
-                });
+            {
+                EntropyVal = "Low",
+                GameOne = PokemonGame.Gold.ToString(),
+                GameTwo = PokemonGame.Gold.ToString(),
+                InputSaveOne = Path.Combine(_contentDir, "gold.sav"),
+                InputSaveTwo = Path.Combine(_contentDir, "gold.sav"),
+                OutputSaveOne = Path.Combine(_outputDir, "out1.sav"),
+                OutputSaveTwo = Path.Combine(_outputDir, "out2.sav"),
+                NameOne = "Test1",
+                NameTwo = "Test2",
+                Level = 100
+            });
 
             using (var injector = new NinjectWrapper())
             {

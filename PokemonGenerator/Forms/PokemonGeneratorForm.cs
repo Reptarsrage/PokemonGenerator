@@ -1,7 +1,8 @@
 ﻿using PokemonGenerator.Editors;
+using PokemonGenerator.Generators;
 using PokemonGenerator.IO;
 using PokemonGenerator.Models;
-using PokemonGenerator.Utilities.Interfaces;
+using PokemonGenerator.Utilities;
 using PokemonGenerator.Validators;
 using System;
 using System.ComponentModel;
@@ -373,7 +374,8 @@ namespace PokemonGenerator.Forms
                 };
 
                 Process.Start(startInfo);
-            } catch
+            }
+            catch
             {
                 throw new ExternalException("Unable to launch Project64. Config file not found or corrupt.");
             }

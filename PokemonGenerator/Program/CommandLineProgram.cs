@@ -1,6 +1,7 @@
 ﻿using PokemonGenerator.Enumerations;
+using PokemonGenerator.Generators;
 using PokemonGenerator.Models;
-using PokemonGenerator.Utilities.Interfaces;
+using PokemonGenerator.Utilities;
 using System;
 using System.IO;
 
