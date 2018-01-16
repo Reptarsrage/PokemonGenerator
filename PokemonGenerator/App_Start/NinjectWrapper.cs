@@ -1,11 +1,13 @@
 ﻿using Ninject;
 using PokemonGenerator.DAL;
 using PokemonGenerator.Editors;
+using PokemonGenerator.Forms;
 using PokemonGenerator.Generators;
 using PokemonGenerator.Interfaces;
 using PokemonGenerator.IO;
 using PokemonGenerator.Models;
 using PokemonGenerator.Utilities;
+using PokemonGenerator.Utilities.Interfaces;
 using PokemonGenerator.Validators;
 using System;
 
@@ -32,6 +34,9 @@ namespace PokemonGenerator
         /// <param name="kernel">The kernel.</param>
         private void RegisterServices()
         {
+            // Forms
+            kernel.Bind<PokemonGeneratorForm>().To<PokemonGeneratorForm>();
+
             // IO
             kernel.Bind<IBinaryReader2>().To<BinaryReader2>();
             kernel.Bind<IBinaryWriter2>().To<BinaryWriter2>();
@@ -53,6 +58,7 @@ namespace PokemonGenerator
             // Utilities
             kernel.Bind<IPokemonStatUtility>().To<PokemonStatUtility>();
             kernel.Bind<IProbabilityUtility>().To<ProbabilityUtility>();
+            kernel.Bind<IDirectoryUtility>().To<DirectoryUtility>();
 
             // Other
             kernel.Bind<IPokemonGeneratorRunner>().To<PokemonGeneratorRunner>();

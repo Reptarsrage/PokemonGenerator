@@ -1,10 +1,13 @@
-﻿using NUnit.Framework;
+﻿using Moq;
+using NUnit.Framework;
 using PokemonGenerator.Enumerations;
 using PokemonGenerator.IO;
 using PokemonGenerator.Models;
+using PokemonGenerator.Utilities.Interfaces;
 using System;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 
 namespace PokemonGenerator.Tests
 {
@@ -20,8 +23,8 @@ namespace PokemonGenerator.Tests
         [SetUp]
         public void Init()
         {
-            _contentDir = GUIProgram.AssemblyDirectory;
-            _outputDir = Path.Combine(GUIProgram.AssemblyDirectory, "Out");
+            _contentDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            _outputDir = Path.Combine(_contentDir, "Out");
             _opts = new PersistentConfig(new PokemonGeneratorConfig(), new PokeGeneratorOptions
                 {
                     EntropyVal = "Low",

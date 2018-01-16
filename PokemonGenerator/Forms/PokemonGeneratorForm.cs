@@ -1,6 +1,7 @@
 ﻿using PokemonGenerator.Editors;
 using PokemonGenerator.IO;
 using PokemonGenerator.Models;
+using PokemonGenerator.Utilities.Interfaces;
 using PokemonGenerator.Validators;
 using System;
 using System.ComponentModel;
@@ -44,11 +45,10 @@ namespace PokemonGenerator.Forms
             IP64ConfigEditor p64ConfigEditor,
             INRageIniEditor nRageIniEditor,
             IPokeGeneratorOptionsValidator optionsValidator,
-            string contentDirectory, 
-            string outputDirectory)
+            IDirectoryUtility directoryUtility)
         {
-            _contentDirectory = contentDirectory;
-            _outputDirectory = outputDirectory;
+            _contentDirectory = directoryUtility.ContentDirectory();
+            _outputDirectory = directoryUtility.OutputDirectory();
             _pokemonGeneratorRunner = pokemonGeneratorRunner;
             _configManager = configManager;
             _nRageIniEditor = nRageIniEditor;
