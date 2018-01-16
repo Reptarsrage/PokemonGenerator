@@ -1,6 +1,8 @@
 ﻿using Ninject;
 using PokemonGenerator.DAL;
 using PokemonGenerator.Editors;
+using PokemonGenerator.Generators;
+using PokemonGenerator.Interfaces;
 using PokemonGenerator.IO;
 using PokemonGenerator.Models;
 using PokemonGenerator.Utilities;
@@ -54,7 +56,8 @@ namespace PokemonGenerator
 
             // Other
             kernel.Bind<IPokemonGeneratorRunner>().To<PokemonGeneratorRunner>();
-            kernel.Bind<IPokemonGeneratorWorker>().To<PokemonGeneratorWorker>();
+            kernel.Bind<IPokemonTeamGenerator>().To<PokemonTeamGenerator>();
+            kernel.Bind<IPokemonMoveGenerator>().To<PokemonMoveGenerator>();
             kernel.Bind<Random>().To<Random>().InSingletonScope();
             kernel.Bind<PokemonGeneratorConfig>().To<PokemonGeneratorConfig>();
             kernel.Bind<PokeGeneratorOptions>().To<PokeGeneratorOptions>();

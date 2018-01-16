@@ -10,12 +10,12 @@ namespace PokemonGenerator
 {
     public class PokemonGeneratorRunner : IPokemonGeneratorRunner
     {
-        private readonly IPokemonGeneratorWorker _pokemonGenerator;
+        private readonly IPokemonTeamGenerator _pokemonGenerator;
         private readonly IPokeSerializer _pokeSerializer;
         private readonly IPokeDeserializer _pokeDeserializer;
         private readonly IPokeGeneratorOptionsValidator _optionsValidator;
 
-        public PokemonGeneratorRunner(IPokemonGeneratorWorker pokemonGenerator, IPokeSerializer pokeSerializer,
+        public PokemonGeneratorRunner(IPokemonTeamGenerator pokemonGenerator, IPokeSerializer pokeSerializer,
             IPokeDeserializer pokeDeserializer, IPokeGeneratorOptionsValidator optionsValidator)
         {
             _pokemonGenerator = pokemonGenerator;
@@ -47,7 +47,7 @@ namespace PokemonGenerator
         /// </summary>
         /// <param name="out">Full path to the ouput file.</param>
         /// <param name="in">Full path to the input file.</param>
-        /// <param name="gen">The <see cref="PokemonGeneratorWorker"/> to use.</param>
+        /// <param name="gen">The <see cref="PokemonTeamGenerator"/> to use.</param>
         /// <param name="sav">The <see cref="SAVFileModel" to use when saving./></param>
         /// <param name="level">The level to generate pokemon at. Must be 5-100.</param>
         private void CopyAndGen(string @out, string @in, SAVFileModel sav, int level)
@@ -57,7 +57,7 @@ namespace PokemonGenerator
                 Directory.CreateDirectory(Path.GetDirectoryName(@out));
             }
 
-            var list = _pokemonGenerator.GenerateRandomPokemon(level, Entropy.Low); // TODO: Entropy stuffs
+            var list = _pokemonGenerator.GenerateRandomPokemonTeam(level, Entropy.Low); // TODO: Entropy stuffs
             sav.TeamPokemonList = list;
             WriteSavProperties(@out, @in, sav);
             ReadSavProperties(@out); // Verification only
