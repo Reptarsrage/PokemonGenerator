@@ -184,7 +184,7 @@ namespace PokemonGenerator.Tests.Utility_Tests
 
         [Test]
         [Category("Unit")]
-        [TestCase(-100, 100)]
+        [TestCase(-100, 99)]
         [TestCase(-20, 80)]
         [TestCase(-30, -10)]
         [TestCase(-67, 0)]
@@ -227,6 +227,75 @@ namespace PokemonGenerator.Tests.Utility_Tests
             Assert.LessOrEqual(Math.Abs(resultStdDeviation - stdev) / stdev, stdDeviation, $"Standard Deviation Expected: {stdev}, Actual: {resultStdDeviation}");
         }
 
+
+        [Test]
+        [Category("Unit")]
+        [TestCase(0, 100, 1)]
+        [TestCase(0, 100, 50)]
+        [TestCase(0, 100, 100)]
+        [TestCase(20, 80, 75)]
+        [TestCase(33, 67, 41)]
+        public void GaussianRandomSkewedBasicTest(int low, int high, int level)
+        {
+            var result = Enumerable.Range(0, iterations).Select(i => probabilityUtility.GaussianRandomSkewed(low, high, level / 100D));
+            var resultMean = result.Average();
+            var resultStdDeviation = Math.Sqrt(result.Select(i => Math.Pow(i - resultMean, 2D)).Average());
+
+            var skew = level / 100D * config.Skew * 2D - config.Skew;
+            var mean = Math.Min(high, Math.Max(low, low + (high - low) * config.Mean + skew));
+            var stdev = (high - low) * config.StandardDeviation;
+
+            // Assert
+            Assert.LessOrEqual(Math.Abs(resultMean - mean) / mean, stdDeviation, $"Mean Expected: {mean}, Actual: {resultMean}");
+            Assert.LessOrEqual(Math.Abs(resultStdDeviation - stdev) / stdev, stdDeviation, $"Standard Deviation Expected: {stdev}, Actual: {resultStdDeviation}");
+        }
+
+        [Test]
+        [Category("Unit")]
+        [TestCase(-100, 99, 75)]
+        [TestCase(-20, 80, 25)]
+        [TestCase(-30, -10, 50)]
+        [TestCase(-67, 0, 100)]
+        public void GaussianRandomSkewedNegativeTest(int low, int high, int level)
+        {
+            var result = Enumerable.Range(0, iterations).Select(i => probabilityUtility.GaussianRandomSkewed(low, high, level / 100D));
+            var resultMean = result.Average();
+            var resultStdDeviation = Math.Sqrt(result.Select(i => Math.Pow(i - resultMean, 2D)).Average());
+
+            var skew = level / 100D * config.Skew * 2D - config.Skew;
+            var mean = Math.Min(high, Math.Max(low, low + (high - low) * config.Mean + skew));
+            var stdev = (high - low) * config.StandardDeviation;
+
+            // Assert
+            Assert.LessOrEqual(Math.Abs(resultMean - mean) / mean, stdDeviation, $"Mean Expected: {mean}, Actual: {resultMean}");
+            Assert.LessOrEqual(Math.Abs(resultStdDeviation - stdev) / stdev, stdDeviation, $"Standard Deviation Expected: {stdev}, Actual: {resultStdDeviation}");
+        }
+
+        [Test]
+        [Category("Unit")]
+        [TestCase(0, 100, 0.5, 0.2, 75)]
+        [TestCase(33, 66, 0.2, 0.1, 25)]
+        [TestCase(99, 30012, 0.33, 0.2, 50)]
+        [TestCase(-33, 0, 0.5, 0.08, 100)]
+        [TestCase(40, 4000, 0.90, 0.05, 1)]
+        public void GaussianRandomSkewedWithConfigTest(int low, int high, double meanConfig, double stdDeviationConfig, int level)
+        {
+            config.Mean = meanConfig;
+            config.StandardDeviation = stdDeviationConfig;
+            probabilityUtility = new ProbabilityUtility(random, config);
+
+            var result = Enumerable.Range(0, iterations).Select(i => probabilityUtility.GaussianRandomSkewed(low, high, level / 100D));
+            var resultMean = result.Average();
+            var resultStdDeviation = Math.Sqrt(result.Select(i => Math.Pow(i - resultMean, 2D)).Average());
+
+            var skew = level / 100D * config.Skew * 2D - config.Skew;
+            var mean = Math.Min(high, Math.Max(low, low + (high - low) * config.Mean + skew));
+            var stdev = (high - low) * stdDeviationConfig;
+
+            // Assert
+            Assert.LessOrEqual(Math.Abs(resultMean - mean) / mean, stdDeviation, $"Mean Expected: {mean}, Actual: {resultMean}");
+            Assert.LessOrEqual(Math.Abs(resultStdDeviation - stdev) / stdev, stdDeviation, $"Standard Deviation Expected: {stdev}, Actual: {resultStdDeviation}");
+        }
 
         public class TestChoice : IChoice
         {

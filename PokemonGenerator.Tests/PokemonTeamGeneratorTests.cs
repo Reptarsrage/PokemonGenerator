@@ -65,7 +65,7 @@ namespace PokemonGenerator.Tests
                   .OrderByDescending(item => item.choice.Probability)
                   .FirstOrDefault().index);
             pokemonStatUtilityMock.Setup(m => m.GetTeamBaseStats(It.IsAny<PokeList>(), level));
-            pokemonStatUtilityMock.Setup(m => m.AssignIVsAndEVsToTeam(It.IsAny<PokeList>()));
+            pokemonStatUtilityMock.Setup(m => m.AssignIVsAndEVsToTeam(It.IsAny<PokeList>(), level));
             pokemonStatUtilityMock.Setup(m => m.CalculateStatsForTeam(It.IsAny<PokeList>(), level));
 
             // Run

@@ -63,7 +63,7 @@ namespace PokemonGenerator
             _pokemonStatUtility.GetTeamBaseStats(pokeList, level);
 
             // Choose IV's and EV's
-            _pokemonStatUtility.AssignIVsAndEVsToTeam(pokeList);
+            _pokemonStatUtility.AssignIVsAndEVsToTeam(pokeList, level);
 
             // Calculate final stats using formulae
             _pokemonStatUtility.CalculateStatsForTeam(pokeList, level);

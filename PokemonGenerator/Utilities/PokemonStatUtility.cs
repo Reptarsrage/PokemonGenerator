@@ -10,7 +10,7 @@ namespace PokemonGenerator.Utilities
     interface IPokemonStatUtility
     {
         void GetTeamBaseStats(PokeList list, int level);
-        void AssignIVsAndEVsToTeam(PokeList list);
+        void AssignIVsAndEVsToTeam(PokeList list, int level);
         IEnumerable<int> GetPossiblePokemon(int level, Entropy entopy);
         void CalculateStatsForTeam(PokeList list, int level);
     }
@@ -75,16 +75,16 @@ namespace PokemonGenerator.Utilities
         /// Uses a gaussian distribution with a mean in the middle and a std deviation of around 30%.
         /// </summary>
         /// <param name="list">List of pokemon on the team.</param>
-        public void AssignIVsAndEVsToTeam(PokeList list)
+        public void AssignIVsAndEVsToTeam(PokeList list, int level)
         {
             foreach (var poke in list.Pokemon)
             {
                 // EVs between 0-65535
-                poke.AttackEV = (ushort)_probabilityUtility.GaussianRandom(0, 65535);
-                poke.DefenseEV = (ushort)_probabilityUtility.GaussianRandom(0, 65535);
-                poke.HitPointsEV = (ushort)_probabilityUtility.GaussianRandom(0, 65535);
-                poke.SpecialEV = (ushort)_probabilityUtility.GaussianRandom(0, 65535);
-                poke.SpeedEV = (ushort)_probabilityUtility.GaussianRandom(0, 65535);
+                poke.AttackEV = (ushort)_probabilityUtility.GaussianRandomSkewed(0, 65535, level / 100D);
+                poke.DefenseEV = (ushort)_probabilityUtility.GaussianRandomSkewed(0, 65535, level / 100D);
+                poke.HitPointsEV = (ushort)_probabilityUtility.GaussianRandomSkewed(0, 65535, level / 100D);
+                poke.SpecialEV = (ushort)_probabilityUtility.GaussianRandomSkewed(0, 65535, level / 100D);
+                poke.SpeedEV = (ushort)_probabilityUtility.GaussianRandomSkewed(0, 65535, level / 100D);
 
                 // IVs between 0-15
                 poke.AttackIV = (byte)_probabilityUtility.GaussianRandom(0, 15);

@@ -9,6 +9,7 @@ namespace PokemonGenerator.Utilities
     {
         int? ChooseWithProbability(IList<IChoice> choices);
         int GaussianRandom(int low, int high);
+        int GaussianRandomSkewed(int low, int high, double level);
     }
 
     class ProbabilityUtility : IProbabilityUtility
@@ -20,6 +21,32 @@ namespace PokemonGenerator.Utilities
         {
             _random = random;
             _pokemonGeneratorConfig = pokemonGeneratorConfig;
+        }
+
+        /// <summary>
+        /// Use Box-Muller transform to simulate a gaussian distribution 
+        /// with a mean of <see cref="PokemonGeneratorConfig.StandardDeviation"/> 
+        /// and a standard deviation of <see cref="PokemonGeneratorConfig.StandardDeviation"/>.
+        /// </summary>
+        /// <param name="low">The low bound</param>
+        /// <param name="high">The High bound.</param>
+        /// <param name="skew">Skew [0-1] which wil influence the mean a bit.</param>
+        /// <returns>A gaussian random number with bounds: [low, high]</returns>
+        public int GaussianRandomSkewed(int low, int high, double skew)
+        {
+            if (skew > 1 || skew < 0 )
+            {
+                throw new ArgumentException(nameof(skew));
+            }
+
+            var u1 = 1D - _random.NextDouble();                                                      // (0, 1]
+            var u2 = 1D - _random.NextDouble();                                                      // (0, 1]
+            var randStdNormal = Math.Sqrt(-2D * Math.Log(u1)) * Math.Sin(2D * Math.PI * u2);   // random with a standard normal distribution
+            skew = skew * _pokemonGeneratorConfig.Skew * 2D - _pokemonGeneratorConfig.Skew;
+            var mean = Math.Min(high, Math.Max(low, (double)(low + (high - low) * _pokemonGeneratorConfig.Mean + skew)));
+            var stdDeviation = (high - low) * _pokemonGeneratorConfig.StandardDeviation;
+            var randNormal = mean + stdDeviation * randStdNormal;                              // random scaled with the standard deviation and translated with the mean
+            return (int)Math.Max(Math.Min(randNormal, high), low);                             // clamp [low, high]
         }
 
         /// <summary>

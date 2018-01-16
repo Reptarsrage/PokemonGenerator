@@ -57,7 +57,8 @@ namespace PokemonGenerator.Models
                  {PokemonClass.Legendary, Likeliness.Very_Low },
                  {PokemonClass.Special, Likeliness.Medium_Low }
             };
-            Mean = 0.7D;
+            Mean = 0.5D;
+            Skew = 0.3D;
             StandardDeviation = 0.1D;
             SameTypeModifier = 1.5D;
             DamageModifier = 200D;
@@ -117,6 +118,11 @@ namespace PokemonGenerator.Models
         /// Average
         /// </summary>
         public double Mean { get; set; }
+
+        /// <summary>
+        /// Average
+        /// </summary>
+        public double Skew { get; set; }
 
         /// <summary>
         /// Standard deviation

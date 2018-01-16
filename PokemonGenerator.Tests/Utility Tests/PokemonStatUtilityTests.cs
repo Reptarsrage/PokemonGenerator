@@ -73,8 +73,11 @@ namespace PokemonGenerator.Tests.Utility_Tests
         [Test]
         public void AssignIVsAndEVsToTeamTest()
         {
+            // Setup
+            int level = 50;
+
             // Mock
-            probabilityUtilityMock.Setup(m => m.GaussianRandom(0, 65535)).Returns(1);
+            probabilityUtilityMock.Setup(m => m.GaussianRandomSkewed(0, 65535, level / 100D)).Returns(1);
             probabilityUtilityMock.Setup(m => m.GaussianRandom(0, 15)).Returns(1);
             var list = Enumerable.Range(1, 6).Select(i => new Pokemon
             {
@@ -90,7 +93,7 @@ namespace PokemonGenerator.Tests.Utility_Tests
 
             // Run
             pokemonStatUtility = new PokemonStatUtility(pokemonDAMock.Object, probabilityUtilityMock.Object);
-            pokemonStatUtility.AssignIVsAndEVsToTeam(team);
+            pokemonStatUtility.AssignIVsAndEVsToTeam(team, level);
 
             // Assert
             Assert.NotNull(team);
