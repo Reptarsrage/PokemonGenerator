@@ -61,7 +61,7 @@ namespace PokemonGenerator.Tests.IO_Tests
             var result = _testReader.ReadBytes((int)_testStream.Length);
 
             Assert.NotNull(result);
-            Assert.Equal(result.Length, 0x7E2E); // End of PC Box 14 Pokémon list
+            Assert.Equal(0x7E2E, result.Length); // End of PC Box 14 Pokémon list
 
             // Verify
             _charsetMock.VerifyAll();
