@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net47</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
+    <PackageReference Include="Moq" Version="4.8.1" />
+    <PackageReference Include="xunit" Version="2.3.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\PokemonGenerator\PokemonGenerator.csproj" />
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <ItemGroup>
+      <NativeBinariesx64 Include="$(SolutionDir)NativeBinaries\amd64\*.dll" />
+      <NativeBinariesx86 Include="$(SolutionDir)NativeBinaries\x86\*.dll" />
+      <SaveFiles Include="$(SolutionDir)*.sav" />
+    </ItemGroup>
+
+    <Copy SourceFiles="@(NativeBinariesx64)" DestinationFolder="$(OutputPath)amd64\" />
+    <Copy SourceFiles="@(NativeBinariesx86)" DestinationFolder="$(OutputPath)x86\" />
+    <Copy SourceFiles="$(SolutionDir)ThePokeBase.sdf" DestinationFolder="$(OutputPath)" />
+    <Copy SourceFiles="@(SaveFiles)" DestinationFolder="$(OutputPath)" />
+  </Target>
+
+</Project>
