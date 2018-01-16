@@ -138,7 +138,7 @@ namespace PokemonGenerator.Generators
                     moveChoice.Probability = Likeliness.Full * _pokemonGeneratorConfig.PairedModifier;
                 }
 
-                // Filter out dependant moves which do not already have their dependancy picked
+                // Filter out dependant moves which do not already have their dependency picked
                 if (_pokemonGeneratorConfig.DependantMoves.ContainsKey(m.MoveId) && (_pokemonGeneratorConfig.DependantMoves[m.MoveId].Intersect(info.AlreadyPicked)?.Count() ?? 0) == 0)
                 {
                     moveChoice.Probability = Likeliness.None;

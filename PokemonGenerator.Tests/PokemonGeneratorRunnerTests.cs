@@ -14,6 +14,7 @@ namespace PokemonGenerator.Tests
         private IPokemonGeneratorRunner _runner;
         private IPokeDeserializer _deserializer;
         private PersistentConfig _opts;
+        private DependencyInjector _dependencyInjector;
         private string _contentDir;
         private string _outputDir;
 
@@ -35,11 +36,9 @@ namespace PokemonGenerator.Tests
                 Level = 100
             });
 
-            using (var injector = new NinjectWrapper())
-            {
-                _runner = injector.Get<IPokemonGeneratorRunner>();
-                _deserializer = injector.Get<IPokeDeserializer>();
-            }
+            _dependencyInjector = new DependencyInjector();
+            _runner = _dependencyInjector.Get<IPokemonGeneratorRunner>();
+            _deserializer = _dependencyInjector.Get<IPokeDeserializer>();
         }
 
         public void Dispose()
@@ -49,6 +48,7 @@ namespace PokemonGenerator.Tests
                 Directory.Delete(_outputDir, true);
             }
             _runner = null;
+            _dependencyInjector.Dispose();
         }
 
         [Fact]

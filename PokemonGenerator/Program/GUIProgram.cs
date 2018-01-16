@@ -21,7 +21,7 @@ namespace PokemonGenerator
             DapperMapper.Init();
 
             // Run GUI
-            using (var injector = new NinjectWrapper())
+            using (var injector = new DependencyInjector())
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
