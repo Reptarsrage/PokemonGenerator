@@ -69,8 +69,6 @@ namespace PokemonGenerator.Forms
             this.LabelPlayerTwoGame = new System.Windows.Forms.Label();
             this.SelectLevel = new System.Windows.Forms.NumericUpDown();
             this.LabelLevel = new System.Windows.Forms.Label();
-            this.SelectEntropy = new System.Windows.Forms.ComboBox();
-            this.LabelEntropy = new System.Windows.Forms.Label();
             this.ButtonProjN64Location = new System.Windows.Forms.Button();
             this.OpenFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.GroupBoxBottom = new System.Windows.Forms.GroupBox();
@@ -531,32 +529,6 @@ namespace PokemonGenerator.Forms
             this.LabelLevel.TabIndex = 19;
             this.LabelLevel.Text = "Level";
             // 
-            // SelectEntropy
-            // 
-            this.SelectEntropy.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.SelectEntropy.Enabled = false;
-            this.SelectEntropy.FormattingEnabled = true;
-            this.SelectEntropy.Items.AddRange(new object[] {
-            "Low",
-            "Medium",
-            "High",
-            "Chaos"});
-            this.SelectEntropy.Location = new System.Drawing.Point(66, 64);
-            this.SelectEntropy.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.SelectEntropy.Name = "SelectEntropy";
-            this.SelectEntropy.Size = new System.Drawing.Size(140, 25);
-            this.SelectEntropy.TabIndex = 17;
-            // 
-            // LabelEntropy
-            // 
-            this.LabelEntropy.AutoSize = true;
-            this.LabelEntropy.Enabled = false;
-            this.LabelEntropy.Location = new System.Drawing.Point(9, 68);
-            this.LabelEntropy.Name = "LabelEntropy";
-            this.LabelEntropy.Size = new System.Drawing.Size(53, 17);
-            this.LabelEntropy.TabIndex = 20;
-            this.LabelEntropy.Text = "Entropy";
-            // 
             // ButtonProjN64Location
             // 
             this.ButtonProjN64Location.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -573,8 +545,6 @@ namespace PokemonGenerator.Forms
             this.GroupBoxBottom.Controls.Add(this.ButtonGenerate);
             this.GroupBoxBottom.Controls.Add(this.SelectLevel);
             this.GroupBoxBottom.Controls.Add(this.LabelLevel);
-            this.GroupBoxBottom.Controls.Add(this.SelectEntropy);
-            this.GroupBoxBottom.Controls.Add(this.LabelEntropy);
             this.GroupBoxBottom.Location = new System.Drawing.Point(13, 340);
             this.GroupBoxBottom.Name = "GroupBoxBottom";
             this.GroupBoxBottom.Size = new System.Drawing.Size(889, 116);
@@ -688,8 +658,6 @@ namespace PokemonGenerator.Forms
         private System.Windows.Forms.Label LabelPlayerTwoGame;
         private System.Windows.Forms.NumericUpDown SelectLevel;
         private System.Windows.Forms.Label LabelLevel;
-        private System.Windows.Forms.ComboBox SelectEntropy;
-        private System.Windows.Forms.Label LabelEntropy;
         private System.Windows.Forms.Button ButtonProjN64Location;
         private System.Windows.Forms.OpenFileDialog OpenFileDialog;
         private System.Windows.Forms.GroupBox GroupBoxBottom;

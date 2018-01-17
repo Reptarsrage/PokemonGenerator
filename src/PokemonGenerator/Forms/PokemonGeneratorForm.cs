@@ -108,7 +108,6 @@ namespace PokemonGenerator.Forms
 
         private void PokemonGeneratorLoad(object sender, EventArgs e)
         {
-            SelectEntropy.SelectedIndex = 0;
             ValidateTopSection();
         }
 
@@ -245,9 +244,6 @@ namespace PokemonGenerator.Forms
         private bool ValidateBottomSection()
         {
             var good = true;
-
-            // Check Entropy
-            var EntropyGood = _optionsValidator.ValidateEntropy(SelectEntropy.Text);
 
             // Check Level
             var LevelGood = _optionsValidator.ValidateLevel((int)SelectLevel.Value);

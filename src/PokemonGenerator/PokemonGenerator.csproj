@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\sprites.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Autofac" Version="4.6.2" />
     <PackageReference Include="CommandLineParser" Version="2.2.1" />
     <PackageReference Include="Dapper.ColumnMapper" Version="1.1.1" />
@@ -41,6 +45,7 @@
     <EmbeddedResource Include="Resources\pikagif.gif" />
     <EmbeddedResource Include="Resources\favicon.ico" />
     <EmbeddedResource Include="Resources\BAD.png" />
+    <EmbeddedResource Include="Resources\sprites.png" />
     <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

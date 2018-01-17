@@ -11,7 +11,7 @@ namespace PokemonGenerator.Tests
         public void GetPossiblePokemonTest()
         {
             var da = new PokemonDA("ThePokeBase");
-            var pokemon = da.GetPossiblePokemon(100, Enumerations.Entropy.Low);
+            var pokemon = da.GetPossiblePokemon(100);
             Assert.NotNull(pokemon);
             Assert.True(pokemon.Count() > 0, "Pokemon has at least one pokemon");
         }
@@ -20,7 +20,7 @@ namespace PokemonGenerator.Tests
         public void GetPossiblePokemonValuesTest()
         {
             var da = new PokemonDA("ThePokeBase");
-            var pokemon = da.GetPossiblePokemon(100, Enumerations.Entropy.Low);
+            var pokemon = da.GetPossiblePokemon(100);
             pokemon.ToList().ForEach(t => Assert.True(t != 0, "Not zero"));
         }
 

@@ -24,7 +24,6 @@ namespace PokemonGenerator.Tests
             _outputDir = Path.Combine(_contentDir, "Out");
             _opts = new PersistentConfig(new PokemonGeneratorConfig(), new PokeGeneratorOptions
             {
-                EntropyVal = "Low",
                 GameOne = PokemonGame.Gold.ToString(),
                 GameTwo = PokemonGame.Gold.ToString(),
                 InputSaveOne = Path.Combine(_contentDir, "gold.sav"),

@@ -13,7 +13,7 @@ namespace PokemonGenerator.DAL
     public interface IPokemonDA
     {
         IEnumerable<PokemonMoveSetResult> GetMovesForPokemon(int id, int level);
-        IEnumerable<int> GetPossiblePokemon(int level, Entropy entopy);
+        IEnumerable<int> GetPossiblePokemon(int level);
         IEnumerable<PokemonMoveSetResult> GetRandomMoves(int minPower, int maxPower);
         IEnumerable<BaseStats> GetTeamBaseStats(PokeList list);
         IEnumerable<string> GetWeaknesses(string v);
@@ -46,7 +46,7 @@ namespace PokemonGenerator.DAL
         /// <summary>
         /// Gets a list of all pokemon at the given level, eliminating pokemon that would have already evolved at this level, as well as pokemon that haven't evelolved at this level.
         /// </summary>
-        public IEnumerable<int> GetPossiblePokemon(int level, Entropy entopy)
+        public IEnumerable<int> GetPossiblePokemon(int level)
         {
             return _dbConnection.Query<int>(Queries.Queries.GetPossiblePokemon, new { level = level }, commandType: CommandType.Text);
         }

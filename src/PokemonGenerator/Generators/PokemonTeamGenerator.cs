@@ -10,7 +10,7 @@ namespace PokemonGenerator
 {
     public interface IPokemonTeamGenerator
     {
-        PokeList GenerateRandomPokemonTeam(int level, Entropy entropy);
+        PokeList GenerateRandomPokemonTeam(int level);
     }
 
     /// <summary>
@@ -42,22 +42,16 @@ namespace PokemonGenerator
         /// 
         /// </summary>
         /// <param name="level">The level of generated pokemon. Must be between 5 and 100 inclusive.</param>
-        /// <param name="entropy">The level of randomness to use when generating pokemon. (Not yet implemented)</param>
         /// <returns><see cref="PokeList"/> containing the generated team.</returns>
-        public PokeList GenerateRandomPokemonTeam(int level, Entropy entropy)
+        public PokeList GenerateRandomPokemonTeam(int level)
         {
-            if (entropy != Entropy.Low)
-            {
-                throw new NotImplementedException("Entropy value must be set to low.");
-            }
-
             if (level < 5 || level > 100)
             {
                 throw new ArgumentOutOfRangeException($"level ({level}) must be between 5 and 100 inclusive.");
             }
 
             // Choose Pokemon Team
-            var pokeList = ChooseTeam(level, entropy);
+            var pokeList = ChooseTeam(level);
 
             // Choose base stats
             _pokemonStatUtility.GetTeamBaseStats(pokeList, level);
@@ -85,9 +79,8 @@ namespace PokemonGenerator
         /// Has a low chance of choose pokemon contained in <see cref="SPECIALPOKEMON"/>.<para />
         /// </summary>
         /// <param name="level">The level of generated pokemon. Must be between 5 and 100 inclusive.</param>
-        /// <param name="entropy">The level of randomness to use when generating pokemon. (Not yet implemented)</param>
         /// <returns><see cref="PokeList"/> containing the generated team.</returns>
-        private PokeList ChooseTeam(int level, Entropy entropy)
+        private PokeList ChooseTeam(int level)
         {
             var ret = new PokeList(_pokemonGeneratorConfig.TeamSize);
 
@@ -95,7 +88,7 @@ namespace PokemonGenerator
             if (previousLevel != level || possiblePokemon == null || possiblePokemon.Count < 20)
             {
                 previousLevel = level;
-                possiblePokemon = _pokemonStatUtility.GetPossiblePokemon(level, entropy).Select(id => new PokemonChoice { PokemonId = id }).ToList();
+                possiblePokemon = _pokemonStatUtility.GetPossiblePokemon(level).Select(id => new PokemonChoice { PokemonId = id }).ToList();
             }
 
             // add initial probabilities

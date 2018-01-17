@@ -62,7 +62,7 @@ namespace PokemonGenerator.Generators
                 Directory.CreateDirectory(Path.GetDirectoryName(@out));
             }
 
-            var list = _pokemonGenerator.GenerateRandomPokemonTeam(level, Entropy.Low); // TODO: Entropy stuffs
+            var list = _pokemonGenerator.GenerateRandomPokemonTeam(level);
             sav.TeamPokemonList = list;
             WriteSavProperties(@out, @in, sav);
             ReadSavProperties(@out); // Verification only

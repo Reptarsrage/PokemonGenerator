@@ -52,10 +52,9 @@ namespace PokemonGenerator.Tests
         {
             // SetUP
             var level = 100;
-            var entropy = Enumerations.Entropy.Low;
 
             // Mock
-            pokemonStatUtilityMock.Setup(m => m.GetPossiblePokemon(level, entropy)).Returns(Enumerable.Range(0, 100));
+            pokemonStatUtilityMock.Setup(m => m.GetPossiblePokemon(level)).Returns(Enumerable.Range(0, 100));
             pokemonMoveGeneratorMock.Setup(m => m.AssignMovesToTeam(It.IsAny<PokeList>(), level));
             probabilityUtilityMock.Setup(m => m.ChooseWithProbability(It.IsNotNull<IList<IChoice>>()))
                 .Returns<IList<IChoice>>(l => l
@@ -68,7 +67,7 @@ namespace PokemonGenerator.Tests
 
             // Run
             _pokemonGeneratorWorker = new PokemonTeamGenerator(pokemonStatUtilityMock.Object, probabilityUtilityMock.Object, pokemonMoveGeneratorMock.Object, config, random);
-            var team = _pokemonGeneratorWorker.GenerateRandomPokemonTeam(level, entropy);
+            var team = _pokemonGeneratorWorker.GenerateRandomPokemonTeam(level);
 
             // Assert
             Assert.NotNull(team);

@@ -11,7 +11,7 @@ namespace PokemonGenerator.Utilities
     {
         void GetTeamBaseStats(PokeList list, int level);
         void AssignIVsAndEVsToTeam(PokeList list, int level);
-        IEnumerable<int> GetPossiblePokemon(int level, Entropy entopy);
+        IEnumerable<int> GetPossiblePokemon(int level);
         void CalculateStatsForTeam(PokeList list, int level);
     }
 
@@ -94,9 +94,9 @@ namespace PokemonGenerator.Utilities
             }
         }
 
-        public IEnumerable<int> GetPossiblePokemon(int level, Entropy entopy)
+        public IEnumerable<int> GetPossiblePokemon(int level)
         {
-            return _pokemonDA.GetPossiblePokemon(level, entopy);
+            return _pokemonDA.GetPossiblePokemon(level);
         }
 
         public void CalculateStatsForTeam(PokeList pokeList, int level)

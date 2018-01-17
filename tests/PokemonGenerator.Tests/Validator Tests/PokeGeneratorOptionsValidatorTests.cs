@@ -61,23 +61,6 @@ namespace PokemonGenerator.Tests.Validator_Tests
             Assert.True(_validator.ValidateLevel(level));
         }
 
-        [Fact]
-        public void PokeGeneratorOptionsValidateEntropySucceedsWithEnumValsTest()
-        {
-            foreach (var name in Enum.GetNames(typeof(Entropy)))
-            {
-                Assert.True(_validator.ValidateEntropy(name));
-            }
-        }
-
-        [Theory]
-        [InlineData("Fake")]
-        [InlineData("LOW")]
-        public void PokeGeneratorOptionsValidateEntropyFailsTest(string entropy)
-        {
-            Assert.False(_validator.ValidateEntropy(entropy));
-        }
-
         [Theory]
         [InlineData("Gold")]
         [InlineData("Silver")]

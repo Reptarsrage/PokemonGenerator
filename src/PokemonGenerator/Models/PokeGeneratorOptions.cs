@@ -1,5 +1,4 @@
 ﻿using CommandLine;
-using Newtonsoft.Json;
 using PokemonGenerator.Enumerations;
 using System.ComponentModel;
 
@@ -16,7 +15,6 @@ namespace PokemonGenerator.Models
             InputSaveTwo = string.Empty;
             OutputSaveOne = string.Empty;
             OutputSaveTwo = string.Empty;
-            EntropyVal = "Low";
             GameOne = PokemonGame.Gold.ToString();
             GameTwo = PokemonGame.Gold.ToString();
             NameOne = string.Empty;
@@ -64,43 +62,28 @@ namespace PokemonGenerator.Models
         [DefaultValue(0)]
         public int Level { get; set; }
 
-        [Option('e',
-                "entropy",
-                Required = false,
-                HelpText = "Amount of randomness to use when generating Pokemon. See README for full info.",
-                Default = "Low")]
-        [DefaultValue("")]
-        public string EntropyVal { get; set; }
-
-        [JsonIgnore]
-        public Entropy Entropy { get; set; }
-
-        [Option('e',
-                "entropy",
+        [Option("g1",
                 Required = false,
                 HelpText = "The Game to use for player 1 (Gold or Silver).",
                 Default = "Gold")]
         [DefaultValue("")]
         public string GameOne { get; set; }
 
-        [Option('e',
-                "entropy",
+        [Option("g2",
                 Required = false,
                 HelpText = "The Game to use for player 2 (Gold or Silver).",
                 Default = "Gold")]
         [DefaultValue("")]
         public string GameTwo { get; set; }
 
-        [Option('e',
-                "entropy",
+        [Option("n1",
                 Required = false,
                 HelpText = "The Name to use for player 1.",
                 Default = "Player1")]
         [DefaultValue("")]
         public string NameOne { get; set; }
 
-        [Option('e',
-                "entropy",
+        [Option("n2",
                 Required = false,
                 HelpText = "The Name to use for player 2.",
                 Default = "Player2")]

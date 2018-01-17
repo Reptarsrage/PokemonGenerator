@@ -10,7 +10,6 @@ namespace PokemonGenerator.Validators
     public interface IPokeGeneratorOptionsValidator
     {
         bool Validate(PokeGeneratorOptions options);
-        bool ValidateEntropy(string entropy);
         bool ValidateFileOption(string path, string expectedExtension);
         bool ValidateFilePathOption(string path, string expectedExtension);
         bool ValidateGame(string game);
@@ -30,7 +29,6 @@ namespace PokemonGenerator.Validators
             good &= ValidateFilePathOption(options.OutputSaveOne, ".sav");
             good &= ValidateFilePathOption(options.OutputSaveTwo, ".sav");
             good &= ValidateLevel(options.Level);
-            good &= ValidateEntropy(options.EntropyVal);
             good &= ValidateGame(options.GameOne);
             good &= ValidateGame(options.GameTwo);
             good &= ValidateName(options.NameOne);
@@ -55,11 +53,6 @@ namespace PokemonGenerator.Validators
         public bool ValidateName(string name)
         {
             return !string.IsNullOrWhiteSpace(name) && name.Length <= 8 && !(new Regex("[^A-Za-z0-9]").IsMatch(name));
-        }
-
-        public bool ValidateEntropy(string entropy)
-        {
-            return Enum.TryParse<Entropy>(entropy, out _);
         }
 
         public bool ValidateLevel(int level)
