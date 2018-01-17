@@ -38,6 +38,15 @@ namespace PokemonGenerator.Forms
         private readonly IPokeGeneratorOptionsValidator _optionsValidator;
         private readonly string _contentDirectory;
         private readonly string _outputDirectory;
+        private enum ImageState {
+            Unkown,
+            Bad,
+            Good,
+            Warning,
+            FileBad,
+            FileGood,
+            FileWarning
+        }
 
         private PersistentConfig _config;
 
@@ -177,7 +186,7 @@ namespace PokemonGenerator.Forms
             {
                 GroupBoxPlayerOne.Enabled = false;
                 GroupBoxPlayerTwo.Enabled = false;
-                GroupBoxBottom.Enabled = false;
+                PanelBottom.Enabled = false;
                 return false;
             }
         }
@@ -185,27 +194,44 @@ namespace PokemonGenerator.Forms
         private bool CheckIfFileExistsAndAssignImage(TextBox textbox, PictureBox pic, string expectedExtension)
         {
             var good = _optionsValidator.ValidateFileOption(textbox.Text, expectedExtension);
-            ToggleErrorImageToPic(pic, !good);
+            ToggleErrorImageToPic(pic, good ? ImageState.FileGood : ImageState.FileBad);
             return good;
         }
 
         private bool CheckIfPathIsValidAndAssignImage(TextBox textbox, PictureBox pic, string expectedExtension)
         {
             var good = _optionsValidator.ValidateFilePathOption(textbox.Text, expectedExtension);
-            ToggleErrorImageToPic(pic, !good);
+            ToggleErrorImageToPic(pic, good ? ImageState.FileGood : ImageState.FileBad);
             return good;
         }
 
-        private void ToggleErrorImageToPic(PictureBox pic, bool error)
+        private void ToggleErrorImageToPic(PictureBox pic, ImageState state)
         {
-            if (error)
+            switch (state)
             {
-                pic.Show();
+                case ImageState.Bad:
+                    pic.BackgroundImage = Properties.Resources.StatusInvalid_16x;
+                    break;
+                case ImageState.Good:
+                    pic.BackgroundImage = Properties.Resources.StatusOK_16x;
+                    break;
+                case ImageState.Warning:
+                    pic.BackgroundImage = Properties.Resources.StatusWarning_16x;
+                    break;
+                case ImageState.FileBad:
+                    pic.BackgroundImage = Properties.Resources.FileError_16x;
+                    break;
+                case ImageState.FileGood:
+                    pic.BackgroundImage = Properties.Resources.FileOK_16x;
+                    break;
+                case ImageState.FileWarning:
+                    pic.BackgroundImage = Properties.Resources.FileWarning_16x;
+                    break;
+                default:
+                    pic.BackgroundImage = null;
+                    break;
             }
-            else
-            {
-                pic.Hide();
-            }
+            pic.Show();
         }
 
         private bool ValidatePlayerSection()
@@ -216,7 +242,7 @@ namespace PokemonGenerator.Forms
 
             // Check Player One Name
             var TextPlayerOneNameGood = _optionsValidator.ValidateName(TextPlayerOneName.Text);
-            ToggleErrorImageToPic(ImagePlayerOneName, !TextPlayerOneNameGood);
+            ToggleErrorImageToPic(ImagePlayerOneName, TextPlayerOneNameGood ? ImageState.Good : ImageState.Bad);
             good &= TextPlayerOneNameGood;
 
             // Check Player Two In/Out Locations
@@ -225,19 +251,19 @@ namespace PokemonGenerator.Forms
 
             // Check Player Two Name
             var TextPlayerTwoNameGood = _optionsValidator.ValidateName(TextPlayerTwoName.Text);
-            ToggleErrorImageToPic(ImagePlayerTwoName, !TextPlayerTwoNameGood);
+            ToggleErrorImageToPic(ImagePlayerTwoName, TextPlayerTwoNameGood ? ImageState.Good : ImageState.Bad);
             good &= TextPlayerTwoNameGood;
 
             // Check two outs are unique
             if (!_optionsValidator.ValidateUniquePath(TextPlayerTwoOutLocation.Text, TextPlayerOneOutLocation.Text))
             {
-                ToggleErrorImageToPic(ImagePlayerTwoOutLocation, true);
-                ToggleErrorImageToPic(ImagePlayerOneOutLocation, true);
+                ToggleErrorImageToPic(ImagePlayerTwoOutLocation, ImageState.FileBad);
+                ToggleErrorImageToPic(ImagePlayerOneOutLocation, ImageState.FileBad);
                 good = false;
             }
 
             // Enable and Validate Bottom Section
-            GroupBoxBottom.Enabled = good;
+            PanelBottom.Enabled = good;
             return good ? ValidateBottomSection() : good;
         }
 
@@ -277,7 +303,7 @@ namespace PokemonGenerator.Forms
                 throw new ArgumentNullException("Out Files must be specified");
             }
 
-            GroupBoxOuter.Enabled = false;
+            PanelOuter.Enabled = false;
             PanelProgress.Show();
             PanelProgress.BringToFront();
 
@@ -389,7 +415,7 @@ namespace PokemonGenerator.Forms
                 MessageBox.Show($"Error encountered while running generator:\n{e.Error.ToString()}\nPlease check your input and try again.");
             }
 
-            GroupBoxOuter.Enabled = true;
+            PanelOuter.Enabled = true;
             PanelProgress.Hide();
         }
 
