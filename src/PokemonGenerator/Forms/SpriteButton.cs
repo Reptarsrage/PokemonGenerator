@@ -5,6 +5,18 @@ using System.Windows.Forms;
 
 namespace PokemonGenerator.Forms
 {
+    public class ItemSelectedEventArgs : EventArgs
+    {
+        public bool Selected => _selected;
+
+        private readonly bool _selected;
+
+        public ItemSelectedEventArgs(bool selected) : base()
+        {
+            _selected = selected;
+        }
+    }
+
     public class SpriteButton : CheckBox
     {
         private const int SPRITE_TILE_WIDTH = 56;
@@ -19,7 +31,16 @@ namespace PokemonGenerator.Forms
         private readonly int _index;
         private readonly Size _imageSize;
 
-        public SpriteButton(int index, bool enabled, bool pressed) : base()
+        // Index
+        public int Index => _index;
+
+        // Assuming you need a custom signature for your event. If not, use an existing standard event delegate
+        public delegate void ItemSelctedDelegate(object sender, ItemSelectedEventArgs args);
+
+        // Expose the event off your component
+        public event ItemSelctedDelegate ItemSelctedEvent;
+
+        public SpriteButton(int index, bool pressed) : base()
         {
             Image = null;
             TextImageRelation = TextImageRelation.ImageAboveText;
@@ -27,7 +48,6 @@ namespace PokemonGenerator.Forms
             UseVisualStyleBackColor = true;
             Appearance = Appearance.Button;
             Checked = pressed;
-            Enabled = enabled;
             Size = new Size(SPRITE_TILE_WIDTH + 50, SPRITE_TILE_HEIGHT + 50);
             FlatAppearance.BorderSize = 0;
             FlatStyle = FlatStyle.Flat;
@@ -64,6 +84,8 @@ namespace PokemonGenerator.Forms
                 FlatAppearance.CheckedBackColor = _unPressed;
                 FlatAppearance.BorderColor = _unPressedBorder;
             }
+
+            ItemSelctedEvent?.Invoke(this, new ItemSelectedEventArgs(Checked));
         }
 
         protected override void OnPaint(PaintEventArgs e)

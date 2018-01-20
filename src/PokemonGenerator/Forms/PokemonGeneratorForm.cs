@@ -37,6 +37,7 @@ namespace PokemonGenerator.Forms
         private readonly IPokemonGeneratorRunner _pokemonGeneratorRunner;
         private readonly IPersistentConfigManager _configManager;
         private readonly IPokeGeneratorOptionsValidator _optionsValidator;
+        private readonly IDirectoryUtility _directoryUtility;
         private readonly string _contentDirectory;
         private readonly string _outputDirectory;
         private enum ImageState {
@@ -65,6 +66,7 @@ namespace PokemonGenerator.Forms
             _nRageIniEditor = nRageIniEditor;
             _p64ConfigEditor = p64ConfigEditor;
             _optionsValidator = optionsValidator;
+            _directoryUtility = directoryUtility;
 
             // Load Persistent Config
             var configFileName = ConfigurationManager.AppSettings["configFileName"];
@@ -427,8 +429,9 @@ namespace PokemonGenerator.Forms
 
         private void ButtonSettings_Click(object sender, EventArgs e)
         {
-            var form = new PokemonSettingsForm(new PokemonDA());
+            var form = new PokemonSettingsForm(new PokemonDA(), _configManager, _directoryUtility);
             form.ShowDialog();
+            _config = _configManager.Load(); // re-load config
         }
     }
 }

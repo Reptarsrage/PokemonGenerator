@@ -7,9 +7,9 @@ namespace PokemonGenerator.Models
     {
         public PokemonGeneratorConfig()
         {
-            LegendaryPokemon = new[] { 144, 145, 146, 151, 150, 243, 244, 245, 249, 250, 251 };
-            IgnoredPokemon = new[] { 10, 11, 13, 14, 129, 201 }; /*caterpie, metapod, weedle, kakuna, magikarp, unown */
-            SpecialPokemon = new[] { 10, 11, 13, 14, 129, 132, 201, 202 }; /* caterpie, metapod, weedle, kakuna, magikarp, ditto, unown, wobbuffet */
+            LegendaryPokemon = new List<int> { 144, 145, 146, 151, 150, 243, 244, 245, 249, 250, 251 };
+            IgnoredPokemon = new List<int> { 10, 11, 13, 14, 129, 201 }; /*caterpie, metapod, weedle, kakuna, magikarp, unown */
+            SpecialPokemon = new List<int> { 10, 11, 13, 14, 129, 132, 201, 202 }; /* caterpie, metapod, weedle, kakuna, magikarp, ditto, unown, wobbuffet */
             PairedMoves = new Dictionary<int, int[]>()
             {
                     { 156, new int[] { 214, 173 } }, /* Rest = sleep-talk, snore */
@@ -71,33 +71,33 @@ namespace PokemonGenerator.Models
         /// <summary>
         /// All Legendary pokemon Ids
         /// </summary>
-        public int[] LegendaryPokemon { get; set; }
+        public List<int> LegendaryPokemon { get; set; }
 
         /// <summary>
         /// All Useless pokemon Ids
         /// </summary>
-        public int[] IgnoredPokemon { get; set; }
+        public List<int> IgnoredPokemon { get; set; }
 
         /// <summary>
         /// All Special pokemon Ids
         /// Specially treated for move selection bc they can learn &lt; 4 moves total
         /// </summary>
-        public int[] SpecialPokemon { get; set; }
+        public List<int> SpecialPokemon { get; set; }
 
         /// <summary>
         /// Moves that go well together
         /// </summary>
-        public IDictionary<int, int[]> PairedMoves { get; set; }
+        public Dictionary<int, int[]> PairedMoves { get; set; }
 
         /// <summary>
         /// Moves that depend on another to be any use at all
         /// </summary>
-        public IDictionary<int, int[]> DependantMoves { get; set; }
+        public Dictionary<int, int[]> DependantMoves { get; set; }
 
         /// <summary>
         /// A list of all HM moves
         /// </summary>
-        public IList<int> HMBank { get; set; }
+        public List<int> HMBank { get; set; }
 
         /// <summary>
         /// Pokemon Team size
@@ -107,12 +107,12 @@ namespace PokemonGenerator.Models
         /// <summary>
         /// Liklihood of the move based on how strong the type generally is
         /// </summary>
-        public IDictionary<string, double> MoveEffectFilters { get; set; }
+        public Dictionary<string, double> MoveEffectFilters { get; set; }
 
         /// <summary>
         /// How likly a pokemon is to be put on a team, based on the class of the pokemon
         /// </summary>
-        public IDictionary<PokemonClass, double> PokemonLiklihood { get; set; }
+        public Dictionary<PokemonClass, double> PokemonLiklihood { get; set; }
 
         /// <summary>
         /// Average
