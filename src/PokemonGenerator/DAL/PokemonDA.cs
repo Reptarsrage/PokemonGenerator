@@ -16,6 +16,7 @@ namespace PokemonGenerator.DAL
         IEnumerable<int> GetPossiblePokemon(int level);
         IEnumerable<PokemonMoveSetResult> GetRandomMoves(int minPower, int maxPower);
         IEnumerable<BaseStats> GetTeamBaseStats(PokeList list);
+        IEnumerable<PokemonEntry> GetAllPokemon();
         IEnumerable<string> GetWeaknesses(string v);
         IEnumerable<int> GetTMs();
     }
@@ -90,6 +91,14 @@ namespace PokemonGenerator.DAL
         public IEnumerable<int> GetTMs()
         {
             return _dbConnection.Query<int>(Queries.Queries.GetTMs, commandType: CommandType.Text);
+        }
+
+        /// <summary>
+        /// Gets all Pokemon names and ids
+        /// </summary>
+        public IEnumerable<PokemonEntry> GetAllPokemon()
+        {
+            return _dbConnection.Query<PokemonEntry>(Queries.Queries.GetAllPokemon, commandType: CommandType.Text);
         }
     }
 }

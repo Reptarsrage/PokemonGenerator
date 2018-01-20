@@ -1,4 +1,5 @@
-﻿using PokemonGenerator.Editors;
+﻿using PokemonGenerator.DAL;
+using PokemonGenerator.Editors;
 using PokemonGenerator.Generators;
 using PokemonGenerator.IO;
 using PokemonGenerator.Models;
@@ -422,6 +423,12 @@ namespace PokemonGenerator.Forms
         private void PlayerValidate(object sender, EventArgs e)
         {
             ValidatePlayerSection();
+        }
+
+        private void ButtonSettings_Click(object sender, EventArgs e)
+        {
+            var form = new PokemonSettingsForm(new PokemonDA());
+            form.ShowDialog();
         }
     }
 }

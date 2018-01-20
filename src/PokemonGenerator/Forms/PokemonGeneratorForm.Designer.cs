@@ -33,6 +33,7 @@
             this.HelpProvider = new System.Windows.Forms.HelpProvider();
             this.LabelProjN64Location = new System.Windows.Forms.Label();
             this.TextProjN64Location = new System.Windows.Forms.TextBox();
+            this.pokeGeneratorOptionsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.GroupBoxPlayerOne = new System.Windows.Forms.GroupBox();
             this.PanelFormInputPlayerOneName = new System.Windows.Forms.Panel();
             this.ImagePlayerOneName = new System.Windows.Forms.PictureBox();
@@ -84,7 +85,7 @@
             this.PanelFormInputTop = new System.Windows.Forms.Panel();
             this.ImageProjN64Location = new System.Windows.Forms.PictureBox();
             this.ToolTipProjN64Location = new System.Windows.Forms.ToolTip(this.components);
-            this.pokeGeneratorOptionsBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.pokeGeneratorOptionsBindingSource)).BeginInit();
             this.GroupBoxPlayerOne.SuspendLayout();
             this.PanelFormInputPlayerOneName.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ImagePlayerOneName)).BeginInit();
@@ -108,7 +109,6 @@
             this.PanelTop.SuspendLayout();
             this.PanelFormInputTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ImageProjN64Location)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pokeGeneratorOptionsBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // LabelProjN64Location
@@ -131,6 +131,10 @@
             this.TextProjN64Location.Size = new System.Drawing.Size(575, 25);
             this.TextProjN64Location.TabIndex = 3;
             this.TextProjN64Location.Validated += new System.EventHandler(this.TextProjN64LocationValidate);
+            // 
+            // pokeGeneratorOptionsBindingSource
+            // 
+            this.pokeGeneratorOptionsBindingSource.DataSource = typeof(PokemonGenerator.Models.PokeGeneratorOptions);
             // 
             // GroupBoxPlayerOne
             // 
@@ -315,8 +319,8 @@
             // 
             this.SelectPlayerOneGame.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.pokeGeneratorOptionsBindingSource, "GameOne", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, "Gold"));
             this.SelectPlayerOneGame.DataSource = new object[] {
-            "Gold",
-            "Silver"};
+        ((object)("Gold")),
+        ((object)("Silver"))};
             this.SelectPlayerOneGame.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.SelectPlayerOneGame.FormattingEnabled = true;
             this.SelectPlayerOneGame.Location = new System.Drawing.Point(10, 100);
@@ -597,8 +601,8 @@
             // 
             this.SelectPlayerTwoGame.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.pokeGeneratorOptionsBindingSource, "GameTwo", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged, "Gold"));
             this.SelectPlayerTwoGame.DataSource = new object[] {
-            "Gold",
-            "Silver"};
+        ((object)("Gold")),
+        ((object)("Silver"))};
             this.SelectPlayerTwoGame.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.SelectPlayerTwoGame.FormattingEnabled = true;
             this.SelectPlayerTwoGame.Location = new System.Drawing.Point(10, 100);
@@ -736,6 +740,7 @@
             this.ButtonSettings.Text = "Settings";
             this.ButtonSettings.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.ButtonSettings.UseVisualStyleBackColor = true;
+            this.ButtonSettings.Click += new System.EventHandler(this.ButtonSettings_Click);
             // 
             // ButtonGenerate
             // 
@@ -844,10 +849,6 @@
             this.ImageProjN64Location.Visible = false;
             this.ImageProjN64Location.Click += new System.EventHandler(this.TopSectionValidater);
             // 
-            // pokeGeneratorOptionsBindingSource
-            // 
-            this.pokeGeneratorOptionsBindingSource.DataSource = typeof(PokemonGenerator.Models.PokeGeneratorOptions);
-            // 
             // PokemonGeneratorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -863,6 +864,7 @@
             this.Text = "PokéGenerator";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PokemonGeneratorClosing);
             this.Load += new System.EventHandler(this.PokemonGeneratorLoad);
+            ((System.ComponentModel.ISupportInitialize)(this.pokeGeneratorOptionsBindingSource)).EndInit();
             this.GroupBoxPlayerOne.ResumeLayout(false);
             this.GroupBoxPlayerOne.PerformLayout();
             this.PanelFormInputPlayerOneName.ResumeLayout(false);
@@ -898,7 +900,6 @@
             this.PanelFormInputTop.ResumeLayout(false);
             this.PanelFormInputTop.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ImageProjN64Location)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pokeGeneratorOptionsBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
