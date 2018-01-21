@@ -10,8 +10,6 @@ namespace PokemonGenerator
     /// </summary>
     static class GUIProgram
     {
-
-
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -26,6 +24,11 @@ namespace PokemonGenerator
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
+
+                // Pre-Load some Windows
+                var window = injector.Get<SettingsWindow>();
+
+                // Run
                 Application.Run(new MainForm(injector));
             }
         }

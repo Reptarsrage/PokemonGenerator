@@ -39,6 +39,7 @@ namespace PokemonGenerator.Forms
                 configFileName = Path.Combine(_contentDirectory, configFileName);
             }
             _configManager.ConfigFilePath = configFileName;
+            _config = _configManager.Load();
 
             BackgroundWorker.RunWorkerAsync();
         }
