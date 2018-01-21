@@ -120,7 +120,7 @@ namespace PokemonGenerator.Models
         public double Mean { get; set; }
 
         /// <summary>
-        /// Average
+        /// Average skew
         /// </summary>
         public double Skew { get; set; }
 

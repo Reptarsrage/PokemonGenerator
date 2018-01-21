@@ -15,7 +15,7 @@ namespace PokemonGenerator.Controls
         }
     }
 
-    public abstract class WindowBase : UserControl
+    public class WindowBase : UserControl
     {
         // Events (Show new and Close this)
         public delegate void WindowOpenedDelegate(object sender, WindowEventArgs args);
@@ -25,15 +25,15 @@ namespace PokemonGenerator.Controls
         public event WindowOpenedDelegate WindowClosedEvent;
 
         // Methods Shown() and Closed()
-        public abstract void Shown();
-        public abstract void Closed();
+        public virtual void Shown() { }
+        public virtual void Closed() { }
 
-        protected void OnWindowOpenedEvent(object sender, WindowEventArgs args)
+        protected virtual void OnWindowOpenedEvent(object sender, WindowEventArgs args)
         {
             WindowOpenedEvent?.Invoke(sender, args);
         }
 
-        protected void OnWindowClosedEvent(object sender, WindowEventArgs args)
+        protected virtual void OnWindowClosedEvent(object sender, WindowEventArgs args)
         {
             WindowClosedEvent?.Invoke(sender, args);
         }

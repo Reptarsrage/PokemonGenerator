@@ -30,12 +30,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.SuspendLayout();
+            // 
+            // MainForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Text = "Pokémon Generator";
-            this.Icon = Properties.Resources.favicon;
             this.AutoSize = true;
-            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowOnly;
+            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Icon = global::PokemonGenerator.Properties.Resources.favicon;
+            this.Name = "MainForm";
+            this.Text = "Pokémon Generator";
+            this.ResumeLayout(false);
+
         }
 
         #endregion

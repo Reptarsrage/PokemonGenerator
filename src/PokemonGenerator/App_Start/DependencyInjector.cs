@@ -43,6 +43,7 @@ namespace PokemonGenerator
             // Controls
             builder.RegisterType<MainWindow>().InstancePerLifetimeScope();
             builder.RegisterType<SettingsWindow>().InstancePerLifetimeScope();
+            builder.RegisterType<OptionsWindow>().InstancePerLifetimeScope();
 
             // IO
             builder.RegisterType<BinaryReader2>().As<IBinaryReader2>();

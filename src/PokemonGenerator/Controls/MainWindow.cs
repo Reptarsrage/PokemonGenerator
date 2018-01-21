@@ -84,8 +84,7 @@ namespace PokemonGenerator.Forms
             // Init
             InitializeComponent();
             RegisterHotKey(Handle, 0, (int)KeyModifier.Control, Keys.F12.GetHashCode());
-            BindingContextChanged += (o, e) => ValidateTopSection();
-            pokeGeneratorOptionsBindingSource.DataSource = _config.Options;
+            MainWindowBindingSource.DataSource = _config.Options;
         }
 
         /// <summary>
@@ -122,7 +121,8 @@ namespace PokemonGenerator.Forms
 
         public override void Shown()
         {
-            _config = _configManager.Load();
+            _config.Configuration = _configManager.Load().Configuration;
+            ValidateTopSection();
         }
 
         public override void Closed()
@@ -428,7 +428,7 @@ namespace PokemonGenerator.Forms
 
         private void ButtonSettings_Click(object sender, EventArgs e)
         {
-            OnWindowOpenedEvent(this, new WindowEventArgs(typeof(SettingsWindow)));
+            OnWindowOpenedEvent(this, new WindowEventArgs(typeof(OptionsWindow)));
         }
     }
 }

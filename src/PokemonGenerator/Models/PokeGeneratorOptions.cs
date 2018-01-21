@@ -17,8 +17,8 @@ namespace PokemonGenerator.Models
             OutputSaveTwo = string.Empty;
             GameOne = PokemonGame.Gold.ToString();
             GameTwo = PokemonGame.Gold.ToString();
-            NameOne = string.Empty;
-            NameTwo = string.Empty;
+            NameOne = "PLAYER1";
+            NameTwo = "PLAYER2";
             Level = 50;
         }
 
@@ -79,14 +79,14 @@ namespace PokemonGenerator.Models
         [Option("n1",
                 Required = false,
                 HelpText = "The Name to use for player 1.",
-                Default = "Player1")]
+                Default = "PLAYER1")]
         [DefaultValue("")]
         public string NameOne { get; set; }
 
         [Option("n2",
                 Required = false,
                 HelpText = "The Name to use for player 2.",
-                Default = "Player2")]
+                Default = "PLAYER2")]
         [DefaultValue("")]
         public string NameTwo { get; set; }
 
