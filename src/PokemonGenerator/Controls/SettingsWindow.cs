@@ -1,9 +1,9 @@
-﻿using PokemonGenerator.DAL;
+﻿using PokemonGenerator.Controls;
+using PokemonGenerator.DAL;
 using PokemonGenerator.IO;
 using PokemonGenerator.Models;
 using PokemonGenerator.Utilities;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
 using System.IO;
@@ -12,18 +12,19 @@ using System.Windows.Forms;
 
 namespace PokemonGenerator.Forms
 {
-    public partial class PokemonSettingsForm : Form
+    public partial class SettingsWindow : WindowBase
     {
         private readonly IPokemonDA _pokemonDA;
-        private readonly PersistentConfig _config;
+        private PersistentConfig _config;
         private readonly IPersistentConfigManager _configManager;
         private readonly string _contentDirectory;
 
         private int _total;
         private int _selected;
 
-        public PokemonSettingsForm(IPokemonDA pokemonDA, 
-            IPersistentConfigManager persistentConfigManager, 
+        public SettingsWindow(
+            IPokemonDA pokemonDA,
+            IPersistentConfigManager persistentConfigManager,
             IDirectoryUtility directoryUtility)
         {
             InitializeComponent();
@@ -38,17 +39,29 @@ namespace PokemonGenerator.Forms
                 configFileName = Path.Combine(_contentDirectory, configFileName);
             }
             _configManager.ConfigFilePath = configFileName;
+
+            BackgroundWorker.RunWorkerAsync();
+        }
+
+        public override void Shown()
+        {
             _config = _configManager.Load();
+            foreach (var btn in LayoutPanelMain.Controls.OfType<SpriteButton>())
+            {
+                var id = btn.Index + 1;
+                btn.Checked = _config.Configuration.IgnoredPokemon.All(pid => pid != id); ;
+            }
+            UpdateCount();
+        }
+
+        public override void Closed()
+        {
+            // Nothing we need to do here
         }
 
         private void UpdateCount()
         {
             LabelCount.Text = $"{_selected}/{_total} Selected";
-        }
-
-        private void PokemonGeneratorLoad(object sender, EventArgs e)
-        {
-            BackgroundWorker.RunWorkerAsync();
         }
 
         private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
@@ -99,7 +112,8 @@ namespace PokemonGenerator.Forms
             if (args.Selected)
             {
                 _config.Configuration.IgnoredPokemon.Remove(idx);
-            } else
+            }
+            else
             {
                 _config.Configuration.IgnoredPokemon.Add(idx);
             }
@@ -107,10 +121,10 @@ namespace PokemonGenerator.Forms
             UpdateCount();
         }
 
+
         private void buttonCancel_Click(object sender, EventArgs e)
         {
-
-            Close();
+            OnWindowClosedEvent(this, new WindowEventArgs(GetType()));
         }
 
         private void buttonSave_Click(object sender, EventArgs e)
@@ -118,10 +132,11 @@ namespace PokemonGenerator.Forms
             if (_selected < 6)
             {
                 MessageBox.Show("Please selecte at least 6 Pokemon.", "Unable to save", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
-
             _configManager.Save(_config);
-            Close();
+
+            OnWindowClosedEvent(this, new WindowEventArgs(GetType()));
         }
 
         private void BackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)

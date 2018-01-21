@@ -2,14 +2,14 @@
 
 namespace PokemonGenerator.Forms
 {
-    partial class PokemonSettingsForm
+    partial class SettingsWindow
     {
-        /// <summary>
+        /// <summary> 
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
+        /// <summary> 
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
@@ -22,15 +22,17 @@ namespace PokemonGenerator.Forms
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
+        #region Component Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
+        /// <summary> 
+        /// Required method for Designer support - do not modify 
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PokemonSettingsForm));
+            components = new System.ComponentModel.Container();
+                        this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsWindow));
             this.LayoutPanelMain = new System.Windows.Forms.FlowLayoutPanel();
             this.LayoutPanelBottom = new System.Windows.Forms.Panel();
             this.LabelCount = new System.Windows.Forms.Label();
@@ -160,7 +162,7 @@ namespace PokemonGenerator.Forms
             this.ButtonSelectNone.UseVisualStyleBackColor = true;
             this.ButtonSelectNone.Click += new System.EventHandler(this.ButtonSelectNone_Click);
             // 
-            // PokemonSettingsForm
+            // SettingsWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -168,19 +170,16 @@ namespace PokemonGenerator.Forms
             this.Controls.Add(this.TableLayoutPanelOutter);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MinimumSize = new System.Drawing.Size(400, 400);
-            this.Name = "PokemonSettingsForm";
+            this.Name = "SettingsWindow";
             this.Text = "PokéGenerator";
-            this.Load += new System.EventHandler(this.PokemonGeneratorLoad);
             this.LayoutPanelBottom.ResumeLayout(false);
             this.LayoutPanelBottom.PerformLayout();
             this.LayoutPanelTop.ResumeLayout(false);
             this.TableLayoutPanelOutter.ResumeLayout(false);
             this.TableLayoutPanelOutter.PerformLayout();
             this.ResumeLayout(false);
-
         }
 
         #endregion

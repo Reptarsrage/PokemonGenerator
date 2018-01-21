@@ -24,9 +24,9 @@ namespace PokemonGenerator.Tests
             random = new Random("The cake is a lie".GetHashCode());
             config = new PokemonGeneratorConfig
             {
-                LegendaryPokemon = new int[0],
-                IgnoredPokemon = new int[0],
-                SpecialPokemon = new int[0],
+                LegendaryPokemon = new List<int>(),
+                IgnoredPokemon = new List<int>(),
+                SpecialPokemon = new List<int>(),
                 PairedMoves = new Dictionary<int, int[]>() { },
                 DependantMoves = new Dictionary<int, int[]>() { },
                 HMBank = new List<int>() { },

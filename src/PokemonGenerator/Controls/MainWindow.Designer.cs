@@ -1,13 +1,13 @@
 ﻿namespace PokemonGenerator.Forms
 {
-    partial class PokemonGeneratorForm
+    partial class MainWindow
     {
-        /// <summary>
+        /// <summary> 
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
+        /// <summary> 
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
@@ -20,16 +20,18 @@
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
+        #region Component Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
+        /// <summary> 
+        /// Required method for Designer support - do not modify 
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PokemonGeneratorForm));
+            components = new System.ComponentModel.Container();
+                        this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.HelpProvider = new System.Windows.Forms.HelpProvider();
             this.LabelProjN64Location = new System.Windows.Forms.Label();
             this.TextProjN64Location = new System.Windows.Forms.TextBox();
@@ -121,7 +123,7 @@
             // 
             // TextProjN64Location
             // 
-            this.TextProjN64Location.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.TextProjN64Location.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TextProjN64Location.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.pokeGeneratorOptionsBindingSource, "Project64Location", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged, ""));
             this.TextProjN64Location.Location = new System.Drawing.Point(0, 0);
@@ -162,7 +164,7 @@
             // 
             // PanelFormInputPlayerOneName
             // 
-            this.PanelFormInputPlayerOneName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.PanelFormInputPlayerOneName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.PanelFormInputPlayerOneName.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.PanelFormInputPlayerOneName.Controls.Add(this.ImagePlayerOneName);
@@ -197,7 +199,7 @@
             // 
             // TextPlayerOneName
             // 
-            this.TextPlayerOneName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.TextPlayerOneName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TextPlayerOneName.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.pokeGeneratorOptionsBindingSource, "NameOne", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged, ""));
             this.TextPlayerOneName.Location = new System.Drawing.Point(0, 0);
@@ -210,7 +212,7 @@
             // 
             // PanelFormInputPlayerOneOutLocation
             // 
-            this.PanelFormInputPlayerOneOutLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.PanelFormInputPlayerOneOutLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.PanelFormInputPlayerOneOutLocation.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.PanelFormInputPlayerOneOutLocation.Controls.Add(this.ImagePlayerOneOutLocation);
@@ -246,7 +248,7 @@
             // 
             // TextPlayerOneOutLocation
             // 
-            this.TextPlayerOneOutLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.TextPlayerOneOutLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TextPlayerOneOutLocation.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.pokeGeneratorOptionsBindingSource, "OutputSaveOne", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged, ""));
             this.TextPlayerOneOutLocation.Location = new System.Drawing.Point(0, 0);
@@ -259,7 +261,7 @@
             // 
             // PanelFormInputPlayerOneInLocation
             // 
-            this.PanelFormInputPlayerOneInLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.PanelFormInputPlayerOneInLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.PanelFormInputPlayerOneInLocation.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.PanelFormInputPlayerOneInLocation.Controls.Add(this.ImagePlayerOneInLocation);
@@ -294,7 +296,7 @@
             // 
             // TextPlayerOneInLocation
             // 
-            this.TextPlayerOneInLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.TextPlayerOneInLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TextPlayerOneInLocation.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.pokeGeneratorOptionsBindingSource, "InputSaveOne", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged, ""));
             this.TextPlayerOneInLocation.Location = new System.Drawing.Point(0, 0);
@@ -444,7 +446,7 @@
             // 
             // PanelFormInputPlayerTwoName
             // 
-            this.PanelFormInputPlayerTwoName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.PanelFormInputPlayerTwoName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.PanelFormInputPlayerTwoName.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.PanelFormInputPlayerTwoName.Controls.Add(this.ImagePlayerTwoName);
@@ -479,7 +481,7 @@
             // 
             // TextPlayerTwoName
             // 
-            this.TextPlayerTwoName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.TextPlayerTwoName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TextPlayerTwoName.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.pokeGeneratorOptionsBindingSource, "NameTwo", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged, ""));
             this.TextPlayerTwoName.Location = new System.Drawing.Point(0, 0);
@@ -492,7 +494,7 @@
             // 
             // PanelFormInputPlayerTwoOutLocation
             // 
-            this.PanelFormInputPlayerTwoOutLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.PanelFormInputPlayerTwoOutLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.PanelFormInputPlayerTwoOutLocation.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.PanelFormInputPlayerTwoOutLocation.Controls.Add(this.ImagePlayerTwoOutLocation);
@@ -528,7 +530,7 @@
             // 
             // TextPlayerTwoOutLocation
             // 
-            this.TextPlayerTwoOutLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.TextPlayerTwoOutLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TextPlayerTwoOutLocation.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.pokeGeneratorOptionsBindingSource, "OutputSaveTwo", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged, ""));
             this.TextPlayerTwoOutLocation.Location = new System.Drawing.Point(0, 0);
@@ -541,7 +543,7 @@
             // 
             // PanelFormInputPlayerTwoInLocation
             // 
-            this.PanelFormInputPlayerTwoInLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.PanelFormInputPlayerTwoInLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.PanelFormInputPlayerTwoInLocation.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.PanelFormInputPlayerTwoInLocation.Controls.Add(this.ImagePlayerTwoInLocation);
@@ -576,7 +578,7 @@
             // 
             // TextPlayerTwoInLocation
             // 
-            this.TextPlayerTwoInLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.TextPlayerTwoInLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TextPlayerTwoInLocation.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.pokeGeneratorOptionsBindingSource, "InputSaveTwo", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged, ""));
             this.TextPlayerTwoInLocation.Location = new System.Drawing.Point(0, 0);
@@ -744,7 +746,7 @@
             // 
             // ButtonGenerate
             // 
-            this.ButtonGenerate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.ButtonGenerate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ButtonGenerate.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ButtonGenerate.Enabled = false;
@@ -816,7 +818,7 @@
             // 
             // PanelFormInputTop
             // 
-            this.PanelFormInputTop.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.PanelFormInputTop.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.PanelFormInputTop.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.PanelFormInputTop.Controls.Add(this.TextProjN64Location);
@@ -857,13 +859,10 @@
             this.Controls.Add(this.PanelOuter);
             this.Controls.Add(this.PanelProgress);
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MinimumSize = new System.Drawing.Size(800, 600);
-            this.Name = "PokemonGeneratorForm";
-            this.Text = "PokéGenerator";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PokemonGeneratorClosing);
-            this.Load += new System.EventHandler(this.PokemonGeneratorLoad);
+            this.Name = "MainWindow";
+            this.Text = "MainWindow";
             ((System.ComponentModel.ISupportInitialize)(this.pokeGeneratorOptionsBindingSource)).EndInit();
             this.GroupBoxPlayerOne.ResumeLayout(false);
             this.GroupBoxPlayerOne.PerformLayout();
@@ -902,7 +901,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.ImageProjN64Location)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         #endregion

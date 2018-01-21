@@ -1,4 +1,5 @@
-﻿using PokemonGenerator.DAL;
+﻿using PokemonGenerator.Controls;
+using PokemonGenerator.DAL;
 using PokemonGenerator.Editors;
 using PokemonGenerator.Generators;
 using PokemonGenerator.IO;
@@ -17,7 +18,7 @@ using System.Windows.Forms;
 
 namespace PokemonGenerator.Forms
 {
-    public partial class PokemonGeneratorForm : Form
+    public partial class MainWindow : WindowBase
     {
         // Imported to handle out-of-focus macro handeling
         [DllImport("user32.dll")]
@@ -40,7 +41,8 @@ namespace PokemonGenerator.Forms
         private readonly IDirectoryUtility _directoryUtility;
         private readonly string _contentDirectory;
         private readonly string _outputDirectory;
-        private enum ImageState {
+        private enum ImageState
+        {
             Unkown,
             Bad,
             Good,
@@ -52,7 +54,9 @@ namespace PokemonGenerator.Forms
 
         private PersistentConfig _config;
 
-        public PokemonGeneratorForm(IPokemonGeneratorRunner pokemonGeneratorRunner,
+
+        public MainWindow(
+            IPokemonGeneratorRunner pokemonGeneratorRunner,
             IPersistentConfigManager configManager,
             IP64ConfigEditor p64ConfigEditor,
             INRageIniEditor nRageIniEditor,
@@ -80,10 +84,8 @@ namespace PokemonGenerator.Forms
             // Init
             InitializeComponent();
             RegisterHotKey(Handle, 0, (int)KeyModifier.Control, Keys.F12.GetHashCode());
+            BindingContextChanged += (o, e) => ValidateTopSection();
             pokeGeneratorOptionsBindingSource.DataSource = _config.Options;
-
-            // Start validation
-            ValidateTopSection();
         }
 
         /// <summary>
@@ -118,9 +120,15 @@ namespace PokemonGenerator.Forms
             }
         }
 
-        private void PokemonGeneratorLoad(object sender, EventArgs e)
+        public override void Shown()
         {
-            ValidateTopSection();
+            _config = _configManager.Load();
+        }
+
+        public override void Closed()
+        {
+            // Save configuration
+            _configManager.Save(_config);
         }
 
         private void UpdateText(TextBox textBox, string val)
@@ -313,15 +321,6 @@ namespace PokemonGenerator.Forms
             BackgroundPokemonGenerator.RunWorkerAsync(_config);
         }
 
-        private void PokemonGeneratorClosing(object sender, FormClosingEventArgs e)
-        {
-            // Unregister hotkey with id 0
-            UnregisterHotKey(Handle, 0);
-
-            // Save configuration
-            _configManager.Save(_config);
-        }
-
         private void ButtonProjN64LocationClick(object sender, EventArgs e)
         {
             UpdateText(TextProjN64Location, ChooseFile() ?? TextProjN64Location.Text);
@@ -429,9 +428,7 @@ namespace PokemonGenerator.Forms
 
         private void ButtonSettings_Click(object sender, EventArgs e)
         {
-            var form = new PokemonSettingsForm(new PokemonDA(), _configManager, _directoryUtility);
-            form.ShowDialog();
-            _config = _configManager.Load(); // re-load config
+            OnWindowOpenedEvent(this, new WindowEventArgs(typeof(SettingsWindow)));
         }
     }
 }

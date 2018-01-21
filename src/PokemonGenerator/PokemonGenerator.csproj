@@ -9,10 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\sprites.png" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Autofac" Version="4.6.2" />
     <PackageReference Include="CommandLineParser" Version="2.2.1" />
     <PackageReference Include="Dapper.ColumnMapper" Version="1.1.1" />
@@ -26,22 +22,33 @@
     <Reference Include="System.Configuration" />
   </ItemGroup>
 
-
   <ItemGroup>
-    <Compile Update="Forms\PokemonGeneratorForm.cs">
+    <Compile Update="Controls\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Forms\PokemonSettingsForm.cs">
+    <Compile Update="Controls\MainWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Controls\SettingsWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Controls\SpriteButton.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>
   
   <ItemGroup>
-    <Compile Update="Forms\PokemonSettingsForm.Designer.cs">
-      <DependentUpon>PokemonSettingsForm.cs</DependentUpon>
+    <Compile Update="Controls\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\PokemonGeneratorForm.Designer.cs">
-      <DependentUpon>PokemonGeneratorForm.cs</DependentUpon>
+    <Compile Update="Controls\MainWindow.Designer.cs">
+      <DependentUpon>MainWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\SettingsWindow.Designer.cs">
+      <DependentUpon>SettingsWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\SpriteButton.Designer.cs">
+      <DependentUpon>SpriteButton.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   
@@ -51,15 +58,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="Forms\PokemonSettingsForm.resx">
-      <DependentUpon>PokemonSettingsForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Forms\PokemonGeneratorForm.resx">
-      <DependentUpon>PokemonGeneratorForm.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>

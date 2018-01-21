@@ -1,4 +1,5 @@
-﻿using PokemonGenerator.Forms;
+﻿using PokemonGenerator.Controls;
+using PokemonGenerator.Forms;
 using System;
 using System.Windows.Forms;
 
@@ -25,7 +26,7 @@ namespace PokemonGenerator
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(injector.Get<PokemonGeneratorForm>());
+                Application.Run(new MainForm(injector));
             }
         }
     }

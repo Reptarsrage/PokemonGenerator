@@ -24,6 +24,11 @@ namespace PokemonGenerator
             Scope = builder.Build().BeginLifetimeScope();
         }
 
+        public object Get(Type type)
+        {
+            return Scope.Resolve(type);
+        }
+
         public T Get<T>()
         {
             return Scope.Resolve<T>();
@@ -35,8 +40,9 @@ namespace PokemonGenerator
         /// <param name="kernel">The kernel.</param>
         private void RegisterServices(ContainerBuilder builder)
         {
-            // Forms
-            builder.RegisterType<PokemonGeneratorForm>().As<PokemonGeneratorForm>();
+            // Controls
+            builder.RegisterType<MainWindow>().InstancePerLifetimeScope();
+            builder.RegisterType<SettingsWindow>().InstancePerLifetimeScope();
 
             // IO
             builder.RegisterType<BinaryReader2>().As<IBinaryReader2>();
