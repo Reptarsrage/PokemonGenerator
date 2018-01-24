@@ -70,7 +70,6 @@ namespace PokemonGenerator.Controls
             {
                 _numeric.Minimum = value;
                 _trackBar.Minimum = (double)value;
-                _trackBar.TickFrequency = (int)(_trackBar.Maximum - _trackBar.Minimum) / 10;
                 _labelRange.Text = $"{_numeric.Minimum} - {_numeric.Maximum}";
             }
         }
@@ -85,7 +84,6 @@ namespace PokemonGenerator.Controls
             {
                 _numeric.Maximum = value;
                 _trackBar.Maximum = (double)value;
-                _trackBar.TickFrequency = (int)(_trackBar.Maximum - _trackBar.Minimum) / 10;
                 _labelRange.Text = $"{_numeric.Minimum} - {_numeric.Maximum}";
             }
         }

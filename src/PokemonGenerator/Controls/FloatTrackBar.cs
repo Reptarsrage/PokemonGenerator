@@ -35,6 +35,7 @@ namespace PokemonGenerator.Controls
                 base.Value = (int)(dValue / precision);
                 base.SmallChange = (int)(smallChange / precision);
                 base.Minimum = (int)(minimum / precision);
+                TickFrequency = (base.Maximum - base.Minimum) / 10;
             }
         }
 
@@ -61,6 +62,7 @@ namespace PokemonGenerator.Controls
             {
                 base.Maximum = (int)(value / precision);
                 maximum = value;
+                TickFrequency = (base.Maximum - base.Minimum) / 10;
             }
         }
 
@@ -74,6 +76,7 @@ namespace PokemonGenerator.Controls
             {
                 base.Minimum = (int)(value / precision);
                 minimum = value;
+                TickFrequency = (base.Maximum - base.Minimum) / 10;
             }
         }
 
