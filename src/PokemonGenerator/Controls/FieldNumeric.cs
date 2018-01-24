@@ -6,7 +6,7 @@ namespace PokemonGenerator.Controls
 {
     class FieldNumeric : Panel
     {
-        public new string Text
+        public string Label
         {
             get
             {
@@ -70,6 +70,7 @@ namespace PokemonGenerator.Controls
             {
                 _numeric.Minimum = value;
                 _trackBar.Minimum = (double)value;
+                _trackBar.TickFrequency = (int)(_trackBar.Maximum - _trackBar.Minimum) / 10;
                 _labelRange.Text = $"{_numeric.Minimum} - {_numeric.Maximum}";
             }
         }
@@ -84,6 +85,7 @@ namespace PokemonGenerator.Controls
             {
                 _numeric.Maximum = value;
                 _trackBar.Maximum = (double)value;
+                _trackBar.TickFrequency = (int)(_trackBar.Maximum - _trackBar.Minimum) / 10;
                 _labelRange.Text = $"{_numeric.Minimum} - {_numeric.Maximum}";
             }
         }
@@ -115,10 +117,12 @@ namespace PokemonGenerator.Controls
             _labelRange.AutoSize = true;
             _numeric.Dock = DockStyle.Right;
 
-            Controls.Add(_label);
+            // Order matters for docking
             Controls.Add(_trackBar);
+            Controls.Add(_label);
             Controls.Add(_numeric);
             Controls.Add(_labelRange);
+            
 
             _numeric.ValueChanged += NumericValueChanged;
             _trackBar.ValueChanged += TrackBarValueChanged; ;
