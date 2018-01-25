@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using PokemonGenerator.Controls;
 using PokemonGenerator.DAL;
 using PokemonGenerator.Editors;
 using PokemonGenerator.Forms;
@@ -42,8 +43,9 @@ namespace PokemonGenerator
         {
             // Controls
             builder.RegisterType<MainWindow>().InstancePerLifetimeScope();
-            builder.RegisterType<SettingsWindow>().InstancePerLifetimeScope();
-            builder.RegisterType<OptionsWindow>().InstancePerLifetimeScope();
+            builder.RegisterType<PokemonOptionsWindow>().InstancePerLifetimeScope();
+            builder.RegisterType<RandomOptionsWindow>().InstancePerLifetimeScope();
+            builder.RegisterType<OptionsWindowController>().InstancePerLifetimeScope();
 
             // IO
             builder.RegisterType<BinaryReader2>().As<IBinaryReader2>();

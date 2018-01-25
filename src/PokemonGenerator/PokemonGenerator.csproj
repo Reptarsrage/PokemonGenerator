@@ -25,15 +25,17 @@
   <ItemGroup>
     <Compile Update="Controls\MainForm.cs" SubType="Form" />
     <Compile Update="Controls\MainWindow.cs" SubType="Form" />
-    <Compile Update="Controls\OptionsWindow.cs" SubType="Form" />
-    <Compile Update="Controls\SettingsWindow.cs" SubType="Form" />
+    <Compile Update="Controls\RandomOptionsWindow.cs" SubType="Form" />
+    <Compile Update="Controls\PokemonOptionsWindow.cs" SubType="Form" />
+    <Compile Update="Controls\OptionsWindowController.cs" SubType="Form" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Update="Controls\MainForm.Designer.cs" DependentUpon="MainForm.cs" />
     <Compile Update="Controls\MainWindow.Designer.cs" DependentUpon="MainWindow.cs" />
-    <Compile Update="Controls\SettingsWindow.Designer.cs" DependentUpon="SettingsWindow.cs" />
-    <Compile Update="Controls\OptionsWindow.Designer.cs" DependentUpon="OptionsWindow.cs" />
+    <Compile Update="Controls\PokemonOptionsWindow.Designer.cs" DependentUpon="PokemonOptionsWindow.cs" />
+    <Compile Update="Controls\RandomOptionsWindow.Designer.cs" DependentUpon="RandomOptionsWindow.cs" />
+    <Compile Update="Controls\OptionsWindowController.Designer.cs" DependentUpon="OptionsWindowController.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -48,8 +50,9 @@
     <EmbeddedResource Update="Properties\Resources.resx" Generator="ResXFileCodeGenerator" LastGenOutput="Resources.Designer.cs" />
     <EmbeddedResource Update="Controls\MainForm.resx" DependentUpon="MainForm.cs" />
     <EmbeddedResource Update="Controls\MainWindow.resx" DependentUpon="MainWindow.cs" />
-    <EmbeddedResource Update="Controls\SettingsWindow.resx" DependentUpon="SettingsWindow.cs" />
-    <EmbeddedResource Update="Controls\OptionsWindow.resx" DependentUpon="OptionsWindow.cs" />
+    <EmbeddedResource Update="Controls\PokemonOptionsWindow.resx" DependentUpon="PokemonOptionsWindow.cs" />
+    <EmbeddedResource Update="Controls\RandomOptionsWindow.resx" DependentUpon="RandomOptionsWindow.cs" />
+    <EmbeddedResource Update="Controls\OptionsWindowController.resx" DependentUpon="OptionsWindowController.cs" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

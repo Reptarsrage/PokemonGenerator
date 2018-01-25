@@ -428,7 +428,7 @@ namespace PokemonGenerator.Forms
 
         private void ButtonSettings_Click(object sender, EventArgs e)
         {
-            OnWindowOpenedEvent(this, new WindowEventArgs(typeof(OptionsWindow)));
+            OnWindowOpenedEvent(this, new WindowEventArgs(typeof(OptionsWindowController)));
         }
     }
 }

@@ -25,8 +25,10 @@ namespace PokemonGenerator
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
 
-                // Pre-Load some Windows
-                var window = injector.Get<SettingsWindow>();
+                // Pre-Load some Options Windows
+                OptionsWindowController options = injector.Get<OptionsWindowController>();
+                options.AddOption(injector.Get<PokemonOptionsWindow>());
+                options.AddOption(injector.Get<RandomOptionsWindow>());
 
                 // Run
                 Application.Run(new MainForm(injector));
