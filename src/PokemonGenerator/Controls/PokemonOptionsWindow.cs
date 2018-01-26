@@ -34,7 +34,7 @@ namespace PokemonGenerator.Forms
         public override void Shown()
         {
             _workingConfig.Configuration.IgnoredPokemon.Clear();
-            _workingConfig.Configuration.IgnoredPokemon.AddRange(_config.Value.Configuration.IgnoredPokemon.Distinct());
+            _workingConfig.Configuration.IgnoredPokemon.AddRange(_config.Value.Configuration.IgnoredPokemon);
             foreach (var btn in LayoutPanelMain.Controls.OfType<SpriteButton>())
             {
                 // Un-Bind events
@@ -57,7 +57,7 @@ namespace PokemonGenerator.Forms
             }
 
             _config.Value.Configuration.IgnoredPokemon.Clear();
-            _config.Value.Configuration.IgnoredPokemon.AddRange(_workingConfig.Configuration.IgnoredPokemon.Distinct());
+            _config.Value.Configuration.IgnoredPokemon.AddRange(_workingConfig.Configuration.IgnoredPokemon.Distinct().OrderBy(d => d));
 
             base.Save();
         }
