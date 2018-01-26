@@ -17,7 +17,7 @@ namespace PokemonGenerator.Tests.IO_Tests
 
         public PokeDeserializerTests()
         {
-            _testFile = Path.Combine(Directory.GetCurrentDirectory(), "Gold.sav");
+            _testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Gold.sav");
             _bwriter = new BinaryWriter2();
             _breader = new BinaryReader2();
             _charset = new Charset();
@@ -87,7 +87,7 @@ namespace PokemonGenerator.Tests.IO_Tests
         public void SerializeSAVFileModalCorrectValuesTest()
         {
             // Setup
-            _testStream = File.OpenRead(Path.Combine(Directory.GetCurrentDirectory(), "Gold.sav"));
+            _testStream = File.OpenRead(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Gold.sav"));
             var _expectedModel = BuildTestModel();
 
             // Run
@@ -102,7 +102,7 @@ namespace PokemonGenerator.Tests.IO_Tests
         public void SerializeSAVFileModalChecksumTest()
         {
             // Setup
-            _testStream = File.OpenRead(Path.Combine(Directory.GetCurrentDirectory(), "Gold.sav"));
+            _testStream = File.OpenRead(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Gold.sav"));
             var _expectedModel = BuildTestModel();
 
             // Run

@@ -96,27 +96,19 @@ namespace PokemonGenerator
             {
                 if (_pokemonGeneratorConfig.IgnoredPokemon.Contains(choice.PokemonId))
                 {
-                    choice.Probability = _pokemonGeneratorConfig.PokemonLiklihood.ContainsKey(PokemonClass.Ignored) ?
-                        _pokemonGeneratorConfig.PokemonLiklihood[PokemonClass.Ignored] :
-                        Likeliness.Full;
+                    choice.Probability = _pokemonGeneratorConfig.PokemonLiklihood.Ignored;
                 }
                 else if (_pokemonGeneratorConfig.LegendaryPokemon.Contains(choice.PokemonId))
                 {
-                    choice.Probability = _pokemonGeneratorConfig.PokemonLiklihood.ContainsKey(PokemonClass.Legendary) ?
-                        _pokemonGeneratorConfig.PokemonLiklihood[PokemonClass.Legendary] :
-                        Likeliness.Full;
+                    choice.Probability =  _pokemonGeneratorConfig.PokemonLiklihood.Legendary;
                 }
                 else if (_pokemonGeneratorConfig.SpecialPokemon.Contains(choice.PokemonId))
                 {
-                    choice.Probability = _pokemonGeneratorConfig.PokemonLiklihood.ContainsKey(PokemonClass.Special) ?
-                        _pokemonGeneratorConfig.PokemonLiklihood[PokemonClass.Special] :
-                        Likeliness.Full;
+                    choice.Probability = _pokemonGeneratorConfig.PokemonLiklihood.Special;
                 }
                 else
                 {
-                    choice.Probability = _pokemonGeneratorConfig.PokemonLiklihood.ContainsKey(PokemonClass.Standard) ?
-                        _pokemonGeneratorConfig.PokemonLiklihood[PokemonClass.Standard] :
-                        Likeliness.Full;
+                    choice.Probability = _pokemonGeneratorConfig.PokemonLiklihood.Standard;
                 }
             }
 

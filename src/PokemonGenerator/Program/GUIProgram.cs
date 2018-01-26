@@ -1,6 +1,7 @@
 ﻿using PokemonGenerator.Controls;
 using PokemonGenerator.Forms;
 using System;
+using System.IO;
 using System.Windows.Forms;
 
 namespace PokemonGenerator
@@ -16,6 +17,13 @@ namespace PokemonGenerator
         [STAThread]
         static void Main()
         {
+            // Set Directory based on build
+#if (DEBUG)
+            AppDomain.CurrentDomain.SetData("DataDirectory", AppDomain.CurrentDomain.BaseDirectory);
+#else
+            AppDomain.CurrentDomain.SetData("DataDirectory", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"PokemonGenerator\"));
+#endif
+
             // Init DAL
             DapperMapper.Init();
 

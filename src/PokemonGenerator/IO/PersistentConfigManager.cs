@@ -1,36 +1,29 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using PokemonGenerator.Models;
+using System;
 using System.IO;
 
 namespace PokemonGenerator.IO
 {
     public interface IPersistentConfigManager
     {
-        string ConfigFilePath { get; set; }
-
-        PersistentConfig Load();
-        void Save(PersistentConfig config);
+        void Save();
     }
 
     public class PersistentConfigManager : IPersistentConfigManager
     {
-        private string _configFileName;
+        public const string ConfigFileName = "configuration.json";
+
+        private readonly IOptions<PersistentConfig> _options;
+        private readonly string _optionsFilePath;
         private readonly JsonSerializerSettings _settings;
 
-        public string ConfigFilePath
+        public PersistentConfigManager(IOptions<PersistentConfig> options)
         {
-            get
-            {
-                return _configFileName;
-            }
-            set
-            {
-                _configFileName = value;
-            }
-        }
+            var dir = (string)AppDomain.CurrentDomain.GetData("DataDirectory");
+            _optionsFilePath = Path.Combine(dir, ConfigFileName);
 
-        public PersistentConfigManager()
-        {
             _settings = new JsonSerializerSettings
             {
                 NullValueHandling = NullValueHandling.Ignore,
@@ -38,27 +31,14 @@ namespace PokemonGenerator.IO
                 Formatting = Formatting.Indented,
                 ObjectCreationHandling = ObjectCreationHandling.Replace
             };
+            _options = options;
         }
 
-        public PersistentConfig Load()
-        {
-            var ret = new PersistentConfig(new PokemonGeneratorConfig(), new PokeGeneratorOptions());
-            try
-            {
-                var parsed = JsonConvert.DeserializeObject<PersistentConfig>(File.ReadAllText(_configFileName), _settings);
-                ret.Configuration = parsed.Configuration ?? ret.Configuration;
-                ret.Options = parsed.Options ?? ret.Options;
-            }
-            catch { /* TODO: Error reporting */  }
-
-            return ret;
-        }
-
-        public void Save(PersistentConfig config)
+        public void Save()
         {
             try
             {
-                File.WriteAllText(_configFileName, JsonConvert.SerializeObject(config, _settings));
+                File.WriteAllText(_optionsFilePath, JsonConvert.SerializeObject(_options.Value, _settings));
             }
             catch { /* TODO: Error reporting */  }
         }

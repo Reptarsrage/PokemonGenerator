@@ -1,14 +1,12 @@
-﻿using PokemonGenerator.Controls;
-using PokemonGenerator.DAL;
+﻿using Microsoft.Extensions.Options;
+using PokemonGenerator.Controls;
 using PokemonGenerator.Editors;
 using PokemonGenerator.Generators;
 using PokemonGenerator.IO;
 using PokemonGenerator.Models;
-using PokemonGenerator.Utilities;
 using PokemonGenerator.Validators;
 using System;
 using System.ComponentModel;
-using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -36,11 +34,10 @@ namespace PokemonGenerator.Forms
         private readonly INRageIniEditor _nRageIniEditor;
         private readonly IP64ConfigEditor _p64ConfigEditor;
         private readonly IPokemonGeneratorRunner _pokemonGeneratorRunner;
-        private readonly IPersistentConfigManager _configManager;
+        private readonly IOptions<PersistentConfig> _options;
         private readonly IPokeGeneratorOptionsValidator _optionsValidator;
-        private readonly IDirectoryUtility _directoryUtility;
-        private readonly string _contentDirectory;
-        private readonly string _outputDirectory;
+        private readonly IPersistentConfigManager _configManager;
+
         private enum ImageState
         {
             Unkown,
@@ -52,39 +49,25 @@ namespace PokemonGenerator.Forms
             FileWarning
         }
 
-        private PersistentConfig _config;
-
-
         public MainWindow(
             IPokemonGeneratorRunner pokemonGeneratorRunner,
-            IPersistentConfigManager configManager,
+            IOptions<PersistentConfig> options,
             IP64ConfigEditor p64ConfigEditor,
             INRageIniEditor nRageIniEditor,
-            IPokeGeneratorOptionsValidator optionsValidator,
-            IDirectoryUtility directoryUtility)
+            IPersistentConfigManager configManager,
+            IPokeGeneratorOptionsValidator optionsValidator)
         {
-            _contentDirectory = directoryUtility.ContentDirectory();
-            _outputDirectory = directoryUtility.OutputDirectory();
             _pokemonGeneratorRunner = pokemonGeneratorRunner;
-            _configManager = configManager;
             _nRageIniEditor = nRageIniEditor;
+            _configManager = configManager;
             _p64ConfigEditor = p64ConfigEditor;
             _optionsValidator = optionsValidator;
-            _directoryUtility = directoryUtility;
-
-            // Load Persistent Config
-            var configFileName = ConfigurationManager.AppSettings["configFileName"];
-            if (!Path.IsPathRooted(configFileName))
-            {
-                configFileName = Path.Combine(_contentDirectory, configFileName);
-            }
-            _configManager.ConfigFilePath = configFileName;
-            _config = _configManager.Load();
+            _options = options;
 
             // Init
             InitializeComponent();
             RegisterHotKey(Handle, 0, (int)KeyModifier.Control, Keys.F12.GetHashCode());
-            MainWindowBindingSource.DataSource = _config.Options;
+            MainWindowBindingSource.DataSource = _options.Value.Options;
         }
 
         /// <summary>
@@ -121,14 +104,13 @@ namespace PokemonGenerator.Forms
 
         public override void Shown()
         {
-            _config.Configuration = _configManager.Load().Configuration;
             ValidateTopSection();
         }
 
         public override void Closed()
         {
             // Save configuration
-            _configManager.Save(_config);
+            _configManager.Save();
         }
 
         private void UpdateText(TextBox textBox, string val)
@@ -160,24 +142,24 @@ namespace PokemonGenerator.Forms
                     var tup = _nRageIniEditor.GetRomAndSavFileLocation(1);
                     var tup2 = _nRageIniEditor.GetRomAndSavFileLocation(2);
 
-                    if (string.IsNullOrWhiteSpace(_config.Options.InputSaveOne))
+                    if (string.IsNullOrWhiteSpace(_options.Value.Options.InputSaveOne))
                     {
                         UpdateText(TextPlayerOneInLocation, tup.Item2);
                     }
 
-                    if (string.IsNullOrWhiteSpace(_config.Options.OutputSaveOne))
+                    if (string.IsNullOrWhiteSpace(_options.Value.Options.OutputSaveOne))
                     {
                         UpdateText(TextPlayerOneOutLocation, string.IsNullOrWhiteSpace(tup.Item2) ?
                             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), @"Player1.sav") :
                             tup.Item2);
                     }
 
-                    if (string.IsNullOrWhiteSpace(_config.Options.InputSaveTwo))
+                    if (string.IsNullOrWhiteSpace(_options.Value.Options.InputSaveTwo))
                     {
                         UpdateText(TextPlayerTwoInLocation, tup2.Item2);
                     }
 
-                    if (string.IsNullOrWhiteSpace(_config.Options.OutputSaveTwo))
+                    if (string.IsNullOrWhiteSpace(_options.Value.Options.OutputSaveTwo))
                     {
                         UpdateText(TextPlayerTwoOutLocation, string.IsNullOrWhiteSpace(tup2.Item2) ?
                             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), @"Player2.sav") :
@@ -189,8 +171,8 @@ namespace PokemonGenerator.Forms
                     _p64ConfigEditor.FileName = cfg;
                 }
 
-                UpdateText(TextPlayerOneName, _config.Options.NameOne);
-                UpdateText(TextPlayerTwoName, _config.Options.NameTwo);
+                UpdateText(TextPlayerOneName, _options.Value.Options.NameOne);
+                UpdateText(TextPlayerTwoName, _options.Value.Options.NameTwo);
                 return ValidatePlayerSection();
             }
             else
@@ -318,7 +300,7 @@ namespace PokemonGenerator.Forms
             PanelProgress.Show();
             PanelProgress.BringToFront();
 
-            BackgroundPokemonGenerator.RunWorkerAsync(_config);
+            BackgroundPokemonGenerator.RunWorkerAsync(_options.Value);
         }
 
         private void ButtonProjN64LocationClick(object sender, EventArgs e)

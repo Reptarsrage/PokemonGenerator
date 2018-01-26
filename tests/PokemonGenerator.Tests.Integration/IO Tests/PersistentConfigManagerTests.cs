@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using PokemonGenerator.IO;
 using PokemonGenerator.Models;
 using System;
@@ -11,20 +12,25 @@ namespace PokemonGenerator.Tests.IO_Tests
     public class PersistentConfigManagerTests : IDisposable
     {
         private readonly IPersistentConfigManager _manager;
+        private readonly IOptions<PersistentConfig> _testConfig;
+        private readonly string _outFile;
         private readonly string _outDir;
-        private readonly PersistentConfig _testConfig;
 
         public PersistentConfigManagerTests()
         {
-            _manager = new PersistentConfigManager();
-            _outDir = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Out");
-            _testConfig = new PersistentConfig(new PokemonGeneratorConfig(), new PokeGeneratorOptions());
+            var contentDir = Directory.GetCurrentDirectory();
+            _outDir = Path.Combine(contentDir, $"Test-{Guid.NewGuid()}");
+            AppDomain.CurrentDomain.SetData("DataDirectory", contentDir);
 
             // Check directory exists
             if (!Directory.Exists(_outDir))
             {
                 Directory.CreateDirectory(_outDir);
             }
+
+            _testConfig = Options.Create(new PersistentConfig());
+            _manager = new PersistentConfigManager(_testConfig);
+            _outFile = Path.Combine(contentDir, PersistentConfigManager.ConfigFileName);
         }
 
         public void Dispose()
@@ -34,56 +40,25 @@ namespace PokemonGenerator.Tests.IO_Tests
             {
                 Directory.Delete(_outDir, true);
             }
-        }
 
-        [Fact]
-               public void LoadValidOptionsTest()
-        {
-            var outFile = Path.Combine(_outDir, "test.json");
-            File.WriteAllText(outFile, JsonConvert.SerializeObject(_testConfig));
-            _manager.ConfigFilePath = outFile;
-            var loaded = _manager.Load();
-
-            foreach (var propertyInfo in typeof(PokeGeneratorOptions).GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            // Clean app setttings
+            if (File.Exists(_outFile))
             {
-                if (propertyInfo.CanWrite)
-                {
-                    Assert.Equal(propertyInfo.GetValue(_testConfig.Options), (propertyInfo.GetValue(loaded.Options)));
-                }
+                File.Delete(_outFile);
             }
         }
-
-        [Fact]
-        public void LoadValidConfigurationsTest()
-        {
-            var outFile = Path.Combine(_outDir, "test.json");
-            File.WriteAllText(outFile, JsonConvert.SerializeObject(_testConfig));
-            _manager.ConfigFilePath = outFile;
-            var loaded = _manager.Load();
-
-            foreach (var propertyInfo in typeof(PokemonGeneratorConfig).GetProperties(BindingFlags.Public | BindingFlags.Instance))
-            {
-                if (propertyInfo.CanWrite)
-                {
-                    Assert.Equal(propertyInfo.GetValue(_testConfig.Configuration), (propertyInfo.GetValue(loaded.Configuration)));
-                }
-            }
-        }
-
 
         [Fact]
         public void SaveValidConfigurationsTest()
         {
-            var outFile = Path.Combine(_outDir, "test.json");
-            _manager.ConfigFilePath = outFile;
-            _manager.Save(_testConfig);
-            var saved = JsonConvert.DeserializeObject<PersistentConfig>(File.ReadAllText(outFile), new JsonSerializerSettings { ObjectCreationHandling = ObjectCreationHandling.Replace });
+            _manager.Save();
+            var saved = JsonConvert.DeserializeObject<PersistentConfig>(File.ReadAllText(_outFile), new JsonSerializerSettings { ObjectCreationHandling = ObjectCreationHandling.Replace });
 
             foreach (var propertyInfo in typeof(PokemonGeneratorConfig).GetProperties(BindingFlags.Public | BindingFlags.Instance))
             {
                 if (propertyInfo.CanWrite)
                 {
-                    Assert.Equal(propertyInfo.GetValue(_testConfig.Configuration), (propertyInfo.GetValue(saved.Configuration)));
+                    Assert.Equal(propertyInfo.GetValue(_testConfig.Value.Configuration), (propertyInfo.GetValue(saved.Configuration)));
                 }
             }
         }
@@ -91,63 +66,16 @@ namespace PokemonGenerator.Tests.IO_Tests
         [Fact]
         public void SaveValidOptionsTest()
         {
-            var outFile = Path.Combine(_outDir, "test.json");
-            _manager.ConfigFilePath = outFile;
-            _manager.Save(_testConfig);
-            var saved = JsonConvert.DeserializeObject<PersistentConfig>(File.ReadAllText(outFile));
+            _manager.Save();
+            var saved = JsonConvert.DeserializeObject<PersistentConfig>(File.ReadAllText(_outFile));
 
             foreach (var propertyInfo in typeof(PokeGeneratorOptions).GetProperties(BindingFlags.Public | BindingFlags.Instance))
             {
                 if (propertyInfo.CanWrite)
                 {
-                    Assert.Equal(propertyInfo.GetValue(_testConfig.Options), (propertyInfo.GetValue(saved.Options)));
+                    Assert.Equal(propertyInfo.GetValue(_testConfig.Value.Options), (propertyInfo.GetValue(saved.Options)));
                 }
             }
-        }
-
-        [Fact]
-        public void LoadMissingConfigurationsTest()
-        {
-            var outFile = Path.Combine(_outDir, "test.json");
-            var config = new PersistentConfig(new PokemonGeneratorConfig(), new PokeGeneratorOptions());
-            config.Configuration.MoveEffectFilters.Remove("heal");
-            File.WriteAllText(outFile, JsonConvert.SerializeObject(config));
-            _manager.ConfigFilePath = outFile;
-            var loaded = _manager.Load();
-
-            Assert.False(loaded.Configuration.MoveEffectFilters.ContainsKey("heal"));
-        }
-
-        [Fact]
-        public void LoadEmptyConfigurationsTest()
-        {
-            var outFile = Path.Combine(_outDir, "test.json");
-            var config = new PersistentConfig(null, new PokeGeneratorOptions());
-            File.WriteAllText(outFile, JsonConvert.SerializeObject(_testConfig));
-            _manager.ConfigFilePath = outFile;
-            var loaded = _manager.Load();
-
-            Assert.NotNull(loaded?.Configuration);
-            Assert.NotNull(loaded?.Options);
-        }
-
-        [Fact]
-        public void LoadNotFoundConfigurationsTest()
-        {
-            var outFile = Path.Combine(_outDir, "fake.json");
-            _manager.ConfigFilePath = outFile;
-            var loaded = _manager.Load();
-
-            Assert.NotNull(loaded?.Configuration);
-            Assert.NotNull(loaded?.Options);
-        }
-
-        [Fact]
-        public void SaveNullTest()
-        {
-            var outFile = Path.Combine(_outDir, "test.json");
-            _manager.ConfigFilePath = outFile;
-            _manager.Save(_testConfig);
         }
     }
 }

@@ -2,7 +2,6 @@
 using PokemonGenerator.Enumerations;
 using PokemonGenerator.Generators;
 using PokemonGenerator.Models;
-using PokemonGenerator.Utilities;
 using System;
 using System.IO;
 
@@ -16,6 +15,12 @@ namespace PokemonGenerator
 
         static void Main(string[] args)
         {
+#if (DEBUG)
+            AppDomain.CurrentDomain.SetData("DataDirectory", AppDomain.CurrentDomain.BaseDirectory);
+#else
+            AppDomain.CurrentDomain.SetData("DataDirectory", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"PokemonGenerator\"));
+#endif
+
             // Init DAL
             DapperMapper.Init();
 
@@ -34,17 +39,17 @@ namespace PokemonGenerator
 
         static int Run(PokeGeneratorOptions options, DependencyInjector dependencyInjector)
         {
-            var directoryUtility = dependencyInjector.Get<IDirectoryUtility>();
+            var contentDir = (string)AppDomain.CurrentDomain.GetData("DataDirectory");
 
             // Set Game and save for player 1
             options.InputSaveOne = (options?.GameOne ?? PokemonGame.Gold.ToString()).Equals("Silver", StringComparison.InvariantCultureIgnoreCase) ?
-                    Path.Combine(directoryUtility.ContentDirectory(), "Silver.sav") :
-                    Path.Combine(directoryUtility.ContentDirectory(), "Gold.sav");
+                    Path.Combine(contentDir, "Silver.sav") :
+                    Path.Combine(contentDir, "Gold.sav");
 
             // Set Game and save for player 2
             options.InputSaveTwo = (options?.GameTwo ?? PokemonGame.Gold.ToString()).Equals("Silver", StringComparison.InvariantCultureIgnoreCase) ?
-                    Path.Combine(directoryUtility.ContentDirectory(), "Silver.sav") :
-                    Path.Combine(directoryUtility.ContentDirectory(), "Gold.sav");
+                    Path.Combine(contentDir, "Silver.sav") :
+                    Path.Combine(contentDir, "Gold.sav");
 
             // Run the generator
 
@@ -54,6 +59,11 @@ namespace PokemonGenerator
             runner.Run(config);
 
             return 0;
+        }
+
+        private static int IOptions<T>()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,9 +1,8 @@
 ﻿using Dapper;
-using PokemonGenerator.Enumerations;
+using Microsoft.Extensions.Configuration;
 using PokemonGenerator.Models;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
 using System.Data.SqlServerCe;
 using System.Linq;
@@ -30,13 +29,9 @@ namespace PokemonGenerator.DAL
     {
         private readonly IDbConnection _dbConnection;
 
-        public PokemonDA() : this("ThePokeBase") { }
-
-        public PokemonDA(string connectionStringName)
+        public PokemonDA(IConfiguration configuration)
         {
-            if (string.IsNullOrWhiteSpace(connectionStringName))
-                throw new ArgumentNullException("connectionStringName");
-            _dbConnection = new SqlCeConnection(ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString);
+            _dbConnection = new SqlCeConnection(configuration.GetConnectionString("ThePokeBase"));
         }
 
         public void Dispose()

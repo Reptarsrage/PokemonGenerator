@@ -1,5 +1,4 @@
 ﻿using Moq;
-using PokemonGenerator.Enumerations;
 using PokemonGenerator.Generators;
 using PokemonGenerator.Models;
 using PokemonGenerator.Utilities;
@@ -32,7 +31,7 @@ namespace PokemonGenerator.Tests
                 HMBank = new List<int>() { },
                 TeamSize = 6,
                 MoveEffectFilters = new Dictionary<string, double>() { },
-                PokemonLiklihood = new Dictionary<PokemonClass, double>() { },
+                PokemonLiklihood = new PokemonLiklihood(),
                 Mean = 0.5D,
                 StandardDeviation = 0.1D,
                 SameTypeModifier = 1D,

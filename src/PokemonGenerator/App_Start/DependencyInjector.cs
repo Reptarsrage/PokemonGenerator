@@ -1,4 +1,6 @@
 ﻿using Autofac;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using PokemonGenerator.Controls;
 using PokemonGenerator.DAL;
 using PokemonGenerator.Editors;
@@ -14,15 +16,33 @@ namespace PokemonGenerator
 {
     public class DependencyInjector : IDisposable
     {
-        private static ILifetimeScope Scope { get; set; }
+        private ILifetimeScope Scope { get; set; }
+        private IConfigurationRoot Configuration;
 
         public DependencyInjector()
         {
             var builder = new ContainerBuilder();
 
+            BuildConfiguration(builder);
             RegisterServices(builder);
 
             Scope = builder.Build().BeginLifetimeScope();
+        }
+
+        private void BuildConfiguration(ContainerBuilder builder)
+        {
+            Configuration = new ConfigurationBuilder()
+                .SetBasePath((string)AppDomain.CurrentDomain.GetData("DataDirectory"))
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile(PersistentConfigManager.ConfigFileName, optional: true, reloadOnChange: true)
+                .Build();
+
+            var options = new PersistentConfig();
+            var iOptions = Options.Create(options);
+            Configuration.GetSection("Options").Bind(iOptions.Value.Options);
+            Configuration.GetSection("Configuration").Bind(iOptions.Value.Configuration);
+            builder.Register<IOptions<PersistentConfig>>(context => iOptions).InstancePerLifetimeScope();
+            builder.Register<IConfiguration>(context => Configuration).InstancePerLifetimeScope();
         }
 
         public object Get(Type type)
@@ -68,16 +88,16 @@ namespace PokemonGenerator
             // Utilities
             builder.RegisterType<PokemonStatUtility>().As<IPokemonStatUtility>();
             builder.RegisterType<ProbabilityUtility>().As<IProbabilityUtility>();
-            builder.RegisterType<DirectoryUtility>().As<IDirectoryUtility>();
 
-            // Other
+            // Generators
             builder.RegisterType<PokemonGeneratorRunner>().As<IPokemonGeneratorRunner>();
             builder.RegisterType<PokemonTeamGenerator>().As<IPokemonTeamGenerator>();
             builder.RegisterType<PokemonMoveGenerator>().As<IPokemonMoveGenerator>();
-            builder.RegisterType<Random>().As<Random>().InstancePerLifetimeScope();
-            builder.RegisterType<PokemonGeneratorConfig>().As<PokemonGeneratorConfig>();
-            builder.RegisterType<PokeGeneratorOptions>().As<PokeGeneratorOptions>();
-            builder.RegisterType<PersistentConfig>().As<PersistentConfig>();
+
+            // Other
+            builder.RegisterType<Random>().InstancePerLifetimeScope();
+            builder.Register<PokemonGeneratorConfig>(context => Get<IOptions<PersistentConfig>>().Value.Configuration);
+            builder.Register<PokeGeneratorOptions>(context => Get<IOptions<PersistentConfig>>().Value.Options);
         }
 
         public void Dispose()

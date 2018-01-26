@@ -30,6 +30,12 @@ namespace PokemonGenerator.Controls
             }
         }
 
+        public override void Shown()
+        {
+            _current?.Shown();
+            base.Shown();
+        }
+
         private void ButtonCancelClick(object sender, EventArgs e)
         {
             _current?.Closed();

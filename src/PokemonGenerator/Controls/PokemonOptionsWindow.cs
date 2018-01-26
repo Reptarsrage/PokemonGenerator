@@ -1,8 +1,8 @@
-﻿using PokemonGenerator.Controls;
+﻿using Microsoft.Extensions.Options;
+using PokemonGenerator.Controls;
 using PokemonGenerator.DAL;
 using PokemonGenerator.IO;
 using PokemonGenerator.Models;
-using PokemonGenerator.Utilities;
 using System;
 using System.ComponentModel;
 using System.Linq;
@@ -18,8 +18,8 @@ namespace PokemonGenerator.Forms
 
         public PokemonOptionsWindow(
             IPokemonDA pokemonDA,
-            IPersistentConfigManager persistentConfigManager,
-            IDirectoryUtility directoryUtility) : base(persistentConfigManager, directoryUtility)
+            IOptions<PersistentConfig> options,
+            IPersistentConfigManager persistentConfigManager) : base(options, persistentConfigManager)
         {
             InitializeComponent();
 
@@ -33,11 +33,18 @@ namespace PokemonGenerator.Forms
 
         public override void Shown()
         {
-            _config = _configManager.Load();
+            _workingConfig.Configuration.IgnoredPokemon.Clear();
+            _workingConfig.Configuration.IgnoredPokemon.AddRange(_config.Value.Configuration.IgnoredPokemon.Distinct());
             foreach (var btn in LayoutPanelMain.Controls.OfType<SpriteButton>())
             {
+                // Un-Bind events
+                btn.ItemSelctedEvent += ItemSelcted;
+
                 var id = btn.Index + 1;
-                btn.Checked = _config.Configuration.IgnoredPokemon.All(pid => pid != id); ;
+                btn.Checked = _workingConfig.Configuration.IgnoredPokemon.All(pid => pid != id);
+
+                // Re-Bind events
+                btn.ItemSelctedEvent += ItemSelcted;
             }
             UpdateCount();
         }
@@ -48,6 +55,9 @@ namespace PokemonGenerator.Forms
             {
                 throw new InvalidOperationException("Please select at least 6 Pokemon.");
             }
+
+            _config.Value.Configuration.IgnoredPokemon.Clear();
+            _config.Value.Configuration.IgnoredPokemon.AddRange(_workingConfig.Configuration.IgnoredPokemon.Distinct());
 
             base.Save();
         }
@@ -72,7 +82,7 @@ namespace PokemonGenerator.Forms
         private void BackgroundWorkerProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             var poke = e.UserState as PokemonEntry;
-            var selected = _config.Configuration.IgnoredPokemon.All(id => poke.Id != id);
+            var selected = _workingConfig.Configuration.IgnoredPokemon.All(id => poke.Id != id);
 
             // Create Item
             var item = new SpriteButton(poke.Id - 1 /* Convert to zero based from pokemon 1-based id */, selected)
@@ -104,11 +114,11 @@ namespace PokemonGenerator.Forms
 
             if (args.Selected)
             {
-                _config.Configuration.IgnoredPokemon.Remove(idx);
+                _workingConfig.Configuration.IgnoredPokemon.Remove(idx);
             }
             else
             {
-                _config.Configuration.IgnoredPokemon.Add(idx);
+                _workingConfig.Configuration.IgnoredPokemon.Add(idx);
             }
 
             UpdateCount();

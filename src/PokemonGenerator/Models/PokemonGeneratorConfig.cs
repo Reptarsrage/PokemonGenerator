@@ -1,4 +1,5 @@
-﻿using PokemonGenerator.Enumerations;
+﻿using Newtonsoft.Json;
+using PokemonGenerator.Enumerations;
 using System.Collections.Generic;
 
 namespace PokemonGenerator.Models
@@ -50,12 +51,12 @@ namespace PokemonGenerator.Models
                 ,{"Cannot lower", Likeliness.None }
                 ,{"ends wild battles", Likeliness.None }
             };
-            PokemonLiklihood = new Dictionary<PokemonClass, double>()
+            PokemonLiklihood = new PokemonLiklihood()
             {
-                 {PokemonClass.Ignored, Likeliness.None },
-                 {PokemonClass.Standard, Likeliness.Full },
-                 {PokemonClass.Legendary, Likeliness.Very_Low },
-                 {PokemonClass.Special, Likeliness.Medium_Low }
+                 Ignored = Likeliness.None,
+                 Standard = Likeliness.Full,
+                 Legendary = Likeliness.Very_Low,
+                 Special = Likeliness.Medium_Low
             };
             Mean = 0.5D;
             Skew = 0.3D;
@@ -71,48 +72,55 @@ namespace PokemonGenerator.Models
         /// <summary>
         /// All Legendary pokemon Ids
         /// </summary>
+        [JsonIgnore]
         public List<int> LegendaryPokemon { get; set; }
-
-        /// <summary>
-        /// All Useless pokemon Ids
-        /// </summary>
-        public List<int> IgnoredPokemon { get; set; }
 
         /// <summary>
         /// All Special pokemon Ids
         /// Specially treated for move selection bc they can learn &lt; 4 moves total
         /// </summary>
+        [JsonIgnore]
         public List<int> SpecialPokemon { get; set; }
 
         /// <summary>
         /// Moves that go well together
         /// </summary>
+        [JsonIgnore]
         public Dictionary<int, int[]> PairedMoves { get; set; }
 
         /// <summary>
         /// Moves that depend on another to be any use at all
         /// </summary>
+        [JsonIgnore]
         public Dictionary<int, int[]> DependantMoves { get; set; }
 
         /// <summary>
         /// A list of all HM moves
         /// </summary>
+        [JsonIgnore]
         public List<int> HMBank { get; set; }
 
         /// <summary>
         /// Pokemon Team size
         /// </summary>
+        [JsonIgnore]
         public int TeamSize { get; set; }
 
         /// <summary>
         /// Liklihood of the move based on how strong the type generally is
         /// </summary>
+        [JsonIgnore]
         public Dictionary<string, double> MoveEffectFilters { get; set; }
 
         /// <summary>
         /// How likly a pokemon is to be put on a team, based on the class of the pokemon
         /// </summary>
-        public Dictionary<PokemonClass, double> PokemonLiklihood { get; set; }
+        public PokemonLiklihood PokemonLiklihood { get; set; }
+
+        /// <summary>
+        /// All Useless pokemon Ids
+        /// </summary>
+        public List<int> IgnoredPokemon { get; set; }
 
         /// <summary>
         /// Average

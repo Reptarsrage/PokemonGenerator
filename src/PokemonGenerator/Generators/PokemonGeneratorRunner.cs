@@ -1,5 +1,4 @@
-﻿using PokemonGenerator.Enumerations;
-using PokemonGenerator.IO;
+﻿using PokemonGenerator.IO;
 using PokemonGenerator.Models;
 using PokemonGenerator.Validators;
 using System;

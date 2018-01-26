@@ -21,20 +21,24 @@ namespace PokemonGenerator.Tests
         public PokemonGeneratorRunnerTests()
         {
             _contentDir = Directory.GetCurrentDirectory();
-            _outputDir = Path.Combine(_contentDir, "Out");
-            _opts = new PersistentConfig(new PokemonGeneratorConfig(), new PokeGeneratorOptions
+            _outputDir = Path.Combine(_contentDir, $"Test-{Guid.NewGuid()}");
+            _opts = new PersistentConfig
             {
-                GameOne = PokemonGame.Gold.ToString(),
-                GameTwo = PokemonGame.Gold.ToString(),
-                InputSaveOne = Path.Combine(_contentDir, "gold.sav"),
-                InputSaveTwo = Path.Combine(_contentDir, "gold.sav"),
-                OutputSaveOne = Path.Combine(_outputDir, "out1.sav"),
-                OutputSaveTwo = Path.Combine(_outputDir, "out2.sav"),
-                NameOne = "Test1",
-                NameTwo = "Test2",
-                Level = 100
-            });
+                Options = new PokeGeneratorOptions
+                {
+                    GameOne = PokemonGame.Gold.ToString(),
+                    GameTwo = PokemonGame.Gold.ToString(),
+                    InputSaveOne = Path.Combine(_contentDir, "gold.sav"),
+                    InputSaveTwo = Path.Combine(_contentDir, "gold.sav"),
+                    OutputSaveOne = Path.Combine(_outputDir, "out1.sav"),
+                    OutputSaveTwo = Path.Combine(_outputDir, "out2.sav"),
+                    NameOne = "Test1",
+                    NameTwo = "Test2",
+                    Level = 100
+                }
+            };
 
+            AppDomain.CurrentDomain.SetData("DataDirectory", _contentDir);
             _dependencyInjector = new DependencyInjector();
             _runner = _dependencyInjector.Get<IPokemonGeneratorRunner>();
             _deserializer = _dependencyInjector.Get<IPokeDeserializer>();
