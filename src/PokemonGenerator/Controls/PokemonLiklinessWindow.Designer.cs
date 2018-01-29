@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using PokemonGenerator.Models;
+using System.Windows.Forms;
 
 namespace PokemonGenerator.Forms
 {
@@ -104,6 +105,7 @@ namespace PokemonGenerator.Forms
             // 
             this.FieldNumericLegendary.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.FieldNumericLegendary.BackColor = CustomColors.Legendary;
             this.FieldNumericLegendary.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.OptionsWindowBindingSource, "PokemonLiklihood.Legendary", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged, new decimal(new int[] {
                     3,
                     0,
@@ -143,6 +145,7 @@ namespace PokemonGenerator.Forms
             // 
             this.FieldNumericSpecial.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.FieldNumericSpecial.BackColor = CustomColors.Special;
             this.FieldNumericSpecial.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.OptionsWindowBindingSource, "PokemonLiklihood.Special", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged, new decimal(new int[] {
                     1,
                     0,

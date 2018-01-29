@@ -5,6 +5,7 @@ using PokemonGenerator.IO;
 using PokemonGenerator.Models;
 using System;
 using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 
 namespace PokemonGenerator.Forms
@@ -83,12 +84,15 @@ namespace PokemonGenerator.Forms
         {
             var poke = e.UserState as PokemonEntry;
             var selected = _workingConfig.Configuration.IgnoredPokemon.All(id => poke.Id != id);
+            var legendary = _workingConfig.Configuration.LegendaryPokemon.Any(id => poke.Id == id);
+            var special = _workingConfig.Configuration.SpecialPokemon.Any(id => poke.Id == id);
 
             // Create Item
             var item = new SpriteButton(poke.Id - 1 /* Convert to zero based from pokemon 1-based id */, selected)
             {
                 Name = poke.Id.ToString(),
-                Text = poke.Identifier.ToUpper()
+                Text = poke.Identifier.ToUpper(),
+                Tint = legendary ? CustomColors.Legendary : special ? CustomColors.Special : CustomColors.Standard
             };
 
             // Add Item

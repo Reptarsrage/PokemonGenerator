@@ -22,14 +22,25 @@ namespace PokemonGenerator.Forms
         private const int SPRITE_TILE_WIDTH = 56;
         private const int SPRITE_TILE_HEIGHT = 56;
 
-        private readonly Color _unPressed = Color.FromArgb(255, 235, 235, 235);
-        private readonly Color _pressed = Color.FromArgb(255, 225, 225, 225);
-        private readonly Color _unPressedBorder = Color.FromArgb(255, 200, 200, 200);
-        private readonly Color _pressedBorder = Color.FromArgb(255, 0, 0, 0);
+
+        private Color _tint;
 
         private readonly BackgroundWorker _backgroundWorker;
         private readonly int _index;
         private readonly Size _imageSize;
+
+        // Tint
+        public Color Tint
+        {
+            get
+            {
+                return _tint;
+            } set
+            {
+                _tint = value;
+                SetColors();
+            }
+        }
 
         // Index
         public int Index => _index;
@@ -55,6 +66,8 @@ namespace PokemonGenerator.Forms
             CheckedChanged += SpriteButton_CheckedChanged;
             SpriteButton_CheckedChanged(null, null);
 
+            _tint = Color.FromArgb(255, 235, 235, 235);
+
             _index = index;
             _imageSize = new Size(SPRITE_TILE_WIDTH, SPRITE_TILE_HEIGHT);
 
@@ -68,23 +81,7 @@ namespace PokemonGenerator.Forms
 
         private void SpriteButton_CheckedChanged(object sender, EventArgs e)
         {
-            if (Checked)
-            {
-                BackColor = _pressed;
-                FlatAppearance.MouseOverBackColor = _pressed;
-                FlatAppearance.MouseDownBackColor = _pressed;
-                FlatAppearance.CheckedBackColor = _pressed;
-                FlatAppearance.BorderColor = _pressedBorder;
-            }
-            else
-            {
-                BackColor = _unPressed;
-                FlatAppearance.MouseOverBackColor = _unPressed;
-                FlatAppearance.MouseDownBackColor = _unPressed;
-                FlatAppearance.CheckedBackColor = _unPressed;
-                FlatAppearance.BorderColor = _unPressedBorder;
-            }
-
+            SetColors();
             ItemSelctedEvent?.Invoke(this, new ItemSelectedEventArgs(Checked));
         }
 
@@ -101,6 +98,18 @@ namespace PokemonGenerator.Forms
             Pen pen = new Pen(FlatAppearance.BorderColor, 1);
             Rectangle rectangle = new Rectangle(0, 0, Size.Width - 1, Size.Height - 1);
             e.Graphics.DrawRectangle(pen, rectangle);
+        }
+
+        private void SetColors()
+        {
+            var mod = Checked ? 244 : 255;
+            var color = Color.FromArgb(mod, _tint);
+
+            BackColor = color;
+            FlatAppearance.MouseOverBackColor = color;
+            FlatAppearance.MouseDownBackColor = color;
+            FlatAppearance.CheckedBackColor = color;
+            FlatAppearance.BorderColor = color;
         }
 
         private void _backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
