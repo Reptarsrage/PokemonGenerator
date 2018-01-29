@@ -24,7 +24,7 @@ namespace PokemonGenerator.Tests
             config = new PokemonGeneratorConfig
             {
                 LegendaryPokemon = new List<int>(),
-                IgnoredPokemon = new List<int>(),
+                DisabledPokemon = new List<int>(),
                 SpecialPokemon = new List<int>(),
                 PairedMoves = new Dictionary<int, int[]>() { },
                 DependantMoves = new Dictionary<int, int[]>() { },

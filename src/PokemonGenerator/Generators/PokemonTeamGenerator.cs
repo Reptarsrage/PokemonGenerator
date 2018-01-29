@@ -94,7 +94,8 @@ namespace PokemonGenerator
             // add initial probabilities
             foreach (var choice in possiblePokemon)
             {
-                if (_pokemonGeneratorConfig.IgnoredPokemon.Contains(choice.PokemonId))
+                if (_pokemonGeneratorConfig.DisabledPokemon.Contains(choice.PokemonId) ||
+                    _pokemonGeneratorConfig.ForbiddenPokemon.Contains(choice.PokemonId))
                 {
                     choice.Probability = _pokemonGeneratorConfig.PokemonLiklihood.Ignored;
                 }

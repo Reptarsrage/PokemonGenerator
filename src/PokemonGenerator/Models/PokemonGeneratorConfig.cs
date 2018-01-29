@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using PokemonGenerator.Enumerations;
 using System.Collections.Generic;
 
 namespace PokemonGenerator.Models
@@ -9,7 +8,8 @@ namespace PokemonGenerator.Models
         public PokemonGeneratorConfig()
         {
             LegendaryPokemon = new List<int> { 144, 145, 146, 151, 150, 243, 244, 245, 249, 250, 251 };
-            IgnoredPokemon = new List<int> { 10, 11, 13, 14, 129, 201 }; /*caterpie, metapod, weedle, kakuna, magikarp, unown */
+            ForbiddenPokemon = new List<int> { 10, 11, 13, 14, 129, 201 }; /*caterpie, metapod, weedle, kakuna, magikarp, unown */
+            DisabledPokemon = new List<int>();
             SpecialPokemon = new List<int> { 10, 11, 13, 14, 129, 132, 201, 202 }; /* caterpie, metapod, weedle, kakuna, magikarp, ditto, unown, wobbuffet */
             PairedMoves = new Dictionary<int, int[]>()
             {
@@ -53,10 +53,10 @@ namespace PokemonGenerator.Models
             };
             PokemonLiklihood = new PokemonLiklihood()
             {
-                 Ignored = Likeliness.None,
-                 Standard = Likeliness.Full,
-                 Legendary = Likeliness.Very_Low,
-                 Special = Likeliness.Medium_Low
+                Ignored = Likeliness.None,
+                Standard = Likeliness.Full,
+                Legendary = Likeliness.Very_Low,
+                Special = Likeliness.Medium_Low
             };
             Mean = 0.5D;
             Skew = 0.3D;
@@ -68,6 +68,12 @@ namespace PokemonGenerator.Models
             RandomMoveMinPower = 40;
             RandomMoveMaxPower = 100;
         }
+
+        /// <summary>
+        /// All Forbidden pokemon Ids
+        /// </summary>
+        [JsonIgnore]
+        public List<int> ForbiddenPokemon { get; set; }
 
         /// <summary>
         /// All Legendary pokemon Ids
@@ -120,7 +126,7 @@ namespace PokemonGenerator.Models
         /// <summary>
         /// All Useless pokemon Ids
         /// </summary>
-        public List<int> IgnoredPokemon { get; set; }
+        public List<int> DisabledPokemon { get; set; }
 
         /// <summary>
         /// Average
