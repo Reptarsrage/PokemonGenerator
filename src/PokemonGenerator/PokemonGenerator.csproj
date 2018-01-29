@@ -38,15 +38,17 @@
   <ItemGroup>
     <Compile Update="Controls\MainForm.cs" SubType="Form" />
     <Compile Update="Controls\MainWindow.cs" SubType="Form" />
+    <Compile Update="Controls\PokemonLiklinessWindow.cs" SubType="Form" />
     <Compile Update="Controls\RandomOptionsWindow.cs" SubType="Form" />
-    <Compile Update="Controls\PokemonOptionsWindow.cs" SubType="Form" />
+    <Compile Update="Controls\PokemonSelectionWindow.cs" SubType="Form" />
     <Compile Update="Controls\OptionsWindowController.cs" SubType="Form" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Update="Controls\MainForm.Designer.cs" DependentUpon="MainForm.cs" />
+    <Compile Update="Controls\PokemonLiklinessWindow.Designer.cs" DependentUpon="PokemonLiklinessWindow.cs" />
     <Compile Update="Controls\MainWindow.Designer.cs" DependentUpon="MainWindow.cs" />
-    <Compile Update="Controls\PokemonOptionsWindow.Designer.cs" DependentUpon="PokemonOptionsWindow.cs" />
+    <Compile Update="Controls\PokemonSelectionWindow.Designer.cs" DependentUpon="PokemonSelectionWindow.cs" />
     <Compile Update="Controls\RandomOptionsWindow.Designer.cs" DependentUpon="RandomOptionsWindow.cs" />
     <Compile Update="Controls\OptionsWindowController.Designer.cs" DependentUpon="OptionsWindowController.cs" />
   </ItemGroup>
@@ -60,12 +62,16 @@
     <EmbeddedResource Include="Resources\pikagif.gif" />
     <EmbeddedResource Include="Resources\favicon.ico" />
     <EmbeddedResource Include="Resources\sprites.png" />
+    <EmbeddedResource Update="Controls\RandomOptionsWindow - Copy.resx">
+      <DependentUpon>RandomOptionsWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Update="Properties\Resources.resx" Generator="ResXFileCodeGenerator" LastGenOutput="Resources.Designer.cs" />
     <EmbeddedResource Update="Controls\MainForm.resx" DependentUpon="MainForm.cs" />
     <EmbeddedResource Update="Controls\MainWindow.resx" DependentUpon="MainWindow.cs" />
-    <EmbeddedResource Update="Controls\PokemonOptionsWindow.resx" DependentUpon="PokemonOptionsWindow.cs" />
+    <EmbeddedResource Update="Controls\PokemonSelectionWindow.resx" DependentUpon="PokemonSelectionWindow.cs" />
     <EmbeddedResource Update="Controls\RandomOptionsWindow.resx" DependentUpon="RandomOptionsWindow.cs" />
     <EmbeddedResource Update="Controls\OptionsWindowController.resx" DependentUpon="OptionsWindowController.cs" />
+    <EmbeddedResource Update="Controls\PokemonLiklinessWindow.resx" DependentUpon="PokemonLiklinessWindow.cs" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

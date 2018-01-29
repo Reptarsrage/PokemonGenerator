@@ -2,7 +2,7 @@
 
 namespace PokemonGenerator.Forms
 {
-    partial class PokemonOptionsWindow
+    partial class PokemonSelectionWindow
     {
         /// <summary> 
         /// Required designer variable.

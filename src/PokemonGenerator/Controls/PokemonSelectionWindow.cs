@@ -9,14 +9,14 @@ using System.Linq;
 
 namespace PokemonGenerator.Forms
 {
-    public partial class PokemonOptionsWindow : OptionsWindowBase
+    public partial class PokemonSelectionWindow : OptionsWindowBase
     {
         private readonly IPokemonDA _pokemonDA;
 
         private int _total;
         private int _selected;
 
-        public PokemonOptionsWindow(
+        public PokemonSelectionWindow(
             IPokemonDA pokemonDA,
             IOptions<PersistentConfig> options,
             IPersistentConfigManager persistentConfigManager) : base(options, persistentConfigManager)
