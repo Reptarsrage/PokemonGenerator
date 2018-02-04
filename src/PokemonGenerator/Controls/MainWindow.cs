@@ -16,6 +16,17 @@ using System.Windows.Forms;
 
 namespace PokemonGenerator.Forms
 {
+    public enum ImageState
+    {
+        Unkown,
+        Bad,
+        Good,
+        Warning,
+        FileBad,
+        FileGood,
+        FileWarning
+    }
+
     public partial class MainWindow : WindowBase
     {
         // Imported to handle out-of-focus macro handeling
@@ -38,17 +49,6 @@ namespace PokemonGenerator.Forms
         private readonly IPokeGeneratorOptionsValidator _optionsValidator;
         private readonly IPersistentConfigManager _configManager;
 
-        private enum ImageState
-        {
-            Unkown,
-            Bad,
-            Good,
-            Warning,
-            FileBad,
-            FileGood,
-            FileWarning
-        }
-
         public MainWindow(
             IPokemonGeneratorRunner pokemonGeneratorRunner,
             IOptions<PersistentConfig> options,
@@ -66,6 +66,8 @@ namespace PokemonGenerator.Forms
 
             // Init
             InitializeComponent();
+            GroupBoxPlayerOneOptions.Initialize(options, _optionsValidator);
+            GroupBoxPlayerTwoOptions.Initialize(options, _optionsValidator);
             RegisterHotKey(Handle, 0, (int)KeyModifier.Control, Keys.F12.GetHashCode());
             MainWindowBindingSource.DataSource = _options.Value.Options;
         }
@@ -128,8 +130,8 @@ namespace PokemonGenerator.Forms
         {
             if (CheckIfFileExistsAndAssignImage(TextProjN64Location, ImageProjN64Location, ".exe"))
             {
-                GroupBoxPlayerOne.Enabled = true;
-                GroupBoxPlayerTwo.Enabled = true;
+                GroupBoxPlayerOneOptions.Enabled = true;
+                GroupBoxPlayerTwoOptions.Enabled = true;
 
                 // get ini location
                 var ini = Path.Combine(Path.GetDirectoryName(TextProjN64Location.Text), @"Config\NRage.ini");
@@ -144,26 +146,27 @@ namespace PokemonGenerator.Forms
 
                     if (string.IsNullOrWhiteSpace(_options.Value.Options.InputSaveOne))
                     {
-                        UpdateText(TextPlayerOneInLocation, tup.Item2);
+                        GroupBoxPlayerOneOptions.InLocation = tup.Item2;
                     }
 
                     if (string.IsNullOrWhiteSpace(_options.Value.Options.OutputSaveOne))
                     {
-                        UpdateText(TextPlayerOneOutLocation, string.IsNullOrWhiteSpace(tup.Item2) ?
+                        GroupBoxPlayerOneOptions.OutLocation = string.IsNullOrWhiteSpace(tup.Item2) ?
                             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), @"Player1.sav") :
-                            tup.Item2);
+                            tup.Item2;
                     }
 
                     if (string.IsNullOrWhiteSpace(_options.Value.Options.InputSaveTwo))
                     {
-                        UpdateText(TextPlayerTwoInLocation, tup2.Item2);
+
+                        GroupBoxPlayerTwoOptions.InLocation = tup2.Item2;
                     }
 
                     if (string.IsNullOrWhiteSpace(_options.Value.Options.OutputSaveTwo))
                     {
-                        UpdateText(TextPlayerTwoOutLocation, string.IsNullOrWhiteSpace(tup2.Item2) ?
+                        GroupBoxPlayerTwoOptions.OutLocation = string.IsNullOrWhiteSpace(tup2.Item2) ?
                             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), @"Player2.sav") :
-                            tup2.Item2);
+                            tup2.Item2;
                     }
                 }
                 if (File.Exists(cfg))
@@ -171,14 +174,14 @@ namespace PokemonGenerator.Forms
                     _p64ConfigEditor.FileName = cfg;
                 }
 
-                UpdateText(TextPlayerOneName, _options.Value.Options.NameOne);
-                UpdateText(TextPlayerTwoName, _options.Value.Options.NameTwo);
+                GroupBoxPlayerOneOptions.PlayerName  =_options.Value.Options.NameOne;
+                GroupBoxPlayerTwoOptions.PlayerName = _options.Value.Options.NameTwo;
                 return ValidatePlayerSection();
             }
             else
             {
-                GroupBoxPlayerOne.Enabled = false;
-                GroupBoxPlayerTwo.Enabled = false;
+                GroupBoxPlayerOneOptions.Enabled = false;
+                GroupBoxPlayerTwoOptions.Enabled = false;
                 PanelBottom.Enabled = false;
                 return false;
             }
@@ -230,28 +233,13 @@ namespace PokemonGenerator.Forms
         private bool ValidatePlayerSection()
         {
             // Check Player One In/Out Locations
-            var good = CheckIfFileExistsAndAssignImage(TextPlayerOneInLocation, ImagePlayerOneInLocation, ".sav");
-            good &= CheckIfPathIsValidAndAssignImage(TextPlayerOneOutLocation, ImagePlayerOneOutLocation, ".sav");
-
-            // Check Player One Name
-            var TextPlayerOneNameGood = _optionsValidator.ValidateName(TextPlayerOneName.Text);
-            ToggleErrorImageToPic(ImagePlayerOneName, TextPlayerOneNameGood ? ImageState.Good : ImageState.Bad);
-            good &= TextPlayerOneNameGood;
-
-            // Check Player Two In/Out Locations
-            good &= CheckIfFileExistsAndAssignImage(TextPlayerTwoInLocation, ImagePlayerTwoInLocation, ".sav");
-            good &= CheckIfPathIsValidAndAssignImage(TextPlayerTwoOutLocation, ImagePlayerTwoOutLocation, ".sav");
-
-            // Check Player Two Name
-            var TextPlayerTwoNameGood = _optionsValidator.ValidateName(TextPlayerTwoName.Text);
-            ToggleErrorImageToPic(ImagePlayerTwoName, TextPlayerTwoNameGood ? ImageState.Good : ImageState.Bad);
-            good &= TextPlayerTwoNameGood;
+            var good = GroupBoxPlayerOneOptions.Validate() && GroupBoxPlayerTwoOptions.Validate();
 
             // Check two outs are unique
-            if (!_optionsValidator.ValidateUniquePath(TextPlayerTwoOutLocation.Text, TextPlayerOneOutLocation.Text))
+            if (!_optionsValidator.ValidateUniquePath(GroupBoxPlayerOneOptions.OutLocation, GroupBoxPlayerTwoOptions.OutLocation))
             {
-                ToggleErrorImageToPic(ImagePlayerTwoOutLocation, ImageState.FileBad);
-                ToggleErrorImageToPic(ImagePlayerOneOutLocation, ImageState.FileBad);
+                GroupBoxPlayerOneOptions.SetOutLocationImage(ImageState.FileBad);
+                GroupBoxPlayerTwoOptions.SetOutLocationImage(ImageState.FileBad);
                 good = false;
             }
 
@@ -291,7 +279,7 @@ namespace PokemonGenerator.Forms
 
         private void ButtonGenerateClick(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(TextPlayerOneOutLocation.Text) || string.IsNullOrWhiteSpace(TextPlayerTwoOutLocation.Text))
+            if (string.IsNullOrWhiteSpace(GroupBoxPlayerOneOptions.OutLocation) || string.IsNullOrWhiteSpace(GroupBoxPlayerTwoOptions.OutLocation))
             {
                 throw new ArgumentNullException("Out Files must be specified");
             }
@@ -307,30 +295,6 @@ namespace PokemonGenerator.Forms
         {
             UpdateText(TextProjN64Location, ChooseFile() ?? TextProjN64Location.Text);
             ValidateTopSection();
-        }
-
-        private void ButtonPlayerOneInLocationClick(object sender, EventArgs e)
-        {
-            UpdateText(TextPlayerOneInLocation, ChooseFile("Save Files|*.sav") ?? TextPlayerOneInLocation.Text);
-            ValidatePlayerSection();
-        }
-
-        private void ButtonPlayerOneOutLocationClick(object sender, EventArgs e)
-        {
-            UpdateText(TextPlayerOneOutLocation, ChooseFile("Save Files|*.sav") ?? TextPlayerOneOutLocation.Text);
-            ValidatePlayerSection();
-        }
-
-        private void ButtonPlayerTwoOutLocationClick(object sender, EventArgs e)
-        {
-            UpdateText(TextPlayerTwoOutLocation, ChooseFile("Save Files|*.sav") ?? TextPlayerTwoOutLocation.Text);
-            ValidatePlayerSection();
-        }
-
-        private void ButtonPlayerTwoInLocationClick(object sender, EventArgs e)
-        {
-            UpdateText(TextPlayerTwoInLocation, ChooseFile("Save Files|*.sav") ?? TextPlayerTwoInLocation.Text);
-            ValidatePlayerSection();
         }
 
         private void BackgroundPokemonGeneratorDoWork(object sender, DoWorkEventArgs e)
