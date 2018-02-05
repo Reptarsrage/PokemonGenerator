@@ -37,8 +37,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.ClientSize = new System.Drawing.Size(784, 661);
             this.Icon = global::PokemonGenerator.Properties.Resources.favicon;
+            this.MinimumSize = new System.Drawing.Size(800, 700);
             this.Name = "MainForm";
             this.Text = "Pokémon Generator";
             this.ResumeLayout(false);

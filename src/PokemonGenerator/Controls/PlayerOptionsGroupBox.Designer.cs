@@ -47,6 +47,14 @@
             this.LabelPlayerInLocation = new System.Windows.Forms.Label();
             this.LabelPlayerGame = new System.Windows.Forms.Label();
             this.GroupBox = new System.Windows.Forms.GroupBox();
+            this.LabelTeam = new System.Windows.Forms.Label();
+            this.PanelTeam = new System.Windows.Forms.Panel();
+            this.PictureTeamSixth = new PokemonGenerator.Controls.SVGViewer();
+            this.PictureTeamFifth = new PokemonGenerator.Controls.SVGViewer();
+            this.PictureTeamFourth = new PokemonGenerator.Controls.SVGViewer();
+            this.PictureTeamThird = new PokemonGenerator.Controls.SVGViewer();
+            this.PictureTeamSecond = new PokemonGenerator.Controls.SVGViewer();
+            this.PictureTeamFirst = new PokemonGenerator.Controls.SVGViewer();
             this.OpenFileDialog = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.BindingSource)).BeginInit();
             this.PanelFormInputPlayerName.SuspendLayout();
@@ -56,6 +64,7 @@
             this.PanelFormInputPlayerInLocation.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ImagePlayerInLocation)).BeginInit();
             this.GroupBox.SuspendLayout();
+            this.PanelTeam.SuspendLayout();
             this.SuspendLayout();
             // 
             // BindingSource
@@ -284,6 +293,8 @@
             // 
             // GroupBox
             // 
+            this.GroupBox.Controls.Add(this.LabelTeam);
+            this.GroupBox.Controls.Add(this.PanelTeam);
             this.GroupBox.Controls.Add(this.PanelFormInputPlayerName);
             this.GroupBox.Controls.Add(this.PanelFormInputPlayerOutLocation);
             this.GroupBox.Controls.Add(this.PanelFormInputPlayerInLocation);
@@ -297,16 +308,112 @@
             this.GroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.GroupBox.Location = new System.Drawing.Point(0, 0);
             this.GroupBox.Name = "GroupBox";
-            this.GroupBox.Size = new System.Drawing.Size(721, 291);
+            this.GroupBox.Size = new System.Drawing.Size(800, 600);
             this.GroupBox.TabIndex = 0;
             this.GroupBox.TabStop = false;
             this.GroupBox.Text = "Player Config";
+            // 
+            // LabelTeam
+            // 
+            this.LabelTeam.AutoSize = true;
+            this.LabelTeam.Location = new System.Drawing.Point(10, 300);
+            this.LabelTeam.Margin = new System.Windows.Forms.Padding(0);
+            this.LabelTeam.Name = "LabelTeam";
+            this.LabelTeam.Size = new System.Drawing.Size(37, 13);
+            this.LabelTeam.TabIndex = 15;
+            this.LabelTeam.Text = "Team:";
+            // 
+            // PanelTeam
+            // 
+            this.PanelTeam.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.PanelTeam.Controls.Add(this.PictureTeamSixth);
+            this.PanelTeam.Controls.Add(this.PictureTeamFifth);
+            this.PanelTeam.Controls.Add(this.PictureTeamFourth);
+            this.PanelTeam.Controls.Add(this.PictureTeamThird);
+            this.PanelTeam.Controls.Add(this.PictureTeamSecond);
+            this.PanelTeam.Controls.Add(this.PictureTeamFirst);
+            this.PanelTeam.Location = new System.Drawing.Point(10, 320);
+            this.PanelTeam.Name = "PanelTeam";
+            this.PanelTeam.Size = new System.Drawing.Size(300, 50);
+            this.PanelTeam.TabIndex = 14;
+            // 
+            // PictureTeamSixth
+            // 
+            this.PictureTeamSixth.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PictureTeamSixth.Dock = System.Windows.Forms.DockStyle.Left;
+            this.PictureTeamSixth.SvgImage = global::PokemonGenerator.Properties.Resources.Question_16x;
+            this.PictureTeamSixth.Location = new System.Drawing.Point(250, 0);
+            this.PictureTeamSixth.Margin = new System.Windows.Forms.Padding(0);
+            this.PictureTeamSixth.Name = "PictureTeamSixth";
+            this.PictureTeamSixth.Size = new System.Drawing.Size(50, 50);
+            this.PictureTeamSixth.TabIndex = 5;
+            this.PictureTeamSixth.TabStop = false;
+            // 
+            // PictureTeamFifth
+            // 
+            this.PictureTeamFifth.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PictureTeamFifth.Dock = System.Windows.Forms.DockStyle.Left;
+            this.PictureTeamFifth.SvgImage = global::PokemonGenerator.Properties.Resources.Question_16x;
+            this.PictureTeamFifth.Location = new System.Drawing.Point(200, 0);
+            this.PictureTeamFifth.Margin = new System.Windows.Forms.Padding(0);
+            this.PictureTeamFifth.Name = "PictureTeamFifth";
+            this.PictureTeamFifth.Size = new System.Drawing.Size(50, 50);
+            this.PictureTeamFifth.TabIndex = 4;
+            this.PictureTeamFifth.TabStop = false;
+            // 
+            // PictureTeamFourth
+            // 
+            this.PictureTeamFourth.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PictureTeamFourth.Dock = System.Windows.Forms.DockStyle.Left;
+            this.PictureTeamFourth.SvgImage = global::PokemonGenerator.Properties.Resources.Question_16x;
+            this.PictureTeamFourth.Location = new System.Drawing.Point(150, 0);
+            this.PictureTeamFourth.Margin = new System.Windows.Forms.Padding(0);
+            this.PictureTeamFourth.Name = "PictureTeamFourth";
+            this.PictureTeamFourth.Size = new System.Drawing.Size(50, 50);
+            this.PictureTeamFourth.TabIndex = 3;
+            this.PictureTeamFourth.TabStop = false;
+            // 
+            // PictureTeamThird
+            // 
+            this.PictureTeamThird.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PictureTeamThird.Dock = System.Windows.Forms.DockStyle.Left;
+            this.PictureTeamThird.SvgImage = global::PokemonGenerator.Properties.Resources.Question_16x;
+            this.PictureTeamThird.Location = new System.Drawing.Point(100, 0);
+            this.PictureTeamThird.Margin = new System.Windows.Forms.Padding(0);
+            this.PictureTeamThird.Name = "PictureTeamThird";
+            this.PictureTeamThird.Size = new System.Drawing.Size(50, 50);
+            this.PictureTeamThird.TabIndex = 2;
+            this.PictureTeamThird.TabStop = false;
+            // 
+            // PictureTeamSecond
+            // 
+            this.PictureTeamSecond.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PictureTeamSecond.Dock = System.Windows.Forms.DockStyle.Left;
+            this.PictureTeamSecond.SvgImage = global::PokemonGenerator.Properties.Resources.Question_16x;
+            this.PictureTeamSecond.Location = new System.Drawing.Point(50, 0);
+            this.PictureTeamSecond.Margin = new System.Windows.Forms.Padding(0);
+            this.PictureTeamSecond.Name = "PictureTeamSecond";
+            this.PictureTeamSecond.Size = new System.Drawing.Size(50, 50);
+            this.PictureTeamSecond.TabIndex = 1;
+            this.PictureTeamSecond.TabStop = false;
+            // 
+            // PictureTeamFirst
+            // 
+            this.PictureTeamFirst.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PictureTeamFirst.Dock = System.Windows.Forms.DockStyle.Left;
+            this.PictureTeamFirst.SvgImage = global::PokemonGenerator.Properties.Resources.Question_16x;
+            this.PictureTeamFirst.Location = new System.Drawing.Point(0, 0);
+            this.PictureTeamFirst.Margin = new System.Windows.Forms.Padding(0);
+            this.PictureTeamFirst.Name = "PictureTeamFirst";
+            this.PictureTeamFirst.Size = new System.Drawing.Size(50, 50);
+            this.PictureTeamFirst.TabIndex = 0;
+            this.PictureTeamFirst.TabStop = false;
             // 
             // PlayerOptionsGroupBox
             // 
             this.Controls.Add(this.GroupBox);
             this.Name = "PlayerOptionsGroupBox";
-            this.Size = new System.Drawing.Size(721, 291);
+            this.Size = new System.Drawing.Size(800, 600);
             ((System.ComponentModel.ISupportInitialize)(this.BindingSource)).EndInit();
             this.PanelFormInputPlayerName.ResumeLayout(false);
             this.PanelFormInputPlayerName.PerformLayout();
@@ -319,6 +426,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.ImagePlayerInLocation)).EndInit();
             this.GroupBox.ResumeLayout(false);
             this.GroupBox.PerformLayout();
+            this.PanelTeam.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -343,5 +451,13 @@
         private System.Windows.Forms.Panel PanelFormInputPlayerInLocation;
         private System.Windows.Forms.OpenFileDialog OpenFileDialog;
         private System.Windows.Forms.GroupBox GroupBox;
+        private System.Windows.Forms.Label LabelTeam;
+        private System.Windows.Forms.Panel PanelTeam;
+        private Controls.SVGViewer PictureTeamFirst;
+        private Controls.SVGViewer PictureTeamSixth;
+        private Controls.SVGViewer PictureTeamFifth;
+        private Controls.SVGViewer PictureTeamFourth;
+        private Controls.SVGViewer PictureTeamThird;
+        private Controls.SVGViewer PictureTeamSecond;
     }
 }
