@@ -46,7 +46,7 @@
             this.LabelPlayerOutLocation = new System.Windows.Forms.Label();
             this.LabelPlayerInLocation = new System.Windows.Forms.Label();
             this.LabelPlayerGame = new System.Windows.Forms.Label();
-
+            this.GroupBox = new System.Windows.Forms.GroupBox();
             this.OpenFileDialog = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.BindingSource)).BeginInit();
             this.PanelFormInputPlayerName.SuspendLayout();
@@ -55,15 +55,16 @@
             ((System.ComponentModel.ISupportInitialize)(this.ImagePlayerOutLocation)).BeginInit();
             this.PanelFormInputPlayerInLocation.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ImagePlayerInLocation)).BeginInit();
+            this.GroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
-            // MainWindowBindingSource
+            // BindingSource
             // 
             this.BindingSource.DataSource = typeof(PokemonGenerator.Models.PokeGeneratorPlayerOptions);
             // 
             // PanelFormInputPlayerName
             // 
-            this.PanelFormInputPlayerName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.PanelFormInputPlayerName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.PanelFormInputPlayerName.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.PanelFormInputPlayerName.Controls.Add(this.ImagePlayerName);
@@ -73,7 +74,7 @@
             this.PanelFormInputPlayerName.MaximumSize = new System.Drawing.Size(700, 25);
             this.PanelFormInputPlayerName.MinimumSize = new System.Drawing.Size(200, 25);
             this.PanelFormInputPlayerName.Name = "PanelFormInputPlayerName";
-            this.PanelFormInputPlayerName.Size = new System.Drawing.Size(400, 25);
+            this.PanelFormInputPlayerName.Size = new System.Drawing.Size(700, 25);
             this.PanelFormInputPlayerName.TabIndex = 6;
             // 
             // ImagePlayerName
@@ -84,7 +85,7 @@
             this.ImagePlayerName.Dock = System.Windows.Forms.DockStyle.Right;
             this.ImagePlayerName.ErrorImage = null;
             this.ImagePlayerName.InitialImage = null;
-            this.ImagePlayerName.Location = new System.Drawing.Point(375, 0);
+            this.ImagePlayerName.Location = new System.Drawing.Point(675, 0);
             this.ImagePlayerName.Margin = new System.Windows.Forms.Padding(0);
             this.ImagePlayerName.MaximumSize = new System.Drawing.Size(25, 25);
             this.ImagePlayerName.MinimumSize = new System.Drawing.Size(25, 25);
@@ -97,20 +98,20 @@
             // 
             // TextPlayerName
             // 
-            this.TextPlayerName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.TextPlayerName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TextPlayerName.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.BindingSource, "Name", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged, ""));
             this.TextPlayerName.Location = new System.Drawing.Point(0, 0);
             this.TextPlayerName.Margin = new System.Windows.Forms.Padding(0, 0, 25, 0);
             this.TextPlayerName.MaxLength = 8;
             this.TextPlayerName.Name = "TextPlayerName";
-            this.TextPlayerName.Size = new System.Drawing.Size(375, 25);
+            this.TextPlayerName.Size = new System.Drawing.Size(675, 20);
             this.TextPlayerName.TabIndex = 4;
             this.TextPlayerName.Validated += new System.EventHandler(this.PlayerValidate);
             // 
             // PanelFormInputPlayerOutLocation
             // 
-            this.PanelFormInputPlayerOutLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.PanelFormInputPlayerOutLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.PanelFormInputPlayerOutLocation.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.PanelFormInputPlayerOutLocation.Controls.Add(this.ImagePlayerOutLocation);
@@ -120,7 +121,7 @@
             this.PanelFormInputPlayerOutLocation.MaximumSize = new System.Drawing.Size(700, 25);
             this.PanelFormInputPlayerOutLocation.MinimumSize = new System.Drawing.Size(200, 25);
             this.PanelFormInputPlayerOutLocation.Name = "PanelFormInputPlayerOutLocation";
-            this.PanelFormInputPlayerOutLocation.Size = new System.Drawing.Size(400, 25);
+            this.PanelFormInputPlayerOutLocation.Size = new System.Drawing.Size(700, 25);
             this.PanelFormInputPlayerOutLocation.TabIndex = 6;
             // 
             // ImagePlayerOutLocation
@@ -131,7 +132,7 @@
             this.ImagePlayerOutLocation.Dock = System.Windows.Forms.DockStyle.Right;
             this.ImagePlayerOutLocation.ErrorImage = null;
             this.ImagePlayerOutLocation.InitialImage = null;
-            this.ImagePlayerOutLocation.Location = new System.Drawing.Point(375, 0);
+            this.ImagePlayerOutLocation.Location = new System.Drawing.Point(675, 0);
             this.ImagePlayerOutLocation.Margin = new System.Windows.Forms.Padding(0);
             this.ImagePlayerOutLocation.MaximumSize = new System.Drawing.Size(25, 25);
             this.ImagePlayerOutLocation.MinimumSize = new System.Drawing.Size(25, 25);
@@ -144,20 +145,20 @@
             // 
             // TextPlayerOutLocation
             // 
-            this.TextPlayerOutLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.TextPlayerOutLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TextPlayerOutLocation.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.BindingSource, "OutputSaveLocation", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged, ""));
             this.TextPlayerOutLocation.Location = new System.Drawing.Point(0, 0);
             this.TextPlayerOutLocation.Margin = new System.Windows.Forms.Padding(0, 0, 25, 0);
             this.TextPlayerOutLocation.MaxLength = 500;
             this.TextPlayerOutLocation.Name = "TextPlayerOutLocation";
-            this.TextPlayerOutLocation.Size = new System.Drawing.Size(375, 25);
+            this.TextPlayerOutLocation.Size = new System.Drawing.Size(675, 20);
             this.TextPlayerOutLocation.TabIndex = 9;
             this.TextPlayerOutLocation.Validated += new System.EventHandler(this.PlayerValidate);
             // 
             // PanelFormInputPlayerInLocation
             // 
-            this.PanelFormInputPlayerInLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.PanelFormInputPlayerInLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.PanelFormInputPlayerInLocation.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.PanelFormInputPlayerInLocation.Controls.Add(this.ImagePlayerInLocation);
@@ -167,7 +168,7 @@
             this.PanelFormInputPlayerInLocation.MaximumSize = new System.Drawing.Size(700, 25);
             this.PanelFormInputPlayerInLocation.MinimumSize = new System.Drawing.Size(200, 25);
             this.PanelFormInputPlayerInLocation.Name = "PanelFormInputPlayerInLocation";
-            this.PanelFormInputPlayerInLocation.Size = new System.Drawing.Size(400, 25);
+            this.PanelFormInputPlayerInLocation.Size = new System.Drawing.Size(700, 25);
             this.PanelFormInputPlayerInLocation.TabIndex = 6;
             // 
             // ImagePlayerInLocation
@@ -178,7 +179,7 @@
             this.ImagePlayerInLocation.Dock = System.Windows.Forms.DockStyle.Right;
             this.ImagePlayerInLocation.ErrorImage = null;
             this.ImagePlayerInLocation.InitialImage = null;
-            this.ImagePlayerInLocation.Location = new System.Drawing.Point(375, 0);
+            this.ImagePlayerInLocation.Location = new System.Drawing.Point(675, 0);
             this.ImagePlayerInLocation.Margin = new System.Windows.Forms.Padding(0);
             this.ImagePlayerInLocation.MaximumSize = new System.Drawing.Size(25, 25);
             this.ImagePlayerInLocation.MinimumSize = new System.Drawing.Size(25, 25);
@@ -191,14 +192,14 @@
             // 
             // TextPlayerInLocation
             // 
-            this.TextPlayerInLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.TextPlayerInLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TextPlayerInLocation.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.BindingSource, "InputSaveLocation", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged, ""));
             this.TextPlayerInLocation.Location = new System.Drawing.Point(0, 0);
             this.TextPlayerInLocation.Margin = new System.Windows.Forms.Padding(0, 0, 25, 0);
             this.TextPlayerInLocation.MaxLength = 500;
             this.TextPlayerInLocation.Name = "TextPlayerInLocation";
-            this.TextPlayerInLocation.Size = new System.Drawing.Size(375, 25);
+            this.TextPlayerInLocation.Size = new System.Drawing.Size(675, 20);
             this.TextPlayerInLocation.TabIndex = 7;
             this.TextPlayerInLocation.Validated += new System.EventHandler(this.PlayerValidate);
             // 
@@ -208,22 +209,19 @@
             this.LabelPlayerName.Location = new System.Drawing.Point(10, 25);
             this.LabelPlayerName.Margin = new System.Windows.Forms.Padding(0);
             this.LabelPlayerName.Name = "LabelPlayerName";
-            this.LabelPlayerName.Size = new System.Drawing.Size(85, 17);
+            this.LabelPlayerName.Size = new System.Drawing.Size(70, 13);
             this.LabelPlayerName.TabIndex = 5;
             this.LabelPlayerName.Text = "Player Name:";
             // 
-            // SelectPlayerGame
+            // SelectPlayerVersion
             // 
             this.SelectPlayerVersion.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.BindingSource, "GameVersion", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, "Gold"));
-            this.SelectPlayerVersion.DataSource = new object[] {
-        ((object)("Gold")),
-        ((object)("Silver"))};
             this.SelectPlayerVersion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.SelectPlayerVersion.FormattingEnabled = true;
             this.SelectPlayerVersion.Location = new System.Drawing.Point(10, 100);
             this.SelectPlayerVersion.Margin = new System.Windows.Forms.Padding(0);
-            this.SelectPlayerVersion.Name = "SelectPlayerGame";
-            this.SelectPlayerVersion.Size = new System.Drawing.Size(100, 25);
+            this.SelectPlayerVersion.Name = "SelectPlayerVersion";
+            this.SelectPlayerVersion.Size = new System.Drawing.Size(100, 21);
             this.SelectPlayerVersion.TabIndex = 5;
             // 
             // ButtonPlayerOutLocation
@@ -260,7 +258,7 @@
             this.LabelPlayerOutLocation.Location = new System.Drawing.Point(10, 220);
             this.LabelPlayerOutLocation.Margin = new System.Windows.Forms.Padding(0);
             this.LabelPlayerOutLocation.Name = "LabelPlayerOutLocation";
-            this.LabelPlayerOutLocation.Size = new System.Drawing.Size(127, 17);
+            this.LabelPlayerOutLocation.Size = new System.Drawing.Size(106, 13);
             this.LabelPlayerOutLocation.TabIndex = 11;
             this.LabelPlayerOutLocation.Text = "Output sav Location:";
             // 
@@ -270,7 +268,7 @@
             this.LabelPlayerInLocation.Location = new System.Drawing.Point(10, 145);
             this.LabelPlayerInLocation.Margin = new System.Windows.Forms.Padding(0);
             this.LabelPlayerInLocation.Name = "LabelPlayerInLocation";
-            this.LabelPlayerInLocation.Size = new System.Drawing.Size(121, 17);
+            this.LabelPlayerInLocation.Size = new System.Drawing.Size(102, 13);
             this.LabelPlayerInLocation.TabIndex = 12;
             this.LabelPlayerInLocation.Text = "Game sav Location:";
             // 
@@ -280,25 +278,35 @@
             this.LabelPlayerGame.Location = new System.Drawing.Point(10, 80);
             this.LabelPlayerGame.Margin = new System.Windows.Forms.Padding(0);
             this.LabelPlayerGame.Name = "LabelPlayerGame";
-            this.LabelPlayerGame.Size = new System.Drawing.Size(45, 17);
+            this.LabelPlayerGame.Size = new System.Drawing.Size(38, 13);
             this.LabelPlayerGame.TabIndex = 13;
             this.LabelPlayerGame.Text = "Game:";
             // 
-            // PlayerOptionsControl
+            // GroupBox
             // 
-            this.AutoSize = true;
-            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.Controls.Add(this.PanelFormInputPlayerName);
-            this.Controls.Add(this.PanelFormInputPlayerOutLocation);
-            this.Controls.Add(this.PanelFormInputPlayerInLocation);
-            this.Controls.Add(this.LabelPlayerName);
-            this.Controls.Add(this.SelectPlayerVersion);
-            this.Controls.Add(this.ButtonPlayerOutLocation);
-            this.Controls.Add(this.ButtonPlayerInLocation);
-            this.Controls.Add(this.LabelPlayerOutLocation);
-            this.Controls.Add(this.LabelPlayerInLocation);
-            this.Controls.Add(this.LabelPlayerGame);
-            this.Text = "Player Config";
+            this.GroupBox.Controls.Add(this.PanelFormInputPlayerName);
+            this.GroupBox.Controls.Add(this.PanelFormInputPlayerOutLocation);
+            this.GroupBox.Controls.Add(this.PanelFormInputPlayerInLocation);
+            this.GroupBox.Controls.Add(this.LabelPlayerName);
+            this.GroupBox.Controls.Add(this.SelectPlayerVersion);
+            this.GroupBox.Controls.Add(this.ButtonPlayerOutLocation);
+            this.GroupBox.Controls.Add(this.ButtonPlayerInLocation);
+            this.GroupBox.Controls.Add(this.LabelPlayerOutLocation);
+            this.GroupBox.Controls.Add(this.LabelPlayerInLocation);
+            this.GroupBox.Controls.Add(this.LabelPlayerGame);
+            this.GroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.GroupBox.Location = new System.Drawing.Point(0, 0);
+            this.GroupBox.Name = "GroupBox";
+            this.GroupBox.Size = new System.Drawing.Size(721, 291);
+            this.GroupBox.TabIndex = 0;
+            this.GroupBox.TabStop = false;
+            this.GroupBox.Text = "Player Config";
+            // 
+            // PlayerOptionsGroupBox
+            // 
+            this.Controls.Add(this.GroupBox);
+            this.Name = "PlayerOptionsGroupBox";
+            this.Size = new System.Drawing.Size(721, 291);
             ((System.ComponentModel.ISupportInitialize)(this.BindingSource)).EndInit();
             this.PanelFormInputPlayerName.ResumeLayout(false);
             this.PanelFormInputPlayerName.PerformLayout();
@@ -309,8 +317,10 @@
             this.PanelFormInputPlayerInLocation.ResumeLayout(false);
             this.PanelFormInputPlayerInLocation.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ImagePlayerInLocation)).EndInit();
+            this.GroupBox.ResumeLayout(false);
+            this.GroupBox.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
+
         }
 
         #endregion
@@ -332,5 +342,6 @@
         private System.Windows.Forms.Panel PanelFormInputPlayerOutLocation;
         private System.Windows.Forms.Panel PanelFormInputPlayerInLocation;
         private System.Windows.Forms.OpenFileDialog OpenFileDialog;
+        private System.Windows.Forms.GroupBox GroupBox;
     }
 }

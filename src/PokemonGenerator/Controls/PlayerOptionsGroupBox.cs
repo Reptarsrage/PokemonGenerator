@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace PokemonGenerator.Forms
 {
-    public partial class PlayerOptionsGroupBox : GroupBox
+    public partial class PlayerOptionsGroupBox : UserControl
     {
         private IOptions<PersistentConfig> _options;
         private IPokeGeneratorOptionsValidator _optionsValidator;
@@ -22,6 +22,8 @@ namespace PokemonGenerator.Forms
 
             // Init
             InitializeComponent();
+            GroupBox.Text = Text;
+            SelectPlayerVersion.DataSource = new[] { "Gold", "Silver" };
         }
 
         public bool Validate()
