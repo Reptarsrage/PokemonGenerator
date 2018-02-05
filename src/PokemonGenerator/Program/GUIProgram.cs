@@ -37,7 +37,7 @@ namespace PokemonGenerator
                 OptionsWindowController options = injector.Get<OptionsWindowController>();
                 options.AddOption(injector.Get<PokemonSelectionWindow>());
                 options.AddOption(injector.Get<RandomOptionsWindow>());
-                options.AddOption(injector.Get<PokemonLiklinessWindow>());
+                options.AddOption(injector.Get<PokemonLikelinessWindow>());
 
                 // Run
                 Application.Run(new MainForm(injector));

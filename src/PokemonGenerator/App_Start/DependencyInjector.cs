@@ -66,7 +66,7 @@ namespace PokemonGenerator
             builder.RegisterType<PokemonSelectionWindow>().InstancePerLifetimeScope();
             builder.RegisterType<RandomOptionsWindow>().InstancePerLifetimeScope();
             builder.RegisterType<OptionsWindowController>().InstancePerLifetimeScope();
-            builder.RegisterType<PokemonLiklinessWindow>().InstancePerLifetimeScope();
+            builder.RegisterType<PokemonLikelinessWindow>().InstancePerLifetimeScope();
 
             // IO
             builder.RegisterType<BinaryReader2>().As<IBinaryReader2>();

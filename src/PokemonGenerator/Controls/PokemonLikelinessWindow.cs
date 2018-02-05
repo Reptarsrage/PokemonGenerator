@@ -5,9 +5,9 @@ using PokemonGenerator.Models;
 
 namespace PokemonGenerator.Forms
 {
-    public partial class PokemonLiklinessWindow : OptionsWindowBase
+    public partial class PokemonLikelinessWindow : OptionsWindowBase
     {
-        public PokemonLiklinessWindow(
+        public PokemonLikelinessWindow(
             IOptions<PersistentConfig> options,
             IPersistentConfigManager persistentConfigManager) : base(options, persistentConfigManager)
         {

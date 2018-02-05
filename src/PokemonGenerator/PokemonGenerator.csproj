@@ -38,7 +38,7 @@
     <Compile Update="Controls\MainForm.cs" SubType="Form" />
     <Compile Update="Controls\PlayerOptionsGroupBox.cs" SubType="Form" />
     <Compile Update="Controls\MainWindow.cs" SubType="Form" />
-    <Compile Update="Controls\PokemonLiklinessWindow.cs" SubType="Form" />
+    <Compile Update="Controls\PokemonLikelinessWindow.cs" SubType="Form" />
     <Compile Update="Controls\RandomOptionsWindow.cs" SubType="Form" />
     <Compile Update="Controls\PokemonSelectionWindow.cs" SubType="Form" />
     <Compile Update="Controls\OptionsWindowController.cs" SubType="Form" />
@@ -47,7 +47,7 @@
   <ItemGroup>
     <Compile Update="Controls\PlayerOptionsGroupBox.Designer.cs" DependentUpon="PlayerOptionsGroupBox.cs" />
     <Compile Update="Controls\MainForm.Designer.cs" DependentUpon="MainForm.cs" />
-    <Compile Update="Controls\PokemonLiklinessWindow.Designer.cs" DependentUpon="PokemonLiklinessWindow.cs" />
+    <Compile Update="Controls\PokemonLikelinessWindow.Designer.cs" DependentUpon="PokemonLikelinessWindow.cs" />
     <Compile Update="Controls\MainWindow.Designer.cs" DependentUpon="MainWindow.cs" />
     <Compile Update="Controls\PokemonSelectionWindow.Designer.cs" DependentUpon="PokemonSelectionWindow.cs" />
     <Compile Update="Controls\RandomOptionsWindow.Designer.cs" DependentUpon="RandomOptionsWindow.cs" />
@@ -70,7 +70,7 @@
     <EmbeddedResource Update="Controls\RandomOptionsWindow.resx" DependentUpon="RandomOptionsWindow.cs" />
     <EmbeddedResource Update="Controls\OptionsWindowController.resx" DependentUpon="OptionsWindowController.cs" />
     <EmbeddedResource Update="Controls\PlayerOptionsGroupBox.resx" DependentUpon="PlayerOptionsGroupBox.cs" />
-    <EmbeddedResource Update="Controls\PokemonLiklinessWindow.resx" DependentUpon="PokemonLiklinessWindow.cs" />
+    <EmbeddedResource Update="Controls\PokemonLikelinessWindow.resx" DependentUpon="PokemonLikelinessWindow.cs" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

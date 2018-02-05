@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace PokemonGenerator.Forms
 {
-    partial class PokemonLiklinessWindow
+    partial class PokemonLikelinessWindow
     {
         /// <summary> 
         /// Required designer variable.
@@ -195,7 +195,7 @@ namespace PokemonGenerator.Forms
             this.TableLayoutPanelOutter.Size = new System.Drawing.Size(944, 441);
             this.TableLayoutPanelOutter.TabIndex = 1;
             // 
-            // PokemonLiklinessWindow
+            // PokemonLikelinessWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -204,7 +204,7 @@ namespace PokemonGenerator.Forms
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MinimumSize = new System.Drawing.Size(400, 400);
-            this.Name = "PokemonLiklinessWindow";
+            this.Name = "PokemonLikelinessWindow";
             this.Size = new System.Drawing.Size(944, 441);
             this.LayoutPanelMain.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.OptionsWindowBindingSource)).EndInit();
