@@ -24,18 +24,18 @@ namespace PokemonGenerator.Validators
         {
             var good = true;
 
-            good &= ValidateFileOption(options.InputSaveOne, ".sav");
-            good &= ValidateFileOption(options.InputSaveTwo, ".sav");
-            good &= ValidateFilePathOption(options.OutputSaveOne, ".sav");
-            good &= ValidateFilePathOption(options.OutputSaveTwo, ".sav");
+            good &= ValidateFileOption(options.PlayerOne.InputSaveLocation, ".sav");
+            good &= ValidateFileOption(options.PlayerTwo.InputSaveLocation, ".sav");
+            good &= ValidateFilePathOption(options.PlayerOne.OutputSaveLocation, ".sav");
+            good &= ValidateFilePathOption(options.PlayerTwo.OutputSaveLocation, ".sav");
             good &= ValidateLevel(options.Level);
-            good &= ValidateGame(options.GameOne);
-            good &= ValidateGame(options.GameTwo);
-            good &= ValidateName(options.NameOne);
-            good &= ValidateName(options.NameTwo);
+            good &= ValidateGame(options.PlayerOne.GameVersion);
+            good &= ValidateGame(options.PlayerTwo.GameVersion);
+            good &= ValidateName(options.PlayerOne.Name);
+            good &= ValidateName(options.PlayerTwo.Name);
 
             // Check two outs are unique
-            return good && ValidateUniquePath(options.OutputSaveOne, options.OutputSaveTwo);
+            return good && ValidateUniquePath(options.PlayerOne.OutputSaveLocation, options.PlayerTwo.OutputSaveLocation);
         }
 
         public bool ValidateUniquePath(string path1, string path2)

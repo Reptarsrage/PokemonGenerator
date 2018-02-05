@@ -59,7 +59,7 @@
             // 
             // MainWindowBindingSource
             // 
-            this.BindingSource.DataSource = typeof(PokemonGenerator.Models.PokeGeneratorOptions);
+            this.BindingSource.DataSource = typeof(PokemonGenerator.Models.PokeGeneratorPlayerOptions);
             // 
             // PanelFormInputPlayerName
             // 
@@ -99,7 +99,7 @@
             // 
             this.TextPlayerName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.TextPlayerName.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.BindingSource, "NameOne", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged, ""));
+            this.TextPlayerName.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.BindingSource, "Name", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged, ""));
             this.TextPlayerName.Location = new System.Drawing.Point(0, 0);
             this.TextPlayerName.Margin = new System.Windows.Forms.Padding(0, 0, 25, 0);
             this.TextPlayerName.MaxLength = 8;
@@ -146,7 +146,7 @@
             // 
             this.TextPlayerOutLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.TextPlayerOutLocation.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.BindingSource, "OutputSaveOne", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged, ""));
+            this.TextPlayerOutLocation.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.BindingSource, "OutputSaveLocation", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged, ""));
             this.TextPlayerOutLocation.Location = new System.Drawing.Point(0, 0);
             this.TextPlayerOutLocation.Margin = new System.Windows.Forms.Padding(0, 0, 25, 0);
             this.TextPlayerOutLocation.MaxLength = 500;
@@ -193,7 +193,7 @@
             // 
             this.TextPlayerInLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.TextPlayerInLocation.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.BindingSource, "InputSaveOne", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged, ""));
+            this.TextPlayerInLocation.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.BindingSource, "InputSaveLocation", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged, ""));
             this.TextPlayerInLocation.Location = new System.Drawing.Point(0, 0);
             this.TextPlayerInLocation.Margin = new System.Windows.Forms.Padding(0, 0, 25, 0);
             this.TextPlayerInLocation.MaxLength = 500;
@@ -214,7 +214,7 @@
             // 
             // SelectPlayerGame
             // 
-            this.SelectPlayerVersion.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.BindingSource, "GameOne", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, "Gold"));
+            this.SelectPlayerVersion.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.BindingSource, "GameVersion", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, "Gold"));
             this.SelectPlayerVersion.DataSource = new object[] {
         ((object)("Gold")),
         ((object)("Silver"))};

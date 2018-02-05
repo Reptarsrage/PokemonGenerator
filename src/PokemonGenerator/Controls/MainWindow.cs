@@ -68,8 +68,14 @@ namespace PokemonGenerator.Forms
             InitializeComponent();
             GroupBoxPlayerOneOptions.Initialize(options, _optionsValidator);
             GroupBoxPlayerTwoOptions.Initialize(options, _optionsValidator);
-            RegisterHotKey(Handle, 0, (int)KeyModifier.Control, Keys.F12.GetHashCode());
+
+            // Data Bind
             MainWindowBindingSource.DataSource = _options.Value.Options;
+            GroupBoxPlayerOneOptions.DataSource = _options.Value.Options.PlayerOne;
+            GroupBoxPlayerTwoOptions.DataSource = _options.Value.Options.PlayerTwo;
+
+            // Register keys
+            RegisterHotKey(Handle, 0, (int)KeyModifier.Control, Keys.F12.GetHashCode());
         }
 
         /// <summary>
@@ -144,25 +150,25 @@ namespace PokemonGenerator.Forms
                     var tup = _nRageIniEditor.GetRomAndSavFileLocation(1);
                     var tup2 = _nRageIniEditor.GetRomAndSavFileLocation(2);
 
-                    if (string.IsNullOrWhiteSpace(_options.Value.Options.InputSaveOne))
+                    if (string.IsNullOrWhiteSpace(_options.Value.Options.PlayerOne.InputSaveLocation))
                     {
                         GroupBoxPlayerOneOptions.InLocation = tup.Item2;
                     }
 
-                    if (string.IsNullOrWhiteSpace(_options.Value.Options.OutputSaveOne))
+                    if (string.IsNullOrWhiteSpace(_options.Value.Options.PlayerOne.OutputSaveLocation))
                     {
                         GroupBoxPlayerOneOptions.OutLocation = string.IsNullOrWhiteSpace(tup.Item2) ?
                             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), @"Player1.sav") :
                             tup.Item2;
                     }
 
-                    if (string.IsNullOrWhiteSpace(_options.Value.Options.InputSaveTwo))
+                    if (string.IsNullOrWhiteSpace(_options.Value.Options.PlayerTwo.InputSaveLocation))
                     {
 
                         GroupBoxPlayerTwoOptions.InLocation = tup2.Item2;
                     }
 
-                    if (string.IsNullOrWhiteSpace(_options.Value.Options.OutputSaveTwo))
+                    if (string.IsNullOrWhiteSpace(_options.Value.Options.PlayerTwo.OutputSaveLocation))
                     {
                         GroupBoxPlayerTwoOptions.OutLocation = string.IsNullOrWhiteSpace(tup2.Item2) ?
                             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), @"Player2.sav") :
@@ -174,8 +180,8 @@ namespace PokemonGenerator.Forms
                     _p64ConfigEditor.FileName = cfg;
                 }
 
-                GroupBoxPlayerOneOptions.PlayerName  =_options.Value.Options.NameOne;
-                GroupBoxPlayerTwoOptions.PlayerName = _options.Value.Options.NameTwo;
+                GroupBoxPlayerOneOptions.PlayerName = _options.Value.Options.PlayerOne.Name;
+                GroupBoxPlayerTwoOptions.PlayerName = _options.Value.Options.PlayerTwo.Name;
                 return ValidatePlayerSection();
             }
             else
@@ -326,9 +332,9 @@ namespace PokemonGenerator.Forms
             worker.ReportProgress(80, "STARTING PROJECT64...");
 
             // Update ini file with new sav locations
-            if (!string.IsNullOrWhiteSpace(args.Options.OutputSaveOne) && !string.IsNullOrWhiteSpace(args.Options.OutputSaveTwo))
+            if (!string.IsNullOrWhiteSpace(args.Options.PlayerOne.OutputSaveLocation) && !string.IsNullOrWhiteSpace(args.Options.PlayerTwo.OutputSaveLocation))
             {
-                _nRageIniEditor.ChangeSavLocations(args.Options.OutputSaveOne, args.Options.OutputSaveTwo);
+                _nRageIniEditor.ChangeSavLocations(args.Options.PlayerOne.OutputSaveLocation, args.Options.PlayerTwo.OutputSaveLocation);
             }
 
             // Get Recent N64 Rom

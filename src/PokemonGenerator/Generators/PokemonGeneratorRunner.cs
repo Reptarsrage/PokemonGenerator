@@ -35,15 +35,15 @@ namespace PokemonGenerator.Generators
 
             var options = configOptions.Options;
 
-            var sav = ReadSavProperties(options.InputSaveOne);
+            var sav = ReadSavProperties(options.PlayerOne.InputSaveLocation);
 
             // Generate Player One and Team
-            sav.PlayerName = options.NameOne;
-            CopyAndGen(options.OutputSaveOne, options.InputSaveOne, sav, options.Level);
+            sav.PlayerName = options.PlayerOne.Name;
+            CopyAndGen(options.PlayerOne.OutputSaveLocation, options.PlayerOne.InputSaveLocation, sav, options.Level);
 
             // Generate Player Two and Team
-            sav.PlayerName = options.NameTwo;
-            CopyAndGen(options.OutputSaveTwo, options.InputSaveTwo, sav, options.Level);
+            sav.PlayerName = options.PlayerTwo.Name;
+            CopyAndGen(options.PlayerTwo.OutputSaveLocation, options.PlayerTwo.InputSaveLocation, sav, options.Level);
         }
 
         /// <summary>

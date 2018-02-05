@@ -69,13 +69,20 @@ namespace PokemonGenerator.Tests.IO_Tests
             _manager.Save();
             var saved = JsonConvert.DeserializeObject<PersistentConfig>(File.ReadAllText(_outFile));
 
-            foreach (var propertyInfo in typeof(PokeGeneratorOptions).GetProperties(BindingFlags.Public | BindingFlags.Instance))
-            {
-                if (propertyInfo.CanWrite)
-                {
-                    Assert.Equal(propertyInfo.GetValue(_testConfig.Value.Options), (propertyInfo.GetValue(saved.Options)));
-                }
-            }
+            // Base Object
+            Assert.Equal(_testConfig.Value.Options.Level, saved.Options.Level);
+            Assert.Equal(_testConfig.Value.Options.Project64Location, saved.Options.Project64Location);
+
+            // Players
+            Assert.Equal(_testConfig.Value.Options.PlayerOne.GameVersion, saved.Options.PlayerOne.GameVersion);
+            Assert.Equal(_testConfig.Value.Options.PlayerOne.Name, saved.Options.PlayerOne.Name);
+            Assert.Equal(_testConfig.Value.Options.PlayerOne.InputSaveLocation, saved.Options.PlayerOne.InputSaveLocation);
+            Assert.Equal(_testConfig.Value.Options.PlayerOne.OutputSaveLocation, saved.Options.PlayerOne.OutputSaveLocation);
+
+            Assert.Equal(_testConfig.Value.Options.PlayerTwo.GameVersion, saved.Options.PlayerTwo.GameVersion);
+            Assert.Equal(_testConfig.Value.Options.PlayerTwo.Name, saved.Options.PlayerTwo.Name);
+            Assert.Equal(_testConfig.Value.Options.PlayerTwo.InputSaveLocation, saved.Options.PlayerTwo.InputSaveLocation);
+            Assert.Equal(_testConfig.Value.Options.PlayerTwo.OutputSaveLocation, saved.Options.PlayerTwo.OutputSaveLocation);
         }
     }
 }

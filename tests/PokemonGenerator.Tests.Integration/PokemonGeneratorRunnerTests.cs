@@ -26,14 +26,20 @@ namespace PokemonGenerator.Tests
             {
                 Options = new PokeGeneratorOptions
                 {
-                    GameOne = PokemonGame.Gold.ToString(),
-                    GameTwo = PokemonGame.Gold.ToString(),
-                    InputSaveOne = Path.Combine(_contentDir, "gold.sav"),
-                    InputSaveTwo = Path.Combine(_contentDir, "gold.sav"),
-                    OutputSaveOne = Path.Combine(_outputDir, "out1.sav"),
-                    OutputSaveTwo = Path.Combine(_outputDir, "out2.sav"),
-                    NameOne = "Test1",
-                    NameTwo = "Test2",
+                    PlayerOne = new PokeGeneratorPlayerOptions
+                    {
+                        GameVersion = PokemonGame.Gold.ToString(),
+                        InputSaveLocation = Path.Combine(_contentDir, "gold.sav"),
+                        OutputSaveLocation = Path.Combine(_outputDir, "out1.sav"),
+                        Name = "Test1"
+                    },
+                    PlayerTwo = new PokeGeneratorPlayerOptions
+                    {
+                        GameVersion = PokemonGame.Gold.ToString(),
+                        InputSaveLocation = Path.Combine(_contentDir, "gold.sav"),
+                        OutputSaveLocation = Path.Combine(_outputDir, "out2.sav"),
+                        Name = "Test2"
+                    },
                     Level = 100
                 }
             };
@@ -59,8 +65,8 @@ namespace PokemonGenerator.Tests
         {
             _runner.Run(_opts);
 
-            Assert.True(File.Exists(Path.Combine(_outputDir, _opts.Options.OutputSaveOne)));
-            Assert.True(File.Exists(Path.Combine(_outputDir, _opts.Options.OutputSaveTwo)));
+            Assert.True(File.Exists(Path.Combine(_outputDir, _opts.Options.PlayerOne.OutputSaveLocation)));
+            Assert.True(File.Exists(Path.Combine(_outputDir, _opts.Options.PlayerTwo.OutputSaveLocation)));
         }
 
         [Fact]
@@ -71,8 +77,8 @@ namespace PokemonGenerator.Tests
             SAVFileModel model1 = null, model2 = null;
             try
             {
-                model1 = _deserializer.ParseSAVFileModel(Path.Combine(_outputDir, _opts.Options.OutputSaveOne));
-                model2 = _deserializer.ParseSAVFileModel(Path.Combine(_outputDir, _opts.Options.OutputSaveTwo));
+                model1 = _deserializer.ParseSAVFileModel(Path.Combine(_outputDir, _opts.Options.PlayerOne.OutputSaveLocation));
+                model2 = _deserializer.ParseSAVFileModel(Path.Combine(_outputDir, _opts.Options.PlayerTwo.OutputSaveLocation));
             }
             catch (Exception e)
             {
@@ -104,8 +110,8 @@ namespace PokemonGenerator.Tests
         {
             Assert.Throws<ArgumentException>(() =>
             {
-                _opts.Options.InputSaveOne = path;
-                _opts.Options.InputSaveTwo = path;
+                _opts.Options.PlayerOne.InputSaveLocation = path;
+                _opts.Options.PlayerTwo.InputSaveLocation = path;
                 _runner.Run(_opts);
             });
         }
@@ -119,8 +125,8 @@ namespace PokemonGenerator.Tests
         {
             Assert.Throws<ArgumentException>(() =>
             {
-                _opts.Options.OutputSaveOne = path;
-                _opts.Options.OutputSaveTwo = path;
+                _opts.Options.PlayerOne.OutputSaveLocation = path;
+                _opts.Options.PlayerTwo.OutputSaveLocation = path;
                 _runner.Run(_opts);
             });
         }

@@ -22,7 +22,6 @@ namespace PokemonGenerator.Forms
 
             // Init
             InitializeComponent();
-            BindingSource.DataSource = _options.Value.Options;
         }
 
         public bool Validate()
@@ -63,6 +62,18 @@ namespace PokemonGenerator.Forms
             set
             {
                 UpdateText(TextPlayerOutLocation, value);
+            }
+        }
+
+        public PokeGeneratorPlayerOptions DataSource
+        {
+            get
+            {
+                return DataSource;
+            }
+            set
+            {
+                BindingSource.DataSource = value;
             }
         }
 
