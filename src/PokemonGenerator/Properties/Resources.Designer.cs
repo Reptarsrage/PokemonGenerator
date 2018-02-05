@@ -131,6 +131,16 @@ namespace PokemonGenerator.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Question_16x {
+            get {
+                object obj = ResourceManager.GetObject("Question_16x", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap Settings_16x {
