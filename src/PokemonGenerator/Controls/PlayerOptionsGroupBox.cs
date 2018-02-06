@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
+using PokemonGenerator.Controls;
 using PokemonGenerator.Models;
 using PokemonGenerator.Validators;
 using System;
@@ -6,7 +7,7 @@ using System.Windows.Forms;
 
 namespace PokemonGenerator.Forms
 {
-    public partial class PlayerOptionsGroupBox : UserControl
+    public partial class PlayerOptionsGroupBox : WindowBase
     {
         private IOptions<PersistentConfig> _options;
         private IPokeGeneratorOptionsValidator _optionsValidator;
@@ -170,6 +171,16 @@ namespace PokemonGenerator.Forms
         private void PlayerValidate(object sender, EventArgs e)
         {
             ValidatePlayerSection();
+        }
+
+        private void TeamClick(object sender, MouseEventArgs e)
+        {
+            OnWindowOpenedEvent(this, new WindowEventArgs(typeof(TeamSelectionWindow)));
+        }
+
+        private void TeamClick(object sender, EventArgs e)
+        {
+            OnWindowOpenedEvent(this, new WindowEventArgs(typeof(TeamSelectionWindow)));
         }
     }
 }

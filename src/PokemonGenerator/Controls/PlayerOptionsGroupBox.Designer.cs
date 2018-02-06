@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PlayerOptionsGroupBox));
             this.BindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.PanelFormInputPlayerName = new System.Windows.Forms.Panel();
             this.ImagePlayerName = new System.Windows.Forms.PictureBox();
@@ -336,78 +337,103 @@
             this.PanelTeam.Name = "PanelTeam";
             this.PanelTeam.Size = new System.Drawing.Size(300, 50);
             this.PanelTeam.TabIndex = 14;
+            this.PanelTeam.MouseClick += new System.Windows.Forms.MouseEventHandler(this.TeamClick);
             // 
             // PictureTeamSixth
             // 
             this.PictureTeamSixth.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PictureTeamSixth.Cursor = System.Windows.Forms.Cursors.Hand;
             this.PictureTeamSixth.Dock = System.Windows.Forms.DockStyle.Left;
-            this.PictureTeamSixth.SvgImage = global::PokemonGenerator.Properties.Resources.Question_16x;
+            this.PictureTeamSixth.Image = ((System.Drawing.Image)(resources.GetObject("PictureTeamSixth.Image")));
             this.PictureTeamSixth.Location = new System.Drawing.Point(250, 0);
             this.PictureTeamSixth.Margin = new System.Windows.Forms.Padding(0);
             this.PictureTeamSixth.Name = "PictureTeamSixth";
             this.PictureTeamSixth.Size = new System.Drawing.Size(50, 50);
+            this.PictureTeamSixth.SvgImage = global::PokemonGenerator.Properties.Resources.Question_16x;
             this.PictureTeamSixth.TabIndex = 5;
             this.PictureTeamSixth.TabStop = false;
+            this.PictureTeamSixth.Click += new System.EventHandler(this.TeamClick);
+            this.PictureTeamSixth.MouseClick += new System.Windows.Forms.MouseEventHandler(this.TeamClick);
             // 
             // PictureTeamFifth
             // 
             this.PictureTeamFifth.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PictureTeamFifth.Cursor = System.Windows.Forms.Cursors.Hand;
             this.PictureTeamFifth.Dock = System.Windows.Forms.DockStyle.Left;
-            this.PictureTeamFifth.SvgImage = global::PokemonGenerator.Properties.Resources.Question_16x;
+            this.PictureTeamFifth.Image = ((System.Drawing.Image)(resources.GetObject("PictureTeamFifth.Image")));
             this.PictureTeamFifth.Location = new System.Drawing.Point(200, 0);
             this.PictureTeamFifth.Margin = new System.Windows.Forms.Padding(0);
             this.PictureTeamFifth.Name = "PictureTeamFifth";
             this.PictureTeamFifth.Size = new System.Drawing.Size(50, 50);
+            this.PictureTeamFifth.SvgImage = global::PokemonGenerator.Properties.Resources.Question_16x;
             this.PictureTeamFifth.TabIndex = 4;
             this.PictureTeamFifth.TabStop = false;
+            this.PictureTeamFifth.Click += new System.EventHandler(this.TeamClick);
+            this.PictureTeamFifth.MouseClick += new System.Windows.Forms.MouseEventHandler(this.TeamClick);
             // 
             // PictureTeamFourth
             // 
             this.PictureTeamFourth.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PictureTeamFourth.Cursor = System.Windows.Forms.Cursors.Hand;
             this.PictureTeamFourth.Dock = System.Windows.Forms.DockStyle.Left;
-            this.PictureTeamFourth.SvgImage = global::PokemonGenerator.Properties.Resources.Question_16x;
+            this.PictureTeamFourth.Image = ((System.Drawing.Image)(resources.GetObject("PictureTeamFourth.Image")));
             this.PictureTeamFourth.Location = new System.Drawing.Point(150, 0);
             this.PictureTeamFourth.Margin = new System.Windows.Forms.Padding(0);
             this.PictureTeamFourth.Name = "PictureTeamFourth";
             this.PictureTeamFourth.Size = new System.Drawing.Size(50, 50);
+            this.PictureTeamFourth.SvgImage = global::PokemonGenerator.Properties.Resources.Question_16x;
             this.PictureTeamFourth.TabIndex = 3;
             this.PictureTeamFourth.TabStop = false;
+            this.PictureTeamFourth.Click += new System.EventHandler(this.TeamClick);
+            this.PictureTeamFourth.MouseClick += new System.Windows.Forms.MouseEventHandler(this.TeamClick);
             // 
             // PictureTeamThird
             // 
             this.PictureTeamThird.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PictureTeamThird.Cursor = System.Windows.Forms.Cursors.Hand;
             this.PictureTeamThird.Dock = System.Windows.Forms.DockStyle.Left;
-            this.PictureTeamThird.SvgImage = global::PokemonGenerator.Properties.Resources.Question_16x;
+            this.PictureTeamThird.Image = ((System.Drawing.Image)(resources.GetObject("PictureTeamThird.Image")));
             this.PictureTeamThird.Location = new System.Drawing.Point(100, 0);
             this.PictureTeamThird.Margin = new System.Windows.Forms.Padding(0);
             this.PictureTeamThird.Name = "PictureTeamThird";
             this.PictureTeamThird.Size = new System.Drawing.Size(50, 50);
+            this.PictureTeamThird.SvgImage = global::PokemonGenerator.Properties.Resources.Question_16x;
             this.PictureTeamThird.TabIndex = 2;
             this.PictureTeamThird.TabStop = false;
+            this.PictureTeamThird.Click += new System.EventHandler(this.TeamClick);
+            this.PictureTeamThird.MouseClick += new System.Windows.Forms.MouseEventHandler(this.TeamClick);
             // 
             // PictureTeamSecond
             // 
             this.PictureTeamSecond.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PictureTeamSecond.Cursor = System.Windows.Forms.Cursors.Hand;
             this.PictureTeamSecond.Dock = System.Windows.Forms.DockStyle.Left;
-            this.PictureTeamSecond.SvgImage = global::PokemonGenerator.Properties.Resources.Question_16x;
+            this.PictureTeamSecond.Image = ((System.Drawing.Image)(resources.GetObject("PictureTeamSecond.Image")));
             this.PictureTeamSecond.Location = new System.Drawing.Point(50, 0);
             this.PictureTeamSecond.Margin = new System.Windows.Forms.Padding(0);
             this.PictureTeamSecond.Name = "PictureTeamSecond";
             this.PictureTeamSecond.Size = new System.Drawing.Size(50, 50);
+            this.PictureTeamSecond.SvgImage = global::PokemonGenerator.Properties.Resources.Question_16x;
             this.PictureTeamSecond.TabIndex = 1;
             this.PictureTeamSecond.TabStop = false;
+            this.PictureTeamSecond.Click += new System.EventHandler(this.TeamClick);
+            this.PictureTeamSecond.MouseClick += new System.Windows.Forms.MouseEventHandler(this.TeamClick);
             // 
             // PictureTeamFirst
             // 
             this.PictureTeamFirst.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PictureTeamFirst.Cursor = System.Windows.Forms.Cursors.Hand;
             this.PictureTeamFirst.Dock = System.Windows.Forms.DockStyle.Left;
-            this.PictureTeamFirst.SvgImage = global::PokemonGenerator.Properties.Resources.Question_16x;
+            this.PictureTeamFirst.Image = ((System.Drawing.Image)(resources.GetObject("PictureTeamFirst.Image")));
             this.PictureTeamFirst.Location = new System.Drawing.Point(0, 0);
             this.PictureTeamFirst.Margin = new System.Windows.Forms.Padding(0);
             this.PictureTeamFirst.Name = "PictureTeamFirst";
             this.PictureTeamFirst.Size = new System.Drawing.Size(50, 50);
+            this.PictureTeamFirst.SvgImage = global::PokemonGenerator.Properties.Resources.Question_16x;
             this.PictureTeamFirst.TabIndex = 0;
             this.PictureTeamFirst.TabStop = false;
+            this.PictureTeamFirst.Click += new System.EventHandler(this.TeamClick);
+            this.PictureTeamFirst.MouseClick += new System.Windows.Forms.MouseEventHandler(this.TeamClick);
             // 
             // PlayerOptionsGroupBox
             // 

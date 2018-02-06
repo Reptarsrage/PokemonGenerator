@@ -60,7 +60,7 @@ namespace PokemonGenerator.Controls
             // Deal with errors
             if (errorMsgs.Length > 0)
             {
-                var response = MessageBox.Show(errorMsgs.ToString(), "Unable to save", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+                var response = MessageBox.Show($"{errorMsgs.ToString()}\nWould you like to close without saving?", "Unable to save", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
                 if (response == DialogResult.Cancel)
                 {
                     return;

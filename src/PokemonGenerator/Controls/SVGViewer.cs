@@ -17,6 +17,12 @@ namespace PokemonGenerator.Controls
         {
             InitializeComponent();
             SetStyle(ControlStyles.DoubleBuffer | ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint, true);
+            PictureBoxMain.Click += PictureBoxMainClick;
+        }
+
+        private void PictureBoxMainClick(object sender, System.EventArgs e)
+        {
+            OnClick(e);
         }
 
         protected override void OnPaint(PaintEventArgs e)

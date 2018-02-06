@@ -62,6 +62,7 @@ namespace PokemonGenerator.Controls
         private void CloseWindow (WindowBase window)
         {
             // Close control
+            window.SendToBack();
             window.Hide();
             Controls.Clear();
 
@@ -79,6 +80,7 @@ namespace PokemonGenerator.Controls
 
             // Init control
             window.Shown();
+            window.BringToFront();
             window.WindowOpenedEvent += OpenWindow;
             window.WindowClosedEvent += CloseWindow;
 

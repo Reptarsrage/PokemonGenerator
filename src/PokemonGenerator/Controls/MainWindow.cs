@@ -74,6 +74,13 @@ namespace PokemonGenerator.Forms
             GroupBoxPlayerOneOptions.DataSource = _options.Value.Options.PlayerOne;
             GroupBoxPlayerTwoOptions.DataSource = _options.Value.Options.PlayerTwo;
 
+            // Listen to children opening windows
+            GroupBoxPlayerOneOptions.WindowOpenedEvent += ChildWindowOpenedEvent;
+            GroupBoxPlayerTwoOptions.WindowOpenedEvent += ChildWindowOpenedEvent;
+
+            GroupBoxPlayerOneOptions.WindowClosedEvent += ChildWindowClosedEvent;
+            GroupBoxPlayerTwoOptions.WindowClosedEvent += ChildWindowClosedEvent;
+
             // Register keys
             RegisterHotKey(Handle, 0, (int)KeyModifier.Control, Keys.F12.GetHashCode());
         }
@@ -119,6 +126,16 @@ namespace PokemonGenerator.Forms
         {
             // Save configuration
             _configManager.Save();
+        }
+
+        private void ChildWindowOpenedEvent(object sender, WindowEventArgs args)
+        {
+            OnWindowOpenedEvent(sender, args);
+        }
+
+        private void ChildWindowClosedEvent(object sender, WindowEventArgs args)
+        {
+            OnWindowClosedEvent(sender, args);
         }
 
         private void UpdateText(TextBox textBox, string val)

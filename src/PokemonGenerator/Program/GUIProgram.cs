@@ -34,6 +34,7 @@ namespace PokemonGenerator
                 Application.SetCompatibleTextRenderingDefault(false);
 
                 // Pre-Load some Options Windows
+                injector.Get<TeamSelectionWindow>();
                 OptionsWindowController options = injector.Get<OptionsWindowController>();
                 options.AddOption(injector.Get<PokemonSelectionWindow>());
                 options.AddOption(injector.Get<RandomOptionsWindow>());
