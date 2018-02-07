@@ -9,7 +9,7 @@ namespace PokemonGenerator.Validators
 {
     public interface IPokeGeneratorOptionsValidator
     {
-        bool Validate(PokeGeneratorOptions options);
+        bool Validate(Options options);
         bool ValidateFileOption(string path, string expectedExtension);
         bool ValidateFilePathOption(string path, string expectedExtension);
         bool ValidateGame(string game);
@@ -20,7 +20,7 @@ namespace PokemonGenerator.Validators
 
     public class PokeGeneratorOptionsValidator : IPokeGeneratorOptionsValidator
     {
-        public bool Validate(PokeGeneratorOptions options)
+        public bool Validate(Options options)
         {
             var good = true;
 

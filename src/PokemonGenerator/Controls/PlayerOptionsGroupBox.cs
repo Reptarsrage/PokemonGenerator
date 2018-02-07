@@ -68,7 +68,7 @@ namespace PokemonGenerator.Forms
             }
         }
 
-        public PokeGeneratorPlayerOptions DataSource
+        public PlayerOptions DataSource
         {
             get
             {

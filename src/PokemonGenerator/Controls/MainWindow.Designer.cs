@@ -87,7 +87,7 @@
             // 
             // MainWindowBindingSource
             // 
-            this.MainWindowBindingSource.DataSource = typeof(PokemonGenerator.Models.PokeGeneratorOptions);
+            this.MainWindowBindingSource.DataSource = typeof(PokemonGenerator.Models.Options);
             // 
             // PanelProgress
             // 

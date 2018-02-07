@@ -70,7 +70,7 @@
             // 
             // BindingSource
             // 
-            this.BindingSource.DataSource = typeof(PokemonGenerator.Models.PokeGeneratorPlayerOptions);
+            this.BindingSource.DataSource = typeof(PokemonGenerator.Models.PlayerOptions);
             // 
             // PanelFormInputPlayerName
             // 

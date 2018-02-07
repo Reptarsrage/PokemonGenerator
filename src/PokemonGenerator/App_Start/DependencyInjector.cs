@@ -38,7 +38,7 @@ namespace PokemonGenerator
                 .Build();
 
             var options = new PersistentConfig();
-            var iOptions = Options.Create(options);
+            var iOptions = Microsoft.Extensions.Options.Options.Create(options);
             Configuration.GetSection("Options").Bind(iOptions.Value.Options);
             Configuration.GetSection("Configuration").Bind(iOptions.Value.Configuration);
             builder.Register<IOptions<PersistentConfig>>(context => iOptions).InstancePerLifetimeScope();
@@ -99,7 +99,7 @@ namespace PokemonGenerator
             // Other
             builder.RegisterType<Random>().InstancePerLifetimeScope();
             builder.Register<PokemonGeneratorConfig>(context => Get<IOptions<PersistentConfig>>().Value.Configuration);
-            builder.Register<PokeGeneratorOptions>(context => Get<IOptions<PersistentConfig>>().Value.Options);
+            builder.Register(context => this.Get<IOptions<PersistentConfig>>().Value.Options);
         }
 
         public void Dispose()

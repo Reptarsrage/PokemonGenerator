@@ -9,19 +9,19 @@
         public PokeGeneratorOptions()
         {
             Level = 50;
-            PlayerOne = new PokeGeneratorPlayerOptions();
-            PlayerTwo = new PokeGeneratorPlayerOptions();
+            PlayerOne = new PlayerOptions();
+            PlayerTwo = new PlayerOptions();
         }
 
         /// <summary>
         /// Player one options
         /// </summary>
-        public PokeGeneratorPlayerOptions PlayerOne { get; set; }
+        public PlayerOptions PlayerOne { get; set; }
 
         /// <summary>
         /// Player two options
         /// </summary>
-        public PokeGeneratorPlayerOptions PlayerTwo { get; set; }
+        public PlayerOptions PlayerTwo { get; set; }
 
         /// <summary>
         /// The Pokemon level to generate for
