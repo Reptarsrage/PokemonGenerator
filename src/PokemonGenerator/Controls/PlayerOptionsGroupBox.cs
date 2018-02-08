@@ -3,6 +3,7 @@ using PokemonGenerator.Models.Configuration;
 using PokemonGenerator.Providers;
 using PokemonGenerator.Validators;
 using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -10,6 +11,13 @@ namespace PokemonGenerator.Controls
 {
     public partial class PlayerOptionsGroupBox : WindowBase
     {
+        private struct WorkerProgress
+        {
+            public int Index { get; set; }
+            public Bitmap Image { get; set; }
+            public bool Svg { get; set; }
+        }
+
         private IPokeGeneratorOptionsValidator _optionsValidator;
         private ISpriteProvider _spriteProvider;
         private SVGViewer[] TeamImages;
@@ -80,19 +88,7 @@ namespace PokemonGenerator.Controls
 
         public override void Shown(WindowEventArgs args)
         {
-            for (var i = 0; i < TeamImages.Length; i++)
-            {
-                if (i < DataSource.Team.MemberIds.Count)
-                {
-                    var idx = DataSource.Team.MemberIds[i];
-                    var image = _spriteProvider.RenderSprite(idx - 1 /* Sprite is 0-based Pokemon are 1-based */, TeamImages[i].Size);
-                    TeamImages[i].Image = image;
-                }
-                else
-                {
-                    TeamImages[i].SvgImage = Properties.Resources.Question_16x;
-                }
-            }
+            BackgroundWorker.RunWorkerAsync();
 
             base.Shown(args);
         }
@@ -192,6 +188,43 @@ namespace PokemonGenerator.Controls
         private void TeamClick(object sender, EventArgs e)
         {
             OnWindowOpenedEvent(this, new WindowEventArgs(typeof(TeamSelectionWindow)) { Player = Player });
+        }
+
+        private void BackgroundWorkerDoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+            var worker = sender as BackgroundWorker;
+
+            for (var i = 0; i < TeamImages.Length; i++)
+            {
+                Bitmap image = null;
+                var svg = true;
+                if (i < DataSource.Team.MemberIds.Count)
+                {
+                    var idx = DataSource.Team.MemberIds[i];
+                    image = _spriteProvider.RenderSprite(idx - 1 /* Sprite is 0-based Pokemon are 1-based */, TeamImages[i].Size);
+                    svg = false;
+                }
+
+                worker.ReportProgress(1, new WorkerProgress
+                {
+                    Index = i,
+                    Image = image,
+                    Svg = svg
+                });
+            }
+        }
+
+        private void BackgroundWorkerProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
+        {
+            var args = (WorkerProgress)e.UserState;
+            if (args.Svg)
+            {
+                TeamImages[args.Index].SvgImage = Properties.Resources.Question_16x;
+            }
+            else
+            {
+                TeamImages[args.Index].Image = args.Image;
+            }
         }
     }
 }
