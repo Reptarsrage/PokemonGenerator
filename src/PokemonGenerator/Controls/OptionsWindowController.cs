@@ -30,15 +30,15 @@ namespace PokemonGenerator.Controls
             }
         }
 
-        public override void Shown()
+        public override void Shown(WindowEventArgs args)
         {
-            _current?.Shown();
-            base.Shown();
+            _current?.Shown(args);
+            base.Shown(args);
         }
 
         private void ButtonCancelClick(object sender, EventArgs e)
         {
-            _current?.Closed();
+            _current?.Closed(new WindowEventArgs(null));
             OnWindowClosedEvent(this, new WindowEventArgs(GetType()));
         }
 
@@ -69,7 +69,7 @@ namespace PokemonGenerator.Controls
             }
 
             // Close
-            _current?.Closed();
+            _current?.Closed(null);
             OnWindowClosedEvent(this, new WindowEventArgs(GetType()));
         }
 
@@ -80,14 +80,14 @@ namespace PokemonGenerator.Controls
 
             // Close old
             _current?.Hide();
-            _current?.Closed();
+            _current?.Closed(null);
             PanelInner.Controls.Clear();
 
             // Open New
             _current = _options[(string)list.SelectedItem];
             _current.Dock = DockStyle.Fill;
             PanelInner.Controls.Add(_current);
-            _current.Shown();
+            _current.Shown(null);
             _current.Show();
         }
 

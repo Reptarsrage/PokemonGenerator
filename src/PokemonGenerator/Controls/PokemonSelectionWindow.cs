@@ -3,6 +3,7 @@ using PokemonGenerator.DAL;
 using PokemonGenerator.IO;
 using PokemonGenerator.Models.Configuration;
 using PokemonGenerator.Models.Dto;
+using PokemonGenerator.Providers;
 using System;
 using System.ComponentModel;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace PokemonGenerator.Controls
     public partial class PokemonSelectionWindow : OptionsWindowBase
     {
         private readonly IPokemonDA _pokemonDA;
+        private readonly ISpriteProvider _spriteProvider;
 
         private int _total;
         private int _selected;
@@ -19,6 +21,7 @@ namespace PokemonGenerator.Controls
         public PokemonSelectionWindow(
             IPokemonDA pokemonDA,
             IOptions<PersistentConfig> options,
+            ISpriteProvider spriteProvider,
             IPersistentConfigManager persistentConfigManager) : base(options, persistentConfigManager)
         {
             InitializeComponent();
@@ -27,11 +30,12 @@ namespace PokemonGenerator.Controls
             Text = "Select Pokemon";
 
             _pokemonDA = pokemonDA;
+            _spriteProvider = spriteProvider;
 
             BackgroundWorker.RunWorkerAsync();
         }
 
-        public override void Shown()
+        public override void Shown(WindowEventArgs args)
         {
             _workingConfig.Configuration.DisabledPokemon.Clear();
             _workingConfig.Configuration.DisabledPokemon.AddRange(_config.Value.Configuration.DisabledPokemon);
@@ -83,12 +87,12 @@ namespace PokemonGenerator.Controls
         {
             var poke = e.UserState as PokemonEntry;
             var selected = _workingConfig.Configuration.DisabledPokemon.All(id => poke.Id != id);
-            var legendary = _workingConfig.Configuration.LegendaryPokemon.Any(id => poke.Id == id);
-            var special = _workingConfig.Configuration.SpecialPokemon.Any(id => poke.Id == id);
-            var forbidden = _workingConfig.Configuration.ForbiddenPokemon.Any(id => poke.Id == id);
+            var legendary = _config.Value.Configuration.LegendaryPokemon.Any(id => poke.Id == id);
+            var special = _config.Value.Configuration.SpecialPokemon.Any(id => poke.Id == id);
+            var forbidden = _config.Value.Configuration.ForbiddenPokemon.Any(id => poke.Id == id);
 
             // Create Item
-            var item = new SpriteButton(poke.Id - 1 /* Convert to zero based from pokemon 1-based id */, selected)
+            var item = new SpriteButton(_spriteProvider, poke.Id - 1 /* Convert to zero based from pokemon 1-based id */, selected)
             {
                 Name = poke.Id.ToString(),
                 Text = poke.Identifier.ToUpper(),

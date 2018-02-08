@@ -7,6 +7,7 @@ using PokemonGenerator.Editors;
 using PokemonGenerator.Generators;
 using PokemonGenerator.IO;
 using PokemonGenerator.Models.Configuration;
+using PokemonGenerator.Providers;
 using PokemonGenerator.Utilities;
 using PokemonGenerator.Validators;
 using System;
@@ -94,6 +95,9 @@ namespace PokemonGenerator
             builder.RegisterType<PokemonGeneratorRunner>().As<IPokemonGeneratorRunner>();
             builder.RegisterType<PokemonTeamGenerator>().As<IPokemonTeamGenerator>();
             builder.RegisterType<PokemonMoveGenerator>().As<IPokemonMoveGenerator>();
+
+            // Providers
+            builder.RegisterType<SpriteProvider>().As<ISpriteProvider>();
 
             // Other
             builder.RegisterType<Random>().InstancePerLifetimeScope();

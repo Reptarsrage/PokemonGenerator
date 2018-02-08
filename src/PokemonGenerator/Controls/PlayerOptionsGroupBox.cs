@@ -1,29 +1,44 @@
 ﻿using Microsoft.Extensions.Options;
 using PokemonGenerator.Models.Configuration;
+using PokemonGenerator.Providers;
 using PokemonGenerator.Validators;
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace PokemonGenerator.Controls
 {
     public partial class PlayerOptionsGroupBox : WindowBase
     {
-        private IOptions<PersistentConfig> _options;
         private IPokeGeneratorOptionsValidator _optionsValidator;
+        private ISpriteProvider _spriteProvider;
+        private SVGViewer[] TeamImages;
 
         public PlayerOptionsGroupBox() { /* For Designer only */ }
 
         public void Initialize(
+            int player,
             IOptions<PersistentConfig> options,
-            IPokeGeneratorOptionsValidator optionsValidator)
+            IPokeGeneratorOptionsValidator optionsValidator,
+            ISpriteProvider spriteProvider)
         {
+            Player = player;
+            _spriteProvider = spriteProvider;
             _optionsValidator = optionsValidator;
-            _options = options;
 
             // Init
             InitializeComponent();
             GroupBox.Text = Text;
             SelectPlayerVersion.DataSource = new[] { "Gold", "Silver" };
+            TeamImages = new[]
+            {
+                PictureTeamFirst,
+                PictureTeamSecond,
+                PictureTeamThird,
+                PictureTeamFourth,
+                PictureTeamFifth,
+                PictureTeamSixth
+            };
         }
 
         public new bool Validate()
@@ -33,57 +48,54 @@ namespace PokemonGenerator.Controls
 
         public string PlayerName
         {
-            get
-            {
-                return TextPlayerName.Text;
-            }
-            set
-            {
-                UpdateText(TextPlayerName, value);
-            }
+            get => TextPlayerName.Text;
+            set => UpdateText(TextPlayerName, value);
         }
 
         public string InLocation
         {
-            get
-            {
-                return TextPlayerInLocation.Text;
-            }
-            set
-            {
-                UpdateText(TextPlayerInLocation, value);
-            }
+            get => TextPlayerInLocation.Text;
+            set => UpdateText(TextPlayerInLocation, value);
         }
 
         public string OutLocation
         {
-            get
-            {
-                return TextPlayerOutLocation.Text;
-            }
-            set
-            {
-                UpdateText(TextPlayerOutLocation, value);
-            }
+            get => TextPlayerOutLocation.Text;
+            set => UpdateText(TextPlayerOutLocation, value);
         }
 
         public PlayerOptions DataSource
         {
-            get
-            {
-                return DataSource;
-            }
-            set
-            {
-                BindingSource.DataSource = value;
-            }
+            get => BindingSource.DataSource as PlayerOptions;
+            set => BindingSource.DataSource = value;
         }
+
+        public int Player { get; set; }
 
         public void SetOutLocationImage(ImageState state) => ToggleErrorImageToPic(ImagePlayerOutLocation, state);
 
         public void SetInLocationImage(ImageState state) => ToggleErrorImageToPic(ImagePlayerInLocation, state);
 
         public void SetNameImage(ImageState state) => ToggleErrorImageToPic(ImagePlayerName, state);
+
+        public override void Shown(WindowEventArgs args)
+        {
+            for (var i = 0; i < TeamImages.Length; i++)
+            {
+                if (i < DataSource.Team.MemberIds.Count)
+                {
+                    var idx = DataSource.Team.MemberIds[i];
+                    var image = _spriteProvider.RenderSprite(idx - 1 /* Sprite is 0-based Pokemon are 1-based */, TeamImages[i].Size);
+                    TeamImages[i].Image = image;
+                }
+                else
+                {
+                    TeamImages[i].SvgImage = Properties.Resources.Question_16x;
+                }
+            }
+
+            base.Shown(args);
+        }
 
         private void UpdateText(TextBox textBox, string val)
         {
@@ -179,7 +191,7 @@ namespace PokemonGenerator.Controls
 
         private void TeamClick(object sender, EventArgs e)
         {
-            OnWindowOpenedEvent(this, new WindowEventArgs(typeof(TeamSelectionWindow)));
+            OnWindowOpenedEvent(this, new WindowEventArgs(typeof(TeamSelectionWindow)) { Player = Player });
         }
     }
 }

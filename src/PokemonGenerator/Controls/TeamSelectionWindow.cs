@@ -3,6 +3,7 @@ using PokemonGenerator.DAL;
 using PokemonGenerator.IO;
 using PokemonGenerator.Models.Configuration;
 using PokemonGenerator.Models.Dto;
+using PokemonGenerator.Providers;
 using System;
 using System.ComponentModel;
 using System.Linq;
@@ -12,43 +13,53 @@ namespace PokemonGenerator.Controls
 {
     public partial class TeamSelectionWindow : WindowBase
     {
-        protected IOptions<PersistentConfig> _config;
-        protected PersistentConfig _workingConfig;
-        protected readonly IPersistentConfigManager _configManager;
+        private readonly IOptions<PersistentConfig> _config;
+        private readonly ISpriteProvider _spriteProvider;
+        private readonly Team _workingConfig;
         private readonly IPokemonDA _pokemonDA;
+        protected readonly IPersistentConfigManager _configManager;
 
-        private int _total;
-        private int _selected;
+        private int player;
 
         public TeamSelectionWindow(
             IPokemonDA pokemonDA,
             IOptions<PersistentConfig> options,
-            IPersistentConfigManager persistentConfigManager)
+            ISpriteProvider spriteProvider,
+            IPersistentConfigManager configManager)
         {
             InitializeComponent();
 
             // Set Title
             Text = "Select Team";
 
+            _configManager = configManager;
             _config = options;
-            _workingConfig = _config.Value;
-            _configManager = persistentConfigManager;
+            _spriteProvider = spriteProvider;
             _pokemonDA = pokemonDA;
+            _workingConfig = new Team();
+            player = 1;
 
             BackgroundWorker.RunWorkerAsync();
         }
 
-        public override void Shown()
+        public override void Shown(WindowEventArgs args)
         {
-            _workingConfig.Configuration.DisabledPokemon.Clear();
-            _workingConfig.Configuration.DisabledPokemon.AddRange(_config.Value.Configuration.DisabledPokemon);
+            if (args == null || args.Player < 0 || args.Player > 2)
+            {
+                throw new ArgumentException(nameof(WindowEventArgs.Player));
+            }
+
+            player = args.Player;
+            var teamConfig = player == 1 ? _config.Value.Options.PlayerOne.Team : _config.Value.Options.PlayerTwo.Team;
+            _workingConfig.MemberIds.Clear();
+            _workingConfig.MemberIds.AddRange(teamConfig.MemberIds);
             foreach (var btn in LayoutPanelMain.Controls.OfType<SpriteButton>())
             {
                 // Un-Bind events
                 btn.ItemSelctedEvent += ItemSelcted;
 
                 var id = btn.Index + 1;
-                btn.Checked = _workingConfig.Configuration.DisabledPokemon.All(pid => pid != id);
+                btn.Checked = _workingConfig.MemberIds.Any(pid => pid == id);
 
                 // Re-Bind events
                 btn.ItemSelctedEvent += ItemSelcted;
@@ -56,22 +67,25 @@ namespace PokemonGenerator.Controls
             UpdateCount();
         }
 
-        public override void Closed()
-        {
-            // Do Something?
-        }
-
         private void Save()
         {
-            if (_selected != 6)
+            if (_workingConfig.MemberIds.Count > 6)
             {
-                throw new InvalidOperationException("Please select at least 6 Pokemon.");
+                throw new InvalidOperationException("Please select at most 6 Pokemon.");
             }
 
-            // _config.Value.Configuration.DisabledPokemon.Clear();
-            //  _config.Value.Configuration.DisabledPokemon.AddRange(_workingConfig.Configuration.DisabledPokemon.Distinct().OrderBy(d => d));
+            if (player == 1)
+            {
+                _config.Value.Options.PlayerOne.Team.MemberIds.Clear();
+                _config.Value.Options.PlayerOne.Team.MemberIds.AddRange(_workingConfig.MemberIds.OrderBy(i => i));
+            }
+            else
+            {
+                _config.Value.Options.PlayerTwo.Team.MemberIds.Clear();
+                _config.Value.Options.PlayerTwo.Team.MemberIds.AddRange(_workingConfig.MemberIds.OrderBy(i => i));
+            }
 
-            // _configManager.Save();
+            _configManager.Save();
         }
 
         private void UpdateCount()
@@ -94,13 +108,13 @@ namespace PokemonGenerator.Controls
         private void BackgroundWorkerProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             var poke = e.UserState as PokemonEntry;
-            var selected = _workingConfig.Configuration.DisabledPokemon.All(id => poke.Id != id);
-            var legendary = _workingConfig.Configuration.LegendaryPokemon.Any(id => poke.Id == id);
-            var special = _workingConfig.Configuration.SpecialPokemon.Any(id => poke.Id == id);
-            var forbidden = _workingConfig.Configuration.ForbiddenPokemon.Any(id => poke.Id == id);
+            var selected = _workingConfig?.MemberIds.Any(id => poke.Id == id) ?? false;
+            var legendary = _config.Value.Configuration.LegendaryPokemon.Any(id => poke.Id == id);
+            var special = _config.Value.Configuration.SpecialPokemon.Any(id => poke.Id == id);
+            var forbidden = _config.Value.Configuration.ForbiddenPokemon.Any(id => poke.Id == id);
 
             // Create Item
-            var item = new SpriteButton(poke.Id - 1 /* Convert to zero based from pokemon 1-based id */, selected)
+            var item = new SpriteButton(_spriteProvider, poke.Id - 1 /* Convert to zero based from pokemon 1-based id */, selected)
             {
                 Name = poke.Id.ToString(),
                 Text = poke.Identifier.ToUpper(),
@@ -115,13 +129,6 @@ namespace PokemonGenerator.Controls
             // Add Item
             LayoutPanelMain.Controls.Add(item);
 
-            // Maintain info
-            _total++;
-            if (selected)
-            {
-                _selected++;
-            }
-
             // Bind events
             item.ItemSelctedEvent += ItemSelcted;
         }
@@ -131,15 +138,19 @@ namespace PokemonGenerator.Controls
             var button = sender as SpriteButton;
             var idx = button.Index + 1 /* Convert back from zero based to pokemon 1-based id */;
 
-            _selected += args.Selected ? 1 : -1;
-
             if (args.Selected)
             {
-                _workingConfig.Configuration.DisabledPokemon.Remove(idx);
+                if (_workingConfig.MemberIds.All(id => id != idx))
+                {
+                    _workingConfig.MemberIds.Add(idx);
+                }
             }
             else
             {
-                _workingConfig.Configuration.DisabledPokemon.Add(idx);
+                if (_workingConfig.MemberIds.Any(id => id == idx))
+                {
+                    _workingConfig.MemberIds.Remove(idx);
+                }        
             }
 
             UpdateCount();

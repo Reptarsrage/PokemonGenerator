@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using PokemonGenerator.Providers;
 
 namespace PokemonGenerator.Controls
 {
@@ -19,13 +20,9 @@ namespace PokemonGenerator.Controls
 
     public class SpriteButton : CheckBox
     {
-        private const int SPRITE_TILE_WIDTH = 56;
-        private const int SPRITE_TILE_HEIGHT = 56;
-
-
         private Color _tint;
-
         private readonly BackgroundWorker _backgroundWorker;
+        private readonly ISpriteProvider _spriteProvider;
         private readonly int _index;
         private readonly Size _imageSize;
 
@@ -52,7 +49,10 @@ namespace PokemonGenerator.Controls
         // Expose the event off your component
         public event ItemSelctedDelegate ItemSelctedEvent;
 
-        public SpriteButton(int index, bool pressed) : base()
+        public SpriteButton(
+            ISpriteProvider spriteProvider,
+            int index, 
+            bool pressed) : base()
         {
             Image = null;
             TextImageRelation = TextImageRelation.ImageAboveText;
@@ -60,17 +60,17 @@ namespace PokemonGenerator.Controls
             UseVisualStyleBackColor = true;
             Appearance = Appearance.Button;
             Checked = pressed;
-            Size = new Size(SPRITE_TILE_WIDTH + 50, SPRITE_TILE_HEIGHT + 50);
+            Size = new Size(106, 106);
             FlatAppearance.BorderSize = 0;
             FlatStyle = FlatStyle.Flat;
 
             CheckedChanged += SpriteButton_CheckedChanged;
             SpriteButton_CheckedChanged(null, null);
 
+            _imageSize = new Size(56, 56);
             _tint = Color.FromArgb(255, 235, 235, 235);
-
+            _spriteProvider = spriteProvider;
             _index = index;
-            _imageSize = new Size(SPRITE_TILE_WIDTH, SPRITE_TILE_HEIGHT);
 
             _backgroundWorker = new BackgroundWorker();
             _backgroundWorker.WorkerReportsProgress = true;
@@ -121,16 +121,8 @@ namespace PokemonGenerator.Controls
         private void _backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             var worker = sender as BackgroundWorker;
-            var x = _index * SPRITE_TILE_WIDTH % Properties.Resources.sprites.Width;
-            var y = _index * SPRITE_TILE_WIDTH / Properties.Resources.sprites.Width * SPRITE_TILE_HEIGHT;
-            var cropArea = new Rectangle(x, y, SPRITE_TILE_WIDTH, SPRITE_TILE_HEIGHT);
-            var target = new Bitmap(_imageSize.Width, _imageSize.Height);
-
-            using (Graphics g = Graphics.FromImage(target))
-            {
-                g.DrawImage(Properties.Resources.sprites, new Rectangle(0, 0, target.Width, target.Height), cropArea, GraphicsUnit.Pixel);
-                worker.ReportProgress(1, target);
-            }
+            var target = _spriteProvider.RenderSprite(_index, _imageSize);
+            worker.ReportProgress(1, target);
         }
     }
 }

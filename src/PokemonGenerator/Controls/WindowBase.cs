@@ -5,14 +5,14 @@ namespace PokemonGenerator.Controls
 {
     public class WindowEventArgs
     {
-        public Type Window => _window;
-
-        private readonly Type _window;
-
-        public WindowEventArgs(Type t) : base()
+        public WindowEventArgs(Type t)
         {
-            _window = t;
+            Window = t;
         }
+
+        public Type Window { get; }
+
+        public int Player { get; set; }
     }
 
     public class WindowBase : UserControl
@@ -25,8 +25,8 @@ namespace PokemonGenerator.Controls
         public event WindowOpenedDelegate WindowClosedEvent;
 
         // Methods Shown() and Closed()
-        public virtual void Shown() { }
-        public virtual void Closed() { }
+        public virtual void Shown(WindowEventArgs args) { }
+        public virtual void Closed(WindowEventArgs args) { }
 
         protected virtual void OnWindowOpenedEvent(object sender, WindowEventArgs args)
         {

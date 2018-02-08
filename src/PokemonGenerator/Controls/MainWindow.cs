@@ -12,6 +12,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
+using PokemonGenerator.Providers;
 
 namespace PokemonGenerator.Controls
 {
@@ -54,7 +55,8 @@ namespace PokemonGenerator.Controls
             IP64ConfigEditor p64ConfigEditor,
             INRageIniEditor nRageIniEditor,
             IPersistentConfigManager configManager,
-            IPokeGeneratorOptionsValidator optionsValidator)
+            IPokeGeneratorOptionsValidator optionsValidator,
+            ISpriteProvider spriteProvider)
         {
             _pokemonGeneratorRunner = pokemonGeneratorRunner;
             _nRageIniEditor = nRageIniEditor;
@@ -65,8 +67,8 @@ namespace PokemonGenerator.Controls
 
             // Init
             InitializeComponent();
-            GroupBoxPlayerOneOptions.Initialize(options, _optionsValidator);
-            GroupBoxPlayerTwoOptions.Initialize(options, _optionsValidator);
+            GroupBoxPlayerOneOptions.Initialize(1, options, _optionsValidator, spriteProvider );
+            GroupBoxPlayerTwoOptions.Initialize(2, options, _optionsValidator, spriteProvider);
 
             // Data Bind
             MainWindowBindingSource.DataSource = _options.Value.Options;
@@ -116,12 +118,14 @@ namespace PokemonGenerator.Controls
             }
         }
 
-        public override void Shown()
+        public override void Shown(WindowEventArgs args)
         {
+            GroupBoxPlayerOneOptions.Shown(args);
+            GroupBoxPlayerTwoOptions.Shown(args);
             ValidateTopSection();
         }
 
-        public override void Closed()
+        public override void Closed(WindowEventArgs args)
         {
             // Save configuration
             _configManager.Save();

@@ -13,6 +13,7 @@ namespace PokemonGenerator.Models.Configuration
             OutputSaveLocation = string.Empty;
             GameVersion = PokemonGame.Gold.ToString();
             Name = "PLAYER2";
+            Team = new Team();
         }
 
         /// <summary>
@@ -37,5 +38,10 @@ namespace PokemonGenerator.Models.Configuration
         /// The Name to use for the player
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Pokemon Team
+        /// </summary>
+        public Team Team { get; set; }
     }
 }

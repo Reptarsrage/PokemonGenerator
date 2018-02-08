@@ -19,12 +19,12 @@ namespace PokemonGenerator.Controls
             OptionsWindowBindingSource.DataSource = _workingConfig.Configuration;
         }
 
-        public override void Closed()
+        public override void Closed(WindowEventArgs args)
         {
-            base.Closed();
+            base.Closed(null);
         }
 
-        public override void Shown()
+        public override void Shown(WindowEventArgs args)
         {
             FieldNumericStandard.Value = (decimal)_config.Value.Configuration.PokemonLiklihood.Standard;
             FieldNumericLegendary.Value = (decimal)_config.Value.Configuration.PokemonLiklihood.Legendary;

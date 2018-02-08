@@ -19,12 +19,12 @@ namespace PokemonGenerator.Controls
             OptionsWindowBindingSource.DataSource = _workingConfig.Configuration;
         }
 
-        public override void Closed()
+        public override void Closed(WindowEventArgs args)
         {
-            base.Closed();
+            base.Closed(null);
         }
 
-        public override void Shown()
+        public override void Shown(WindowEventArgs args)
         {
             FieldNumericMean.Value = (decimal)_config.Value.Configuration.Mean;
             FieldNumericSkew.Value = (decimal)_config.Value.Configuration.Skew;

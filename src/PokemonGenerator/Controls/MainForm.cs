@@ -32,7 +32,7 @@ namespace PokemonGenerator.Controls
         private void CloseWindow(object sender, WindowEventArgs args)
         {
             // Close current window
-            CloseWindow(_windows.Pop());
+            CloseWindow(_windows.Pop(), args);
 
             // Check if empty
             if (!_windows.Any())
@@ -41,7 +41,7 @@ namespace PokemonGenerator.Controls
             }
 
             // Show old window
-            LoadWindow(_windows.Peek());
+            LoadWindow(_windows.Peek(), args);
         }
 
         private void OpenWindow(object sender, WindowEventArgs args)
@@ -49,16 +49,16 @@ namespace PokemonGenerator.Controls
             // Close current window if there is one
             if (_windows.Any())
             {
-                CloseWindow(_windows.Peek());
+                CloseWindow(_windows.Peek(), args);
             }
 
             // Show new window
             var window = GetWindowOfType(args.Window);
             _windows.Push(window);
-            LoadWindow(window);
+            LoadWindow(window, args);
         }
 
-        private void CloseWindow(WindowBase window)
+        private void CloseWindow(WindowBase window, WindowEventArgs args)
         {
             // Close control
             window.SendToBack();
@@ -68,17 +68,17 @@ namespace PokemonGenerator.Controls
             // De-Init control
             window.WindowOpenedEvent -= OpenWindow;
             window.WindowClosedEvent -= CloseWindow;
-            window.Closed();
+            window.Closed(args);
         }
 
-        private void LoadWindow(WindowBase window)
+        private void LoadWindow(WindowBase window, WindowEventArgs args)
         {
             // Add control
             Controls.Add(window);
             window.Dock = DockStyle.Fill;
 
             // Init control
-            window.Shown();
+            window.Shown(args);
             window.BringToFront();
             window.WindowOpenedEvent += OpenWindow;
             window.WindowClosedEvent += CloseWindow;

@@ -37,22 +37,13 @@ namespace PokemonGenerator.Controls
 
         public Image Image
         {
-            get
-            {
-                return PictureBoxMain.Image;
-            }
-            set
-            {
-                PictureBoxMain.Image = value;
-            }
+            get => PictureBoxMain.Image;
+            set => PictureBoxMain.Image = value;
         }
 
         public byte[] SvgImage
         {
-            get
-            {
-                return _svgImage;
-            }
+            get => _svgImage;
             set
             {
                 _svgImage = value;
