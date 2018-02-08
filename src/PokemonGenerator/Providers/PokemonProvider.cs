@@ -26,6 +26,14 @@ namespace PokemonGenerator.Providers
         /// </summary>
         /// <param name="level">The level of generated pokemon. Must be between 5 and 100 inclusive.</param>
         Pokemon GenerateRandomPokemon(int level);
+
+        /// <summary>
+        /// Generates a pokemon given the Id and Level
+        /// </summary>
+        /// <param name="speciesId">Sepcies Id must be between 1-256</param>
+        /// <param name="level">The level of generated pokemon. Must be between 5 and 100 inclusive.</param>
+        /// <returns></returns>
+        Pokemon GeneratePokemon(int speciesId, int level);
     }
 
     /// <inheritdoc />
@@ -49,14 +57,47 @@ namespace PokemonGenerator.Providers
         }
 
         /// <inheritdoc />
-        public Pokemon GenerateRandomPokemon(int level)
+        public Pokemon GeneratePokemon(int speciesId, int level)
         {
             if (level < 5 || level > 100)
             {
                 throw new ArgumentOutOfRangeException($"level ({level}) must be between 5 and 100 inclusive.");
             }
 
-            var ret = new PokeList(_pokemonGeneratorConfig.Value.Configuration.TeamSize);
+            if (speciesId < 1 || speciesId > 256)
+            {
+                throw new ArgumentOutOfRangeException($"level ({speciesId}) must be between 1 and 256 inclusive.");
+            }
+
+            // Make sure both players end up with different pokemons, re-use the same list if possible
+            if (_previousLevel != level || _possiblePokemon == null || _possiblePokemon.Count < 10)
+            {
+                _previousLevel = level;
+                _possiblePokemon = _pokemonRepository.GetPossiblePokemon(level)
+                    .Select(id => new PokemonChoice { PokemonId = id })
+                    .ToList();
+            }
+
+            var iChooseYou = new Pokemon
+            {
+                SpeciesId = (byte)speciesId,
+                Unused = 0x0,
+                OTName = "ROBOT",
+                HeldItem = 0x0
+            };
+
+            var poke = _possiblePokemon.First(p => p.PokemonId == speciesId);
+            _possiblePokemon.Remove(poke);
+            return iChooseYou;
+        }
+
+        /// <inheritdoc />
+        public Pokemon GenerateRandomPokemon(int level)
+        {
+            if (level < 5 || level > 100)
+            {
+                throw new ArgumentOutOfRangeException($"level ({level}) must be between 5 and 100 inclusive.");
+            }
 
             // Make sure both players end up with different pokemons, re-use the same list if possible
             if (_previousLevel != level || _possiblePokemon == null || _possiblePokemon.Count < 10)

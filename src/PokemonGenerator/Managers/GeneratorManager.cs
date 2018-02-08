@@ -5,6 +5,7 @@ using PokemonGenerator.Providers;
 using PokemonGenerator.Utilities;
 using PokemonGenerator.Validators;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -56,11 +57,13 @@ namespace PokemonGenerator.Managers
 
             // Generate Player One and Team
             sav.PlayerName = _config.Value.Options.PlayerOne.Name;
-            CopyAndGen(_config.Value.Options.PlayerOne.OutputSaveLocation, _config.Value.Options.PlayerOne.InputSaveLocation, sav, _config.Value.Options.Level);
+            CopyAndGen(_config.Value.Options.PlayerOne.OutputSaveLocation, _config.Value.Options.PlayerOne.InputSaveLocation, 
+                sav, _config.Value.Options.Level, _config.Value.Options.PlayerOne.Team.MemberIds);
 
             // Generate Player Two and Team
             sav.PlayerName = _config.Value.Options.PlayerTwo.Name;
-            CopyAndGen(_config.Value.Options.PlayerTwo.OutputSaveLocation, _config.Value.Options.PlayerTwo.InputSaveLocation, sav, _config.Value.Options.Level);
+            CopyAndGen(_config.Value.Options.PlayerTwo.OutputSaveLocation, _config.Value.Options.PlayerTwo.InputSaveLocation, 
+                sav, _config.Value.Options.Level, _config.Value.Options.PlayerTwo.Team.MemberIds);
         }
 
         /// <summary>
@@ -70,8 +73,8 @@ namespace PokemonGenerator.Managers
         /// <param name="inSaveFile">Full path to the input file.</param>
         /// <param name="save">The <see cref="SaveFileModel" to use when saving./></param>
         /// <param name="level">The level to generate pokemon at. Must be 5-100.</param>
-        /// <param name="config">Configuration</param>
-        private void CopyAndGen(string outSaveFile, string inSaveFile, SaveFileModel save, int level)
+        /// <param name="chosenMembers">Team members chosen explicitly by the user</param>
+        private void CopyAndGen(string outSaveFile, string inSaveFile, SaveFileModel save, int level, List<int> chosenMembers)
         {
             if (string.IsNullOrWhiteSpace(outSaveFile) || string.IsNullOrWhiteSpace(inSaveFile))
             {
@@ -84,9 +87,18 @@ namespace PokemonGenerator.Managers
             }
 
             // Choose Pokemon Team
-            var list = Enumerable.Range(0, _config.Value.Configuration.TeamSize)
-                .Select(i => _pokemonProvider.GenerateRandomPokemon(level))
-                .ToList();
+            var list = new List<Pokemon>();
+            for (var i = 0; i < _config.Value.Configuration.TeamSize; i++)
+            {
+                if (i < chosenMembers.Count)
+                {
+                    list.Add(_pokemonProvider.GeneratePokemon(chosenMembers[i], level));
+                }
+                else
+                {
+                    list.Add(_pokemonProvider.GenerateRandomPokemon(level));
+                }
+            }
 
             var pokeList = new PokeList(list.Count)
             {
