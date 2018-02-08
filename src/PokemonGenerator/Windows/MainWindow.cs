@@ -44,13 +44,13 @@ namespace PokemonGenerator.Windows
         }
         private readonly INRageConfigRepository _inRageConfigRepository;
         private readonly IP64ConfigRepository _ip64ConfigRepository;
-        private readonly IPokemonGeneratorManager _pokemonGeneratorManager;
+        private readonly IGeneratorManager _generatorManager;
         private readonly IOptions<PersistentConfig> _options;
         private readonly IPokeGeneratorOptionsValidator _optionsValidator;
         private readonly IConfigRepository _configRepository;
 
         public MainWindow(
-            IPokemonGeneratorManager pokemonGeneratorManager,
+            IGeneratorManager generatorManager,
             IOptions<PersistentConfig> options,
             IP64ConfigRepository ip64ConfigRepository,
             INRageConfigRepository inRageConfigRepository,
@@ -58,7 +58,7 @@ namespace PokemonGenerator.Windows
             IPokeGeneratorOptionsValidator optionsValidator,
             ISpriteProvider spriteProvider)
         {
-            _pokemonGeneratorManager = pokemonGeneratorManager;
+            _generatorManager = generatorManager;
             _inRageConfigRepository = inRageConfigRepository;
             _configRepository = configRepository;
             _ip64ConfigRepository = ip64ConfigRepository;
@@ -279,8 +279,8 @@ namespace PokemonGenerator.Windows
             var good = true;
 
             // Check Level
-            var LevelGood = _optionsValidator.ValidateLevel((int)SelectLevel.Value);
-            good &= LevelGood;
+            var levelGood = _optionsValidator.ValidateLevel((int)SelectLevel.Value);
+            good &= levelGood;
 
             ButtonGenerate.Enabled = good;
             return good;
@@ -296,11 +296,6 @@ namespace PokemonGenerator.Windows
         private void TopSectionValidater(object sender, EventArgs e)
         {
             ValidateTopSection();
-        }
-
-        private void PlayerValidater(object sender, EventArgs e)
-        {
-            ValidatePlayerSection();
         }
 
         private void ButtonGenerateClick(object sender, EventArgs e)
@@ -345,7 +340,7 @@ namespace PokemonGenerator.Windows
             worker.ReportProgress(20, "GENERATING POKEMON...");
 
             // Start generate pokemon process
-            _pokemonGeneratorManager.Run(args);
+            _generatorManager.Generate();
             Thread.Sleep(1000); // dance dance!
 
             // Start P64

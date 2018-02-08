@@ -23,24 +23,24 @@ namespace PokemonGenerator.Repositories
     /// <inheritdoc />
     public class P64ConfigRepository : IP64ConfigRepository
     {
-        private string fileName;
+        private string _fileName;
 
         public P64ConfigRepository()
         {
-            fileName = string.Empty;
+            _fileName = string.Empty;
         }
 
         /// <inheritdoc />
         public string FileName
         {
-            get => fileName;
-            set => fileName = File.Exists(value) ? value : throw new FileNotFoundException($"{value} file not found.");
+            get => _fileName;
+            set => _fileName = File.Exists(value) ? value : throw new FileNotFoundException($"{value} file not found.");
         }
 
         /// <inheritdoc />
         public string GetRecentRom()
         {
-            FileName = fileName; // quick validation
+            FileName = _fileName; // quick validation
             using (var file = File.OpenRead(this.FileName))
             using (var stream = new StreamReader(file))
             {

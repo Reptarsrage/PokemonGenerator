@@ -10,7 +10,7 @@ namespace PokemonGenerator.Tests.Unit.Utility_Tests
 {
     public class PokemonStatUtilityTests
     {
-        private PokemonStatUtility pokemonStatUtility;
+        private PokemonStatProvider pokemonStatUtility;
         private Mock<IPokemonRepository> pokemonDAMock;
         private Mock<IProbabilityUtility> probabilityUtilityMock;
 
@@ -18,7 +18,7 @@ namespace PokemonGenerator.Tests.Unit.Utility_Tests
         {
             pokemonDAMock = new Mock<IPokemonRepository>(MockBehavior.Strict);
             probabilityUtilityMock = new Mock<IProbabilityUtility>(MockBehavior.Strict);
-            pokemonStatUtility = new PokemonStatUtility(pokemonDAMock.Object, probabilityUtilityMock.Object);
+            pokemonStatUtility = new PokemonStatProvider(pokemonDAMock.Object, probabilityUtilityMock.Object);
         }
 
         [Theory]
@@ -87,8 +87,8 @@ namespace PokemonGenerator.Tests.Unit.Utility_Tests
                 OTNames = list.Select(p => p.OTName).ToArray(),
             };
 
-            // Run
-            pokemonStatUtility = new PokemonStatUtility(pokemonDAMock.Object, probabilityUtilityMock.Object);
+            // Generate
+            pokemonStatUtility = new PokemonStatProvider(pokemonDAMock.Object, probabilityUtilityMock.Object);
             pokemonStatUtility.AssignIVsAndEVsToTeam(team, level);
 
             // Assert
@@ -152,8 +152,8 @@ namespace PokemonGenerator.Tests.Unit.Utility_Tests
                 GrowthRate = "test",
             }));
 
-            // Run
-            pokemonStatUtility = new PokemonStatUtility(pokemonDAMock.Object, probabilityUtilityMock.Object);
+            // Generate
+            pokemonStatUtility = new PokemonStatProvider(pokemonDAMock.Object, probabilityUtilityMock.Object);
             pokemonStatUtility.GetTeamBaseStats(team, 100);
 
             // Assert

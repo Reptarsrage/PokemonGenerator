@@ -6,9 +6,9 @@ namespace PokemonGenerator.Tests.Integration.IO_Tests
 {
     public abstract class SerializerTestsBase
     {
-        protected virtual SAVFileModel BuildTestModel()
+        protected virtual SaveFileModel BuildTestModel()
         {
-            var model = new SAVFileModel
+            var model = new SaveFileModel
             {
                 PlayerName = "Justin",
                 RivalName = "ASSBITE",
@@ -428,7 +428,7 @@ namespace PokemonGenerator.Tests.Integration.IO_Tests
         }
 
 
-        protected virtual void AssertSavModelEqualityThorough(SAVFileModel expectedModel, SAVFileModel actualModel)
+        protected virtual void AssertSavModelEqualityThorough(SaveFileModel expectedModel, SaveFileModel actualModel)
         {
             Assert.True(expectedModel.PlayerName.Equals(actualModel.PlayerName), "Player Name");
             Assert.True(expectedModel.RivalName.Equals(actualModel.RivalName), "Player Rival Name");

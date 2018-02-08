@@ -3,9 +3,9 @@ using Newtonsoft.Json;
 
 namespace PokemonGenerator.Models.Configuration
 {
-    public class PokemonGeneratorConfig
+    public class GeneratorConfig
     {
-        public PokemonGeneratorConfig()
+        public GeneratorConfig()
         {
             LegendaryPokemon = new List<int> { 144, 145, 146, 151, 150, 243, 244, 245, 249, 250, 251 };
             ForbiddenPokemon = new List<int> { 10, 11, 13, 14, 129, 201 }; /*caterpie, metapod, weedle, kakuna, magikarp, unown */
@@ -63,6 +63,9 @@ namespace PokemonGenerator.Models.Configuration
             StandardDeviation = 0.1D;
             SameTypeModifier = 1.5D;
             DamageModifier = 200D;
+            DamageTypeModifier = Likeliness.Low;
+            AlreadyPickedMoveEffectsModifier = Likeliness.Medium_Low;
+            AlreadyPickedMoveModifier = Likeliness.Extremely_Low;
             PairedModifier = 2D;
             DamageTypeDelta = 15;
             RandomMoveMinPower = 40;
@@ -149,8 +152,15 @@ namespace PokemonGenerator.Models.Configuration
         public double SameTypeModifier { get; set; }
 
         /// <summary>
+        /// The lower this is, the more likely pokemon with a certain damage type type will only know moves of that type. (Special/Physical)
+        /// TODO Add this to options window
+        /// </summary>
+        public double DamageTypeModifier { get; set; }
+
+        /// <summary>
         /// The higher this is, the less damage will affect move probability. 
-        /// At low values, damage will play a key role in choosing moves
+        /// At low values, damage will play a key role in choosing moves.
+        /// Value should be between 200 (highest move damage) and 1 (lowest move damage)
         /// </summary>
         public double DamageModifier { get; set; }
 
@@ -158,6 +168,16 @@ namespace PokemonGenerator.Models.Configuration
         /// The higher this is, pokemon are more likely to have paired moves (<see cref="PairedMoves"/>)
         /// </summary>
         public double PairedModifier { get; set; }
+
+        /// <summary>
+        /// The higher this is, pokemon are more likely to have moves with the same effect
+        /// </summary>
+        public double AlreadyPickedMoveEffectsModifier { get; set; }
+
+        /// <summary>
+        /// The higher this is, pokemon are more likely to have duplicate moves
+        /// </summary>
+        public double AlreadyPickedMoveModifier { get; set; }
 
         /// <summary>
         /// if the difference between a pokemon's attack and special attack

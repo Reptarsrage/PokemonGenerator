@@ -23,7 +23,7 @@ namespace PokemonGenerator.Repositories
 
     /// <summary>
     /// Accesses the database to return information about pokemon. 
-    /// <para/> 
+    /// 
     /// Data base is a modified version of of the project found here: https://github.com/veekun/pokedex
     /// </summary>
     public class PokemonRepository : IPokemonRepository, IDisposable

@@ -1,48 +1,50 @@
 ﻿using PokemonGenerator.Models.Serialization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using PokemonGenerator.Repositories;
+using System;
+using System.Linq;
 
 namespace PokemonGenerator.Utilities
 {
-    interface IPokemonStatUtility
+    /// <summary>
+    /// Calculates and retrieves stat infdormation for pokemon
+    /// </summary>
+    public interface IPokemonStatProvider
     {
+        /// <summary>
+        /// Retrieves and sets all of the base stat values for the team.
+        /// </summary>
+        /// <param name="list">List of pokemon on the team.</param>
+        /// <param name="level">Level of pokemon</param>
         void GetTeamBaseStats(PokeList list, int level);
+
+        /// <summary>
+        /// Chooses both IV and EV values for each pokemon. 
+        /// Uses a gaussian distribution with a mean in the middle and a std deviation of around 30%.
+        /// </summary>
+        /// <param name="list">List of pokemon on the team.</param>
         void AssignIVsAndEVsToTeam(PokeList list, int level);
-        IEnumerable<int> GetPossiblePokemon(int level);
+
+        /// <summary>
+        /// Calulates and assigns stats for pokemon
+        /// </summary>
+        /// <param name="list">List of pokemon on the team.</param>
+        /// <param name="level">Level of pokemon</param>
         void CalculateStatsForTeam(PokeList list, int level);
     }
 
-    class PokemonStatUtility : IPokemonStatUtility
+    /// <inheritdoc />
+    public class PokemonStatProvider : IPokemonStatProvider
     {
         private readonly IPokemonRepository _pokemonRepository;
         private readonly IProbabilityUtility _probabilityUtility;
 
-        public PokemonStatUtility(IPokemonRepository pokemonRepository, IProbabilityUtility probabilityUtility)
+        public PokemonStatProvider(IPokemonRepository pokemonRepository, IProbabilityUtility probabilityUtility)
         {
             _pokemonRepository = pokemonRepository;
             _probabilityUtility = probabilityUtility;
         }
 
-        /// <summary>
-        /// Retrieves and sets all of the base stat values for the team.
-        /// <para /> 
-        /// Base Stats include:       <para /> 
-        /// attack  The base attack power for the pokemon.       <para /> 
-        /// defense  The base defense for the pokemon.       <para /> 
-        /// speed  The base speed for the pokemon.       <para /> 
-        /// maxHp  The base maxHp for the pokemon.       <para /> 
-        /// spDefense  The base spDefense for the pokemon.       <para /> 
-        /// spAttack  The base spAttack power for the pokemon.       <para /> 
-        /// level  The level for the pokemon.       <para /> 
-        /// experience  The XP that the pokemon would have at the given level.       <para /> 
-        /// name  The pokemon's name and nickname.       <para /> 
-        /// types  The Pokemon's type(s) (used for move selection).       <para /> 
-        /// 
-        /// </summary>
-        /// <param name="list"></param>
-        /// <param name="level"></param>
+        /// <inheritdoc />
         public void GetTeamBaseStats(PokeList list, int level)
         {
             var stats = _pokemonRepository.GetTeamBaseStats(list);
@@ -69,11 +71,7 @@ namespace PokemonGenerator.Utilities
             }
         }
 
-        /// <summary>
-        /// Chooses both IV and EV values for each pokemon. 
-        /// Uses a gaussian distribution with a mean in the middle and a std deviation of around 30%.
-        /// </summary>
-        /// <param name="list">List of pokemon on the team.</param>
+        /// <inheritdoc />
         public void AssignIVsAndEVsToTeam(PokeList list, int level)
         {
             foreach (var poke in list.Pokemon)
@@ -93,11 +91,7 @@ namespace PokemonGenerator.Utilities
             }
         }
 
-        public IEnumerable<int> GetPossiblePokemon(int level)
-        {
-            return _pokemonRepository.GetPossiblePokemon(level);
-        }
-
+        /// <inheritdoc />
         public void CalculateStatsForTeam(PokeList pokeList, int level)
         {
             foreach (var poke in pokeList.Pokemon)
@@ -114,7 +108,7 @@ namespace PokemonGenerator.Utilities
 
         /// <summary>
         /// Calculates the max hp for a pokemon based on it's base stat value, IV and EV values using a standard formula for Generations I and II.
-        /// <para />
+        /// 
         /// http://bulbapedia.bulbagarden.net/wiki/Statistic
         /// </summary>
         /// <param name="baseHitPoints">Base HP Stat</param>
@@ -129,7 +123,7 @@ namespace PokemonGenerator.Utilities
 
         /// <summary>
         /// Calculates the stat for a pokemon based on it's base stat value, IV and EV values using a standard formula for Generations I and II.
-        /// <para />
+        /// 
         /// http://bulbapedia.bulbagarden.net/wiki/Statistic
         /// </summary>
         /// <param name="baseStat">Base Stat Value</param>
@@ -144,7 +138,7 @@ namespace PokemonGenerator.Utilities
 
         /// <summary>
         /// Calcualtes the experience points a pokemon would need to attain the given level.
-        /// <para/> 
+        /// 
         /// http://bulbapedia.bulbagarden.net/wiki/Experience
         /// </summary>
         /// <param name="experienceGroup">The experience group  of the pokemon (See: http://bulbapedia.bulbagarden.net/wiki/Experience )</param>

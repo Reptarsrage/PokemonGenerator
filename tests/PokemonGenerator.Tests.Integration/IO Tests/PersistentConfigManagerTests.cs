@@ -54,7 +54,7 @@ namespace PokemonGenerator.Tests.Integration.IO_Tests
             _repository.Save();
             var saved = JsonConvert.DeserializeObject<PersistentConfig>(File.ReadAllText(_outFile), new JsonSerializerSettings { ObjectCreationHandling = ObjectCreationHandling.Replace });
 
-            foreach (var propertyInfo in typeof(PokemonGeneratorConfig).GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            foreach (var propertyInfo in typeof(GeneratorConfig).GetProperties(BindingFlags.Public | BindingFlags.Instance))
             {
                 if (propertyInfo.CanWrite)
                 {

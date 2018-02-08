@@ -11,13 +11,13 @@ namespace PokemonGenerator.Tests.Unit.Utility_Tests
     {
         private Random random;
         private IProbabilityUtility probabilityUtility;
-        private PokemonGeneratorConfig config;
+        private GeneratorConfig config;
         private const int iterations = 50000;
         private const double stdDeviation = 0.05;
 
         public ProbabilityUtilityTests()
         {
-            config = new PokemonGeneratorConfig();
+            config = new GeneratorConfig();
             random = new Random("The cake is a lie".GetHashCode());
             probabilityUtility = new ProbabilityUtility(random, config);
         }

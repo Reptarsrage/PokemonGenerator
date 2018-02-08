@@ -111,7 +111,7 @@ namespace PokemonGenerator.Windows.Options
             // 
             // OptionsWindowBindingSource
             // 
-            this.OptionsWindowBindingSource.DataSource = typeof(PokemonGeneratorConfig);
+            this.OptionsWindowBindingSource.DataSource = typeof(GeneratorConfig);
             // 
             // FieldNumericSkew
             // 

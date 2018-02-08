@@ -24,7 +24,7 @@ namespace PokemonGenerator.Models.Serialization
 
             for (var i = 0; i < count; i++)
             {
-                Pokemon[i] = new Pokemon() { SpeciesId = 0, Name = "Empty", OTName = "Empty" };
+                Pokemon[i] = new Pokemon { SpeciesId = 0, Name = "Empty", OTName = "Empty" };
                 Species[i] = 0;
                 Names[i] = "Empty";
                 OTNames[i] = "Empty";

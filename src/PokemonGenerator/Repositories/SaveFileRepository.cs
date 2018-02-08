@@ -7,24 +7,24 @@ namespace PokemonGenerator.Repositories
     public interface ISaveFileRepository
     {
         /// <summary>
-        /// Completely parses a given file stream into a <see cref="SAVFileModel"/> .
+        /// Completely parses a given file stream into a <see cref="SaveFileModel"/> .
         /// </summary>
-        SAVFileModel Deserialize(string filename);
+        SaveFileModel Deserialize(string filename);
 
         /// <summary>
-        /// Completely parses a given file stream into a <see cref="SAVFileModel"/> .
+        /// Completely parses a given file stream into a <see cref="SaveFileModel"/> .
         /// </summary>
-        SAVFileModel Deserialize(Stream stream);
+        SaveFileModel Deserialize(Stream stream);
 
         /// <summary>
-        /// Completely serialized a given <see cref="SAVFileModel"/> into the file.
+        /// Completely serialized a given <see cref="SaveFileModel"/> into the file.
         /// </summary>
-        void Serialize(string outFilePath, SAVFileModel sav);
+        void Serialize(string outFilePath, SaveFileModel save);
         
         /// <summary>
-        /// Completely serialized a given <see cref="SAVFileModel"/> into the file stream.
+        /// Completely serialized a given <see cref="SaveFileModel"/> into the file stream.
         /// </summary>
-        void Serialize(Stream stream, SAVFileModel sav);
+        void Serialize(Stream stream, SaveFileModel save);
     }
 
     public partial class SaveFileRepository : ISaveFileRepository
@@ -45,7 +45,7 @@ namespace PokemonGenerator.Repositories
         }
 
         /// <inheritdoc />
-        public SAVFileModel Deserialize(string fileName)
+        public SaveFileModel Deserialize(string fileName)
         {
             using (var stream = File.Open(fileName, FileMode.Open))
             {
@@ -57,7 +57,7 @@ namespace PokemonGenerator.Repositories
         }
 
         /// <inheritdoc />
-        public SAVFileModel Deserialize(Stream stream)
+        public SaveFileModel Deserialize(Stream stream)
         {
             _breader.Open(stream);
             var ret = Deserialize();
@@ -66,24 +66,24 @@ namespace PokemonGenerator.Repositories
         }
 
         /// <inheritdoc />
-        public void Serialize(string fileName, SAVFileModel sav)
+        public void Serialize(string fileName, SaveFileModel save)
         {
             using (var stream = File.Open(fileName, FileMode.Open))
             {
                 _bwriter.Open(stream);
                 _breader.Open(stream);
-                Serialize(sav);
+                Serialize(save);
                 _breader.Close();
                 _bwriter.Close();
             }
         }
 
         /// <inheritdoc />
-        public void Serialize(Stream stream, SAVFileModel sav)
+        public void Serialize(Stream stream, SaveFileModel save)
         {
             _bwriter.Open(stream);
             _breader.Open(stream);
-            Serialize(sav);
+            Serialize(save);
             _breader.Close();
             _bwriter.Close();
         }

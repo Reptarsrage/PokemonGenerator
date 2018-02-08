@@ -11,7 +11,7 @@ namespace PokemonGenerator.Tests.Integration.IO_Tests
     {
         private readonly string _testFile;
         private readonly ISaveFileRepository _saveFileRepository;
-        private readonly SAVFileModel _expectedModel;
+        private readonly SaveFileModel _expectedModel;
         private Stream _testStream;
 
         public SaveFileRepositoryTests()
@@ -33,7 +33,7 @@ namespace PokemonGenerator.Tests.Integration.IO_Tests
             // Setup
             _testStream = File.OpenRead(_testFile);
 
-            // Run
+            // Generate
             var resultModel = _saveFileRepository.Deserialize(_testStream);
 
             // Assert
@@ -49,7 +49,7 @@ namespace PokemonGenerator.Tests.Integration.IO_Tests
             _testStream.Seek(0x2D69, SeekOrigin.Begin);
             _testStream.Write(new byte[2] { 0xbe, 0xef }, 0, 2);
 
-            // Run
+            // Generate
             Assert.Throws<InvalidDataException>(() => _saveFileRepository.Deserialize(_testStream));
         }
 
@@ -74,7 +74,7 @@ namespace PokemonGenerator.Tests.Integration.IO_Tests
             // Setup
             _testStream = File.OpenRead(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Gold.sav"));
 
-            // Run
+            // Generate
             var resultModel = _saveFileRepository.Deserialize(_testStream);
 
             // Assert some values
@@ -87,7 +87,7 @@ namespace PokemonGenerator.Tests.Integration.IO_Tests
             // Setup
             _testStream = File.OpenRead(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Gold.sav"));
 
-            // Run
+            // Generate
             var resultModel = _saveFileRepository.Deserialize(_testStream);
 
             // Assert some values

@@ -38,7 +38,7 @@ namespace PokemonGenerator
                 .Build();
 
             var options = new PersistentConfig();
-            var iOptions = Microsoft.Extensions.Options.Options.Create(options);
+            var iOptions = Options.Create(options);
             Configuration.GetSection("Options").Bind(iOptions.Value.Options);
             Configuration.GetSection("Configuration").Bind(iOptions.Value.Configuration);
             builder.Register<IOptions<PersistentConfig>>(context => iOptions).InstancePerLifetimeScope();
@@ -61,6 +61,9 @@ namespace PokemonGenerator
         /// <param name="kernel">The kernel.</param>
         private void RegisterServices(ContainerBuilder builder)
         {
+            // Managers
+            builder.RegisterType<GeneratorManager>().As<IGeneratorManager>();
+
             // Controls
             builder.RegisterType<MainWindow>().InstancePerLifetimeScope();
             builder.RegisterType<PokemonSelectionWindow>().InstancePerLifetimeScope();
@@ -72,35 +75,31 @@ namespace PokemonGenerator
             // IO
             builder.RegisterType<BinaryReader2>().As<IBinaryReader2>();
             builder.RegisterType<BinaryWriter2>().As<IBinaryWriter2>();
-            builder.RegisterType<SaveFileRepository>().As<ISaveFileRepository>();
             builder.RegisterType<Charset>().As<ICharset>();
-            builder.RegisterType<ConfigRepository>().As<IConfigRepository>();
-
-            // DAL
-            builder.RegisterType<PokemonRepository>().As<IPokemonRepository>();
-
-            // Editors
-            builder.RegisterType<NRageConfigRepository>().As<INRageConfigRepository>();
-            builder.RegisterType<P64ConfigRepository>().As<IP64ConfigRepository>();
 
             // Validators
             builder.RegisterType<PokeGeneratorOptionsValidator>().As<IPokeGeneratorOptionsValidator>();
 
             // Utilities
-            builder.RegisterType<PokemonStatUtility>().As<IPokemonStatUtility>();
+            builder.RegisterType<PokemonStatProvider>().As<IPokemonStatProvider>();
             builder.RegisterType<ProbabilityUtility>().As<IProbabilityUtility>();
-
-            // Generators
-            builder.RegisterType<PokemonGeneratorManager>().As<IPokemonGeneratorManager>();
-            builder.RegisterType<PokemonTeamProvider>().As<IPokemonTeamProvider>();
-            builder.RegisterType<PokemonMoveProvider>().As<IPokemonMoveProvider>();
 
             // Providers
             builder.RegisterType<SpriteProvider>().As<ISpriteProvider>();
+            builder.RegisterType<PokemonProvider>().As<IPokemonProvider>();
+            builder.RegisterType<PokemonMoveProvider>().As<IPokemonMoveProvider>();
+            builder.RegisterType<SaveFileProvider>().As<ISaveFileProvider>();
+
+            // Repositories
+            builder.RegisterType<PokemonRepository>().As<IPokemonRepository>();
+            builder.RegisterType<SaveFileRepository>().As<ISaveFileRepository>();
+            builder.RegisterType<ConfigRepository>().As<IConfigRepository>();
+            builder.RegisterType<NRageConfigRepository>().As<INRageConfigRepository>();
+            builder.RegisterType<P64ConfigRepository>().As<IP64ConfigRepository>();
 
             // Other
             builder.RegisterType<Random>().InstancePerLifetimeScope();
-            builder.Register<PokemonGeneratorConfig>(context => Get<IOptions<PersistentConfig>>().Value.Configuration);
+            builder.Register<GeneratorConfig>(context => Get<IOptions<PersistentConfig>>().Value.Configuration);
             builder.Register(context => this.Get<IOptions<PersistentConfig>>().Value.Options);
         }
 

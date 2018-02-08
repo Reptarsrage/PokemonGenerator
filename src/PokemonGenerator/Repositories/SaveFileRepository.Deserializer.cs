@@ -8,15 +8,15 @@ namespace PokemonGenerator.Repositories
     public partial class SaveFileRepository
     {
         /// <summary>
-        /// Contains all logic needed to parse data from a pokemon Gold/Silver sav file. <para/> 
+        /// Contains all logic needed to parse data from a pokemon Gold/Silver sav file. 
         /// 
-        /// See information available here for a detailed explaination: <para/> 
-        /// http://bulbapedia.bulbagarden.net/wiki/Save_data_structure_in_Generation_II <para/> 
+        /// See information available here for a detailed explaination: 
+        /// http://bulbapedia.bulbagarden.net/wiki/Save_data_structure_in_Generation_II 
         /// http://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_data_structure_in_Generation_II
         /// </summary>
-        private SAVFileModel Deserialize()
+        private SaveFileModel Deserialize()
         {
-            var sav = new SAVFileModel();
+            var sav = new SaveFileModel();
 
             _breader.Seek(0x2000, SeekOrigin.Begin);
             sav.Options = _breader.ReadUInt64();

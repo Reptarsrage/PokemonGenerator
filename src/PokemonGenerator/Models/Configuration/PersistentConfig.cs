@@ -4,11 +4,11 @@
     {
         public PersistentConfig()
         {
-            Configuration = new PokemonGeneratorConfig();
+            Configuration = new GeneratorConfig();
             Options = new ProgramOptions();
         }
 
-        public PokemonGeneratorConfig Configuration { get; set; }
+        public GeneratorConfig Configuration { get; set; }
 
         public ProgramOptions Options { get; set; }
     }

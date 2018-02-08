@@ -1,16 +1,23 @@
-﻿using System;
-using System.IO;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using PokemonGenerator.Models.Configuration;
+using System;
+using System.IO;
 
 namespace PokemonGenerator.Repositories
 {
+    /// <summary>
+    /// Saves persistent program config and options
+    /// </summary>
     public interface IConfigRepository
     {
+        /// <summary>
+        /// Writes persistant config to file
+        /// </summary>
         void Save();
     }
 
+    /// <inheritdoc />
     public class ConfigRepository : IConfigRepository
     {
         public const string ConfigFileName = "configuration.json";
@@ -34,6 +41,7 @@ namespace PokemonGenerator.Repositories
             _options = options;
         }
 
+        /// <inheritdoc />
         public void Save()
         {
             try

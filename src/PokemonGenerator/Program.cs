@@ -28,7 +28,7 @@ namespace PokemonGenerator
             // Init DAL
             DapperMapper.Init();
 
-            // Run GUI
+            // Generate GUI
             using (var injector = new DependencyInjector())
             {
                 Application.EnableVisualStyles();
@@ -41,7 +41,7 @@ namespace PokemonGenerator
                 options.AddOption(injector.Get<RandomOptionsWindow>());
                 options.AddOption(injector.Get<PokemonLikelinessWindow>());
 
-                // Run
+                // Generate
                 Application.Run(new MainForm(injector));
             }
         }

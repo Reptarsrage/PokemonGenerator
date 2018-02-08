@@ -53,7 +53,7 @@ namespace PokemonGenerator.Tests.Unit.IO_Tests
             // Mock
             SetUpMocksForSerialization();
 
-            // Run
+            // Generate
             _serializer = new SaveFileRepository(_charsetMock.Object, _bwriterMock.Object, _breaderMock.Object);
             _serializer.Serialize(_testStream, model);
 
@@ -85,7 +85,7 @@ namespace PokemonGenerator.Tests.Unit.IO_Tests
                 _testWriter.Write(0xdeadbeef);
             }
 
-            // Run
+            // Generate
             _serializer = new SaveFileRepository(_charsetMock.Object, _bwriterMock.Object, _breaderMock.Object);
             _serializer.Serialize(_testStream, model);
 
@@ -114,7 +114,7 @@ namespace PokemonGenerator.Tests.Unit.IO_Tests
             // Mock
             SetUpMocksForSerialization();
 
-            // Run
+            // Generate
             _serializer = new SaveFileRepository(_charsetMock.Object, _bwriterMock.Object, _breaderMock.Object);
             _serializer.Serialize(_testStream, model);
 
@@ -161,7 +161,7 @@ namespace PokemonGenerator.Tests.Unit.IO_Tests
             // Mock
             SetUpMocksForSerialization();
 
-            // Run
+            // Generate
             _serializer = new SaveFileRepository(_charsetMock.Object, _bwriterMock.Object, _breaderMock.Object);
             _serializer.Serialize(_testStream, model);
 
@@ -259,7 +259,7 @@ namespace PokemonGenerator.Tests.Unit.IO_Tests
             // Mock
             SetUpMocksForSerialization();
 
-            // Run
+            // Generate
             _serializer = new SaveFileRepository(_charsetMock.Object, _bwriterMock.Object, _breaderMock.Object);
             _serializer.Serialize(_testStream, model);
 

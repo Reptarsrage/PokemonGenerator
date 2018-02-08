@@ -6,80 +6,80 @@ using System.Linq;
 namespace PokemonGenerator.Repositories
 {
     /// <summary>
-    /// Contains all logic needed to serialize data into a pokemon Gold/Silver sav file. <para/> 
+    /// Contains all logic needed to serialize data into a pokemon Gold/Silver save file. 
     /// 
-    /// See information available here for a detailed explaination: <para/> 
-    /// http://bulbapedia.bulbagarden.net/wiki/Save_data_structure_in_Generation_II <para/> 
+    /// See information available here for a detailed explaination: 
+    /// http://bulbapedia.bulbagarden.net/wiki/Save_data_structure_in_Generation_II 
     /// http://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_data_structure_in_Generation_II
     /// </summary>
     public partial class SaveFileRepository
     {
-        private void Serialize(SAVFileModel sav)
+        private void Serialize(SaveFileModel save)
         {
             _bwriter.Seek(0x2000, SeekOrigin.Begin);
-            _bwriter.WriteUInt64(sav.Options);
+            _bwriter.WriteUInt64(save.Options);
 
             _bwriter.Seek(0x2009, SeekOrigin.Begin);
-            _bwriter.WriteUInt16((ushort)sav.PlayerTrainerID);
+            _bwriter.WriteUInt16((ushort)save.PlayerTrainerID);
 
             _bwriter.Seek(0x200B, SeekOrigin.Begin);
-            _bwriter.WriteString(sav.PlayerName, 11, _charset);
+            _bwriter.WriteString(save.PlayerName, 11, _charset);
 
             _bwriter.Seek(0x2021, SeekOrigin.Begin);
-            _bwriter.WriteString(sav.RivalName, 11, _charset);
+            _bwriter.WriteString(save.RivalName, 11, _charset);
 
             _bwriter.Seek(0x2037, SeekOrigin.Begin);
-            _bwriter.Write((byte)(sav.Daylightsavings ? 0x80 : 0));
+            _bwriter.Write((byte)(save.Daylightsavings ? 0x80 : 0));
 
             _bwriter.Seek(0x2053, SeekOrigin.Begin);
-            _bwriter.WriteUInt32(sav.TimePlayed);
+            _bwriter.WriteUInt32(save.TimePlayed);
 
             _bwriter.Seek(0x206B, SeekOrigin.Begin);
-            _bwriter.Write(sav.Playerpalette);
+            _bwriter.Write(save.Playerpalette);
 
             _bwriter.Seek(0x23DB, SeekOrigin.Begin);
-            _bwriter.WriteUInt24(sav.Money);
+            _bwriter.WriteUInt24(save.Money);
 
             _bwriter.Seek(0x23E4, SeekOrigin.Begin);
 
             // Johnto Badges
-            var arr = new BitArray(Enumerable.Repeat(true, sav.JohtoBadges).ToArray());
+            var arr = new BitArray(Enumerable.Repeat(true, save.JohtoBadges).ToArray());
             var buffer = new byte[1];
             arr.CopyTo(buffer, 0);
             _bwriter.Write(buffer[0]);
 
             _bwriter.Seek(0x23E6, SeekOrigin.Begin);
-            SerializeTmPocket(sav.TMpocket);
+            SerializeTmPocket(save.TMpocket);
 
             _bwriter.Seek(0x241F, SeekOrigin.Begin);
-            SerializeItemList(20, sav.PocketItemList);
+            SerializeItemList(20, save.PocketItemList);
 
             _bwriter.Seek(0x2449, SeekOrigin.Begin);
-            SerializeItemList(26, sav.PocketKeyItemList, true);
+            SerializeItemList(26, save.PocketKeyItemList, true);
 
             _bwriter.Seek(0x2464, SeekOrigin.Begin);
-            SerializeItemList(12, sav.PocketBallItemList);
+            SerializeItemList(12, save.PocketBallItemList);
 
             _bwriter.Seek(0x247E, SeekOrigin.Begin);
-            SerializeItemList(50, sav.PCItemList);
+            SerializeItemList(50, save.PCItemList);
 
             _bwriter.Seek(0x2724, SeekOrigin.Begin);
-            _bwriter.Write(sav.CurrentPCBoxNumber);
+            _bwriter.Write(save.CurrentPCBoxNumber);
 
             // Boxes
             _bwriter.Seek(0x2727, SeekOrigin.Begin);
             for (var i = 0; i < 14; i++)
             {
-                _bwriter.WriteString(sav.PCBoxNames[i], 9, _charset);
+                _bwriter.WriteString(save.PCBoxNames[i], 9, _charset);
             }
 
             // Team
             _bwriter.Seek(0x288A, SeekOrigin.Begin);
-            SerializePokeList(true, 6, sav.TeamPokemonList);
+            SerializePokeList(true, 6, save.TeamPokemonList);
 
             // Pokedex
             _bwriter.Seek(0x2A4C, SeekOrigin.Begin);
-            arr = new BitArray(sav.PokedexOwned);
+            arr = new BitArray(save.PokedexOwned);
             buffer = new byte[32];
             arr.CopyTo(buffer, 0);
             foreach (var b in buffer)
@@ -88,7 +88,7 @@ namespace PokemonGenerator.Repositories
             }
 
             _bwriter.Seek(0x2A6C, SeekOrigin.Begin);
-            arr = new BitArray(sav.PokedexSeen);
+            arr = new BitArray(save.PokedexSeen);
             buffer = new byte[32];
             arr.CopyTo(buffer, 0);
             foreach (var b in buffer)
@@ -98,20 +98,20 @@ namespace PokemonGenerator.Repositories
 
             // Current Box List
             _bwriter.Seek(0x2D6C, SeekOrigin.Begin);
-            SerializePokeList(false, 20, sav.CurrentBoxPokemonlist);
+            SerializePokeList(false, 20, save.CurrentBoxPokemonlist);
 
             // GET 1-7 boxes
             for (var i = 0; i < 7; i++)
             {
                 _bwriter.Seek(0x4000 + 0x450 * i, SeekOrigin.Begin);
-                SerializePokeList(false, 20, sav.Boxes[i]);
+                SerializePokeList(false, 20, save.Boxes[i]);
             }
 
             // GET 8-14 boxes
             for (var i = 7; i < 14; i++)
             {
                 _bwriter.Seek(0x6000 + 0x450 * (i - 7), SeekOrigin.Begin);
-                SerializePokeList(false, 20, sav.Boxes[i]);
+                SerializePokeList(false, 20, save.Boxes[i]);
             }
 
             // Calculate checksum

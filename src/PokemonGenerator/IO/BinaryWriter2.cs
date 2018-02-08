@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using PokemonGenerator.Models.Serialization;
 
 namespace PokemonGenerator.IO
 {
@@ -20,7 +21,7 @@ namespace PokemonGenerator.IO
     }
 
     /// <summary>
-    /// Binary writer for <see cref="Models.Serialization.SAVFileModel"/> serialization
+    /// Binary writer for <see cref="SaveFileModel"/> serialization
     /// Unless otherwise noted, values are big-endian and either unsigned or two's complement.
     /// </summary>
     public class BinaryWriter2 : IBinaryWriter2, IDisposable

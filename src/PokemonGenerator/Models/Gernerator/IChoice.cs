@@ -1,6 +1,6 @@
 ﻿namespace PokemonGenerator.Models.Gernerator
 {
-    internal interface IChoice
+    public interface IChoice
     {
         double Probability { get; set; }
     }

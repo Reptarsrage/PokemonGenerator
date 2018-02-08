@@ -10,7 +10,7 @@ namespace PokemonGenerator.IO
 
     /// <summary>
     /// The Charset used in pokemon Gold/Silver version.
-    /// <para/>
+    ///
     /// See: http://bulbapedia.bulbagarden.net/wiki/Character_encoding_in_Generation_II
     /// </summary>
     public class Charset : ICharset
