@@ -1,22 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Moq;
-using PokemonGenerator.Generators;
+﻿using Moq;
 using PokemonGenerator.Models.Configuration;
 using PokemonGenerator.Models.Gernerator;
 using PokemonGenerator.Models.Serialization;
+using PokemonGenerator.Providers;
 using PokemonGenerator.Utilities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace PokemonGenerator.Tests.Unit
 {
     public class PokemonTeamGeneratorTests
     {
-        private PokemonTeamGenerator _pokemonGeneratorWorker;
+        private PokemonTeamProvider _pokemonProviderWorker;
         private Mock<IPokemonStatUtility> pokemonStatUtilityMock;
         private Mock<IProbabilityUtility> probabilityUtilityMock;
-        private Mock<IPokemonMoveGenerator> pokemonMoveGeneratorMock;
+        private Mock<IPokemonMoveProvider> pokemonMoveGeneratorMock;
         private PokemonGeneratorConfig config;
         private Random random;
 
@@ -45,7 +45,7 @@ namespace PokemonGenerator.Tests.Unit
             };
             pokemonStatUtilityMock = new Mock<IPokemonStatUtility>(MockBehavior.Strict);
             probabilityUtilityMock = new Mock<IProbabilityUtility>(MockBehavior.Strict);
-            pokemonMoveGeneratorMock = new Mock<IPokemonMoveGenerator>(MockBehavior.Strict);
+            pokemonMoveGeneratorMock = new Mock<IPokemonMoveProvider>(MockBehavior.Strict);
         }
 
         [Fact]
@@ -67,8 +67,8 @@ namespace PokemonGenerator.Tests.Unit
             pokemonStatUtilityMock.Setup(m => m.CalculateStatsForTeam(It.IsAny<PokeList>(), level));
 
             // Run
-            _pokemonGeneratorWorker = new PokemonTeamGenerator(pokemonStatUtilityMock.Object, probabilityUtilityMock.Object, pokemonMoveGeneratorMock.Object, config, random);
-            var team = _pokemonGeneratorWorker.GenerateRandomPokemonTeam(level);
+            _pokemonProviderWorker = new PokemonTeamProvider(pokemonStatUtilityMock.Object, probabilityUtilityMock.Object, pokemonMoveGeneratorMock.Object, config, random);
+            var team = _pokemonProviderWorker.GenerateRandomPokemonTeam(level);
 
             // Assert
             Assert.NotNull(team);

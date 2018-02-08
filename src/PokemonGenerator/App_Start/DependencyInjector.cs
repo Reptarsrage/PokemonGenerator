@@ -1,15 +1,15 @@
 ﻿using Autofac;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
-using PokemonGenerator.Controls;
-using PokemonGenerator.DAL;
-using PokemonGenerator.Editors;
-using PokemonGenerator.Generators;
 using PokemonGenerator.IO;
+using PokemonGenerator.Managers;
 using PokemonGenerator.Models.Configuration;
 using PokemonGenerator.Providers;
+using PokemonGenerator.Repositories;
 using PokemonGenerator.Utilities;
 using PokemonGenerator.Validators;
+using PokemonGenerator.Windows;
+using PokemonGenerator.Windows.Options;
 using System;
 
 namespace PokemonGenerator
@@ -34,7 +34,7 @@ namespace PokemonGenerator
             Configuration = new ConfigurationBuilder()
                 .SetBasePath((string)AppDomain.CurrentDomain.GetData("DataDirectory"))
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile(PersistentConfigManager.ConfigFileName, optional: true, reloadOnChange: true)
+                .AddJsonFile(ConfigRepository.ConfigFileName, optional: true, reloadOnChange: true)
                 .Build();
 
             var options = new PersistentConfig();
@@ -72,17 +72,16 @@ namespace PokemonGenerator
             // IO
             builder.RegisterType<BinaryReader2>().As<IBinaryReader2>();
             builder.RegisterType<BinaryWriter2>().As<IBinaryWriter2>();
-            builder.RegisterType<PokeDeserializer>().As<IPokeDeserializer>();
-            builder.RegisterType<PokeSerializer>().As<IPokeSerializer>();
+            builder.RegisterType<SaveFileRepository>().As<ISaveFileRepository>();
             builder.RegisterType<Charset>().As<ICharset>();
-            builder.RegisterType<PersistentConfigManager>().As<IPersistentConfigManager>();
+            builder.RegisterType<ConfigRepository>().As<IConfigRepository>();
 
             // DAL
-            builder.RegisterType<PokemonDA>().As<IPokemonDA>();
+            builder.RegisterType<PokemonRepository>().As<IPokemonRepository>();
 
             // Editors
-            builder.RegisterType<NRageIniEditor>().As<INRageIniEditor>();
-            builder.RegisterType<P64ConfigEditor>().As<IP64ConfigEditor>();
+            builder.RegisterType<NRageConfigRepository>().As<INRageConfigRepository>();
+            builder.RegisterType<P64ConfigRepository>().As<IP64ConfigRepository>();
 
             // Validators
             builder.RegisterType<PokeGeneratorOptionsValidator>().As<IPokeGeneratorOptionsValidator>();
@@ -92,9 +91,9 @@ namespace PokemonGenerator
             builder.RegisterType<ProbabilityUtility>().As<IProbabilityUtility>();
 
             // Generators
-            builder.RegisterType<PokemonGeneratorRunner>().As<IPokemonGeneratorRunner>();
-            builder.RegisterType<PokemonTeamGenerator>().As<IPokemonTeamGenerator>();
-            builder.RegisterType<PokemonMoveGenerator>().As<IPokemonMoveGenerator>();
+            builder.RegisterType<PokemonGeneratorManager>().As<IPokemonGeneratorManager>();
+            builder.RegisterType<PokemonTeamProvider>().As<IPokemonTeamProvider>();
+            builder.RegisterType<PokemonMoveProvider>().As<IPokemonMoveProvider>();
 
             // Providers
             builder.RegisterType<SpriteProvider>().As<ISpriteProvider>();

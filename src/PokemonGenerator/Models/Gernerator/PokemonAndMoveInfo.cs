@@ -1,7 +1,7 @@
-﻿using PokemonGenerator.Enumerations;
-using PokemonGenerator.Models.Dto;
-using PokemonGenerator.Models.Serialization;
+﻿using PokemonGenerator.Models.Serialization;
 using System.Collections.Generic;
+using PokemonGenerator.Models.DTO;
+using PokemonGenerator.Models.Enumerations;
 
 namespace PokemonGenerator.Models.Gernerator
 {

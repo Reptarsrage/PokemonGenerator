@@ -1,9 +1,9 @@
-﻿using System.Linq;
-using Moq;
-using PokemonGenerator.DAL;
-using PokemonGenerator.Models.Dto;
+﻿using Moq;
+using PokemonGenerator.Models.DTO;
 using PokemonGenerator.Models.Serialization;
+using PokemonGenerator.Repositories;
 using PokemonGenerator.Utilities;
+using System.Linq;
 using Xunit;
 
 namespace PokemonGenerator.Tests.Unit.Utility_Tests
@@ -11,12 +11,12 @@ namespace PokemonGenerator.Tests.Unit.Utility_Tests
     public class PokemonStatUtilityTests
     {
         private PokemonStatUtility pokemonStatUtility;
-        private Mock<IPokemonDA> pokemonDAMock;
+        private Mock<IPokemonRepository> pokemonDAMock;
         private Mock<IProbabilityUtility> probabilityUtilityMock;
 
         public PokemonStatUtilityTests()
         {
-            pokemonDAMock = new Mock<IPokemonDA>(MockBehavior.Strict);
+            pokemonDAMock = new Mock<IPokemonRepository>(MockBehavior.Strict);
             probabilityUtilityMock = new Mock<IProbabilityUtility>(MockBehavior.Strict);
             pokemonStatUtility = new PokemonStatUtility(pokemonDAMock.Object, probabilityUtilityMock.Object);
         }

@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using PokemonGenerator.Models.Serialization;
+﻿using PokemonGenerator.Models.Serialization;
+using System.Linq;
 using Xunit;
 
 namespace PokemonGenerator.Tests.Unit.IO_Tests

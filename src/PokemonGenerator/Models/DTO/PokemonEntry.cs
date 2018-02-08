@@ -1,4 +1,4 @@
-﻿namespace PokemonGenerator.Models.Dto
+﻿namespace PokemonGenerator.Models.DTO
 {
     public class PokemonEntry
     {

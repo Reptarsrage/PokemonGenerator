@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Moq;
+using PokemonGenerator.IO;
+using System;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Moq;
-using PokemonGenerator.IO;
 using Xunit;
 
 namespace PokemonGenerator.Tests.Unit.IO_Tests

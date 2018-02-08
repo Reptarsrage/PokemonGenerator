@@ -1,8 +1,8 @@
-﻿using PokemonGenerator.DAL;
-using PokemonGenerator.Models.Serialization;
+﻿using PokemonGenerator.Models.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using PokemonGenerator.Repositories;
 
 namespace PokemonGenerator.Utilities
 {
@@ -16,12 +16,12 @@ namespace PokemonGenerator.Utilities
 
     class PokemonStatUtility : IPokemonStatUtility
     {
-        private readonly IPokemonDA _pokemonDA;
+        private readonly IPokemonRepository _pokemonRepository;
         private readonly IProbabilityUtility _probabilityUtility;
 
-        public PokemonStatUtility(IPokemonDA pokemonDA, IProbabilityUtility probabilityUtility)
+        public PokemonStatUtility(IPokemonRepository pokemonRepository, IProbabilityUtility probabilityUtility)
         {
-            _pokemonDA = pokemonDA;
+            _pokemonRepository = pokemonRepository;
             _probabilityUtility = probabilityUtility;
         }
 
@@ -45,7 +45,7 @@ namespace PokemonGenerator.Utilities
         /// <param name="level"></param>
         public void GetTeamBaseStats(PokeList list, int level)
         {
-            var stats = _pokemonDA.GetTeamBaseStats(list);
+            var stats = _pokemonRepository.GetTeamBaseStats(list);
             foreach (var s in stats)
             {
                 var idx = list.Species.ToList().IndexOf((byte)s.Id);
@@ -95,7 +95,7 @@ namespace PokemonGenerator.Utilities
 
         public IEnumerable<int> GetPossiblePokemon(int level)
         {
-            return _pokemonDA.GetPossiblePokemon(level);
+            return _pokemonRepository.GetPossiblePokemon(level);
         }
 
         public void CalculateStatsForTeam(PokeList pokeList, int level)

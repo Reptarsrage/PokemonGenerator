@@ -32,27 +32,27 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Controls\MainForm.cs" SubType="Form" />
-    <Compile Update="Controls\PlayerOptionsGroupBox.cs" SubType="Form" />
-    <Compile Update="Controls\MainWindow.cs" SubType="Form" />
-    <Compile Update="Controls\PokemonLikelinessWindow.cs" SubType="Form" />
-    <Compile Update="Controls\RandomOptionsWindow.cs" SubType="Form" />
-    <Compile Update="Controls\PokemonSelectionWindow.cs" SubType="Form" />
-    <Compile Update="Controls\OptionsWindowController.cs" SubType="Form" />
+    <Compile Update="Forms\MainForm.cs" SubType="Form" />
+    <Compile Update="Windows\PlayerOptionsGroupBox.cs" SubType="Form" />
+    <Compile Update="Windows\MainWindow.cs" SubType="Form" />
+    <Compile Update="Windows\Options\PokemonLikelinessWindow.cs" SubType="Form" />
+    <Compile Update="Windows\Options\RandomOptionsWindow.cs" SubType="Form" />
+    <Compile Update="Windows\Options\PokemonSelectionWindow.cs" SubType="Form" />
+    <Compile Update="Windows\Options\OptionsWindowController.cs" SubType="Form" />
     <Compile Update="Controls\SVGViewer.cs" SubType="Form" />
-    <Compile Update="Controls\TeamSelectionWindow.cs" SubType="Form" />
+    <Compile Update="Windows\TeamSelectionWindow.cs" SubType="Form" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Controls\PlayerOptionsGroupBox.Designer.cs" DependentUpon="PlayerOptionsGroupBox.cs" />
-    <Compile Update="Controls\MainForm.Designer.cs" DependentUpon="MainForm.cs" />
-    <Compile Update="Controls\PokemonLikelinessWindow.Designer.cs" DependentUpon="PokemonLikelinessWindow.cs" />
-    <Compile Update="Controls\MainWindow.Designer.cs" DependentUpon="MainWindow.cs" />
-    <Compile Update="Controls\PokemonSelectionWindow.Designer.cs" DependentUpon="PokemonSelectionWindow.cs" />
-    <Compile Update="Controls\RandomOptionsWindow.Designer.cs" DependentUpon="RandomOptionsWindow.cs" />
-    <Compile Update="Controls\OptionsWindowController.Designer.cs" DependentUpon="OptionsWindowController.cs" />
+    <Compile Update="Windows\PlayerOptionsGroupBox.Designer.cs" DependentUpon="PlayerOptionsGroupBox.cs" />
+    <Compile Update="Forms\MainForm.Designer.cs" DependentUpon="MainForm.cs" />
+    <Compile Update="Windows\Options\PokemonLikelinessWindow.Designer.cs" DependentUpon="PokemonLikelinessWindow.cs" />
+    <Compile Update="Windows\MainWindow.Designer.cs" DependentUpon="MainWindow.cs" />
+    <Compile Update="Windows\Options\PokemonSelectionWindow.Designer.cs" DependentUpon="PokemonSelectionWindow.cs" />
+    <Compile Update="Windows\Options\RandomOptionsWindow.Designer.cs" DependentUpon="RandomOptionsWindow.cs" />
+    <Compile Update="Windows\Options\OptionsWindowController.Designer.cs" DependentUpon="OptionsWindowController.cs" />
     <Compile Update="Controls\SVGViewer.Designer.cs" DependentUpon="SVGViewer.cs" />
-    <Compile Update="Controls\TeamSelectionWindow.Designer.cs" DependentUpon="TeamSelectionWindow.cs" />
+    <Compile Update="Windows\TeamSelectionWindow.Designer.cs" DependentUpon="TeamSelectionWindow.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -65,15 +65,15 @@
     <EmbeddedResource Include="Resources\favicon.ico" />
     <EmbeddedResource Include="Resources\sprites.png" />
     <EmbeddedResource Update="Properties\Resources.resx" Generator="ResXFileCodeGenerator" LastGenOutput="Resources.Designer.cs" />
-    <EmbeddedResource Update="Controls\MainForm.resx" DependentUpon="MainForm.cs" />
-    <EmbeddedResource Update="Controls\MainWindow.resx" DependentUpon="MainWindow.cs" />
-    <EmbeddedResource Update="Controls\PokemonSelectionWindow.resx" DependentUpon="PokemonSelectionWindow.cs" />
-    <EmbeddedResource Update="Controls\RandomOptionsWindow.resx" DependentUpon="RandomOptionsWindow.cs" />
-    <EmbeddedResource Update="Controls\OptionsWindowController.resx" DependentUpon="OptionsWindowController.cs" />
-    <EmbeddedResource Update="Controls\PlayerOptionsGroupBox.resx" DependentUpon="PlayerOptionsGroupBox.cs" />
-    <EmbeddedResource Update="Controls\PokemonLikelinessWindow.resx" DependentUpon="PokemonLikelinessWindow.cs" />
+    <EmbeddedResource Update="Forms\MainForm.resx" DependentUpon="MainForm.cs" />
+    <EmbeddedResource Update="Windows\MainWindow.resx" DependentUpon="MainWindow.cs" />
+    <EmbeddedResource Update="Windows\Options\PokemonSelectionWindow.resx" DependentUpon="PokemonSelectionWindow.cs" />
+    <EmbeddedResource Update="Windows\Options\RandomOptionsWindow.resx" DependentUpon="RandomOptionsWindow.cs" />
+    <EmbeddedResource Update="Windows\Options\OptionsWindowController.resx" DependentUpon="OptionsWindowController.cs" />
+    <EmbeddedResource Update="Windows\PlayerOptionsGroupBox.resx" DependentUpon="PlayerOptionsGroupBox.cs" />
+    <EmbeddedResource Update="Windows\Options\PokemonLikelinessWindow.resx" DependentUpon="PokemonLikelinessWindow.cs" />
     <EmbeddedResource Update="Controls\SVGViewer.resx" DependentUpon="SVGViewer.cs" />
-    <EmbeddedResource Update="Controls\TeamSelectionWindow.resx" DependentUpon="TeamSelectionWindow.cs" />
+    <EmbeddedResource Update="Windows\TeamSelectionWindow.resx" DependentUpon="TeamSelectionWindow.cs" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

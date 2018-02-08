@@ -1,18 +1,19 @@
-﻿using System;
+﻿using Moq;
+using PokemonGenerator.IO;
+using PokemonGenerator.Models.Serialization;
+using PokemonGenerator.Repositories;
+using System;
 using System.Collections;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Moq;
-using PokemonGenerator.IO;
-using PokemonGenerator.Models.Serialization;
 using Xunit;
 
 namespace PokemonGenerator.Tests.Unit.IO_Tests
 {
-    public class PokeSerializerTests : SerializerTestsBase, IDisposable
+    public class SaveFileRepositoryTests : SerializerTestsBase, IDisposable
     {
-        private IPokeSerializer _serializer;
+        private ISaveFileRepository _serializer;
         private Mock<ICharset> _charsetMock;
         private Mock<IBinaryReader2> _breaderMock;
         private Mock<IBinaryWriter2> _bwriterMock;
@@ -22,7 +23,7 @@ namespace PokemonGenerator.Tests.Unit.IO_Tests
         private int offset;
         private byte buffer;
 
-        public PokeSerializerTests()
+        public SaveFileRepositoryTests()
         {
             _charsetMock = new Mock<ICharset>(MockBehavior.Strict);
             _breaderMock = new Mock<IBinaryReader2>(MockBehavior.Strict);
@@ -45,7 +46,7 @@ namespace PokemonGenerator.Tests.Unit.IO_Tests
         }
 
         [Fact]
-        public void SerializeSAVFileModalHasCorrectLengthTest()
+        public void SerializeHasCorrectLengthTest()
         {
             var model = BuildTestModel();
 
@@ -53,8 +54,8 @@ namespace PokemonGenerator.Tests.Unit.IO_Tests
             SetUpMocksForSerialization();
 
             // Run
-            _serializer = new PokeSerializer(_charsetMock.Object, _bwriterMock.Object, _breaderMock.Object);
-            _serializer.SerializeSAVFileModal(_testStream, model);
+            _serializer = new SaveFileRepository(_charsetMock.Object, _bwriterMock.Object, _breaderMock.Object);
+            _serializer.Serialize(_testStream, model);
 
             // Assert
             _testReader.BaseStream.Seek(0, SeekOrigin.Begin);
@@ -70,7 +71,7 @@ namespace PokemonGenerator.Tests.Unit.IO_Tests
         }
 
         [Fact]
-        public void SerializeSAVFileModalDoesNotOverwriteBeginningTest()
+        public void SerializeDoesNotOverwriteBeginningTest()
         {
             var model = BuildTestModel();
 
@@ -85,8 +86,8 @@ namespace PokemonGenerator.Tests.Unit.IO_Tests
             }
 
             // Run
-            _serializer = new PokeSerializer(_charsetMock.Object, _bwriterMock.Object, _breaderMock.Object);
-            _serializer.SerializeSAVFileModal(_testStream, model);
+            _serializer = new SaveFileRepository(_charsetMock.Object, _bwriterMock.Object, _breaderMock.Object);
+            _serializer.Serialize(_testStream, model);
 
             // Assert
             _testReader.BaseStream.Seek(0, SeekOrigin.Begin);
@@ -106,7 +107,7 @@ namespace PokemonGenerator.Tests.Unit.IO_Tests
         }
 
         [Fact]
-        public void SerializeSAVFileModalBasicValuesTest()
+        public void SerializeBasicValuesTest()
         {
             var model = BuildTestModel();
 
@@ -114,8 +115,8 @@ namespace PokemonGenerator.Tests.Unit.IO_Tests
             SetUpMocksForSerialization();
 
             // Run
-            _serializer = new PokeSerializer(_charsetMock.Object, _bwriterMock.Object, _breaderMock.Object);
-            _serializer.SerializeSAVFileModal(_testStream, model);
+            _serializer = new SaveFileRepository(_charsetMock.Object, _bwriterMock.Object, _breaderMock.Object);
+            _serializer.Serialize(_testStream, model);
 
             // Assert
             _testReader.BaseStream.Seek(0, SeekOrigin.Begin);
@@ -153,7 +154,7 @@ namespace PokemonGenerator.Tests.Unit.IO_Tests
         }
 
         [Fact]
-        public void SerializeSAVFileModalComplexValuesTest()
+        public void SerializeComplexValuesTest()
         {
             var model = BuildTestModel();
 
@@ -161,8 +162,8 @@ namespace PokemonGenerator.Tests.Unit.IO_Tests
             SetUpMocksForSerialization();
 
             // Run
-            _serializer = new PokeSerializer(_charsetMock.Object, _bwriterMock.Object, _breaderMock.Object);
-            _serializer.SerializeSAVFileModal(_testStream, model);
+            _serializer = new SaveFileRepository(_charsetMock.Object, _bwriterMock.Object, _breaderMock.Object);
+            _serializer.Serialize(_testStream, model);
 
             // Assert
             var counter = 0;
@@ -251,7 +252,7 @@ namespace PokemonGenerator.Tests.Unit.IO_Tests
         }
 
         [Fact]
-        public void SerializeSAVFileModalCheckSumTest()
+        public void SerializeCheckSumTest()
         {
             var model = BuildTestModel();
 
@@ -259,8 +260,8 @@ namespace PokemonGenerator.Tests.Unit.IO_Tests
             SetUpMocksForSerialization();
 
             // Run
-            _serializer = new PokeSerializer(_charsetMock.Object, _bwriterMock.Object, _breaderMock.Object);
-            _serializer.SerializeSAVFileModal(_testStream, model);
+            _serializer = new SaveFileRepository(_charsetMock.Object, _bwriterMock.Object, _breaderMock.Object);
+            _serializer.Serialize(_testStream, model);
 
             // Assert
             _testReader.BaseStream.Seek(0, SeekOrigin.Begin);

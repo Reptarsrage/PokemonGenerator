@@ -9,14 +9,14 @@ namespace PokemonGenerator.Providers
 
     public class SpriteProvider : ISpriteProvider
     {
-        private const int SPRITE_TILE_WIDTH = 56;
-        private const int SPRITE_TILE_HEIGHT = 56;
+        private const int SpriteTileWidth = 56;
+        private const int SpriteTileHeight = 56;
 
         public Bitmap RenderSprite(int index, Size imageSize)
         {
-            var x = index * SPRITE_TILE_WIDTH % Properties.Resources.sprites.Width;
-            var y = index * SPRITE_TILE_WIDTH / Properties.Resources.sprites.Width * SPRITE_TILE_HEIGHT;
-            var cropArea = new Rectangle(x, y, SPRITE_TILE_WIDTH, SPRITE_TILE_HEIGHT);
+            var x = index * SpriteTileWidth % Properties.Resources.sprites.Width;
+            var y = index * SpriteTileWidth / Properties.Resources.sprites.Width * SpriteTileHeight;
+            var cropArea = new Rectangle(x, y, SpriteTileWidth, SpriteTileHeight);
             var target = new Bitmap(imageSize.Width, imageSize.Height);
 
             using (var g = Graphics.FromImage(target))

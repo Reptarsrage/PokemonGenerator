@@ -1,6 +1,6 @@
-﻿using System.IO;
+﻿using PokemonGenerator.Validators;
+using System.IO;
 using System.Reflection;
-using PokemonGenerator.Validators;
 using Xunit;
 
 namespace PokemonGenerator.Tests.Unit.Validator_Tests

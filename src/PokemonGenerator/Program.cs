@@ -1,6 +1,9 @@
 ﻿using PokemonGenerator.Controls;
 using System;
 using System.Windows.Forms;
+using PokemonGenerator.Forms;
+using PokemonGenerator.Windows;
+using PokemonGenerator.Windows.Options;
 
 namespace PokemonGenerator
 {

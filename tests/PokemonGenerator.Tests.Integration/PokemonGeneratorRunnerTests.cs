@@ -1,19 +1,19 @@
-﻿using System;
+﻿using PokemonGenerator.Managers;
+using PokemonGenerator.Models.Configuration;
+using PokemonGenerator.Models.Enumerations;
+using PokemonGenerator.Models.Serialization;
+using PokemonGenerator.Repositories;
+using System;
 using System.IO;
 using System.Linq;
-using PokemonGenerator.Enumerations;
-using PokemonGenerator.Generators;
-using PokemonGenerator.IO;
-using PokemonGenerator.Models.Configuration;
-using PokemonGenerator.Models.Serialization;
 using Xunit;
 
 namespace PokemonGenerator.Tests.Integration
 {
     public class PokemonGeneratorRunnerTests : IDisposable
     {
-        private IPokemonGeneratorRunner _runner;
-        private IPokeDeserializer _deserializer;
+        private IPokemonGeneratorManager _manager;
+        private ISaveFileRepository _deserializer;
         private PersistentConfig _opts;
         private DependencyInjector _dependencyInjector;
         private string _contentDir;
@@ -47,8 +47,8 @@ namespace PokemonGenerator.Tests.Integration
 
             AppDomain.CurrentDomain.SetData("DataDirectory", _contentDir);
             _dependencyInjector = new DependencyInjector();
-            _runner = _dependencyInjector.Get<IPokemonGeneratorRunner>();
-            _deserializer = _dependencyInjector.Get<IPokeDeserializer>();
+            _manager = _dependencyInjector.Get<IPokemonGeneratorManager>();
+            _deserializer = _dependencyInjector.Get<ISaveFileRepository>();
         }
 
         public void Dispose()
@@ -57,14 +57,14 @@ namespace PokemonGenerator.Tests.Integration
             {
                 Directory.Delete(_outputDir, true);
             }
-            _runner = null;
+            _manager = null;
             _dependencyInjector.Dispose();
         }
 
         [Fact]
         public void RunOutputExistsTest()
         {
-            _runner.Run(_opts);
+            _manager.Run(_opts);
 
             Assert.True(File.Exists(Path.Combine(_outputDir, _opts.Options.PlayerOne.OutputSaveLocation)));
             Assert.True(File.Exists(Path.Combine(_outputDir, _opts.Options.PlayerTwo.OutputSaveLocation)));
@@ -73,13 +73,13 @@ namespace PokemonGenerator.Tests.Integration
         [Fact]
         public void RunOutputValidTest()
         {
-            _runner.Run(_opts);
+            _manager.Run(_opts);
 
             SAVFileModel model1 = null, model2 = null;
             try
             {
-                model1 = _deserializer.ParseSAVFileModel(Path.Combine(_outputDir, _opts.Options.PlayerOne.OutputSaveLocation));
-                model2 = _deserializer.ParseSAVFileModel(Path.Combine(_outputDir, _opts.Options.PlayerTwo.OutputSaveLocation));
+                model1 = _deserializer.Deserialize(Path.Combine(_outputDir, _opts.Options.PlayerOne.OutputSaveLocation));
+                model2 = _deserializer.Deserialize(Path.Combine(_outputDir, _opts.Options.PlayerTwo.OutputSaveLocation));
             }
             catch (Exception e)
             {
@@ -113,7 +113,7 @@ namespace PokemonGenerator.Tests.Integration
             {
                 _opts.Options.PlayerOne.InputSaveLocation = path;
                 _opts.Options.PlayerTwo.InputSaveLocation = path;
-                _runner.Run(_opts);
+                _manager.Run(_opts);
             });
         }
 
@@ -128,7 +128,7 @@ namespace PokemonGenerator.Tests.Integration
             {
                 _opts.Options.PlayerOne.OutputSaveLocation = path;
                 _opts.Options.PlayerTwo.OutputSaveLocation = path;
-                _runner.Run(_opts);
+                _manager.Run(_opts);
             });
         }
     }

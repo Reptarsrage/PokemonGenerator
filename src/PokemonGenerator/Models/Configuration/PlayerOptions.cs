@@ -1,4 +1,4 @@
-﻿using PokemonGenerator.Enumerations;
+﻿using PokemonGenerator.Models.Enumerations;
 
 namespace PokemonGenerator.Models.Configuration
 {

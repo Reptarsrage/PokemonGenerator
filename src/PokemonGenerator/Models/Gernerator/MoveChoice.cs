@@ -1,4 +1,4 @@
-﻿using PokemonGenerator.Models.Dto;
+﻿using PokemonGenerator.Models.DTO;
 
 namespace PokemonGenerator.Models.Gernerator
 {

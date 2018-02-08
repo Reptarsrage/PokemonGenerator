@@ -6,7 +6,6 @@ namespace PokemonGenerator.IO
     public interface IBinaryReader2
     {
         long Position { get; }
-
         void Open(string fileName);
         void Open(Stream stream);
         void Close();
@@ -22,11 +21,8 @@ namespace PokemonGenerator.IO
     }
 
     /// <summary>
-    /// Contains all tools needed to read from a pokemon Gold/Silver sav file. <para/> 
-    /// 
-    /// See information available here for a detailed explaination: <para/> 
-    /// http://bulbapedia.bulbagarden.net/wiki/Save_data_structure_in_Generation_II <para/> 
-    /// http://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_data_structure_in_Generation_II
+    /// Binary reader for <see cref="Models.Serialization.SAVFileModel"/> serialization
+    /// Unless otherwise noted, values are big-endian and either unsigned or two's complement.
     /// </summary>
     public class BinaryReader2 : IBinaryReader2, IDisposable
     {
@@ -36,29 +32,27 @@ namespace PokemonGenerator.IO
 
         public virtual void Open(string fileName)
         {
-            if (Reader != null) Reader.Dispose();
+            Reader?.Dispose();
             Reader = new BinaryReader(File.OpenRead(fileName));
         }
 
         public virtual void Open(Stream stream)
         {
-            if (Reader != null) Reader.Dispose();
+            Reader?.Dispose();
             Reader = new BinaryReader(stream);
         }
 
         public virtual void Close()
         {
-            if (Reader != null)
-            {
-                Reader.Close();
-                Reader.Dispose();
-            }
+            if (Reader == null) return;
+            Reader.Close();
+            Reader.Dispose();
         }
 
         public string ReadString(int length, ICharset charset)
         {
-            byte[] data = new byte[length];
-            for (int i = 0; i < length; i++)
+            var data = new byte[length];
+            for (var i = 0; i < length; i++)
             {
                 data[i] = Reader.ReadByte();
             }

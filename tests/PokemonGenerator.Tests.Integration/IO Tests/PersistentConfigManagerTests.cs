@@ -1,17 +1,17 @@
-﻿using System;
+﻿using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
+using PokemonGenerator.Models.Configuration;
+using PokemonGenerator.Repositories;
+using System;
 using System.IO;
 using System.Reflection;
-using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
-using PokemonGenerator.IO;
-using PokemonGenerator.Models.Configuration;
 using Xunit;
 
 namespace PokemonGenerator.Tests.Integration.IO_Tests
 {
     public class PersistentConfigManagerTests : IDisposable
     {
-        private readonly IPersistentConfigManager _manager;
+        private readonly IConfigRepository _repository;
         private readonly IOptions<PersistentConfig> _testConfig;
         private readonly string _outFile;
         private readonly string _outDir;
@@ -29,8 +29,8 @@ namespace PokemonGenerator.Tests.Integration.IO_Tests
             }
 
             _testConfig = Options.Create(new PersistentConfig());
-            _manager = new PersistentConfigManager(_testConfig);
-            _outFile = Path.Combine(contentDir, PersistentConfigManager.ConfigFileName);
+            _repository = new ConfigRepository(_testConfig);
+            _outFile = Path.Combine(contentDir, ConfigRepository.ConfigFileName);
         }
 
         public void Dispose()
@@ -51,7 +51,7 @@ namespace PokemonGenerator.Tests.Integration.IO_Tests
         [Fact]
         public void SaveValidConfigurationsTest()
         {
-            _manager.Save();
+            _repository.Save();
             var saved = JsonConvert.DeserializeObject<PersistentConfig>(File.ReadAllText(_outFile), new JsonSerializerSettings { ObjectCreationHandling = ObjectCreationHandling.Replace });
 
             foreach (var propertyInfo in typeof(PokemonGeneratorConfig).GetProperties(BindingFlags.Public | BindingFlags.Instance))
@@ -66,7 +66,7 @@ namespace PokemonGenerator.Tests.Integration.IO_Tests
         [Fact]
         public void SaveValidOptionsTest()
         {
-            _manager.Save();
+            _repository.Save();
             var saved = JsonConvert.DeserializeObject<PersistentConfig>(File.ReadAllText(_outFile));
 
             // Base Object

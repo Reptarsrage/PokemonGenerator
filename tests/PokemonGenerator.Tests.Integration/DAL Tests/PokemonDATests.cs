@@ -1,9 +1,9 @@
-﻿using System;
-using System.Linq;
-using Microsoft.Extensions.Configuration;
-using PokemonGenerator.DAL;
-using PokemonGenerator.Models.Dto;
+﻿using Microsoft.Extensions.Configuration;
+using PokemonGenerator.Models.DTO;
 using PokemonGenerator.Models.Serialization;
+using PokemonGenerator.Repositories;
+using System;
+using System.Linq;
 using Xunit;
 
 namespace PokemonGenerator.Tests.Integration.DAL_Tests
@@ -23,7 +23,7 @@ namespace PokemonGenerator.Tests.Integration.DAL_Tests
         [Fact]
         public void GetPossiblePokemonTest()
         {
-            var da = new PokemonDA(_config);
+            var da = new PokemonRepository(_config);
             var pokemon = da.GetPossiblePokemon(100);
             Assert.NotNull(pokemon);
             Assert.True(pokemon.Count() > 0, "Pokemon has at least one pokemon");
@@ -32,7 +32,7 @@ namespace PokemonGenerator.Tests.Integration.DAL_Tests
         [Fact]
         public void GetPossiblePokemonValuesTest()
         {
-            var da = new PokemonDA(_config);
+            var da = new PokemonRepository(_config);
             var pokemon = da.GetPossiblePokemon(100);
             pokemon.ToList().ForEach(t => Assert.True(t != 0, "Not zero"));
         }
@@ -40,7 +40,7 @@ namespace PokemonGenerator.Tests.Integration.DAL_Tests
         [Fact]
         public void GetMovesForPokemonTest()
         {
-            var da = new PokemonDA(_config);
+            var da = new PokemonRepository(_config);
             var moves = da.GetMovesForPokemon(62, 100);
             Assert.NotNull(moves);
             Assert.True(moves.Count() > 0, "Moves has at least one move");
@@ -49,7 +49,7 @@ namespace PokemonGenerator.Tests.Integration.DAL_Tests
         [Fact]
         public void GetMovesForPokemonValuesTest()
         {
-            var da = new PokemonDA(_config);
+            var da = new PokemonRepository(_config);
             var moves = da.GetMovesForPokemon(62, 100);
             moves.ToList().ForEach(AssertPokemonMoveSetResult);
         }
@@ -57,7 +57,7 @@ namespace PokemonGenerator.Tests.Integration.DAL_Tests
         [Fact]
         public void GetRandomMovesTest()
         {
-            var da = new PokemonDA(_config);
+            var da = new PokemonRepository(_config);
             var moves = da.GetRandomMoves(0, 150);
             Assert.NotNull(moves);
             Assert.True(moves.Count() > 0, "Moves has at least one move");
@@ -66,7 +66,7 @@ namespace PokemonGenerator.Tests.Integration.DAL_Tests
         [Fact]
         public void GetRandomMovesValuesTest()
         {
-            var da = new PokemonDA(_config);
+            var da = new PokemonRepository(_config);
             var moves = da.GetRandomMoves(0, 150);
             moves.ToList().ForEach(AssertPokemonMoveSetResult);
         }
@@ -74,7 +74,7 @@ namespace PokemonGenerator.Tests.Integration.DAL_Tests
         [Fact]
         public void GetTeamBaseStatsTest()
         {
-            var da = new PokemonDA(_config);
+            var da = new PokemonRepository(_config);
             var baseStats = da.GetTeamBaseStats(new PokeList(4)
             {
                 Species = new byte[] { 0, 1, 2, 3 }
@@ -86,7 +86,7 @@ namespace PokemonGenerator.Tests.Integration.DAL_Tests
         [Fact]
         public void GetTeamBaseStatsValuesTest()
         {
-            var da = new PokemonDA(_config);
+            var da = new PokemonRepository(_config);
             var baseStats = da.GetTeamBaseStats(new PokeList(4)
             {
                 Species = new byte[] { 0, 1, 2, 3 }
@@ -115,7 +115,7 @@ namespace PokemonGenerator.Tests.Integration.DAL_Tests
         [Fact]
         public void GetTMsTest()
         {
-            var da = new PokemonDA(_config);
+            var da = new PokemonRepository(_config);
             var tms = da.GetTMs();
             Assert.NotNull(tms);
             Assert.True(tms.Count() > 0, "At least one TM");
@@ -124,7 +124,7 @@ namespace PokemonGenerator.Tests.Integration.DAL_Tests
         [Fact]
         public void GetTMsValueTest()
         {
-            var da = new PokemonDA(_config);
+            var da = new PokemonRepository(_config);
             var tms = da.GetTMs();
             tms.ToList().ForEach(tm => Assert.True(tm != 0, "TM not zero"));
         }
@@ -132,7 +132,7 @@ namespace PokemonGenerator.Tests.Integration.DAL_Tests
         [Fact]
         public void GetWeaknessesTest()
         {
-            var da = new PokemonDA(_config);
+            var da = new PokemonRepository(_config);
             var weaknesses = da.GetWeaknesses("fire");
             Assert.NotNull(weaknesses);
             Assert.True(weaknesses.Count() > 0, "At least one weakness");
@@ -141,7 +141,7 @@ namespace PokemonGenerator.Tests.Integration.DAL_Tests
         [Fact]
         public void GetWeaknessesValuesTest()
         {
-            var da = new PokemonDA(_config);
+            var da = new PokemonRepository(_config);
             var weaknesses = da.GetWeaknesses("fire");
             weaknesses.ToList().ForEach(Assert.NotNull);
             weaknesses.ToList().ForEach(Assert.NotEmpty);

@@ -1,5 +1,5 @@
-﻿using System;
-using PokemonGenerator.IO;
+﻿using PokemonGenerator.IO;
+using System;
 using Xunit;
 
 namespace PokemonGenerator.Tests.Unit.IO_Tests

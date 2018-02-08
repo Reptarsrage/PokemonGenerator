@@ -1,10 +1,9 @@
-﻿using Microsoft.Extensions.Options;
-using PokemonGenerator.Enumerations;
-using PokemonGenerator.Models.Configuration;
+﻿using PokemonGenerator.Models.Configuration;
 using System;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using PokemonGenerator.Models.Enumerations;
 
 namespace PokemonGenerator.Validators
 {
