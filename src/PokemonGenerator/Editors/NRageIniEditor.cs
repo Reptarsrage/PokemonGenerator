@@ -20,7 +20,8 @@ namespace PokemonGenerator.Editors
     {
         private string fileName;
 
-        public string FileName {
+        public string FileName
+        {
             get
             {
                 return fileName;

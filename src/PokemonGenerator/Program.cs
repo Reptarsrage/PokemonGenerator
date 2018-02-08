@@ -1,7 +1,5 @@
 ﻿using PokemonGenerator.Controls;
-using PokemonGenerator.Forms;
 using System;
-using System.IO;
 using System.Windows.Forms;
 
 namespace PokemonGenerator
@@ -9,7 +7,7 @@ namespace PokemonGenerator
     /// <summary>
     /// Runs the program as a GUI
     /// </summary>
-    static class GUIProgram
+    static class Program
     {
         /// <summary>
         /// The main entry point for the application.

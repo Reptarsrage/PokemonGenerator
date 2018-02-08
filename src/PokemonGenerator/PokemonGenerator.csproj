@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net47</TargetFramework>
-    <StartupObject>PokemonGenerator.GUIProgram</StartupObject>
+    <StartupObject>PokemonGenerator.Program</StartupObject>
     <ApplicationIcon>Resources\favicon.ico</ApplicationIcon>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>

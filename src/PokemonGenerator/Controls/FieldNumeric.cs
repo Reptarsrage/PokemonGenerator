@@ -120,7 +120,7 @@ namespace PokemonGenerator.Controls
             Controls.Add(_label);
             Controls.Add(_numeric);
             Controls.Add(_labelRange);
-            
+
 
             _numeric.ValueChanged += NumericValueChanged;
             _trackBar.ValueChanged += TrackBarValueChanged; ;

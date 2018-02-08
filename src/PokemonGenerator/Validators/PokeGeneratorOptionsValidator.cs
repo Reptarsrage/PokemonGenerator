@@ -1,5 +1,6 @@
-﻿using PokemonGenerator.Enumerations;
-using PokemonGenerator.Models;
+﻿using Microsoft.Extensions.Options;
+using PokemonGenerator.Enumerations;
+using PokemonGenerator.Models.Configuration;
 using System;
 using System.IO;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace PokemonGenerator.Validators
 {
     public interface IPokeGeneratorOptionsValidator
     {
-        bool Validate(Options options);
+        bool Validate(ProgramOptions options);
         bool ValidateFileOption(string path, string expectedExtension);
         bool ValidateFilePathOption(string path, string expectedExtension);
         bool ValidateGame(string game);
@@ -20,7 +21,7 @@ namespace PokemonGenerator.Validators
 
     public class PokeGeneratorOptionsValidator : IPokeGeneratorOptionsValidator
     {
-        public bool Validate(Options options)
+        public bool Validate(ProgramOptions options)
         {
             var good = true;
 
@@ -40,8 +41,8 @@ namespace PokemonGenerator.Validators
 
         public bool ValidateUniquePath(string path1, string path2)
         {
-            return !string.IsNullOrWhiteSpace(path1) && 
-                !string.IsNullOrWhiteSpace(path2) && 
+            return !string.IsNullOrWhiteSpace(path1) &&
+                !string.IsNullOrWhiteSpace(path2) &&
                 !Path.GetFullPath(path1).Equals(Path.GetFullPath(path2), StringComparison.OrdinalIgnoreCase);
         }
 

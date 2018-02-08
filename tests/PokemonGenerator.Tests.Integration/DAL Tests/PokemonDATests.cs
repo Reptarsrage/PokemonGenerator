@@ -1,11 +1,12 @@
-﻿using Microsoft.Extensions.Configuration;
-using PokemonGenerator.DAL;
-using PokemonGenerator.Models;
-using System;
+﻿using System;
 using System.Linq;
+using Microsoft.Extensions.Configuration;
+using PokemonGenerator.DAL;
+using PokemonGenerator.Models.Dto;
+using PokemonGenerator.Models.Serialization;
 using Xunit;
 
-namespace PokemonGenerator.Tests
+namespace PokemonGenerator.Tests.Integration.DAL_Tests
 {
     public class PokemonDATests
     {

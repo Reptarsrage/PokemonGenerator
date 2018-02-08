@@ -1,15 +1,15 @@
-﻿namespace PokemonGenerator.Models
+﻿namespace PokemonGenerator.Models.Configuration
 {
     public class PersistentConfig
     {
         public PersistentConfig()
         {
             Configuration = new PokemonGeneratorConfig();
-            Options = new Options();
+            Options = new ProgramOptions();
         }
 
         public PokemonGeneratorConfig Configuration { get; set; }
 
-        public Options Options { get; set; }
+        public ProgramOptions Options { get; set; }
     }
 }

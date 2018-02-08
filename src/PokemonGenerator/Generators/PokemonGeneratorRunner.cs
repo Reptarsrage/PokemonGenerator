@@ -1,5 +1,6 @@
 ﻿using PokemonGenerator.IO;
-using PokemonGenerator.Models;
+using PokemonGenerator.Models.Configuration;
+using PokemonGenerator.Models.Serialization;
 using PokemonGenerator.Validators;
 using System;
 using System.Diagnostics;

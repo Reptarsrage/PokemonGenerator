@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace PokemonGenerator.Forms
+namespace PokemonGenerator.Controls
 {
     partial class TeamSelectionWindow
     {

@@ -1,15 +1,14 @@
 ﻿using Microsoft.Extensions.Options;
-using PokemonGenerator.Controls;
 using PokemonGenerator.DAL;
 using PokemonGenerator.IO;
-using PokemonGenerator.Models;
+using PokemonGenerator.Models.Configuration;
+using PokemonGenerator.Models.Dto;
 using System;
 using System.ComponentModel;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace PokemonGenerator.Forms
+namespace PokemonGenerator.Controls
 {
     public partial class TeamSelectionWindow : WindowBase
     {
@@ -69,10 +68,10 @@ namespace PokemonGenerator.Forms
                 throw new InvalidOperationException("Please select at least 6 Pokemon.");
             }
 
-           // _config.Value.Configuration.DisabledPokemon.Clear();
-           //  _config.Value.Configuration.DisabledPokemon.AddRange(_workingConfig.Configuration.DisabledPokemon.Distinct().OrderBy(d => d));
+            // _config.Value.Configuration.DisabledPokemon.Clear();
+            //  _config.Value.Configuration.DisabledPokemon.AddRange(_workingConfig.Configuration.DisabledPokemon.Distinct().OrderBy(d => d));
 
-           // _configManager.Save();
+            // _configManager.Save();
         }
 
         private void UpdateCount()
@@ -107,8 +106,8 @@ namespace PokemonGenerator.Forms
                 Text = poke.Identifier.ToUpper(),
                 Tint =
                     forbidden ? CustomColors.Forbidden :
-                    legendary ? CustomColors.Legendary : 
-                    special ? CustomColors.Special : 
+                    legendary ? CustomColors.Legendary :
+                    special ? CustomColors.Special :
                     CustomColors.Standard,
                 Enabled = !forbidden
             };
@@ -161,7 +160,8 @@ namespace PokemonGenerator.Forms
             try
             {
                 Save();
-            } catch (InvalidOperationException ex)
+            }
+            catch (InvalidOperationException ex)
             {
                 var response = MessageBox.Show($"{ex.Message}\nWould you like to close without saving?", "Unable to save", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
                 if (response == DialogResult.Cancel)

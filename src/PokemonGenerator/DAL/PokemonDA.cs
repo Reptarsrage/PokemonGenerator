@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using Microsoft.Extensions.Configuration;
-using PokemonGenerator.Models;
+using PokemonGenerator.Models.Dto;
+using PokemonGenerator.Models.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Data;

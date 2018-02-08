@@ -1,4 +1,4 @@
-﻿namespace PokemonGenerator.Forms
+﻿namespace PokemonGenerator.Controls
 {
     partial class PlayerOptionsGroupBox
     {
@@ -70,7 +70,7 @@
             // 
             // BindingSource
             // 
-            this.BindingSource.DataSource = typeof(PokemonGenerator.Models.PlayerOptions);
+            this.BindingSource.DataSource = typeof(PokemonGenerator.Models.Configuration.PlayerOptions);
             // 
             // PanelFormInputPlayerName
             // 

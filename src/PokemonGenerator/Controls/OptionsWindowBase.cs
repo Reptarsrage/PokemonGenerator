@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using PokemonGenerator.IO;
-using PokemonGenerator.Models;
+using PokemonGenerator.Models.Configuration;
 
 namespace PokemonGenerator.Controls
 {

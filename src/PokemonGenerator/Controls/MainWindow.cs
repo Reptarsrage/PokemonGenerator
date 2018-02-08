@@ -1,9 +1,8 @@
 ﻿using Microsoft.Extensions.Options;
-using PokemonGenerator.Controls;
 using PokemonGenerator.Editors;
 using PokemonGenerator.Generators;
 using PokemonGenerator.IO;
-using PokemonGenerator.Models;
+using PokemonGenerator.Models.Configuration;
 using PokemonGenerator.Validators;
 using System;
 using System.ComponentModel;
@@ -14,7 +13,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace PokemonGenerator.Forms
+namespace PokemonGenerator.Controls
 {
     public enum ImageState
     {

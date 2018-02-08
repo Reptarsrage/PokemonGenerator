@@ -1,4 +1,6 @@
-﻿namespace PokemonGenerator.Models
+﻿using PokemonGenerator.Models.Dto;
+
+namespace PokemonGenerator.Models.Gernerator
 {
     internal class MoveChoice : IChoice
     {

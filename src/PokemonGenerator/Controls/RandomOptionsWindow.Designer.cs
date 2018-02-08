@@ -1,6 +1,7 @@
 ﻿using System.Windows.Forms;
+using PokemonGenerator.Models.Configuration;
 
-namespace PokemonGenerator.Forms
+namespace PokemonGenerator.Controls
 {
     partial class RandomOptionsWindow
     {
@@ -110,7 +111,7 @@ namespace PokemonGenerator.Forms
             // 
             // OptionsWindowBindingSource
             // 
-            this.OptionsWindowBindingSource.DataSource = typeof(PokemonGenerator.Models.PokemonGeneratorConfig);
+            this.OptionsWindowBindingSource.DataSource = typeof(PokemonGeneratorConfig);
             // 
             // FieldNumericSkew
             // 

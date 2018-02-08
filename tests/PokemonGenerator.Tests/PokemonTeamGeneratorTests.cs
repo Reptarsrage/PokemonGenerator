@@ -1,13 +1,15 @@
-﻿using Moq;
-using PokemonGenerator.Generators;
-using PokemonGenerator.Models;
-using PokemonGenerator.Utilities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Moq;
+using PokemonGenerator.Generators;
+using PokemonGenerator.Models.Configuration;
+using PokemonGenerator.Models.Gernerator;
+using PokemonGenerator.Models.Serialization;
+using PokemonGenerator.Utilities;
 using Xunit;
 
-namespace PokemonGenerator.Tests
+namespace PokemonGenerator.Tests.Unit
 {
     public class PokemonTeamGeneratorTests
     {

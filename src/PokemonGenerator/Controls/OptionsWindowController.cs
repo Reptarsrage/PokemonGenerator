@@ -51,7 +51,8 @@ namespace PokemonGenerator.Controls
                 try
                 {
                     item.Save();
-                } catch (InvalidOperationException ex)
+                }
+                catch (InvalidOperationException ex)
                 {
                     errorMsgs.AppendLine(ex.Message);
                 }

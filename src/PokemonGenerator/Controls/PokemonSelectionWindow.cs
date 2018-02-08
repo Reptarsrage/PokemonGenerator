@@ -1,14 +1,13 @@
 ﻿using Microsoft.Extensions.Options;
-using PokemonGenerator.Controls;
 using PokemonGenerator.DAL;
 using PokemonGenerator.IO;
-using PokemonGenerator.Models;
+using PokemonGenerator.Models.Configuration;
+using PokemonGenerator.Models.Dto;
 using System;
 using System.ComponentModel;
-using System.Drawing;
 using System.Linq;
 
-namespace PokemonGenerator.Forms
+namespace PokemonGenerator.Controls
 {
     public partial class PokemonSelectionWindow : OptionsWindowBase
     {
@@ -95,8 +94,8 @@ namespace PokemonGenerator.Forms
                 Text = poke.Identifier.ToUpper(),
                 Tint =
                     forbidden ? CustomColors.Forbidden :
-                    legendary ? CustomColors.Legendary : 
-                    special ? CustomColors.Special : 
+                    legendary ? CustomColors.Legendary :
+                    special ? CustomColors.Special :
                     CustomColors.Standard,
                 Enabled = !forbidden
             };

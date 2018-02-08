@@ -1,7 +1,7 @@
-﻿using PokemonGenerator.Models;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
+using PokemonGenerator.Models.Configuration;
 
-namespace PokemonGenerator.Forms
+namespace PokemonGenerator.Controls
 {
     partial class PokemonLikelinessWindow
     {
@@ -99,7 +99,7 @@ namespace PokemonGenerator.Forms
             // 
             // OptionsWindowBindingSource
             // 
-            this.OptionsWindowBindingSource.DataSource = typeof(PokemonGenerator.Models.PokemonGeneratorConfig);
+            this.OptionsWindowBindingSource.DataSource = typeof(PokemonGeneratorConfig);
             // 
             // FieldNumericLegendary
             // 

@@ -1,6 +1,9 @@
 ﻿using PokemonGenerator.DAL;
 using PokemonGenerator.Enumerations;
-using PokemonGenerator.Models;
+using PokemonGenerator.Models.Configuration;
+using PokemonGenerator.Models.Dto;
+using PokemonGenerator.Models.Gernerator;
+using PokemonGenerator.Models.Serialization;
 using PokemonGenerator.Utilities;
 using System;
 using System.Collections.Generic;

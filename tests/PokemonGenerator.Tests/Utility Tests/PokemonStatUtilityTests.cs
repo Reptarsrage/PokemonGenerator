@@ -1,11 +1,12 @@
-﻿using Moq;
+﻿using System.Linq;
+using Moq;
 using PokemonGenerator.DAL;
-using PokemonGenerator.Models;
+using PokemonGenerator.Models.Dto;
+using PokemonGenerator.Models.Serialization;
 using PokemonGenerator.Utilities;
-using System.Linq;
 using Xunit;
 
-namespace PokemonGenerator.Tests.Utility_Tests
+namespace PokemonGenerator.Tests.Unit.Utility_Tests
 {
     public class PokemonStatUtilityTests
     {

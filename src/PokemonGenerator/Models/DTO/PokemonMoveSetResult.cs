@@ -1,4 +1,4 @@
-﻿namespace PokemonGenerator.Models
+﻿namespace PokemonGenerator.Models.Dto
 {
     public class PokemonMoveSetResult
     {

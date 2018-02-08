@@ -1,11 +1,9 @@
-﻿using PokemonGenerator.Enumerations;
-using PokemonGenerator.Validators;
-using System;
-using System.IO;
+﻿using System.IO;
 using System.Reflection;
+using PokemonGenerator.Validators;
 using Xunit;
 
-namespace PokemonGenerator.Tests.Validator_Tests
+namespace PokemonGenerator.Tests.Unit.Validator_Tests
 {
     public class PokeGeneratorOptionsValidatorTests
     {

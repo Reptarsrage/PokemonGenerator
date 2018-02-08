@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace PokemonGenerator.Models
+namespace PokemonGenerator.Models.Configuration
 {
     public static class CustomColors
     {

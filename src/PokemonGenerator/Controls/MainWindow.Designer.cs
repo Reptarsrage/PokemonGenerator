@@ -1,4 +1,4 @@
-﻿namespace PokemonGenerator.Forms
+﻿namespace PokemonGenerator.Controls
 {
     partial class MainWindow
     {
@@ -50,8 +50,8 @@
             this.PanelFormInputTop = new System.Windows.Forms.Panel();
             this.ImageProjN64Location = new System.Windows.Forms.PictureBox();
             this.ToolTipProjN64Location = new System.Windows.Forms.ToolTip(this.components);
-            this.GroupBoxPlayerOneOptions = new PokemonGenerator.Forms.PlayerOptionsGroupBox();
-            this.GroupBoxPlayerTwoOptions = new PokemonGenerator.Forms.PlayerOptionsGroupBox();
+            this.GroupBoxPlayerOneOptions = new PlayerOptionsGroupBox();
+            this.GroupBoxPlayerTwoOptions = new PlayerOptionsGroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.MainWindowBindingSource)).BeginInit();
             this.PanelProgress.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ImageProgress)).BeginInit();
@@ -87,7 +87,7 @@
             // 
             // MainWindowBindingSource
             // 
-            this.MainWindowBindingSource.DataSource = typeof(PokemonGenerator.Models.Options);
+            this.MainWindowBindingSource.DataSource = typeof(PokemonGenerator.Models.Configuration.PlayerOptions);
             // 
             // PanelProgress
             // 

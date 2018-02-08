@@ -1,13 +1,13 @@
-﻿using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
-using PokemonGenerator.IO;
-using PokemonGenerator.Models;
-using System;
+﻿using System;
 using System.IO;
 using System.Reflection;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
+using PokemonGenerator.IO;
+using PokemonGenerator.Models.Configuration;
 using Xunit;
 
-namespace PokemonGenerator.Tests.IO_Tests
+namespace PokemonGenerator.Tests.Integration.IO_Tests
 {
     public class PersistentConfigManagerTests : IDisposable
     {

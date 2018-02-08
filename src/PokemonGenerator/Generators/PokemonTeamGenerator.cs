@@ -1,12 +1,12 @@
-﻿using PokemonGenerator.Enumerations;
-using PokemonGenerator.Generators;
-using PokemonGenerator.Models;
+﻿using PokemonGenerator.Models.Configuration;
+using PokemonGenerator.Models.Gernerator;
+using PokemonGenerator.Models.Serialization;
 using PokemonGenerator.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace PokemonGenerator
+namespace PokemonGenerator.Generators
 {
     public interface IPokemonTeamGenerator
     {
@@ -101,7 +101,7 @@ namespace PokemonGenerator
                 }
                 else if (_pokemonGeneratorConfig.LegendaryPokemon.Contains(choice.PokemonId))
                 {
-                    choice.Probability =  _pokemonGeneratorConfig.PokemonLiklihood.Legendary;
+                    choice.Probability = _pokemonGeneratorConfig.PokemonLiklihood.Legendary;
                 }
                 else if (_pokemonGeneratorConfig.SpecialPokemon.Contains(choice.PokemonId))
                 {

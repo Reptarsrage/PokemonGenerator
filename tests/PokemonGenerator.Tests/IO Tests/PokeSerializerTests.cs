@@ -1,14 +1,14 @@
-﻿using Moq;
-using PokemonGenerator.IO;
-using PokemonGenerator.Models;
-using System;
+﻿using System;
 using System.Collections;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Moq;
+using PokemonGenerator.IO;
+using PokemonGenerator.Models.Serialization;
 using Xunit;
 
-namespace PokemonGenerator.Tests.IO_Tests
+namespace PokemonGenerator.Tests.Unit.IO_Tests
 {
     public class PokeSerializerTests : SerializerTestsBase, IDisposable
     {

@@ -1,12 +1,12 @@
-﻿namespace PokemonGenerator.Models
+﻿namespace PokemonGenerator.Models.Configuration
 {
     /// <summary>
     /// Options include player and GUI related settings but not generator or randomizer 
     /// related settings.
     /// </summary>
-    public class PokeGeneratorOptions
+    public class ProgramOptions
     {
-        public PokeGeneratorOptions()
+        public ProgramOptions()
         {
             Level = 50;
             PlayerOne = new PlayerOptions();

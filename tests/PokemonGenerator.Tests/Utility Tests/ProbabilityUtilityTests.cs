@@ -1,10 +1,11 @@
-﻿using PokemonGenerator.Models;
-using PokemonGenerator.Utilities;
-using System;
+﻿using System;
 using System.Linq;
+using PokemonGenerator.Models.Configuration;
+using PokemonGenerator.Models.Gernerator;
+using PokemonGenerator.Utilities;
 using Xunit;
 
-namespace PokemonGenerator.Tests.Utility_Tests
+namespace PokemonGenerator.Tests.Unit.Utility_Tests
 {
     public class ProbabilityUtilityTests
     {

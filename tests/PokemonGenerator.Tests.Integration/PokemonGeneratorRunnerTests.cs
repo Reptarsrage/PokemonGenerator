@@ -1,13 +1,14 @@
-﻿using PokemonGenerator.Enumerations;
-using PokemonGenerator.Generators;
-using PokemonGenerator.IO;
-using PokemonGenerator.Models;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
+using PokemonGenerator.Enumerations;
+using PokemonGenerator.Generators;
+using PokemonGenerator.IO;
+using PokemonGenerator.Models.Configuration;
+using PokemonGenerator.Models.Serialization;
 using Xunit;
 
-namespace PokemonGenerator.Tests
+namespace PokemonGenerator.Tests.Integration
 {
     public class PokemonGeneratorRunnerTests : IDisposable
     {
@@ -24,16 +25,16 @@ namespace PokemonGenerator.Tests
             _outputDir = Path.Combine(_contentDir, $"Test-{Guid.NewGuid()}");
             _opts = new PersistentConfig
             {
-                Options = new PokeGeneratorOptions
+                Options = new ProgramOptions
                 {
-                    PlayerOne = new PokeGeneratorPlayerOptions
+                    PlayerOne = new PlayerOptions
                     {
                         GameVersion = PokemonGame.Gold.ToString(),
                         InputSaveLocation = Path.Combine(_contentDir, "gold.sav"),
                         OutputSaveLocation = Path.Combine(_outputDir, "out1.sav"),
                         Name = "Test1"
                     },
-                    PlayerTwo = new PokeGeneratorPlayerOptions
+                    PlayerTwo = new PlayerOptions
                     {
                         GameVersion = PokemonGame.Gold.ToString(),
                         InputSaveLocation = Path.Combine(_contentDir, "gold.sav"),

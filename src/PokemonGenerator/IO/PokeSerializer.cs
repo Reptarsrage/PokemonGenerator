@@ -1,4 +1,4 @@
-﻿using PokemonGenerator.Models;
+﻿using PokemonGenerator.Models.Serialization;
 using System.Collections;
 using System.IO;
 using System.Linq;

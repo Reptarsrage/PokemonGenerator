@@ -1,9 +1,8 @@
 ﻿using Microsoft.Extensions.Options;
-using PokemonGenerator.Controls;
 using PokemonGenerator.IO;
-using PokemonGenerator.Models;
+using PokemonGenerator.Models.Configuration;
 
-namespace PokemonGenerator.Forms
+namespace PokemonGenerator.Controls
 {
     public partial class RandomOptionsWindow : OptionsWindowBase
     {

@@ -1,9 +1,9 @@
-﻿using PokemonGenerator.IO;
-using System;
+﻿using System;
 using System.IO;
+using PokemonGenerator.IO;
 using Xunit;
 
-namespace PokemonGenerator.Tests.IO_Tests
+namespace PokemonGenerator.Tests.Integration.IO_Tests
 {
     public class PokeDeserializerTests : SerializerTestsBase, IDisposable
     {

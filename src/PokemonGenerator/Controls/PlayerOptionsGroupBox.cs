@@ -1,11 +1,10 @@
 ﻿using Microsoft.Extensions.Options;
-using PokemonGenerator.Controls;
-using PokemonGenerator.Models;
+using PokemonGenerator.Models.Configuration;
 using PokemonGenerator.Validators;
 using System;
 using System.Windows.Forms;
 
-namespace PokemonGenerator.Forms
+namespace PokemonGenerator.Controls
 {
     public partial class PlayerOptionsGroupBox : WindowBase
     {
@@ -27,7 +26,7 @@ namespace PokemonGenerator.Forms
             SelectPlayerVersion.DataSource = new[] { "Gold", "Silver" };
         }
 
-        public bool Validate()
+        public new bool Validate()
         {
             return ValidatePlayerSection();
         }

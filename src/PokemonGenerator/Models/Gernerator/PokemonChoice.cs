@@ -1,4 +1,4 @@
-﻿namespace PokemonGenerator.Models
+﻿namespace PokemonGenerator.Models.Gernerator
 {
     internal class PokemonChoice :  IChoice
     {

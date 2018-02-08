@@ -1,13 +1,13 @@
 ﻿using PokemonGenerator.Enumerations;
 
-namespace PokemonGenerator.Models
+namespace PokemonGenerator.Models.Configuration
 {
     /// <summary>
     /// Player options
     /// </summary>
-    public class PokeGeneratorPlayerOptions
+    public class PlayerOptions
     {
-        public PokeGeneratorPlayerOptions()
+        public PlayerOptions()
         {
             InputSaveLocation = string.Empty;
             OutputSaveLocation = string.Empty;

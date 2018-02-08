@@ -1,7 +1,9 @@
 ﻿using PokemonGenerator.Enumerations;
+using PokemonGenerator.Models.Dto;
+using PokemonGenerator.Models.Serialization;
 using System.Collections.Generic;
 
-namespace PokemonGenerator.Models
+namespace PokemonGenerator.Models.Gernerator
 {
     /// <summary>
     /// Class used internally inside of PokemonGernerator to store relavent info for deciding moves.

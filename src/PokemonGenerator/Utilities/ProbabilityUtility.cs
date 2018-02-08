@@ -1,4 +1,5 @@
-﻿using PokemonGenerator.Models;
+﻿using PokemonGenerator.Models.Configuration;
+using PokemonGenerator.Models.Gernerator;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +35,7 @@ namespace PokemonGenerator.Utilities
         /// <returns>A gaussian random number with bounds: [low, high]</returns>
         public int GaussianRandomSkewed(int low, int high, double skew)
         {
-            if (skew > 1 || skew < 0 )
+            if (skew > 1 || skew < 0)
             {
                 throw new ArgumentException(nameof(skew));
             }

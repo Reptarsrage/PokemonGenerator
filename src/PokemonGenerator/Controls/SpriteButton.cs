@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace PokemonGenerator.Forms
+namespace PokemonGenerator.Controls
 {
     public class ItemSelectedEventArgs : EventArgs
     {
@@ -35,7 +35,8 @@ namespace PokemonGenerator.Forms
             get
             {
                 return _tint;
-            } set
+            }
+            set
             {
                 _tint = value;
                 SetColors();
@@ -91,7 +92,7 @@ namespace PokemonGenerator.Forms
 
             if (!Checked)
             {
-                e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(180,220, 220, 220)), e.ClipRectangle);
+                e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(180, 220, 220, 220)), e.ClipRectangle);
             }
 
             // Draw Border using color specified in Flat Appearance

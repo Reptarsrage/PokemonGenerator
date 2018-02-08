@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using PokemonGenerator.Models;
+using PokemonGenerator.Models.Configuration;
 using System;
 using System.IO;
 

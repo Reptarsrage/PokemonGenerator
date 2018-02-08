@@ -1,8 +1,8 @@
-﻿using Xunit;
-using PokemonGenerator.Models;
-using System.Linq;
+﻿using System.Linq;
+using PokemonGenerator.Models.Serialization;
+using Xunit;
 
-namespace PokemonGenerator.Tests.IO_Tests
+namespace PokemonGenerator.Tests.Integration.IO_Tests
 {
     public abstract class SerializerTestsBase
     {
