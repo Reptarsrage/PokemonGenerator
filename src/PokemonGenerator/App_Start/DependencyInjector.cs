@@ -100,6 +100,7 @@ namespace PokemonGenerator
 
             // Other
             builder.RegisterType<Random>().InstancePerLifetimeScope();
+            builder.Register<IMemoryCache>(ctx => new MemoryCache(new MemoryCacheOptions())).InstancePerLifetimeScope();
             builder.Register<GeneratorConfig>(context => Get<IOptions<PersistentConfig>>().Value.Configuration);
             builder.Register(context => Get<IOptions<PersistentConfig>>().Value.Options);
         }
