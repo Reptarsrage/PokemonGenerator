@@ -31,19 +31,31 @@ namespace PokemonGenerator.Windows
         private void InitializeComponent()
         {
             this.LayoutPanelMain = new System.Windows.Forms.FlowLayoutPanel();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.LayoutPanelBottom = new System.Windows.Forms.Panel();
             this.ButtonOk = new System.Windows.Forms.Button();
             this.ButtonCancel = new System.Windows.Forms.Button();
             this.BackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.TableLayoutPanelOutter = new System.Windows.Forms.TableLayoutPanel();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.PictureTeamSixth = new PokemonGenerator.Controls.SVGViewer();
+            this.PictureTeamFifth = new PokemonGenerator.Controls.SVGViewer();
+            this.PictureTeamFourth = new PokemonGenerator.Controls.SVGViewer();
+            this.PictureTeamThird = new PokemonGenerator.Controls.SVGViewer();
+            this.PictureTeamSecond = new PokemonGenerator.Controls.SVGViewer();
+            this.PictureTeamFirst = new PokemonGenerator.Controls.SVGViewer();
+            this.BackgroundWorkerTeam = new System.ComponentModel.BackgroundWorker();
+            this.LayoutPanelMain.SuspendLayout();
             this.LayoutPanelBottom.SuspendLayout();
             this.TableLayoutPanelOutter.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // LayoutPanelMain
             // 
             this.LayoutPanelMain.AutoScroll = true;
             this.LayoutPanelMain.AutoSize = true;
+            this.LayoutPanelMain.Controls.Add(this.flowLayoutPanel1);
             this.LayoutPanelMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.LayoutPanelMain.Location = new System.Drawing.Point(100, 0);
             this.LayoutPanelMain.Margin = new System.Windows.Forms.Padding(0);
@@ -51,6 +63,13 @@ namespace PokemonGenerator.Windows
             this.LayoutPanelMain.Size = new System.Drawing.Size(844, 406);
             this.LayoutPanelMain.TabIndex = 1;
             this.LayoutPanelMain.TabStop = true;
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 3);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(200, 100);
+            this.flowLayoutPanel1.TabIndex = 0;
             // 
             // LayoutPanelBottom
             // 
@@ -101,6 +120,7 @@ namespace PokemonGenerator.Windows
             this.TableLayoutPanelOutter.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.TableLayoutPanelOutter.Controls.Add(this.LayoutPanelBottom, 1, 1);
             this.TableLayoutPanelOutter.Controls.Add(this.LayoutPanelMain, 1, 0);
+            this.TableLayoutPanelOutter.Controls.Add(this.panel1, 0, 0);
             this.TableLayoutPanelOutter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TableLayoutPanelOutter.Location = new System.Drawing.Point(0, 0);
             this.TableLayoutPanelOutter.Name = "TableLayoutPanelOutter";
@@ -109,6 +129,86 @@ namespace PokemonGenerator.Windows
             this.TableLayoutPanelOutter.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.TableLayoutPanelOutter.Size = new System.Drawing.Size(944, 441);
             this.TableLayoutPanelOutter.TabIndex = 1;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.PictureTeamSixth);
+            this.panel1.Controls.Add(this.PictureTeamFifth);
+            this.panel1.Controls.Add(this.PictureTeamFourth);
+            this.panel1.Controls.Add(this.PictureTeamThird);
+            this.panel1.Controls.Add(this.PictureTeamSecond);
+            this.panel1.Controls.Add(this.PictureTeamFirst);
+            this.panel1.Location = new System.Drawing.Point(25, 25);
+            this.panel1.Margin = new System.Windows.Forms.Padding(25);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(50, 300);
+            this.panel1.TabIndex = 2;
+            // 
+            // PictureTeamSixth
+            // 
+            this.PictureTeamSixth.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PictureTeamSixth.Dock = System.Windows.Forms.DockStyle.Top;
+            this.PictureTeamSixth.Location = new System.Drawing.Point(0, 250);
+            this.PictureTeamSixth.Margin = new System.Windows.Forms.Padding(0);
+            this.PictureTeamSixth.Name = "PictureTeamSixth";
+            this.PictureTeamSixth.Size = new System.Drawing.Size(50, 50);
+            this.PictureTeamSixth.TabIndex = 5;
+            // 
+            // PictureTeamFifth
+            // 
+            this.PictureTeamFifth.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PictureTeamFifth.Dock = System.Windows.Forms.DockStyle.Top;
+            this.PictureTeamFifth.Location = new System.Drawing.Point(0, 200);
+            this.PictureTeamFifth.Margin = new System.Windows.Forms.Padding(0);
+            this.PictureTeamFifth.Name = "PictureTeamFifth";
+            this.PictureTeamFifth.Size = new System.Drawing.Size(50, 50);
+            this.PictureTeamFifth.TabIndex = 4;
+            // 
+            // PictureTeamFourth
+            // 
+            this.PictureTeamFourth.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PictureTeamFourth.Dock = System.Windows.Forms.DockStyle.Top;
+            this.PictureTeamFourth.Location = new System.Drawing.Point(0, 150);
+            this.PictureTeamFourth.Margin = new System.Windows.Forms.Padding(0);
+            this.PictureTeamFourth.Name = "PictureTeamFourth";
+            this.PictureTeamFourth.Size = new System.Drawing.Size(50, 50);
+            this.PictureTeamFourth.TabIndex = 3;
+            // 
+            // PictureTeamThird
+            // 
+            this.PictureTeamThird.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PictureTeamThird.Dock = System.Windows.Forms.DockStyle.Top;
+            this.PictureTeamThird.Location = new System.Drawing.Point(0, 100);
+            this.PictureTeamThird.Margin = new System.Windows.Forms.Padding(0);
+            this.PictureTeamThird.Name = "PictureTeamThird";
+            this.PictureTeamThird.Size = new System.Drawing.Size(50, 50);
+            this.PictureTeamThird.TabIndex = 2;
+            // 
+            // PictureTeamSecond
+            // 
+            this.PictureTeamSecond.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PictureTeamSecond.Dock = System.Windows.Forms.DockStyle.Top;
+            this.PictureTeamSecond.Location = new System.Drawing.Point(0, 50);
+            this.PictureTeamSecond.Margin = new System.Windows.Forms.Padding(0);
+            this.PictureTeamSecond.Name = "PictureTeamSecond";
+            this.PictureTeamSecond.Size = new System.Drawing.Size(50, 50);
+            this.PictureTeamSecond.TabIndex = 1;
+            // 
+            // PictureTeamFirst
+            // 
+            this.PictureTeamFirst.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PictureTeamFirst.Dock = System.Windows.Forms.DockStyle.Top;
+            this.PictureTeamFirst.Location = new System.Drawing.Point(0, 0);
+            this.PictureTeamFirst.Margin = new System.Windows.Forms.Padding(0);
+            this.PictureTeamFirst.Name = "PictureTeamFirst";
+            this.PictureTeamFirst.Size = new System.Drawing.Size(50, 50);
+            this.PictureTeamFirst.TabIndex = 0;
+            // 
+            // BackgroundWorkerTeam
+            // 
+            this.BackgroundWorkerTeam.WorkerReportsProgress = true;
+            this.BackgroundWorkerTeam.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BackgroundWorkerTeamDoWork);
+            this.BackgroundWorkerTeam.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.BackgroundWorkerTeamProgressChanged);
             // 
             // TeamSelectionWindow
             // 
@@ -121,9 +221,11 @@ namespace PokemonGenerator.Windows
             this.MinimumSize = new System.Drawing.Size(400, 400);
             this.Name = "TeamSelectionWindow";
             this.Size = new System.Drawing.Size(944, 441);
+            this.LayoutPanelMain.ResumeLayout(false);
             this.LayoutPanelBottom.ResumeLayout(false);
             this.TableLayoutPanelOutter.ResumeLayout(false);
             this.TableLayoutPanelOutter.PerformLayout();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -136,5 +238,14 @@ namespace PokemonGenerator.Windows
         private TableLayoutPanel TableLayoutPanelOutter;
         private Button ButtonOk;
         private Button ButtonCancel;
+        private FlowLayoutPanel flowLayoutPanel1;
+        private Panel panel1;
+        private Controls.SVGViewer PictureTeamSixth;
+        private Controls.SVGViewer PictureTeamFifth;
+        private Controls.SVGViewer PictureTeamFourth;
+        private Controls.SVGViewer PictureTeamThird;
+        private Controls.SVGViewer PictureTeamSecond;
+        private Controls.SVGViewer PictureTeamFirst;
+        private System.ComponentModel.BackgroundWorker BackgroundWorkerTeam;
     }
 }

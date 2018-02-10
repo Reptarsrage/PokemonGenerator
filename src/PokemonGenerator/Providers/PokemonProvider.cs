@@ -43,7 +43,8 @@ namespace PokemonGenerator.Providers
         private readonly IPokemonRepository _pokemonRepository;
         private readonly IOptions<PersistentConfig> _pokemonGeneratorConfig;
 
-        private IList<PokemonChoice> _possiblePokemon;
+        private List<PokemonChoice> _possiblePokemon;
+        private List<PokemonChoice> _randomBagOfPokemon;
         private int _previousLevel;
 
         public PokemonProvider(
@@ -51,6 +52,7 @@ namespace PokemonGenerator.Providers
             IPokemonRepository pokemonRepository,
             IOptions<PersistentConfig> pokemonGeneratorConfig)
         {
+            _randomBagOfPokemon = new List<PokemonChoice>();
             _probabilityUtility = probabilityUtility;
             _pokemonRepository = pokemonRepository;
             _pokemonGeneratorConfig = pokemonGeneratorConfig;
@@ -68,14 +70,22 @@ namespace PokemonGenerator.Providers
             {
                 throw new ArgumentOutOfRangeException($"level ({speciesId}) must be between 1 and 256 inclusive.");
             }
+            
 
-            // Make sure both players end up with different pokemons, re-use the same list if possible
-            if (_previousLevel != level || _possiblePokemon == null || _possiblePokemon.Count < 10)
+            // Lazy load
+            if (_possiblePokemon == null)
             {
-                _previousLevel = level;
                 _possiblePokemon = _pokemonRepository.GetPossiblePokemon(level)
                     .Select(id => new PokemonChoice { PokemonId = id })
                     .ToList();
+            }
+
+            // Make sure both players end up with different pokemons, re-use the same list if possible
+            if (_previousLevel != level || _randomBagOfPokemon.Count < 10)
+            {
+                _previousLevel = level;
+                _randomBagOfPokemon.Clear();
+                _randomBagOfPokemon.AddRange(_possiblePokemon);
             }
 
             var iChooseYou = new Pokemon
@@ -86,8 +96,14 @@ namespace PokemonGenerator.Providers
                 HeldItem = 0x0
             };
 
+            // I think we want to disallow players to randomly get pokemon they've already chosen
+            // even if this means the other player can't randomly get it either
             var poke = _possiblePokemon.First(p => p.PokemonId == speciesId);
-            _possiblePokemon.Remove(poke);
+            if (_randomBagOfPokemon.Contains(poke))
+            {
+                _randomBagOfPokemon.Remove(poke);
+            }
+
             return iChooseYou;
         }
 
@@ -99,13 +115,20 @@ namespace PokemonGenerator.Providers
                 throw new ArgumentOutOfRangeException($"level ({level}) must be between 5 and 100 inclusive.");
             }
 
-            // Make sure both players end up with different pokemons, re-use the same list if possible
-            if (_previousLevel != level || _possiblePokemon == null || _possiblePokemon.Count < 10)
+            // Lazy load
+            if (_possiblePokemon == null)
             {
-                _previousLevel = level;
                 _possiblePokemon = _pokemonRepository.GetPossiblePokemon(level)
                     .Select(id => new PokemonChoice { PokemonId = id })
                     .ToList();
+            }
+
+            // Make sure both players end up with different pokemons, re-use the same list if possible
+            if (_previousLevel != level || _randomBagOfPokemon.Count < 10)
+            {
+                _previousLevel = level;
+                _randomBagOfPokemon.Clear();
+                _randomBagOfPokemon.AddRange(_possiblePokemon);
             }
 
             // add initial probabilities
