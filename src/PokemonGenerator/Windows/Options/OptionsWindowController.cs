@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
+using PokemonGenerator.Controls;
 
 namespace PokemonGenerator.Windows.Options
 {
-    public partial class OptionsWindowController : WindowBase
+    public partial class OptionsWindowController : PageEnabledControl
     {
         private Dictionary<string, OptionsWindowBase> _options;
         private OptionsWindowBase _current;

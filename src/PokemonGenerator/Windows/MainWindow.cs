@@ -1,4 +1,11 @@
-﻿using System;
+﻿using Microsoft.Extensions.Options;
+using PokemonGenerator.Controls;
+using PokemonGenerator.Managers;
+using PokemonGenerator.Models.Configuration;
+using PokemonGenerator.Repositories;
+using PokemonGenerator.Validators;
+using PokemonGenerator.Windows.Options;
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -6,13 +13,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
-using Microsoft.Extensions.Options;
-using PokemonGenerator.Managers;
-using PokemonGenerator.Models.Configuration;
-using PokemonGenerator.Providers;
-using PokemonGenerator.Repositories;
-using PokemonGenerator.Validators;
-using PokemonGenerator.Windows.Options;
 
 namespace PokemonGenerator.Windows
 {
@@ -27,7 +27,7 @@ namespace PokemonGenerator.Windows
         FileWarning
     }
 
-    public partial class MainWindow : WindowBase
+    public partial class MainWindow : PageEnabledControl
     {
         // Imported to handle out-of-focus macro handeling
         [DllImport("user32.dll")]
@@ -55,8 +55,7 @@ namespace PokemonGenerator.Windows
             IP64ConfigRepository ip64ConfigRepository,
             INRageConfigRepository inRageConfigRepository,
             IConfigRepository configRepository,
-            IPokeGeneratorOptionsValidator optionsValidator,
-            ISpriteProvider spriteProvider)
+            IPokeGeneratorOptionsValidator optionsValidator)
         {
             _generatorManager = generatorManager;
             _inRageConfigRepository = inRageConfigRepository;
@@ -67,8 +66,8 @@ namespace PokemonGenerator.Windows
 
             // Init
             InitializeComponent();
-            GroupBoxPlayerOneOptions.Initialize(1, options, _optionsValidator, spriteProvider );
-            GroupBoxPlayerTwoOptions.Initialize(2, options, _optionsValidator, spriteProvider);
+            GroupBoxPlayerOneOptions.Player = 1;
+            GroupBoxPlayerTwoOptions.Player = 2;
 
             // Data Bind
             MainWindowBindingSource.DataSource = _options.Value.Options;

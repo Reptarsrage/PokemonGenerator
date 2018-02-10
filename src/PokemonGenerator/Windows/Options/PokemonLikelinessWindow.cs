@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
+using PokemonGenerator.Controls;
 using PokemonGenerator.Models.Configuration;
 using PokemonGenerator.Repositories;
 

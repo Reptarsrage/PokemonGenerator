@@ -1,9 +1,10 @@
-﻿using PokemonGenerator.Models.Serialization;
-using PokemonGenerator.Repositories;
-using System;
+﻿using System;
 using System.Linq;
+using PokemonGenerator.Models.Serialization;
+using PokemonGenerator.Repositories;
+using PokemonGenerator.Utilities;
 
-namespace PokemonGenerator.Utilities
+namespace PokemonGenerator.Providers
 {
     /// <summary>
     /// Calculates and retrieves stat infdormation for pokemon

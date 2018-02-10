@@ -1,16 +1,15 @@
-﻿using System;
+﻿using PokemonGenerator.Models.Configuration;
+using PokemonGenerator.Providers;
+using PokemonGenerator.Validators;
+using PokemonGenerator.Windows;
+using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using Microsoft.Extensions.Options;
-using PokemonGenerator.Controls;
-using PokemonGenerator.Models.Configuration;
-using PokemonGenerator.Providers;
-using PokemonGenerator.Validators;
 
-namespace PokemonGenerator.Windows
+namespace PokemonGenerator.Controls
 {
-    public partial class PlayerOptionsGroupBox : WindowBase
+    public partial class PlayerOptionsGroupBox : PageEnabledControl
     {
         private struct WorkerProgress
         {
@@ -19,27 +18,20 @@ namespace PokemonGenerator.Windows
             public bool Svg { get; set; }
         }
 
-        private IPokeGeneratorOptionsValidator _optionsValidator;
-        private ISpriteProvider _spriteProvider;
-        private SVGViewer[] TeamImages;
+        private readonly IPokeGeneratorOptionsValidator _optionsValidator;
+        private readonly ISpriteProvider _spriteProvider;
+        private readonly SVGViewer[] _teamImages;
 
-        public PlayerOptionsGroupBox() { /* For Designer only */ }
-
-        public void Initialize(
-            int player,
-            IOptions<PersistentConfig> options,
-            IPokeGeneratorOptionsValidator optionsValidator,
-            ISpriteProvider spriteProvider)
+        public PlayerOptionsGroupBox()
         {
-            Player = player;
-            _spriteProvider = spriteProvider;
-            _optionsValidator = optionsValidator;
+            _spriteProvider = DependencyInjector.Get<ISpriteProvider>();
+            _optionsValidator = DependencyInjector.Get<IPokeGeneratorOptionsValidator>();
 
             // Init
             InitializeComponent();
             GroupBox.Text = Text;
             SelectPlayerVersion.DataSource = new[] { "Gold", "Silver" };
-            TeamImages = new[]
+            _teamImages = new[]
             {
                 PictureTeamFirst,
                 PictureTeamSecond,
@@ -89,7 +81,8 @@ namespace PokemonGenerator.Windows
 
         public override void Shown(WindowEventArgs args)
         {
-            BackgroundWorker.RunWorkerAsync();
+            if (!BackgroundWorker.IsBusy)
+                BackgroundWorker.RunWorkerAsync();
 
             base.Shown(args);
         }
@@ -150,9 +143,9 @@ namespace PokemonGenerator.Windows
             good &= CheckIfPathIsValidAndAssignImage(TextPlayerOutLocation, ImagePlayerOutLocation, ".sav");
 
             // Check Player One Name
-            var TextPlayerNameGood = _optionsValidator.ValidateName(TextPlayerName.Text);
-            ToggleErrorImageToPic(ImagePlayerName, TextPlayerNameGood ? ImageState.Good : ImageState.Bad);
-            good &= TextPlayerNameGood;
+            var textPlayerNameGood = _optionsValidator.ValidateName(TextPlayerName.Text);
+            ToggleErrorImageToPic(ImagePlayerName, textPlayerNameGood ? ImageState.Good : ImageState.Bad);
+            good &= textPlayerNameGood;
 
             return good;
         }
@@ -195,14 +188,14 @@ namespace PokemonGenerator.Windows
         {
             var worker = sender as BackgroundWorker;
 
-            for (var i = 0; i < TeamImages.Length; i++)
+            for (var i = 0; i < _teamImages.Length; i++)
             {
                 Bitmap image = null;
                 var svg = true;
                 if (i < DataSource.Team.MemberIds.Count)
                 {
                     var idx = DataSource.Team.MemberIds[i];
-                    image = _spriteProvider.RenderSprite(idx - 1 /* Sprite is 0-based Pokemon are 1-based */, TeamImages[i].Size);
+                    image = _spriteProvider.RenderSprite(idx - 1 /* Sprite is 0-based Pokemon are 1-based */, _teamImages[i].Size);
                     svg = false;
                 }
 
@@ -220,11 +213,11 @@ namespace PokemonGenerator.Windows
             var args = (WorkerProgress)e.UserState;
             if (args.Svg)
             {
-                TeamImages[args.Index].SvgImage = nameof(Properties.Resources.Question_16x);
+                _teamImages[args.Index].SvgImage = nameof(Properties.Resources.Question_16x);
             }
             else
             {
-                TeamImages[args.Index].Image = args.Image;
+                _teamImages[args.Index].Image = args.Image;
             }
         }
     }

@@ -1,8 +1,8 @@
-﻿using System;
+﻿using PokemonGenerator.Providers;
+using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using PokemonGenerator.Providers;
 
 namespace PokemonGenerator.Controls
 {
@@ -51,7 +51,7 @@ namespace PokemonGenerator.Controls
 
         public SpriteButton(
             ISpriteProvider spriteProvider,
-            int index, 
+            int index,
             bool pressed) : base()
         {
             Image = null;

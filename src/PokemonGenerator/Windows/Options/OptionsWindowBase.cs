@@ -1,10 +1,11 @@
 ﻿using Microsoft.Extensions.Options;
+using PokemonGenerator.Controls;
 using PokemonGenerator.Models.Configuration;
 using PokemonGenerator.Repositories;
 
 namespace PokemonGenerator.Windows.Options
 {
-    public class OptionsWindowBase : WindowBase
+    public class OptionsWindowBase : PageEnabledControl
     {
         protected IOptions<PersistentConfig> _config;
         protected PersistentConfig _workingConfig;

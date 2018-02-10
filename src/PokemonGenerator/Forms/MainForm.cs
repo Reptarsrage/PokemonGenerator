@@ -2,30 +2,31 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using PokemonGenerator.Controls;
 using PokemonGenerator.Windows;
 
 namespace PokemonGenerator.Forms
 {
     public partial class MainForm : Form
     {
-        private readonly Stack<WindowBase> _windows;
+        private readonly Stack<PageEnabledControl> _windows;
 
         public MainForm()
         {
             InitializeComponent();
 
-            _windows = new Stack<WindowBase>();
+            _windows = new Stack<PageEnabledControl>();
             OpenWindow(this, new WindowEventArgs(typeof(MainWindow)));
         }
 
-        private WindowBase GetWindowOfType(Type type)
+        private PageEnabledControl GetWindowOfType(Type type)
         {
-            if (!typeof(WindowBase).IsAssignableFrom(type))
+            if (!typeof(PageEnabledControl).IsAssignableFrom(type))
             {
                 throw new ArgumentException(nameof(type));
             }
 
-            return DependencyInjector.Get(type) as WindowBase;
+            return DependencyInjector.Get(type) as PageEnabledControl;
         }
 
         private void CloseWindow(object sender, WindowEventArgs args)
@@ -57,7 +58,7 @@ namespace PokemonGenerator.Forms
             LoadWindow(window, args);
         }
 
-        private void CloseWindow(WindowBase window, WindowEventArgs args)
+        private void CloseWindow(PageEnabledControl window, WindowEventArgs args)
         {
             // Close control
             window.SendToBack();
@@ -70,7 +71,7 @@ namespace PokemonGenerator.Forms
             window.Closed(args);
         }
 
-        private void LoadWindow(WindowBase window, WindowEventArgs args)
+        private void LoadWindow(PageEnabledControl window, WindowEventArgs args)
         {
             // Add control
             Controls.Add(window);

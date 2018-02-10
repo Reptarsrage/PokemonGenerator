@@ -1,4 +1,6 @@
-﻿namespace PokemonGenerator.Windows
+﻿using PokemonGenerator.Controls;
+
+namespace PokemonGenerator.Windows
 {
     partial class MainWindow
     {

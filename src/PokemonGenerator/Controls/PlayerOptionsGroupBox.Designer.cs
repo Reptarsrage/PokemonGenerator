@@ -1,4 +1,4 @@
-﻿namespace PokemonGenerator.Windows
+﻿namespace PokemonGenerator.Controls
 {
     partial class PlayerOptionsGroupBox
     {

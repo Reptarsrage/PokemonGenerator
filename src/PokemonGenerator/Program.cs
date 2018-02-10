@@ -1,9 +1,8 @@
-﻿using PokemonGenerator.Controls;
-using System;
-using System.Windows.Forms;
-using PokemonGenerator.Forms;
+﻿using PokemonGenerator.Forms;
 using PokemonGenerator.Windows;
 using PokemonGenerator.Windows.Options;
+using System;
+using System.Windows.Forms;
 
 namespace PokemonGenerator
 {
@@ -40,7 +39,7 @@ namespace PokemonGenerator
 
             // Generate
             Application.Run(new MainForm());
-            
+
         }
     }
 }

@@ -4,6 +4,7 @@ using PokemonGenerator.Models.Serialization;
 using PokemonGenerator.Repositories;
 using PokemonGenerator.Utilities;
 using System.Linq;
+using PokemonGenerator.Providers;
 using Xunit;
 
 namespace PokemonGenerator.Tests.Unit.Utility_Tests

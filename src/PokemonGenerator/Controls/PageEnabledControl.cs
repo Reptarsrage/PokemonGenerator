@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace PokemonGenerator.Windows
+namespace PokemonGenerator.Controls
 {
     public class WindowEventArgs
     {
@@ -15,7 +15,7 @@ namespace PokemonGenerator.Windows
         public int Player { get; set; }
     }
 
-    public class WindowBase : UserControl
+    public class PageEnabledControl : UserControl
     {
         // Events (Show new and Close this)
         public delegate void WindowOpenedDelegate(object sender, WindowEventArgs args);
