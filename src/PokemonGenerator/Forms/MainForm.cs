@@ -9,14 +9,12 @@ namespace PokemonGenerator.Forms
     public partial class MainForm : Form
     {
         private readonly Stack<WindowBase> _windows;
-        private readonly DependencyInjector _injector;
 
-        public MainForm(DependencyInjector injector)
+        public MainForm()
         {
             InitializeComponent();
 
             _windows = new Stack<WindowBase>();
-            _injector = injector;
             OpenWindow(this, new WindowEventArgs(typeof(MainWindow)));
         }
 
@@ -27,7 +25,7 @@ namespace PokemonGenerator.Forms
                 throw new ArgumentException(nameof(type));
             }
 
-            return _injector.Get(type) as WindowBase;
+            return DependencyInjector.Get(type) as WindowBase;
         }
 
         private void CloseWindow(object sender, WindowEventArgs args)

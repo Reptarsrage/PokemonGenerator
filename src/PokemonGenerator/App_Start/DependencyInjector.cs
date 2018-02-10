@@ -11,15 +11,16 @@ using PokemonGenerator.Validators;
 using PokemonGenerator.Windows;
 using PokemonGenerator.Windows.Options;
 using System;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace PokemonGenerator
 {
     public class DependencyInjector : IDisposable
     {
-        private ILifetimeScope Scope { get; set; }
-        private IConfigurationRoot Configuration;
+        protected static ILifetimeScope Scope { get; set; }
+        protected static IConfigurationRoot Configuration;
 
-        public DependencyInjector()
+        static DependencyInjector()
         {
             var builder = new ContainerBuilder();
 
@@ -29,7 +30,7 @@ namespace PokemonGenerator
             Scope = builder.Build().BeginLifetimeScope();
         }
 
-        private void BuildConfiguration(ContainerBuilder builder)
+        protected static void BuildConfiguration(ContainerBuilder builder)
         {
             Configuration = new ConfigurationBuilder()
                 .SetBasePath((string)AppDomain.CurrentDomain.GetData("DataDirectory"))
@@ -45,12 +46,12 @@ namespace PokemonGenerator
             builder.Register<IConfiguration>(context => Configuration).InstancePerLifetimeScope();
         }
 
-        public object Get(Type type)
+        public static object Get(Type type)
         {
             return Scope.Resolve(type);
         }
 
-        public T Get<T>()
+        public static T Get<T>()
         {
             return Scope.Resolve<T>();
         }
@@ -59,7 +60,7 @@ namespace PokemonGenerator
         /// Load your modules or register your services here!
         /// </summary>
         /// <param name="kernel">The kernel.</param>
-        private void RegisterServices(ContainerBuilder builder)
+        protected static void RegisterServices(ContainerBuilder builder)
         {
             // Managers
             builder.RegisterType<GeneratorManager>().As<IGeneratorManager>();
@@ -100,7 +101,7 @@ namespace PokemonGenerator
             // Other
             builder.RegisterType<Random>().InstancePerLifetimeScope();
             builder.Register<GeneratorConfig>(context => Get<IOptions<PersistentConfig>>().Value.Configuration);
-            builder.Register(context => this.Get<IOptions<PersistentConfig>>().Value.Options);
+            builder.Register(context => Get<IOptions<PersistentConfig>>().Value.Options);
         }
 
         public void Dispose()

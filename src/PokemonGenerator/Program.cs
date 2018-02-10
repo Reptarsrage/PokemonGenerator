@@ -28,22 +28,19 @@ namespace PokemonGenerator
             // Init DAL
             DapperMapper.Init();
 
-            // Generate GUI
-            using (var injector = new DependencyInjector())
-            {
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
 
-                // Pre-Load some Options Windows
-                injector.Get<TeamSelectionWindow>();
-                OptionsWindowController options = injector.Get<OptionsWindowController>();
-                options.AddOption(injector.Get<PokemonSelectionWindow>());
-                options.AddOption(injector.Get<RandomOptionsWindow>());
-                options.AddOption(injector.Get<PokemonLikelinessWindow>());
+            // Pre-Load some Options Windows
+            DependencyInjector.Get<TeamSelectionWindow>();
+            OptionsWindowController options = DependencyInjector.Get<OptionsWindowController>();
+            options.AddOption(DependencyInjector.Get<PokemonSelectionWindow>());
+            options.AddOption(DependencyInjector.Get<RandomOptionsWindow>());
+            options.AddOption(DependencyInjector.Get<PokemonLikelinessWindow>());
 
-                // Generate
-                Application.Run(new MainForm(injector));
-            }
+            // Generate
+            Application.Run(new MainForm());
+            
         }
     }
 }

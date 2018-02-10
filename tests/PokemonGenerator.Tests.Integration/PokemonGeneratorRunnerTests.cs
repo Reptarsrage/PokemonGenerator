@@ -16,7 +16,6 @@ namespace PokemonGenerator.Tests.Integration
         private IGeneratorManager _manager;
         private readonly ISaveFileRepository _deserializer;
         private readonly PersistentConfig _opts;
-        private readonly DependencyInjector _dependencyInjector;
         private readonly string _contentDir;
         private readonly string _outputDir;
 
@@ -47,11 +46,10 @@ namespace PokemonGenerator.Tests.Integration
             };
 
             AppDomain.CurrentDomain.SetData("DataDirectory", _contentDir);
-            _dependencyInjector = new DependencyInjector();
-            var options = _dependencyInjector.Get<IOptions<PersistentConfig>>();
+            var options = DependencyInjector.Get<IOptions<PersistentConfig>>();
             options.Value.Options = _opts.Options;
-            _manager = _dependencyInjector.Get<IGeneratorManager>();
-            _deserializer = _dependencyInjector.Get<ISaveFileRepository>();
+            _manager = DependencyInjector.Get<IGeneratorManager>();
+            _deserializer = DependencyInjector.Get<ISaveFileRepository>();
         }
 
         public void Dispose()
@@ -61,7 +59,6 @@ namespace PokemonGenerator.Tests.Integration
                 Directory.Delete(_outputDir, true);
             }
             _manager = null;
-            _dependencyInjector.Dispose();
         }
 
         [Fact]
