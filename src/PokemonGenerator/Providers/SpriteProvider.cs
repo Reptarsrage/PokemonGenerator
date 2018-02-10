@@ -1,11 +1,14 @@
 ﻿using System.Drawing;
+using System.IO;
 using Microsoft.Extensions.Caching.Memory;
+using Svg;
 
 namespace PokemonGenerator.Providers
 {
     public interface ISpriteProvider
     {
         Bitmap RenderSprite(int index, Size imageSize);
+        Bitmap RenderSvg(string name, Size imageSize);
     }
 
     public class SpriteProvider : ISpriteProvider
@@ -36,10 +39,18 @@ namespace PokemonGenerator.Providers
             });
         }
 
+        public Bitmap RenderSvg(string name, Size imageSize)
+        {
+            return _cache.GetOrCreate($"SVG_{name}_{imageSize.Width}x{imageSize.Height}", entry =>
             {
-                g.DrawImage(Properties.Resources.sprites, new Rectangle(0, 0, target.Width, target.Height), cropArea, GraphicsUnit.Pixel);
-                return target;
-            }
+                using (var s = new MemoryStream(Properties.Resources.ResourceManager.GetObject(name) as byte[]))
+                {
+                    var doc = SvgDocument.Open<SvgDocument>(s, null);
+                    doc.Width = imageSize.Width;
+                    doc.Height = imageSize.Height;
+                    return doc.Draw();
+                }
+            });
         }
     }
 }

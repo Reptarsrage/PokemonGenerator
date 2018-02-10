@@ -220,7 +220,7 @@ namespace PokemonGenerator.Windows
             var args = (WorkerProgress)e.UserState;
             if (args.Svg)
             {
-                TeamImages[args.Index].SvgImage = Properties.Resources.Question_16x;
+                TeamImages[args.Index].SvgImage = nameof(Properties.Resources.Question_16x);
             }
             else
             {

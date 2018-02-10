@@ -1,23 +1,43 @@
-﻿using Svg;
+﻿using PokemonGenerator.Providers;
+using System.ComponentModel;
 using System.Drawing;
-using System.IO;
 using System.Windows.Forms;
 
 namespace PokemonGenerator.Controls
 {
     public partial class SVGViewer : UserControl
     {
-        private SvgDocument _doc;
-        private byte[] _svgImage;
+        private readonly BackgroundWorker _worker;
+        private readonly ISpriteProvider _spriteProvider;
 
-        private int width;
-        private int height;
+        private string _svgImage;
+        private int _width;
+        private int _height;
 
         public SVGViewer()
         {
             InitializeComponent();
+
+            _spriteProvider = DependencyInjector.Get<ISpriteProvider>();
+            _worker = new BackgroundWorker();
+            _worker.DoWork += Worker_DoWork;
+            _worker.RunWorkerCompleted += Worker_RunWorkerCompleted;
+
             SetStyle(ControlStyles.DoubleBuffer | ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint, true);
             PictureBoxMain.Click += PictureBoxMainClick;
+        }
+
+        private void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            PictureBoxMain.Image = (Bitmap)e.Result;
+            Update();
+        }
+
+        private void Worker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            _width = Width;
+            _height = Height;
+            e.Result = _spriteProvider.RenderSvg(_svgImage, new Size(_width, _height));
         }
 
         private void PictureBoxMainClick(object sender, System.EventArgs e)
@@ -27,9 +47,10 @@ namespace PokemonGenerator.Controls
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            if (Width != width || Height != height)
+            if (Width != _width || Height != _height)
             {
-                RenderSvg(_doc);
+                if (!_worker.IsBusy)
+                    _worker.RunWorkerAsync();
             }
 
             base.OnPaint(e);
@@ -41,27 +62,15 @@ namespace PokemonGenerator.Controls
             set => PictureBoxMain.Image = value;
         }
 
-        public byte[] SvgImage
+        public string SvgImage
         {
             get => _svgImage;
             set
             {
                 _svgImage = value;
-                using (var s = new MemoryStream(_svgImage, false))
-                {
-                    _doc = SvgDocument.Open<SvgDocument>(s, null);
-                    RenderSvg(_doc);
-                }
+                if (!_worker.IsBusy)
+                    _worker.RunWorkerAsync();
             }
-        }
-
-        private void RenderSvg(SvgDocument svgDoc)
-        {
-            width = Width;
-            height = Height;
-            svgDoc.Width = width;
-            svgDoc.Height = height;
-            PictureBoxMain.Image = svgDoc.Draw();
         }
     }
 }
