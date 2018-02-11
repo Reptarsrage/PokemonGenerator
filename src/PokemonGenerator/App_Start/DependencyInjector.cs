@@ -66,12 +66,15 @@ namespace PokemonGenerator
             builder.RegisterType<GeneratorManager>().As<IGeneratorManager>();
 
             // Controls
-            builder.RegisterType<MainWindow>().InstancePerLifetimeScope();
-            builder.RegisterType<PokemonSelectionWindow>().InstancePerLifetimeScope();
-            builder.RegisterType<RandomOptionsWindow>().InstancePerLifetimeScope();
-            builder.RegisterType<OptionsWindowController>().InstancePerLifetimeScope();
-            builder.RegisterType<PokemonLikelinessWindow>().InstancePerLifetimeScope();
-            builder.RegisterType<TeamSelectionWindow>().InstancePerLifetimeScope();
+            builder.RegisterType<MainWindow>();
+            builder.RegisterType<PokemonSelectionWindow>();
+            builder.RegisterType<RandomOptionsWindow>();
+            builder.Register(context => new OptionsWindowController(
+                context.Resolve<PokemonSelectionWindow>() ,
+                context.Resolve<RandomOptionsWindow>() ,
+                context.Resolve<PokemonLikelinessWindow>()));
+            builder.RegisterType<PokemonLikelinessWindow>();
+            builder.RegisterType<TeamSelectionWindow>();
 
             // IO
             builder.RegisterType<BinaryReader2>().As<IBinaryReader2>();

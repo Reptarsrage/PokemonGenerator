@@ -1,6 +1,4 @@
 ﻿using PokemonGenerator.Forms;
-using PokemonGenerator.Windows;
-using PokemonGenerator.Windows.Options;
 using System;
 using System.Windows.Forms;
 
@@ -21,7 +19,7 @@ namespace PokemonGenerator
 #if (DEBUG)
             AppDomain.CurrentDomain.SetData("DataDirectory", AppDomain.CurrentDomain.BaseDirectory);
 #else
-            AppDomain.CurrentDomain.SetData("DataDirectory", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"PokemonGenerator\"));
+            AppDomain.CurrentDomain.SetData("DataDirectory", System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"PokemonGenerator\"));
 #endif
 
             // Init DAL
@@ -29,13 +27,6 @@ namespace PokemonGenerator
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
-            // Pre-Load some Options Windows
-            DependencyInjector.Get<TeamSelectionWindow>();
-            OptionsWindowController options = DependencyInjector.Get<OptionsWindowController>();
-            options.AddOption(DependencyInjector.Get<PokemonSelectionWindow>());
-            options.AddOption(DependencyInjector.Get<RandomOptionsWindow>());
-            options.AddOption(DependencyInjector.Get<PokemonLikelinessWindow>());
 
             // Generate
             Application.Run(new MainForm());

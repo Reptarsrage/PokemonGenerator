@@ -1,33 +1,33 @@
-﻿using System;
+﻿using PokemonGenerator.Controls;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
-using PokemonGenerator.Controls;
 
 namespace PokemonGenerator.Windows.Options
 {
     public partial class OptionsWindowController : PageEnabledControl
     {
-        private Dictionary<string, OptionsWindowBase> _options;
+        private readonly Dictionary<string, OptionsWindowBase> _options;
         private OptionsWindowBase _current;
 
-        public OptionsWindowController()
+        public OptionsWindowController(params OptionsWindowBase[] options)
         {
             InitializeComponent();
 
             _options = new Dictionary<string, OptionsWindowBase>();
-        }
 
-        public void AddOption(OptionsWindowBase optionWindow)
-        {
-            var text = TextOrDefault(optionWindow);
-            _options[text] = optionWindow;
-            ListOptions.Items.Add(text);
-
-            if (_options.Count == 1)
+            foreach (var optionWindow in options)
             {
-                ListOptions.SelectedIndex = 0;
-                _current = optionWindow;
+                var text = TextOrDefault(optionWindow);
+                _options[text] = optionWindow;
+                ListOptions.Items.Add(text);
+
+                if (_options.Count == 1)
+                {
+                    ListOptions.SelectedIndex = 0;
+                    _current = optionWindow;
+                }
             }
         }
 
@@ -62,7 +62,7 @@ namespace PokemonGenerator.Windows.Options
             // Deal with errors
             if (errorMsgs.Length > 0)
             {
-                var response = MessageBox.Show($"{errorMsgs.ToString()}\nWould you like to close without saving?", "Unable to save", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+                var response = MessageBox.Show($"{errorMsgs}\nWould you like to close without saving?", "Unable to save", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
                 if (response == DialogResult.Cancel)
                 {
                     return;
