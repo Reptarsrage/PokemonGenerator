@@ -31,26 +31,23 @@ namespace PokemonGenerator.Windows.Options
 
             _pokemonRepository = pokemonRepository;
             _spriteProvider = spriteProvider;
-
-            BackgroundWorker.RunWorkerAsync();
         }
 
         public override void Shown(WindowEventArgs args)
         {
-            _workingConfig.Configuration.DisabledPokemon.Clear();
-            _workingConfig.Configuration.DisabledPokemon.AddRange(_config.Value.Configuration.DisabledPokemon);
+            if (BackgroundWorker.IsBusy)
+            {
+                return;
+            }
+
+            // Clear old buttons
             foreach (var btn in LayoutPanelMain.Controls.OfType<SpriteButton>())
             {
-                // Un-Bind events
-                btn.ItemSelctedEvent += ItemSelcted;
-
-                var id = btn.Index + 1;
-                btn.Checked = _workingConfig.Configuration.DisabledPokemon.All(pid => pid != id);
-
-                // Re-Bind events
-                btn.ItemSelctedEvent += ItemSelcted;
+                LayoutPanelMain.Controls.Remove(btn);
             }
-            UpdateCount();
+
+            // Set New buttons
+            BackgroundWorker.RunWorkerAsync();
         }
 
         public override void Save()
@@ -74,9 +71,7 @@ namespace PokemonGenerator.Windows.Options
         private void BackgroundWorkerDoWork(object sender, DoWorkEventArgs e)
         {
             var pokemon = _pokemonRepository.GetAllPokemon();
-
             var worker = sender as BackgroundWorker;
-
             foreach (var poke in pokemon)
             {
                 worker.ReportProgress(1, poke);
