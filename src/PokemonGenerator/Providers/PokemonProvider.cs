@@ -52,7 +52,6 @@ namespace PokemonGenerator.Providers
             IPokemonRepository pokemonRepository,
             IOptions<PersistentConfig> pokemonGeneratorConfig)
         {
-            _randomBagOfPokemon = new List<PokemonChoice>();
             _probabilityUtility = probabilityUtility;
             _pokemonRepository = pokemonRepository;
             _pokemonGeneratorConfig = pokemonGeneratorConfig;
@@ -84,8 +83,9 @@ namespace PokemonGenerator.Providers
             if (_previousLevel != level || _randomBagOfPokemon.Count < 10)
             {
                 _previousLevel = level;
-                _randomBagOfPokemon.Clear();
-                _randomBagOfPokemon.AddRange(_possiblePokemon);
+                _randomBagOfPokemon = _pokemonRepository.GetRandomBagPokemon(level)
+                    .Select(id => new PokemonChoice { PokemonId = id })
+                    .ToList();
             }
 
             var iChooseYou = new Pokemon
@@ -127,8 +127,9 @@ namespace PokemonGenerator.Providers
             if (_previousLevel != level || _randomBagOfPokemon.Count < 10)
             {
                 _previousLevel = level;
-                _randomBagOfPokemon.Clear();
-                _randomBagOfPokemon.AddRange(_possiblePokemon);
+                _randomBagOfPokemon = _pokemonRepository.GetRandomBagPokemon(level)
+                    .Select(id => new PokemonChoice { PokemonId = id })
+                    .ToList();
             }
 
             // add initial probabilities
