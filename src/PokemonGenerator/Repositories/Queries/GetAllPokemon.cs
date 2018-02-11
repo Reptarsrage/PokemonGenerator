@@ -4,8 +4,11 @@
     {
         public static readonly string GetAllPokemon = @"
             SELECT 
-                 id
-                ,identifier
-            FROM  tbl_vwBaseStats";
+                 STATS.id
+                ,STATS.identifier
+                ,COALESCE(EVOLVE.minimum_level, 0) AS [minimumLevel]
+            FROM  tbl_vwBaseStats STATS
+            LEFT JOIN [tbl_vwevolutions] EVOLVE
+                ON EVOLVE.id = STATS.id";
     }
 }

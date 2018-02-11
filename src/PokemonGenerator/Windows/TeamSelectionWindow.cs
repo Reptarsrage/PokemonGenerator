@@ -146,6 +146,7 @@ namespace PokemonGenerator.Windows
             var legendaryFlag = _config.Value.Configuration.LegendaryPokemon.Any(id => poke.Id == id);
             var specialFlag = _config.Value.Configuration.SpecialPokemon.Any(id => poke.Id == id);
             var forbiddenFlag = _config.Value.Configuration.ForbiddenPokemon.Any(id => poke.Id == id);
+            var levelLockedFlag = poke.MinimumLevel > _config.Value.Options.Level;
 
             // Create Item
             var item = new SpriteButton(_spriteProvider, poke.Id - 1 /* Convert to zero based from pokemon 1-based id */, selectedFlag)
@@ -154,10 +155,11 @@ namespace PokemonGenerator.Windows
                 Text = poke.Identifier.ToUpper(),
                 Tint =
                     forbiddenFlag ? CustomColors.Forbidden :
+                    levelLockedFlag ? CustomColors.Forbidden :
                     legendaryFlag ? CustomColors.Legendary :
                     specialFlag ? CustomColors.Special :
                     CustomColors.Standard,
-                Enabled = !forbiddenFlag
+                Enabled = !forbiddenFlag && !levelLockedFlag,
             };
 
             // Add Item
