@@ -2,6 +2,7 @@
 using PokemonGenerator.Controls;
 using PokemonGenerator.Models.Configuration;
 using PokemonGenerator.Repositories;
+using PokemonGenerator.Utilities;
 
 namespace PokemonGenerator.Windows.Options
 {
@@ -22,6 +23,9 @@ namespace PokemonGenerator.Windows.Options
             ConfigRepository = configRepository;
             _config = options;
             _workingConfig = new PersistentConfig();
+
+            // Copy values from real config to working config
+            _workingConfig = _config.Value.Clone();
         }
 
         public virtual void Save()
