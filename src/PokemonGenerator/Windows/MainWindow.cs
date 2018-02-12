@@ -387,14 +387,16 @@ namespace PokemonGenerator.Windows
             PanelProgress.Hide();
         }
 
-        private void PlayerValidate(object sender, EventArgs e)
-        {
-            ValidatePlayerSection();
-        }
-
         private void ButtonSettings_Click(object sender, EventArgs e)
         {
             OnWindowOpenedEvent(this, new WindowEventArgs(typeof(OptionsWindowController)));
+        }
+
+        private void SelectLevelChanged(object sender, EventArgs e)
+        {
+            // Clear out pokemon from teams which no longer are valid at this level
+            GroupBoxPlayerOneOptions.CorrectTeam();
+            GroupBoxPlayerTwoOptions.CorrectTeam();
         }
     }
 }

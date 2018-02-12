@@ -5,7 +5,10 @@ using PokemonGenerator.Windows;
 using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
+using Microsoft.Extensions.Options;
+using PokemonGenerator.Repositories;
 
 namespace PokemonGenerator.Controls
 {
@@ -19,6 +22,8 @@ namespace PokemonGenerator.Controls
         }
 
         private readonly IPokeGeneratorOptionsValidator _optionsValidator;
+        private readonly IOptions<PersistentConfig> _options;
+        private readonly IPokemonRepository _pokemonRepository;
         private readonly ISpriteProvider _spriteProvider;
         private readonly SVGViewer[] _teamImages;
 
@@ -26,6 +31,8 @@ namespace PokemonGenerator.Controls
         {
             _spriteProvider = DependencyInjector.Get<ISpriteProvider>();
             _optionsValidator = DependencyInjector.Get<IPokeGeneratorOptionsValidator>();
+            _pokemonRepository = DependencyInjector.Get<IPokemonRepository>();
+            _options = DependencyInjector.Get<IOptions<PersistentConfig>>();
 
             // Init
             InitializeComponent();
@@ -85,6 +92,12 @@ namespace PokemonGenerator.Controls
                 BackgroundWorker.RunWorkerAsync();
 
             base.Shown(args);
+        }
+
+        public void CorrectTeam()
+        {
+            if (!BackgroundWorker.IsBusy)
+                BackgroundWorker.RunWorkerAsync();
         }
 
         private void UpdateText(TextBox textBox, string val)
@@ -187,9 +200,19 @@ namespace PokemonGenerator.Controls
         private void BackgroundWorkerDoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             var worker = sender as BackgroundWorker;
-
+            var possiblePokemon = _pokemonRepository.GetAllPokemon();
+            
+            // Prune
+            var toRemove = DataSource.Team.MemberIds
+                .Where(id => possiblePokemon.All(poke => poke.Id != id || poke.MinimumLevel > _options.Value.Options.Level))
+                .ToList();
             for (var i = 0; i < _teamImages.Length; i++)
             {
+                if (i < DataSource.Team.MemberIds.Count && toRemove.Any(id => id == DataSource.Team.MemberIds[i]))
+                {
+                    DataSource.Team.MemberIds.RemoveAt(i);
+                }
+
                 Bitmap image = null;
                 var svg = true;
                 if (i < DataSource.Team.MemberIds.Count)

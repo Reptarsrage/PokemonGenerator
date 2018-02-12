@@ -141,6 +141,7 @@ namespace PokemonGenerator.Windows
             0,
             0,
             0});
+            this.SelectLevel.ValueChanged += new System.EventHandler(this.SelectLevelChanged);
             // 
             // LabelLevel
             // 

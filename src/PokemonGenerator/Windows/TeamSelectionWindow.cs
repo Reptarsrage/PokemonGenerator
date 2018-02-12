@@ -152,6 +152,10 @@ namespace PokemonGenerator.Windows
                 Enabled = !forbiddenFlag && !levelLockedFlag,
             };
 
+            // Add if selected 
+            if (selectedFlag)
+                _selected.Push(item);
+
             // Add Item
             LayoutPanelMain.Controls.Add(item);
 
