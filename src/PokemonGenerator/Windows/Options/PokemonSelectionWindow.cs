@@ -43,6 +43,10 @@ namespace PokemonGenerator.Windows.Options
                 LayoutPanelMain.Controls.Remove(btn);
             }
 
+            // Load new config
+            _workingConfig.Configuration.DisabledPokemon.Clear();
+            _workingConfig.Configuration.DisabledPokemon.AddRange(_config.Value.Configuration.DisabledPokemon);
+
             // Set New buttons
             BackgroundWorker.RunWorkerAsync();
         }

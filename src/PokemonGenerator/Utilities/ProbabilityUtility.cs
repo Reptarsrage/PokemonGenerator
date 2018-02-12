@@ -12,10 +12,12 @@ namespace PokemonGenerator.Utilities
     public interface IProbabilityUtility
     {
         /// <summary>
-        /// Chooses from a list of elements where each element is the relative probability of itself being chosen (Relative to all other elements). This may fail if there are elements with negative probabilties or if the list is empty.
+        /// Chooses from a list of elements where each element is the relative probability of itself being chosen (Relative to all other elements). 
+        /// This may fail if there are elements with negative probabilties or if the list is empty.
         /// </summary>
         /// <param name="choices">A list of relative probabilities.</param>
         /// <returns>The index of the chosen element, null on failure.</returns>
+        /// <exception cref="ArgumentException">Not enough elements to choose from or all choices have no chance</exception>
         int? ChooseWithProbability(IList<IChoice> choices);
 
         /// <summary>
@@ -85,6 +87,11 @@ namespace PokemonGenerator.Utilities
         /// <inheritdoc />
         public int? ChooseWithProbability(IList<IChoice> choices)
         {
+            if (choices.Count == 0 || choices.All(choice => choice.Probability <= 0))
+            {
+                throw new ArgumentException("Not enough elements to choose from or all choices have no chance");
+            }
+
             var probChoices = choices.Select(pc => pc.Probability < 0 ? 0 : pc.Probability);
             var sum = probChoices.Sum();
             if (sum == 0) return 0;

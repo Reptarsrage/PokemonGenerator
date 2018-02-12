@@ -115,14 +115,6 @@ namespace PokemonGenerator.Providers
                 throw new ArgumentOutOfRangeException($"level ({level}) must be between 5 and 100 inclusive.");
             }
 
-            // Lazy load
-            if (_possiblePokemon == null)
-            {
-                _possiblePokemon = _pokemonRepository.GetPossiblePokemon(level)
-                    .Select(id => new PokemonChoice { PokemonId = id })
-                    .ToList();
-            }
-
             // Make sure both players end up with different pokemons, re-use the same list if possible
             if (_previousLevel != level || _randomBagOfPokemon.Count < 10)
             {
@@ -133,7 +125,7 @@ namespace PokemonGenerator.Providers
             }
 
             // add initial probabilities
-            foreach (var choice in _possiblePokemon)
+            foreach (var choice in _randomBagOfPokemon)
             {
                 if (_pokemonGeneratorConfig.Value.Configuration.DisabledPokemon.Contains(choice.PokemonId) ||
                     _pokemonGeneratorConfig.Value.Configuration.ForbiddenPokemon.Contains(choice.PokemonId))
@@ -155,7 +147,7 @@ namespace PokemonGenerator.Providers
             }
 
             // choose
-            var chosenId = _probabilityUtility.ChooseWithProbability(_possiblePokemon.Cast<IChoice>().ToList());
+            var chosenId = _probabilityUtility.ChooseWithProbability(_randomBagOfPokemon.Cast<IChoice>().ToList());
             if (chosenId == null)
             {
                 throw new ArgumentException("Not enough Pokemon to choose from.");
@@ -163,13 +155,13 @@ namespace PokemonGenerator.Providers
 
             var iChooseYou = new Pokemon
             {
-                SpeciesId = (byte)_possiblePokemon[(int)chosenId].PokemonId,
+                SpeciesId = (byte)_randomBagOfPokemon[(int)chosenId].PokemonId,
                 Unused = 0x0,
                 OTName = "ROBOT",
                 HeldItem = 0x0
             };
 
-            _possiblePokemon.RemoveAt((int)chosenId);
+            _randomBagOfPokemon.RemoveAt((int)chosenId);
             return iChooseYou;
         }
     }
