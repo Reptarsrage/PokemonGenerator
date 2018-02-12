@@ -2,7 +2,6 @@
 using PokemonGenerator.Models.Configuration;
 using PokemonGenerator.Models.Serialization;
 using PokemonGenerator.Providers;
-using PokemonGenerator.Utilities;
 using PokemonGenerator.Validators;
 using System;
 using System.Collections.Generic;
@@ -57,12 +56,12 @@ namespace PokemonGenerator.Managers
 
             // Generate Player One and Team
             sav.PlayerName = _config.Value.Options.PlayerOne.Name;
-            CopyAndGen(_config.Value.Options.PlayerOne.OutputSaveLocation, _config.Value.Options.PlayerOne.InputSaveLocation, 
+            CopyAndGen(_config.Value.Options.PlayerOne.OutputSaveLocation, _config.Value.Options.PlayerOne.InputSaveLocation,
                 sav, _config.Value.Options.Level, _config.Value.Options.PlayerOne.Team.MemberIds);
 
             // Generate Player Two and Team
             sav.PlayerName = _config.Value.Options.PlayerTwo.Name;
-            CopyAndGen(_config.Value.Options.PlayerTwo.OutputSaveLocation, _config.Value.Options.PlayerTwo.InputSaveLocation, 
+            CopyAndGen(_config.Value.Options.PlayerTwo.OutputSaveLocation, _config.Value.Options.PlayerTwo.InputSaveLocation,
                 sav, _config.Value.Options.Level, _config.Value.Options.PlayerTwo.Team.MemberIds);
         }
 
@@ -86,18 +85,19 @@ namespace PokemonGenerator.Managers
                 Directory.CreateDirectory(Path.GetDirectoryName(outSaveFile));
             }
 
+            // If Allowing duplicates, reload lists for selectining randoms
+            if (_config.Value.Configuration.AllowDuplicates)
+            {
+                _pokemonProvider.ReloadRandomBag(level);
+            }
+
             // Choose Pokemon Team
             var list = new List<Pokemon>();
             for (var i = 0; i < _config.Value.Configuration.TeamSize; i++)
             {
-                if (i < chosenMembers.Count)
-                {
-                    list.Add(_pokemonProvider.GeneratePokemon(chosenMembers[i], level));
-                }
-                else
-                {
-                    list.Add(_pokemonProvider.GenerateRandomPokemon(level));
-                }
+                list.Add(i < chosenMembers.Count
+                    ? _pokemonProvider.GeneratePokemon(chosenMembers[i], level)
+                    : _pokemonProvider.GenerateRandomPokemon(level));
             }
 
             var pokeList = new PokeList(list.Count)

@@ -37,18 +37,18 @@ namespace PokemonGenerator.Windows.Options
                 return;
             }
 
-            // Clear old buttons
-            foreach (var btn in LayoutPanelMain.Controls.OfType<SpriteButton>())
-            {
-                LayoutPanelMain.Controls.Remove(btn);
-            }
-
             // Load new config
             _workingConfig.Configuration.DisabledPokemon.Clear();
             _workingConfig.Configuration.DisabledPokemon.AddRange(_config.Value.Configuration.DisabledPokemon);
 
             // Set New buttons
             BackgroundWorker.RunWorkerAsync();
+        }
+
+        public override void Closed(WindowEventArgs args)
+        {
+            // Clear old buttons
+            LayoutPanelMain.Controls.Clear();
         }
 
         public override void Save()

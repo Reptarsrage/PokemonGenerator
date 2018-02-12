@@ -48,27 +48,27 @@ namespace PokemonGenerator.Providers
         /// <inheritdoc />
         public void GetTeamBaseStats(PokeList list, int level)
         {
-            var stats = _pokemonRepository.GetTeamBaseStats(list);
-            foreach (var s in stats)
+            var stats = _pokemonRepository.GetTeamBaseStats(list).ToList();
+            for (var i = 0; i < list.Count; i++)
             {
-                var idx = list.Species.ToList().IndexOf((byte)s.Id);
+                var s = stats.First(stat => stat.Id == list.Species[i]);
 
                 // Set Name
-                list.Names[idx] = s.Identifier.ToUpper();
+                list.Names[i] = s.Identifier.ToUpper();
 
                 // Set Stats
-                list.Pokemon[idx].Attack = (byte)s.Attack;
-                list.Pokemon[idx].Defense = (byte)s.Defense;
-                list.Pokemon[idx].Speed = (byte)s.Speed;
-                list.Pokemon[idx].MaxHp = (ushort)s.Hp;
-                list.Pokemon[idx].SpDefense = (byte)s.SpDefense;
-                list.Pokemon[idx].SpAttack = (byte)s.SpAttack;
-                list.Pokemon[idx].Level = (byte)level;
-                list.Pokemon[idx].Experience = (uint)CalculateExperiencePoints(s.GrowthRate, level);
+                list.Pokemon[i].Attack = (byte)s.Attack;
+                list.Pokemon[i].Defense = (byte)s.Defense;
+                list.Pokemon[i].Speed = (byte)s.Speed;
+                list.Pokemon[i].MaxHp = (ushort)s.Hp;
+                list.Pokemon[i].SpDefense = (byte)s.SpDefense;
+                list.Pokemon[i].SpAttack = (byte)s.SpAttack;
+                list.Pokemon[i].Level = (byte)level;
+                list.Pokemon[i].Experience = (uint)CalculateExperiencePoints(s.GrowthRate, level);
 
                 // Set Others
-                list.Pokemon[idx].Name = s.Identifier.ToUpper();
-                list.Pokemon[idx].Types = s.Types.Split(new char[] { ',' }).ToList();
+                list.Pokemon[i].Name = s.Identifier.ToUpper();
+                list.Pokemon[i].Types = s.Types.Split(new char[] { ',' }).ToList();
             }
         }
 

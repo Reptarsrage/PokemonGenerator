@@ -83,18 +83,18 @@ namespace PokemonGenerator.Windows
             _workingConfig.MemberIds.Clear();
             _workingConfig.MemberIds.AddRange(teamConfig.MemberIds);
 
-            // Clear old buttons
-            foreach (var btn in LayoutPanelMain.Controls.OfType<SpriteButton>())
-            {
-                LayoutPanelMain.Controls.Remove(btn);
-            }
-
             // Set New buttons
             if (!BackgroundWorkerTeam.IsBusy)
             {
                 BackgroundWorkerTeam.RunWorkerAsync();
             }
             BackgroundWorker.RunWorkerAsync();
+        }
+
+        public override void Closed(WindowEventArgs args)
+        {
+            // Clear old buttons
+            LayoutPanelMain.Controls.Clear();
         }
 
         private void Save()

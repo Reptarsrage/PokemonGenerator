@@ -34,6 +34,12 @@ namespace PokemonGenerator.Providers
         /// <param name="level">The level of generated pokemon. Must be between 5 and 100 inclusive.</param>
         /// <returns></returns>
         Pokemon GeneratePokemon(int speciesId, int level);
+
+        /// <summary>
+        /// Refresheds the bag of random pokemon. 
+        /// Otherwise the bag will only contain things that haven't been selected yet.
+        /// </summary>
+        void ReloadRandomBag(int level);
     }
 
     /// <inheritdoc />
@@ -41,7 +47,7 @@ namespace PokemonGenerator.Providers
     {
         private readonly IProbabilityUtility _probabilityUtility;
         private readonly IPokemonRepository _pokemonRepository;
-        private readonly IOptions<PersistentConfig> _pokemonGeneratorConfig;
+        private readonly IOptions<PersistentConfig> _config;
 
         private List<PokemonChoice> _possiblePokemon;
         private List<PokemonChoice> _randomBagOfPokemon;
@@ -54,7 +60,19 @@ namespace PokemonGenerator.Providers
         {
             _probabilityUtility = probabilityUtility;
             _pokemonRepository = pokemonRepository;
-            _pokemonGeneratorConfig = pokemonGeneratorConfig;
+            _config = pokemonGeneratorConfig;
+        }
+
+        public void ReloadRandomBag(int level)
+        {
+            if (level < 5 || level > 100)
+            {
+                throw new ArgumentOutOfRangeException($"level ({level}) must be between 5 and 100 inclusive.");
+            }
+
+            _randomBagOfPokemon = _pokemonRepository.GetRandomBagPokemon(level)
+                .Select(id => new PokemonChoice { PokemonId = id })
+                .ToList();
         }
 
         /// <inheritdoc />
@@ -69,7 +87,6 @@ namespace PokemonGenerator.Providers
             {
                 throw new ArgumentOutOfRangeException($"level ({speciesId}) must be between 1 and 256 inclusive.");
             }
-            
 
             // Lazy load
             if (_possiblePokemon == null)
@@ -80,12 +97,11 @@ namespace PokemonGenerator.Providers
             }
 
             // Make sure both players end up with different pokemons, re-use the same list if possible
+            // if the allow duplicates flag is set, we will always reload the list
             if (_previousLevel != level || _randomBagOfPokemon.Count < 10)
             {
                 _previousLevel = level;
-                _randomBagOfPokemon = _pokemonRepository.GetRandomBagPokemon(level)
-                    .Select(id => new PokemonChoice { PokemonId = id })
-                    .ToList();
+                ReloadRandomBag(level);
             }
 
             var iChooseYou = new Pokemon
@@ -119,30 +135,28 @@ namespace PokemonGenerator.Providers
             if (_previousLevel != level || _randomBagOfPokemon.Count < 10)
             {
                 _previousLevel = level;
-                _randomBagOfPokemon = _pokemonRepository.GetRandomBagPokemon(level)
-                    .Select(id => new PokemonChoice { PokemonId = id })
-                    .ToList();
+                ReloadRandomBag(level);
             }
 
             // add initial probabilities
             foreach (var choice in _randomBagOfPokemon)
             {
-                if (_pokemonGeneratorConfig.Value.Configuration.DisabledPokemon.Contains(choice.PokemonId) ||
-                    _pokemonGeneratorConfig.Value.Configuration.ForbiddenPokemon.Contains(choice.PokemonId))
+                if (_config.Value.Configuration.DisabledPokemon.Contains(choice.PokemonId) ||
+                    _config.Value.Configuration.ForbiddenPokemon.Contains(choice.PokemonId))
                 {
-                    choice.Probability = _pokemonGeneratorConfig.Value.Configuration.PokemonLiklihood.Ignored;
+                    choice.Probability = _config.Value.Configuration.PokemonLiklihood.Ignored;
                 }
-                else if (_pokemonGeneratorConfig.Value.Configuration.LegendaryPokemon.Contains(choice.PokemonId))
+                else if (_config.Value.Configuration.LegendaryPokemon.Contains(choice.PokemonId))
                 {
-                    choice.Probability = _pokemonGeneratorConfig.Value.Configuration.PokemonLiklihood.Legendary;
+                    choice.Probability = _config.Value.Configuration.PokemonLiklihood.Legendary;
                 }
-                else if (_pokemonGeneratorConfig.Value.Configuration.SpecialPokemon.Contains(choice.PokemonId))
+                else if (_config.Value.Configuration.SpecialPokemon.Contains(choice.PokemonId))
                 {
-                    choice.Probability = _pokemonGeneratorConfig.Value.Configuration.PokemonLiklihood.Special;
+                    choice.Probability = _config.Value.Configuration.PokemonLiklihood.Special;
                 }
                 else
                 {
-                    choice.Probability = _pokemonGeneratorConfig.Value.Configuration.PokemonLiklihood.Standard;
+                    choice.Probability = _config.Value.Configuration.PokemonLiklihood.Standard;
                 }
             }
 
@@ -161,7 +175,8 @@ namespace PokemonGenerator.Providers
                 HeldItem = 0x0
             };
 
-            _randomBagOfPokemon.RemoveAt((int)chosenId);
+            _randomBagOfPokemon.RemoveAt((int) chosenId);
+
             return iChooseYou;
         }
     }

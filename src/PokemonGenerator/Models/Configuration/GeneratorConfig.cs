@@ -70,6 +70,7 @@ namespace PokemonGenerator.Models.Configuration
             DamageTypeDelta = 15;
             RandomMoveMinPower = 40;
             RandomMoveMaxPower = 100;
+            AllowDuplicates = false;
         }
 
         /// <summary>
@@ -153,7 +154,6 @@ namespace PokemonGenerator.Models.Configuration
 
         /// <summary>
         /// The lower this is, the more likely pokemon with a certain damage type type will only know moves of that type. (Special/Physical)
-        /// TODO Add this to options window
         /// </summary>
         public double DamageTypeModifier { get; set; }
 
@@ -195,5 +195,10 @@ namespace PokemonGenerator.Models.Configuration
         /// When a move must be chosen at random (e.g. for sketch), then this is the maxinimum damage that the move can to
         /// </summary>
         public int RandomMoveMaxPower { get; set; }
+
+        /// <summary>
+        /// Allows for duplicate pokemon on teams
+        /// </summary>
+        public bool AllowDuplicates { get; set; }
     }
 }

@@ -35,6 +35,10 @@ namespace PokemonGenerator.Windows.Options
             FieldNumericRandomMoveMinPower.Value = (decimal)_config.Value.Configuration.RandomMoveMinPower;
             FieldNumericRandomMoveMaxPower.Value = (decimal)_config.Value.Configuration.RandomMoveMaxPower;
             FieldNumericSameTypeModifier.Value = (decimal)_config.Value.Configuration.SameTypeModifier;
+            FieldNumericDamageTypeModifier.Value = (decimal)_config.Value.Configuration.DamageTypeModifier;
+            FieldNumericAlreadyPickedMoveModifier.Value = (decimal)_config.Value.Configuration.AlreadyPickedMoveModifier;
+            FieldNumericAlreadyPickedMoveEffectsModifier.Value = (decimal)_config.Value.Configuration.AlreadyPickedMoveEffectsModifier;
+            CheckBoxAllowDuplicates.Checked = _config.Value.Configuration.AllowDuplicates;
         }
 
         public override void Save()
@@ -47,6 +51,10 @@ namespace PokemonGenerator.Windows.Options
             _config.Value.Configuration.RandomMoveMinPower = _workingConfig.Configuration.RandomMoveMinPower;
             _config.Value.Configuration.RandomMoveMaxPower = _workingConfig.Configuration.RandomMoveMaxPower;
             _config.Value.Configuration.SameTypeModifier = _workingConfig.Configuration.SameTypeModifier;
+            _config.Value.Configuration.DamageTypeModifier = _workingConfig.Configuration.DamageTypeModifier;
+            _config.Value.Configuration.AlreadyPickedMoveModifier = _workingConfig.Configuration.AlreadyPickedMoveModifier;
+            _config.Value.Configuration.AlreadyPickedMoveEffectsModifier = _workingConfig.Configuration.AlreadyPickedMoveEffectsModifier;
+            _config.Value.Configuration.AllowDuplicates = _workingConfig.Configuration.AllowDuplicates;
 
             base.Save();
         }

@@ -1,7 +1,10 @@
-﻿namespace PokemonGenerator.Models.Configuration
+﻿using Newtonsoft.Json;
+
+namespace PokemonGenerator.Models.Configuration
 {
     public class PokemonLiklihood
     {
+        [JsonIgnore]
         public double Ignored { get; set; }
 
         public double Standard { get; set; }

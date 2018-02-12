@@ -34,7 +34,7 @@ namespace PokemonGenerator.Repositories
             _settings = new JsonSerializerSettings
             {
                 NullValueHandling = NullValueHandling.Ignore,
-                DefaultValueHandling = DefaultValueHandling.Ignore,
+                DefaultValueHandling = DefaultValueHandling.Include,
                 Formatting = Formatting.Indented,
                 ObjectCreationHandling = ObjectCreationHandling.Replace
             };
