@@ -8,20 +8,17 @@ namespace PokemonGenerator.Controls
 {
     public class ItemSelectedEventArgs : EventArgs
     {
-        public bool Selected => _selected;
+        public bool Selected { get; }
 
-        private readonly bool _selected;
-
-        public ItemSelectedEventArgs(bool selected) : base()
+        public ItemSelectedEventArgs(bool selected)
         {
-            _selected = selected;
+            Selected = selected;
         }
     }
 
     public class SpriteButton : CheckBox
     {
         private Color _tint;
-        private readonly BackgroundWorker _backgroundWorker;
         private readonly ISpriteProvider _spriteProvider;
         private readonly int _index;
         private readonly Size _imageSize;
@@ -29,10 +26,7 @@ namespace PokemonGenerator.Controls
         // Tint
         public Color Tint
         {
-            get
-            {
-                return _tint;
-            }
+            get => _tint;
             set
             {
                 _tint = value;
@@ -52,7 +46,7 @@ namespace PokemonGenerator.Controls
         public SpriteButton(
             ISpriteProvider spriteProvider,
             int index,
-            bool pressed) : base()
+            bool pressed)
         {
             Image = null;
             TextImageRelation = TextImageRelation.ImageAboveText;
@@ -72,12 +66,10 @@ namespace PokemonGenerator.Controls
             _spriteProvider = spriteProvider;
             _index = index;
 
-            _backgroundWorker = new BackgroundWorker();
-            _backgroundWorker.WorkerReportsProgress = true;
-            _backgroundWorker.DoWork += _backgroundWorker_DoWork;
-            _backgroundWorker.ProgressChanged += _backgroundWorker_ProgressChanged;
-
-            _backgroundWorker.RunWorkerAsync();
+            var backgroundWorker = new BackgroundWorker {WorkerReportsProgress = true};
+            backgroundWorker.DoWork += _backgroundWorker_DoWork;
+            backgroundWorker.ProgressChanged += _backgroundWorker_ProgressChanged;
+            backgroundWorker.RunWorkerAsync();
         }
 
         private void SpriteButton_CheckedChanged(object sender, EventArgs e)
@@ -96,8 +88,8 @@ namespace PokemonGenerator.Controls
             }
 
             // Draw Border using color specified in Flat Appearance
-            Pen pen = new Pen(FlatAppearance.BorderColor, 1);
-            Rectangle rectangle = new Rectangle(0, 0, Size.Width - 1, Size.Height - 1);
+            var pen = new Pen(FlatAppearance.BorderColor, 1);
+            var rectangle = new Rectangle(0, 0, Size.Width - 1, Size.Height - 1);
             e.Graphics.DrawRectangle(pen, rectangle);
         }
 
@@ -122,7 +114,7 @@ namespace PokemonGenerator.Controls
         {
             var worker = sender as BackgroundWorker;
             var target = _spriteProvider.RenderSprite(_index, _imageSize);
-            worker.ReportProgress(1, target);
+            worker?.ReportProgress(1, target);
         }
     }
 }
