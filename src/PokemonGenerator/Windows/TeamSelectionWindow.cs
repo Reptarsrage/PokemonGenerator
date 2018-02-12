@@ -29,7 +29,7 @@ namespace PokemonGenerator.Windows
         private readonly Team _workingConfig;
         private readonly SVGViewer[] _teamImages;
         private readonly Stack<SpriteButton> _selected;
-       
+
         private int _player;
         private bool _ignoreFiredSelectionEventsFlag;
 
@@ -62,8 +62,6 @@ namespace PokemonGenerator.Windows
                 PictureTeamFifth,
                 PictureTeamSixth
             };
-
-            BackgroundWorker.RunWorkerAsync();
         }
 
         public override void Shown(WindowEventArgs args)
@@ -73,33 +71,30 @@ namespace PokemonGenerator.Windows
                 throw new ArgumentException(nameof(WindowEventArgs.Player));
             }
 
+            // We're already working on things
+            if (BackgroundWorker.IsBusy)
+            {
+                return;
+            }
+
             // Load newest config
             _player = args.Player;
             var teamConfig = _player == 1 ? _config.Value.Options.PlayerOne.Team : _config.Value.Options.PlayerTwo.Team;
             _workingConfig.MemberIds.Clear();
             _workingConfig.MemberIds.AddRange(teamConfig.MemberIds);
 
-            // Load Team Images
-            BackgroundWorkerTeam.RunWorkerAsync();
-
-            // Un-Bind events
-            _ignoreFiredSelectionEventsFlag = true;
-
-            // Update Buttons
+            // Clear old buttons
             foreach (var btn in LayoutPanelMain.Controls.OfType<SpriteButton>())
             {
-                var id = btn.Index + 1;
-                btn.Checked = _workingConfig.MemberIds.Any(pid => pid == id);
-                if (btn.Checked)
-                {
-                    _selected.Push(btn);
-                }
+                LayoutPanelMain.Controls.Remove(btn);
             }
 
-            // Re-Bind events
-            _ignoreFiredSelectionEventsFlag = false;
-
-            UpdateCount();
+            // Set New buttons
+            if (!BackgroundWorkerTeam.IsBusy)
+            {
+                BackgroundWorkerTeam.RunWorkerAsync();
+            }
+            BackgroundWorker.RunWorkerAsync();
         }
 
         private void Save()
@@ -121,11 +116,6 @@ namespace PokemonGenerator.Windows
             }
 
             _configRepository.Save();
-        }
-
-        private void UpdateCount()
-        {
-            // TODO LabelCount.Text = $"{_selected}/{_total} Selected";
         }
 
         private void BackgroundWorkerDoWork(object sender, DoWorkEventArgs e)
@@ -182,7 +172,7 @@ namespace PokemonGenerator.Windows
                 if (_workingConfig.MemberIds.Count == 6)
                 {
                     _ignoreFiredSelectionEventsFlag = true;
-                    var popped = _selected.Pop();  
+                    var popped = _selected.Pop();
                     popped.Checked = false;
                     _workingConfig.MemberIds.Remove(popped.Index + 1); // Convert back from zero based to pokemon 1-based id
                     _ignoreFiredSelectionEventsFlag = false;
@@ -198,13 +188,6 @@ namespace PokemonGenerator.Windows
 
             if (!BackgroundWorkerTeam.IsBusy)
                 BackgroundWorkerTeam.RunWorkerAsync();
-
-            UpdateCount();
-        }
-
-        private void BackgroundWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            UpdateCount();
         }
 
         private void ButtonCancelClick(object sender, EventArgs e)

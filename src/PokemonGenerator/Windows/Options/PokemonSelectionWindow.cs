@@ -15,9 +15,6 @@ namespace PokemonGenerator.Windows.Options
         private readonly IPokemonRepository _pokemonRepository;
         private readonly ISpriteProvider _spriteProvider;
 
-        private int _total;
-        private int _selected;
-
         public PokemonSelectionWindow(
             IPokemonRepository pokemonRepository,
             IOptions<PersistentConfig> options,
@@ -52,20 +49,10 @@ namespace PokemonGenerator.Windows.Options
 
         public override void Save()
         {
-            if (_selected < 6)
-            {
-                throw new InvalidOperationException("Please select at least 6 Pokemon.");
-            }
-
             _config.Value.Configuration.DisabledPokemon.Clear();
             _config.Value.Configuration.DisabledPokemon.AddRange(_workingConfig.Configuration.DisabledPokemon.Distinct().OrderBy(d => d));
 
             base.Save();
-        }
-
-        private void UpdateCount()
-        {
-            // TODO LabelCount.Text = $"{_selected}/{_total} Selected";
         }
 
         private void BackgroundWorkerDoWork(object sender, DoWorkEventArgs e)
@@ -98,18 +85,11 @@ namespace PokemonGenerator.Windows.Options
                     legendary ? CustomColors.Legendary :
                     special ? CustomColors.Special :
                     CustomColors.Standard,
-                Enabled = !forbidden && !levelLocked,
+                Enabled = !forbidden && !levelLocked
             };
 
             // Add Item
             LayoutPanelMain.Controls.Add(item);
-
-            // Maintain info
-            _total++;
-            if (selected)
-            {
-                _selected++;
-            }
 
             // Bind events
             item.ItemSelctedEvent += ItemSelcted;
@@ -120,8 +100,6 @@ namespace PokemonGenerator.Windows.Options
             var button = sender as SpriteButton;
             var idx = button.Index + 1 /* Convert back from zero based to pokemon 1-based id */;
 
-            _selected += args.Selected ? 1 : -1;
-
             if (args.Selected)
             {
                 _workingConfig.Configuration.DisabledPokemon.Remove(idx);
@@ -130,13 +108,6 @@ namespace PokemonGenerator.Windows.Options
             {
                 _workingConfig.Configuration.DisabledPokemon.Add(idx);
             }
-
-            UpdateCount();
-        }
-
-        private void BackgroundWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            UpdateCount();
         }
 
         private void SelectAll(object sender, EventArgs e)

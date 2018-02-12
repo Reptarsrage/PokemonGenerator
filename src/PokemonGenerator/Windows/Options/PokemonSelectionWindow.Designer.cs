@@ -90,7 +90,6 @@ namespace PokemonGenerator.Windows.Options
             this.BackgroundWorker.WorkerSupportsCancellation = true;
             this.BackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BackgroundWorkerDoWork);
             this.BackgroundWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.BackgroundWorkerProgressChanged);
-            this.BackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.BackgroundWorkerCompleted);
             // 
             // TableLayoutPanelOutter
             // 
