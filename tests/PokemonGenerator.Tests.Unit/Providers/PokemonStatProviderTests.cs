@@ -1,21 +1,21 @@
-﻿using Moq;
+﻿using System.Linq;
+using Moq;
 using PokemonGenerator.Models.DTO;
 using PokemonGenerator.Models.Serialization;
+using PokemonGenerator.Providers;
 using PokemonGenerator.Repositories;
 using PokemonGenerator.Utilities;
-using System.Linq;
-using PokemonGenerator.Providers;
 using Xunit;
 
-namespace PokemonGenerator.Tests.Unit.Utility_Tests
+namespace PokemonGenerator.Tests.Unit.Providers
 {
-    public class PokemonStatUtilityTests
+    public class PokemonStatProviderTests
     {
         private PokemonStatProvider pokemonStatUtility;
         private Mock<IPokemonRepository> pokemonDAMock;
         private Mock<IProbabilityUtility> probabilityUtilityMock;
 
-        public PokemonStatUtilityTests()
+        public PokemonStatProviderTests()
         {
             pokemonDAMock = new Mock<IPokemonRepository>(MockBehavior.Strict);
             probabilityUtilityMock = new Mock<IProbabilityUtility>(MockBehavior.Strict);

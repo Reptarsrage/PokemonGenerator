@@ -1,11 +1,11 @@
-﻿using PokemonGenerator.Models.Configuration;
+﻿using System;
+using System.Linq;
+using PokemonGenerator.Models.Configuration;
 using PokemonGenerator.Models.Gernerator;
 using PokemonGenerator.Utilities;
-using System;
-using System.Linq;
 using Xunit;
 
-namespace PokemonGenerator.Tests.Unit.Utility_Tests
+namespace PokemonGenerator.Tests.Unit.Utilities
 {
     public class ProbabilityUtilityTests
     {
@@ -38,7 +38,7 @@ namespace PokemonGenerator.Tests.Unit.Utility_Tests
             var elts = Enumerable.Range(0, 100).Select(i => new TestChoice(0) as IChoice).ToList();
 
             // Assert
-            Assert.Equal(0, probabilityUtility.ChooseWithProbability(elts));
+            Assert.Throws<ArgumentNullException>(() => probabilityUtility.ChooseWithProbability(elts));
         }
 
         [Fact]

@@ -1,23 +1,23 @@
-﻿using Moq;
-using PokemonGenerator.IO;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Moq;
+using PokemonGenerator.IO;
 using Xunit;
 
-namespace PokemonGenerator.Tests.Unit.IO_Tests
+namespace PokemonGenerator.Tests.Unit.IO
 {
-    public class BinaryReader2Tests : IDisposable
+    public class BinaryWriter2Tests : IDisposable
     {
-        private readonly IBinaryReader2 _breader;
+        private readonly IBinaryWriter2 _bwriter;
         private readonly Mock<ICharset> _charsetMock;
         private MemoryStream _testStream;
 
-        public BinaryReader2Tests()
+        public BinaryWriter2Tests()
         {
             _testStream = new MemoryStream();
-            _breader = new BinaryReader2();
+            _bwriter = new BinaryWriter2();
             _charsetMock = new Mock<ICharset>();
             _charsetMock.Setup(c => c.DecodeString(It.IsNotNull<byte[]>())).Returns<byte[]>(b => Encoding.ASCII.GetString(b));
             _charsetMock.Setup(c => c.EncodeString(It.IsNotNull<string>(), It.Is<int>(i => i >= 0))).Returns<string, int>((s, i) => Encoding.ASCII.GetBytes(PadString(s, i)));
@@ -33,8 +33,8 @@ namespace PokemonGenerator.Tests.Unit.IO_Tests
         [Fact]
         public void OpenStreamTest()
         {
-            _breader.Open(_testStream);
-            Assert.True(_testStream.CanRead);
+            _bwriter.Open(_testStream);
+            Assert.True(_testStream.CanWrite);
         }
 
         [Fact]
@@ -42,30 +42,30 @@ namespace PokemonGenerator.Tests.Unit.IO_Tests
         {
             using (var tempStream = new MemoryStream())
             {
-                _breader.Open(_testStream);
-                Assert.True(_testStream.CanRead);
-                _breader.Open(tempStream);
-                Assert.False(_testStream.CanRead);
+                _bwriter.Open(_testStream);
+                Assert.True(_testStream.CanWrite);
+                _bwriter.Open(tempStream);
+                Assert.False(_testStream.CanWrite);
             }
         }
 
         [Fact]
         public void CloseStreamTest()
         {
-            _breader.Open(_testStream);
-            _breader.Close();
-            Assert.False(_testStream.CanRead);
+            _bwriter.Open(_testStream);
+            _bwriter.Close();
+            Assert.False(_testStream.CanWrite);
         }
 
         [Fact]
         public void CloseStreamMultipleTest()
         {
-            _breader.Open(_testStream);
-            _breader.Close();
-            _breader.Close();
-            _breader.Close();
-            _breader.Close();
-            Assert.False(_testStream.CanRead);
+            _bwriter.Open(_testStream);
+            _bwriter.Close();
+            _bwriter.Close();
+            _bwriter.Close();
+            _bwriter.Close();
+            Assert.False(_testStream.CanWrite);
         }
 
         [Theory]
@@ -74,15 +74,15 @@ namespace PokemonGenerator.Tests.Unit.IO_Tests
         [InlineData((ushort)5003)]
         [InlineData(UInt16.MaxValue)]
         [InlineData(UInt16.MinValue)]
-        public void ReadUInt16Test(ushort val)
+        public void WriteUInt16Test(ushort val)
         {
             // Write
-            WriteAsBigEndian(BitConverter.GetBytes(val), 0, sizeof(ushort));
+            _bwriter.Open(_testStream);
+            _bwriter.WriteUInt16(val);
 
             // Read
-            _testStream.Seek(0, SeekOrigin.Begin);
-            _breader.Open(_testStream);
-            var result = _breader.ReadUInt16();
+            var bytes = ReadAsBigEndian(0, sizeof(ushort));
+            var result = BitConverter.ToUInt16(bytes, 0);
 
             // Assert
             Assert.Equal(val, result);
@@ -94,15 +94,16 @@ namespace PokemonGenerator.Tests.Unit.IO_Tests
         [InlineData((uint)500003)]
         [InlineData((uint)16777215)]
         [InlineData((uint)0)]
-        public void ReadUInt24Test(uint val)
+        public void WriteUInt24Test(uint val)
         {
             // Write
-            WriteAsBigEndian(BitConverter.GetBytes(val).Take(3).ToArray(), 0, 3);
+            _bwriter.Open(_testStream);
+            _bwriter.WriteUInt24(val);
 
             // Read
-            _testStream.Seek(0, SeekOrigin.Begin);
-            _breader.Open(_testStream);
-            var result = _breader.ReadUInt24();
+            var bytes = ReadAsBigEndian(0, 3);
+            var paddedbytes = new byte[4] { bytes[0], bytes[1], bytes[2], 0x00 };
+            var result = BitConverter.ToUInt32(paddedbytes, 0);
 
             // Assert
             Assert.Equal(val, result);
@@ -114,15 +115,15 @@ namespace PokemonGenerator.Tests.Unit.IO_Tests
         [InlineData((uint)500003)]
         [InlineData(UInt32.MaxValue)]
         [InlineData(UInt32.MinValue)]
-        public void ReadUInt32Test(uint val)
+        public void WriteUInt32Test(uint val)
         {
             // Write
-            WriteAsBigEndian(BitConverter.GetBytes(val), 0, sizeof(uint));
+            _bwriter.Open(_testStream);
+            _bwriter.WriteUInt32(val);
 
             // Read
-            _testStream.Seek(0, SeekOrigin.Begin);
-            _breader.Open(_testStream);
-            var result = _breader.ReadUInt32();
+            var bytes = ReadAsBigEndian(0, sizeof(uint));
+            var result = BitConverter.ToUInt32(bytes, 0);
 
             // Assert
             Assert.Equal(val, result);
@@ -134,15 +135,15 @@ namespace PokemonGenerator.Tests.Unit.IO_Tests
         [InlineData((ulong)5000000003)]
         [InlineData(UInt64.MaxValue)]
         [InlineData(UInt64.MinValue)]
-        public void ReadUInt64Test(ulong val)
+        public void WriteUInt64Test(ulong val)
         {
             // Write
-            WriteAsBigEndian(BitConverter.GetBytes(val), 0, sizeof(ulong));
+            _bwriter.Open(_testStream);
+            _bwriter.WriteUInt64(val);
 
             // Read
-            _testStream.Seek(0, SeekOrigin.Begin);
-            _breader.Open(_testStream);
-            var result = _breader.ReadUInt64();
+            var bytes = ReadAsBigEndian(0, sizeof(ulong));
+            var result = BitConverter.ToUInt64(bytes, 0);
 
             // Assert
             Assert.Equal(val, result);
@@ -153,25 +154,28 @@ namespace PokemonGenerator.Tests.Unit.IO_Tests
         [InlineData("", 0)]
         [InlineData("T", 1)]
         [InlineData("Test", 11)]
-        public void ReadStringTest(string test, int length)
+        public void WriteStringTest(string test, int length)
         {
             // Write
-            var s = PadString(test, length);
-            _testStream.Write(_charsetMock.Object.EncodeString(s, length), 0, length);
+            _bwriter.Open(_testStream);
+            _bwriter.WriteString(test, length, _charsetMock.Object);
 
             // Read
+            var buffer = new byte[length];
             _testStream.Seek(0, SeekOrigin.Begin);
-            _breader.Open(_testStream);
-            var result = _breader.ReadString(length, _charsetMock.Object);
+            _testStream.Read(buffer, 0, length);
+            var result = _charsetMock.Object.DecodeString(buffer);
 
             // Assert
-            Assert.Equal(s, result);
+            Assert.Equal(PadString(test, length), result);
         }
 
-        private void WriteAsBigEndian(byte[] buffer, int offset, int length)
+        private byte[] ReadAsBigEndian(int offset, int length)
         {
+            var buffer = new byte[length];
             _testStream.Seek(0, SeekOrigin.Begin);
-            _testStream.Write(buffer.Cast<byte>().Reverse().ToArray(), offset, length);
+            _testStream.Read(buffer, offset, length);
+            return buffer.Cast<byte>().Reverse().ToArray();
         }
 
         private string PadString(string s, int i)

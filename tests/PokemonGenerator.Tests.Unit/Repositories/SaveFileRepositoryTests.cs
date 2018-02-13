@@ -1,17 +1,18 @@
-﻿using Moq;
-using PokemonGenerator.IO;
-using PokemonGenerator.Models.Serialization;
-using PokemonGenerator.Repositories;
-using System;
+﻿using System;
 using System.Collections;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Moq;
+using PokemonGenerator.IO;
+using PokemonGenerator.Models.Serialization;
+using PokemonGenerator.Repositories;
+using PokemonGenerator.Tests.Unit.Models;
 using Xunit;
 
-namespace PokemonGenerator.Tests.Unit.IO_Tests
+namespace PokemonGenerator.Tests.Unit.Repositories
 {
-    public class SaveFileRepositoryTests : SerializerTestsBase, IDisposable
+    public class SaveFileRepositoryTests : IDisposable
     {
         private ISaveFileRepository _serializer;
         private Mock<ICharset> _charsetMock;
@@ -48,7 +49,7 @@ namespace PokemonGenerator.Tests.Unit.IO_Tests
         [Fact]
         public void SerializeHasCorrectLengthTest()
         {
-            var model = BuildTestModel();
+            var model = MockSaveFileModelFactory.CreateTestModel();
 
             // Mock
             SetUpMocksForSerialization();
@@ -73,7 +74,7 @@ namespace PokemonGenerator.Tests.Unit.IO_Tests
         [Fact]
         public void SerializeDoesNotOverwriteBeginningTest()
         {
-            var model = BuildTestModel();
+            var model = MockSaveFileModelFactory.CreateTestModel();
 
             // Mock
             SetUpMocksForSerialization();
@@ -109,7 +110,7 @@ namespace PokemonGenerator.Tests.Unit.IO_Tests
         [Fact]
         public void SerializeBasicValuesTest()
         {
-            var model = BuildTestModel();
+            var model = MockSaveFileModelFactory.CreateTestModel();
 
             // Mock
             SetUpMocksForSerialization();
@@ -156,7 +157,7 @@ namespace PokemonGenerator.Tests.Unit.IO_Tests
         [Fact]
         public void SerializeComplexValuesTest()
         {
-            var model = BuildTestModel();
+            var model = MockSaveFileModelFactory.CreateTestModel();
 
             // Mock
             SetUpMocksForSerialization();
@@ -254,7 +255,7 @@ namespace PokemonGenerator.Tests.Unit.IO_Tests
         [Fact]
         public void SerializeCheckSumTest()
         {
-            var model = BuildTestModel();
+            var model = MockSaveFileModelFactory.CreateTestModel();
 
             // Mock
             SetUpMocksForSerialization();
@@ -350,6 +351,101 @@ namespace PokemonGenerator.Tests.Unit.IO_Tests
         private string PadString(string s, int i)
         {
             return s.PadRight(i, '`');
+        }
+
+        private void AssertPokemonEqualityThorough(Pokemon pokemonExpected, Pokemon pokemonActual)
+        {
+            Assert.True(pokemonExpected.SpeciesId.Equals(pokemonActual.SpeciesId), "Pokemon Species");
+            Assert.True(pokemonExpected.HeldItem.Equals(pokemonActual.HeldItem), "Pokemon heldItem");
+            Assert.True(pokemonExpected.MoveIndex1.Equals(pokemonActual.MoveIndex1), "Pokemon moveIndex1");
+            Assert.True(pokemonExpected.MoveIndex2.Equals(pokemonActual.MoveIndex2), "Pokemon moveIndex2");
+            Assert.True(pokemonExpected.MoveIndex3.Equals(pokemonActual.MoveIndex3), "Pokemon moveIndex3");
+            Assert.True(pokemonExpected.MoveIndex4.Equals(pokemonActual.MoveIndex4), "Pokemon moveIndex4");
+            Assert.True(pokemonExpected.TrainerId.Equals(pokemonActual.TrainerId), "Pokemon trainerID");
+            Assert.True(pokemonExpected.Experience.Equals(pokemonActual.Experience), "Pokemon experience");
+            Assert.True(pokemonExpected.HitPointsEV.Equals(pokemonActual.HitPointsEV), "Pokemon hpEV");
+            Assert.True(pokemonExpected.AttackEV.Equals(pokemonActual.AttackEV), "Pokemon attackEV");
+            Assert.True(pokemonExpected.DefenseEV.Equals(pokemonActual.DefenseEV), "Pokemon defenseEV");
+            Assert.True(pokemonExpected.SpeedEV.Equals(pokemonActual.SpeedEV), "Pokemon speedEV");
+            Assert.True(pokemonExpected.SpecialEV.Equals(pokemonActual.SpecialEV), "Pokemon specialEV");
+            Assert.True(pokemonExpected.AttackIV.Equals(pokemonActual.AttackIV), "Pokemon attackIV");
+            Assert.True(pokemonExpected.DefenseIV.Equals(pokemonActual.DefenseIV), "Pokemon defenseIV");
+            Assert.True(pokemonExpected.SpeedIV.Equals(pokemonActual.SpeedIV), "Pokemon speedIV");
+            Assert.True(pokemonExpected.SpecialIV.Equals(pokemonActual.SpecialIV), "Pokemon specialIV");
+            Assert.True(pokemonExpected.Move1PowerPointsUps.Equals(pokemonActual.Move1PowerPointsUps), "Pokemon ppUps1");
+            Assert.True(pokemonExpected.Move1PowerPointsCurrent.Equals(pokemonActual.Move1PowerPointsCurrent), "Pokemon currentPP1");
+            Assert.True(pokemonExpected.Move2PowerPointsUps.Equals(pokemonActual.Move2PowerPointsUps), "Pokemon ppUps2");
+            Assert.True(pokemonExpected.Move2PowerPointsCurrent.Equals(pokemonActual.Move2PowerPointsCurrent), "Pokemon currentPP2");
+            Assert.True(pokemonExpected.Move3PowerPointsUps.Equals(pokemonActual.Move3PowerPointsUps), "Pokemon ppUps3");
+            Assert.True(pokemonExpected.Move3PowerPointsCurrent.Equals(pokemonActual.Move3PowerPointsCurrent), "Pokemon currentPP3");
+            Assert.True(pokemonExpected.Move4PowerPointsUps.Equals(pokemonActual.Move4PowerPointsUps), "Pokemon ppUps4");
+            Assert.True(pokemonExpected.Move4PowerPointsCurrent.Equals(pokemonActual.Move4PowerPointsCurrent), "Pokemon currentPP4");
+            Assert.True(pokemonExpected.Friendship.Equals(pokemonActual.Friendship), "Pokemon friendship");
+            Assert.True(pokemonExpected.PokerusStrain.Equals(pokemonActual.PokerusStrain), "Pokemon pokerusStrain");
+            Assert.True(pokemonExpected.PokerusDuration.Equals(pokemonActual.PokerusDuration), "Pokemon pokerusDuration");
+            Assert.True(pokemonExpected.CaughtTime.Equals(pokemonActual.CaughtTime), "Pokemon caughtTime");
+            Assert.True(pokemonExpected.CaughtLevel.Equals(pokemonActual.CaughtLevel), "Pokemon caughtLevel");
+            Assert.True(pokemonExpected.OTGender.Equals(pokemonActual.OTGender), "Pokemon OTGender");
+            Assert.True(pokemonExpected.CaughtLocation.Equals(pokemonActual.CaughtLocation), "Pokemon caughtLocation");
+            Assert.True(pokemonExpected.Level.Equals(pokemonActual.Level), "Pokemon level");
+            Assert.True(pokemonExpected.Status.Equals(pokemonActual.Status), "Pokemon status");
+            Assert.True(pokemonExpected.Unused.Equals(pokemonActual.Unused), "Pokemon unused");
+            Assert.True(pokemonExpected.CurrentHp.Equals(pokemonActual.CurrentHp), "Pokemon currentHp");
+            Assert.True(pokemonExpected.MaxHp.Equals(pokemonActual.MaxHp), "Pokemon maxHp");
+            Assert.True(pokemonExpected.Attack.Equals(pokemonActual.Attack), "Pokemon attack");
+            Assert.True(pokemonExpected.Defense.Equals(pokemonActual.Defense), "Pokemon defense");
+            Assert.True(pokemonExpected.Speed.Equals(pokemonActual.Speed), "Pokemon speed");
+            Assert.True(pokemonExpected.SpAttack.Equals(pokemonActual.SpAttack), "Pokemon spAttack");
+            Assert.True(pokemonExpected.SpDefense.Equals(pokemonActual.SpDefense), "Pokemon spDefense");
+            Assert.True(pokemonExpected.OTName.Equals(pokemonActual.OTName), "Pokemon OTName");
+            Assert.True(pokemonExpected.Name.Equals(pokemonActual.Name), "Pokemon Name");
+        }
+
+
+        private void AssertSavModelEqualityThorough(SaveFileModel expectedModel, SaveFileModel actualModel)
+        {
+            Assert.True(expectedModel.PlayerName.Equals(actualModel.PlayerName), "Player Name");
+            Assert.True(expectedModel.RivalName.Equals(actualModel.RivalName), "Player Rival Name");
+            Assert.True(expectedModel.TimePlayed.Equals(actualModel.TimePlayed), "Time Played");
+            Assert.True(expectedModel.Money.Equals(actualModel.Money), "Money");
+            Assert.True(expectedModel.JohtoBadges.Equals(actualModel.JohtoBadges), "Johto Badges");
+            Assert.True(expectedModel.TMpocket.TMs.Length.Equals(actualModel.TMpocket.TMs.Length), "TMs");
+            Assert.True(expectedModel.TMpocket.HMs.Length.Equals(actualModel.TMpocket.HMs.Length), "HMs");
+            Assert.True(expectedModel.PocketItemList.Count.Equals(actualModel.PocketItemList.Count), "Pocket Item List");
+            Assert.True(expectedModel.PocketKeyItemList.Count.Equals(actualModel.PocketKeyItemList.Count), "Pocket Key Item List");
+            Assert.True(expectedModel.PocketBallItemList.Count.Equals(actualModel.PocketBallItemList.Count), "Pocket Ball Item List");
+            Assert.True(expectedModel.PCItemList.Count.Equals(actualModel.PCItemList.Count), "PC Item List");
+            Assert.True(expectedModel.CurrentPCBoxNumber.Equals(actualModel.CurrentPCBoxNumber), "Current PC Box Number");
+            Assert.True(expectedModel.PCBoxNames.Length.Equals(actualModel.PCBoxNames.Length), "PC Box Names");
+            Assert.True(expectedModel.TeamPokemonList.Count.Equals(actualModel.TeamPokemonList.Count), "Team Pokemon List");
+            Assert.True(expectedModel.TeamPokemonList.OTNames.Length.Equals(actualModel.TeamPokemonList.OTNames.Length), "Team Pokemon List");
+            Assert.True(expectedModel.TeamPokemonList.Names.Length.Equals(actualModel.TeamPokemonList.Names.Length), "Team Pokemon List");
+            Assert.True(expectedModel.TeamPokemonList.Pokemon.Length.Equals(actualModel.TeamPokemonList.Pokemon.Length), "Team Pokemon List");
+            Assert.True(expectedModel.PokedexOwned.Length.Equals(actualModel.PokedexOwned.Length), "Pokedex Owned");
+            Assert.True(expectedModel.PokedexSeen.Length.Equals(actualModel.PokedexSeen.Length), "Pokedex Seen");
+            Assert.True(expectedModel.CurrentBoxPokemonlist.Count.Equals(actualModel.CurrentBoxPokemonlist.Count), "Pokedex Seen");
+            Assert.True(expectedModel.Boxes[0].Count.Equals(actualModel.Boxes[0].Count), "Box1 Count");
+            Assert.True(expectedModel.Boxes[1].Count.Equals(actualModel.Boxes[1].Count), "Box2 Count");
+
+            for (var i = 0; i < expectedModel.TeamPokemonList.Count; i++)
+            {
+                var pokemonExpected = expectedModel.TeamPokemonList.Pokemon[i];
+                var pokemonActual = actualModel.TeamPokemonList.Pokemon[i];
+                AssertPokemonEqualityThorough(pokemonExpected, pokemonActual);
+            }
+
+            for (var i = 0; i < expectedModel.PCBoxNames.Length; i++)
+            {
+                Assert.True(expectedModel.PCBoxNames[i].Equals(actualModel.PCBoxNames[i]), $"PC BOX{i + 1} Name");
+            }
+
+            var test = actualModel.CurrentBoxPokemonlist.Pokemon.Cast<Pokemon>().Select(p => p.SpeciesId).ToList();
+            for (var i = 0; i < expectedModel.CurrentBoxPokemonlist.Pokemon.Length; i++)
+            {
+                var pokemonExpected = expectedModel.CurrentBoxPokemonlist.Pokemon[i];
+                var pokemonActual = actualModel.CurrentBoxPokemonlist.Pokemon[i];
+                Assert.True(pokemonExpected.SpeciesId.Equals(pokemonActual.SpeciesId), "Pokemon Species");
+            }
         }
     }
 }

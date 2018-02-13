@@ -71,6 +71,7 @@ namespace PokemonGenerator.Models.Configuration
             RandomMoveMinPower = 40;
             RandomMoveMaxPower = 100;
             AllowDuplicates = false;
+            RandomBagMinCount = 10;
         }
 
         /// <summary>
@@ -200,5 +201,12 @@ namespace PokemonGenerator.Models.Configuration
         /// Allows for duplicate pokemon on teams
         /// </summary>
         public bool AllowDuplicates { get; set; }
+
+        /// <summary>
+        /// Minimum number of pokemon to randomly choose from. 
+        /// If the current random bag of pokemon contains fewer pokemon than this, 
+        /// the bag will be re-filled.
+        /// </summary>
+        public uint RandomBagMinCount { get; set; }
     }
 }

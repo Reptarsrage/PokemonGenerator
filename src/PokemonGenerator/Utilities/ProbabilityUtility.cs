@@ -89,7 +89,7 @@ namespace PokemonGenerator.Utilities
         {
             if (choices.Count == 0 || choices.All(choice => choice.Probability <= 0))
             {
-                throw new ArgumentException("Not enough elements to choose from or all choices have no chance");
+                throw new ArgumentNullException("Not enough elements to choose from or all choices have no chance");
             }
 
             var probChoices = choices.Select(pc => pc.Probability < 0 ? 0 : pc.Probability);

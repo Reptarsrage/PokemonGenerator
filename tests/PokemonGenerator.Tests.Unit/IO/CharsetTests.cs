@@ -1,8 +1,8 @@
-﻿using PokemonGenerator.IO;
-using System;
+﻿using System;
+using PokemonGenerator.IO;
 using Xunit;
 
-namespace PokemonGenerator.Tests.Unit.IO_Tests
+namespace PokemonGenerator.Tests.Unit.IO
 {
     public class CharsetTests
     {
