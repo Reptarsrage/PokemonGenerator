@@ -14,7 +14,7 @@ namespace PokemonGenerator.Providers
 {
     public interface IPokemonMoveProvider
     {
-        Pokemon AssignMovesToPokemon(Pokemon poke, int level);
+        Pokemon AssignMoves(Pokemon poke, int level);
     }
 
     public class PokemonMoveProvider : IPokemonMoveProvider
@@ -44,7 +44,7 @@ namespace PokemonGenerator.Providers
         /// </summary>
         /// <param name="poke">Pokemon to choose for.</param>
         /// <param name="level">The level of each pokemon.</param>
-        public Pokemon AssignMovesToPokemon(Pokemon poke, int level)
+        public Pokemon AssignMoves(Pokemon poke, int level)
         {
             var tmBank = _pokemonRepository.GetTMs().ToList();
             var moves = _pokemonRepository.GetMovesForPokemon(poke.SpeciesId, level).ToList();
@@ -68,8 +68,8 @@ namespace PokemonGenerator.Providers
                 PreferredDamageType = poke.SpAttack > poke.Attack ? DamageType.Special : DamageType.Physical
             };
             info.PreferredDamageType = Math.Abs(poke.SpAttack - poke.Attack) < _config.Value.Configuration.DamageTypeDelta ? DamageType.Both : info.PreferredDamageType;
-            var enemiesWeakAgainst = _pokemonRepository.GetWeaknesses(string.Join(",", info.PokeTypes));
-            info.AttackTypesToFavor = _pokemonRepository.GetWeaknesses(string.Join(",", enemiesWeakAgainst)).ToList();
+            var enemiesWeakAgainst = _pokemonRepository.GetWeaknesses(string.Join(",", info.PokeTypes ?? new List<string>(0)));
+            info.AttackTypesToFavor = _pokemonRepository.GetWeaknesses(string.Join(",", enemiesWeakAgainst ?? new List<string>(0))).ToList();
 
             // Prune moves removing and replacing as needed
             var screenedMoves = new List<PokemonMoveSetResult>();
@@ -112,13 +112,13 @@ namespace PokemonGenerator.Providers
             else
             {
                 info.AllPossibleMovesOrig = new List<PokemonMoveSetResult>(allPossibleMoves);
-                info.DoSomeDamageFlag = true;
+                info.DoSomeDamageFlag = false;
 
                 for (var i = 0; i < 4; i++)
                 {
                     var move = ChooseMove(info);
                     chosenMoves.Push(move);
-                    info.DoSomeDamageFlag = false;
+                    info.DoSomeDamageFlag = !info.DoSomeDamageFlag;
                     if (TMBank.Contains(move))
                     {
                         TMBank.Remove(move);
@@ -164,13 +164,8 @@ namespace PokemonGenerator.Providers
             // Try with current damage setting
             if (!PickOneMove(info, out var chosenMoveId))
             {
-                // Try again with other damage setting
-                info.DoSomeDamageFlag = !info.DoSomeDamageFlag;
-                if (!PickOneMove(info, out chosenMoveId))
-                {
-                    // Give up
-                    throw new ArgumentException("Not enough moves to choose from!");
-                }
+                // Give up
+                throw new ArgumentException("Not enough moves to choose from!");
             }
             info.AlreadyPicked.Add(chosenMoveId);
             var move1Obj = info.AllPossibleMovesOrig.First(m => m.MoveId == chosenMoveId);
@@ -189,21 +184,6 @@ namespace PokemonGenerator.Providers
             chosenMoveId = 0;
             var allPossibleMoves = new List<PokemonMoveSetResult>(info.AllPossibleMovesOrig);
 
-            // filter out all non-damaging/damaging attacks
-            if (info.DoSomeDamageFlag)
-            {
-                allPossibleMoves.RemoveAll(m => (m.Power ?? 0) <= 0);
-            }
-            else
-            {
-                allPossibleMoves.RemoveAll(m => (m.Power ?? 0) > 0);
-            }
-
-            if (allPossibleMoves.Count == 0)
-            {
-                return false;
-            }
-
             // Calculate probabilities
             var moveProbabilities = allPossibleMoves.Select(m =>
             {
@@ -212,6 +192,17 @@ namespace PokemonGenerator.Providers
                     Probability = Likeliness.Full,
                     Move = m
                 };
+
+                // filter out all non-damaging/damaging attacks depending on the flag
+                if (info.DoSomeDamageFlag && (m.Power ?? 0) <= 0)
+                {
+                    moveChoice.Probability *= Likeliness.Extremely_Low;
+                }
+                
+                if (!info.DoSomeDamageFlag && (m.Power ?? 0) > 0)
+                {
+                    moveChoice.Probability *= Likeliness.Extremely_Low;
+                }
 
                 // Apply weight on damage type
                 // if damage type does not mesh with the pokemon, make the likelyhood VERY unlikely
@@ -231,7 +222,7 @@ namespace PokemonGenerator.Providers
                 }
 
                 // Apply weight on type
-                if ((info.PokeTypes.Contains(m.Type, StringComparer.CurrentCultureIgnoreCase)) ||
+                if ((info.PokeTypes?.Contains(m.Type, StringComparer.CurrentCultureIgnoreCase) ?? false)  ||
                     (info.AttackTypesToFavor.Contains(m.Type, StringComparer.CurrentCultureIgnoreCase)))
                 {
                     moveChoice.Probability *= _config.Value.Configuration.SameTypeModifier;
@@ -256,7 +247,7 @@ namespace PokemonGenerator.Providers
                 }
 
                 // Apply weight on similar moves to already picked
-                if (info.AlreadyPickedEffects.Contains(m.Effect, StringComparer.CurrentCultureIgnoreCase) || info.AlreadyPicked.Contains(m.MoveId))
+                if (!string.IsNullOrWhiteSpace(m.Effect) &&  info.AlreadyPickedEffects.Contains(m.Effect, StringComparer.CurrentCultureIgnoreCase))
                 {
                     moveChoice.Probability *= _config.Value.Configuration.AlreadyPickedMoveEffectsModifier;
                 }
@@ -269,6 +260,12 @@ namespace PokemonGenerator.Providers
 
                 return moveChoice;
             }).ToList();
+
+            // Return false if we filtered out all of our choices
+            if (!moveProbabilities.Any() || moveProbabilities.All(choice => choice.Probability == 0))
+            {
+                return false;
+            }
 
             // Choose with probabilities
             var chosen = _probabilityUtility.ChooseWithProbability(moveProbabilities.Cast<IChoice>().ToList());

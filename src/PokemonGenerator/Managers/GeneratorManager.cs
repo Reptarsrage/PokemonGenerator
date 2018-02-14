@@ -118,7 +118,7 @@ namespace PokemonGenerator.Managers
             // Assign moves
             for (var i = 0; i < pokeList.Pokemon.Length; i++)
             {
-                pokeList.Pokemon[i] = _pokemonMoveProvider.AssignMovesToPokemon(pokeList.Pokemon[i], level);
+                pokeList.Pokemon[i] = _pokemonMoveProvider.AssignMoves(pokeList.Pokemon[i], level);
             }
 
             // Save to file
