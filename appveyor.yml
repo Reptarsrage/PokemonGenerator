@@ -1,0 +1,27 @@
+version: 1.0.0.{build}-{branch}
+skip_tags: true
+image: Visual Studio 2017
+clone_depth: 1
+
+matrix:
+  fast_finish: true
+
+nuget:
+  disable_publish_on_pr: true
+
+environment:
+  CODECOV_TOKEN:
+    secure: NAzs6hcYUGTA2OH5CJwmRhMF0HR0fiYs9eSvB3nHpYAl7RqYOu3HtwyTkc4cDMZl
+
+before_build:
+- choco install opencover.portable
+- choco install codecov
+
+build_script:
+- dotnet --info
+- dotnet restore --no-cache
+- dotnet build --configuration Release --version-suffix %APPVEYOR_BUILD_NUMBER%
+
+test_script:
+- OpenCover.Console.exe -register:user -target:"%xunit20%\xunit.console.x86.exe" -targetargs:".\tests\PokemonGenerator.Tests.Unit\bin\Release\net47\PokemonGenerator.Tests.Unit.dll -noshadow" -filter:"+[PokemonGenerator*]* -[PokemonGenerator.Tests*]*" -output:".\coverage.xml"
+- codecov -f ".\coverage.xml"

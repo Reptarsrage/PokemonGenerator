@@ -3,7 +3,8 @@ Author: Justin Robb
 
 Date: 8/30/2016
 
-[![Build Status](https://travis-ci.org/Reptarsrage/Pok-mon-Generator.svg?branch=master)](https://travis-ci.org/Reptarsrage/Pok-mon-Generator)
+[![Build status](https://ci.appveyor.com/api/projects/status/wtnwh8ar676m93m6?svg=true)](https://ci.appveyor.com/project/Reptarsrage/pok-mon-generator)
+[![codecov](https://codecov.io/gh/Reptarsrage/Pok-mon-Generator/branch/master/graph/badge.svg)](https://codecov.io/gh/Reptarsrage/Pok-mon-Generator)
 
 ### Screenshots
 ![Configure your Setup](screens/main.png?raw=true "Configure your Setup")

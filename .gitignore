@@ -246,3 +246,8 @@ ModelManifest.xml
 
 # Code coverage results
 coverage.xml
+coverage
+codecov
+
+# Artifacts
+Artifacts
