@@ -1,0 +1,8 @@
+language: csharp
+solution: PokemonGenerator.sln
+install:
+  - nuget install xunit.runner.console -ExcludeVersion -OutputDirectory testrunner
+script:
+  - msbuild /t:Restore
+  - msbuild /p:Configuration=Release PokemonGenerator.sln
+  - mono ./testrunner/xunit.runner.console/tools/net452/xunit.console.exe ./tests/PokemonGenerator.Tests.Unit/bin/Release/net47/PokemonGenerator.Tests.Unit.dll

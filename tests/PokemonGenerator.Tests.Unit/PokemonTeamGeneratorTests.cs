@@ -54,6 +54,7 @@ namespace PokemonGenerator.Tests.Unit
             var level = 100;
 
             // Mock
+            _mockPokemonRepository.Setup(m => m.GetRandomBagPokemon(level)).Returns(Enumerable.Range(1, 100));
             _mockPokemonRepository.Setup(m => m.GetPossiblePokemon(level)).Returns(Enumerable.Range(1, 100));
             _mockProbabilityUtility.Setup(m => m.ChooseWithProbability(It.IsNotNull<IList<IChoice>>()))
                 .Returns<IList<IChoice>>(l => l
