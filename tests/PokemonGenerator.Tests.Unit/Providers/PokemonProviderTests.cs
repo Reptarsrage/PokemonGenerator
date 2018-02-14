@@ -32,7 +32,13 @@ namespace PokemonGenerator.Tests.Unit.Providers
                     HMBank = new List<int>(),
                     TeamSize = 6,
                     MoveEffectFilters = new Dictionary<string, double>(),
-                    PokemonLiklihood = new PokemonLiklihood(),
+                    PokemonLiklihood = new PokemonLiklihood
+                    {
+                        Ignored = 0,
+                        Legendary = 0.1,
+                        Special = 0.3,
+                        Standard = 1
+                    },
                     Mean = 0.5D,
                     Skew = 0.3D,
                     StandardDeviation = 0.1D,
@@ -52,6 +58,48 @@ namespace PokemonGenerator.Tests.Unit.Providers
             _config = Options.Create(config);
             _mockProbabilityUtility = new Mock<IProbabilityUtility>(MockBehavior.Strict);
             _mockPokemonRepository = new Mock<IPokemonRepository>(MockBehavior.Strict);
+        }
+
+        [Fact]
+        public void GenerateRandomPokemonProbabilitiesTest()
+        {
+            // SetUP
+            var level = 100;
+            var low = 1;
+            var high = 10;
+            _config.Value.Configuration.LegendaryPokemon.Add(low);
+            _config.Value.Configuration.SpecialPokemon.Add(low + 1);
+            _config.Value.Configuration.DisabledPokemon.Add(low + 2);
+            _config.Value.Configuration.ForbiddenPokemon.Add(low + 3);
+
+            // Mock
+            _mockPokemonRepository.Setup(m => m.GetRandomBagPokemon(level)).Returns(Enumerable.Range(low, high));
+            _mockProbabilityUtility.Setup(m => m.ChooseWithProbability(It.IsNotNull<IList<IChoice>>()))
+                .Returns<IList<IChoice>>(l =>
+                {
+                    Assert.Equal(_config.Value.Configuration.PokemonLiklihood.Legendary, l.Cast<PokemonChoice>().Single(choice => choice.PokemonId == low + 0).Probability);
+                    Assert.Equal(_config.Value.Configuration.PokemonLiklihood.Special, l.Cast<PokemonChoice>().Single(choice => choice.PokemonId == low + 1).Probability);
+                    Assert.Equal(_config.Value.Configuration.PokemonLiklihood.Ignored, l.Cast<PokemonChoice>().Single(choice => choice.PokemonId == low + 2).Probability);
+                    Assert.Equal(_config.Value.Configuration.PokemonLiklihood.Ignored, l.Cast<PokemonChoice>().Single(choice => choice.PokemonId == low + 3).Probability);
+                    Assert.Equal(_config.Value.Configuration.PokemonLiklihood.Standard, l.Cast<PokemonChoice>().Single(choice => choice.PokemonId == low + 4).Probability);
+
+                    return l
+                        .Select((choice, index) => new {choice, index})
+                        .OrderByDescending(item => item.choice.Probability)
+                        .First().index;
+                });
+
+            // Generate
+            var provider = new PokemonProvider(_mockProbabilityUtility.Object, _mockPokemonRepository.Object, _config);
+            var poke = provider.GenerateRandomPokemon(level);
+
+            // Assert
+            Assert.NotNull(poke);
+            Assert.InRange(poke.SpeciesId, low, high);
+
+            // Verify
+            _mockPokemonRepository.VerifyAll();
+            _mockProbabilityUtility.VerifyAll();
         }
 
         [Fact]
