@@ -6,6 +6,7 @@
     <StartupObject>PokemonGenerator.Program</StartupObject>
     <ApplicationIcon>Resources\favicon.ico</ApplicationIcon>
     <LangVersion>latest</LangVersion>
+    <DebugType>full</DebugType>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,6 +14,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+
+  
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.6.2" />

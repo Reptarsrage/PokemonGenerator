@@ -3,6 +3,7 @@
   <PropertyGroup>
     <OutputType>Library</OutputType>
     <TargetFramework>net47</TargetFramework>
+    <DebugType>full</DebugType>
   </PropertyGroup>
 
   <ItemGroup>
