@@ -15,8 +15,6 @@
     </Content>
   </ItemGroup>
 
-  
-
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.6.2" />
     <PackageReference Include="Dapper.ColumnMapper" Version="1.2.0" />
@@ -89,8 +87,8 @@
 
     <Copy SourceFiles="@(NativeBinariesx64)" DestinationFolder="$(OutputPath)amd64\" />
     <Copy SourceFiles="@(NativeBinariesx86)" DestinationFolder="$(OutputPath)x86\" />
-    <Copy SourceFiles="$(SolutionDir)ThePokeBase.sdf" DestinationFolder="$(OutputPath)" />
-    <Copy SourceFiles="@(SaveFiles)" DestinationFolder="$(OutputPath)" />
+    <Copy SourceFiles="$(SolutionDir)ThePokeBase.sdf" DestinationFolder="$(OutputPath)" Condition="'$(Configuration)' == 'Debug' " />
+    <Copy SourceFiles="@(SaveFiles)" DestinationFolder="$(OutputPath)" Condition="'$(Configuration)' == 'Debug' " />
   </Target>
 
 </Project>
