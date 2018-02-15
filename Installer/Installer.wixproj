@@ -8,6 +8,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <OutputName>Installer</OutputName>
     <OutputType>Package</OutputType>
+    <DefineSolutionProperties>false</DefineSolutionProperties>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
@@ -18,23 +19,10 @@
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
   </PropertyGroup>
-  <PropertyGroup>
-    <DefineConstants>HarvestPath=$(SolutionDir)\src\PokemonGenerator\bin\Release\net47</DefineConstants>
-  </PropertyGroup>
   <ItemGroup>
     <Compile Include="Product.wxs" />
     <Compile Include="HeatGeneratedFileList.wxs" />
     <Compile Include="StandardUI.wxs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\src\PokemonGenerator\PokemonGenerator.csproj">
-      <Name>PokemonGenerator</Name>
-      <Project>{dff429cd-326e-4558-8319-e00b430df65a}</Project>
-      <Private>True</Private>
-      <DoNotHarvest>True</DoNotHarvest>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>TARGETDIR</RefTargetDir>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
@@ -49,6 +37,19 @@
     <Error Text="The WiX Toolset v3.11 (or newer) build tools must be installed to build this project. To download the WiX Toolset, see http://wixtoolset.org/releases/" />
   </Target>
   <Target Name="BeforeBuild">
-    <HeatDirectory Directory="$(SolutionDir)\src\PokemonGenerator\bin\Release\net47" PreprocessorVariable="var.HarvestPath" OutputFile="HeatGeneratedFileList.wxs" ComponentGroupName="HeatGenerated" DirectoryRefId="TARGETDIR" AutogenerateGuids="true" ToolPath="$(WixToolPath)" SuppressFragments="true" SuppressRegistry="true" SuppressRootDirectory="true" />
+    <ItemGroup>
+      <NativeBinariesx64 Include="..\NativeBinaries\amd64\*.dll" />
+      <NativeBinariesx86 Include="..\NativeBinaries\x86\*.dll" />
+    </ItemGroup>
+    <Exec Command="dotnet build ..\src\PokemonGenerator\PokemonGenerator.csproj -c $(Configuration) -r win-x64 -o ..\..\Installer\bin\$(Configuration)\output_x64" />
+    <Exec Command="dotnet build ..\src\PokemonGenerator\PokemonGenerator.csproj -c $(Configuration) -r win-x86 -o ..\..\Installer\bin\$(Configuration)\output_x86" />
+    <Copy SourceFiles="@(NativeBinariesx64)" DestinationFolder="bin\$(Configuration)\output_x64\amd64\" />
+    <Copy SourceFiles="@(NativeBinariesx86)" DestinationFolder="bin\$(Configuration)\output_x64\x86\" />
+    <Copy SourceFiles="@(NativeBinariesx64)" DestinationFolder="bin\$(Configuration)\output_x86\amd64\" />
+    <Copy SourceFiles="@(NativeBinariesx86)" DestinationFolder="bin\$(Configuration)\output_x86\x86\" />
+    <PropertyGroup>
+      <DefineConstants>HarvestPath=bin\$(Configuration)\output_x64</DefineConstants>
+    </PropertyGroup>
+    <HeatDirectory Directory="bin\$(Configuration)\output_x64" PreprocessorVariable="var.HarvestPath" OutputFile="HeatGeneratedFileList.wxs" ComponentGroupName="HeatGenerated" DirectoryRefId="TARGETDIR" AutogenerateGuids="true" ToolPath="$(WixToolPath)" SuppressFragments="true" SuppressRegistry="true" SuppressRootDirectory="true" />
   </Target>
 </Project>

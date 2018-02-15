@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <?define PokemonGenerator_TargetDir=$(var.PokemonGenerator.TargetDir)?>
   <Product Id="{B17E5109-B7FE-48C4-B7E5-DFD1EC99DECB}" Name="PokemonGenerator" Language="1033" Version="1.0.0.0" Manufacturer="JustinR" UpgradeCode="0a224662-b4ff-45df-833f-0d92427d991c">
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" Manufacturer="JustinR" Comments="Pokemon Generator" />
     <CustomAction Id="PreventDowngrading" Error="Newer version already installed." />

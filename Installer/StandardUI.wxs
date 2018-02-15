@@ -254,7 +254,7 @@
       </Dialog>
     </UI>
     <InstallUISequence>
-      <Show Dialog="FolderForm" Sequence="1001"><![CDATA[Installed="" AND NOT RESUME]]></Show>
+      <Show Dialog="FolderForm" Sequence="1002"><![CDATA[Installed="" AND NOT RESUME]]></Show>
     </InstallUISequence>
   </Fragment>
   <Fragment Id="ConfirmDlg">
