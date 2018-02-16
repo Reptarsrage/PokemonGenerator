@@ -22,6 +22,7 @@ build_script:
 - dotnet restore --no-cache
 - dotnet build --configuration Release --version-suffix %APPVEYOR_BUILD_NUMBER%
 - msbuild Installer\Installer.wixproj /t:Build /p:Configuration=Release /p:OutputPath=..\Artifacts\x64 /p:Platform=x64
+- msbuild Installer\Installer.wixproj /t:Build /p:Configuration=Release /p:OutputPath=..\Artifacts\x86 /p:Platform=x86
 
 test_script:
 - OpenCover.Console.exe -register:user -target:"%xunit20%\xunit.console.x86.exe" -targetargs:".\tests\PokemonGenerator.Tests.Unit\bin\Release\net47\PokemonGenerator.Tests.Unit.dll -noshadow" -filter:"+[PokemonGenerator*]* -[PokemonGenerator.Tests*]*" -output:".\coverage.xml"
@@ -30,3 +31,5 @@ test_script:
 artifacts:
   - path: Artifacts\x64\*.msi
     name: Setup_x64.msi
+  - path: Artifacts\x86\*.msi
+    name: Setup_x86.msi

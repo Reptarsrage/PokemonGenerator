@@ -3,7 +3,7 @@ Author: Justin Robb
 
 Date: 8/30/2016
 
-[![Build status](https://ci.appveyor.com/api/projects/status/wtnwh8ar676m93m6?svg=true)](https://ci.appveyor.com/project/Reptarsrage/pok-mon-generator)
+[![Build status](https://ci.appveyor.com/api/projects/status/eug90r260tq7bc72/branch/master?svg=true)](https://ci.appveyor.com/project/Reptarsrage/pokemongenerator/branch/master)
 [![codecov](https://codecov.io/gh/Reptarsrage/Pok-mon-Generator/branch/master/graph/badge.svg)](https://codecov.io/gh/Reptarsrage/Pok-mon-Generator)
 
 ### Screenshots

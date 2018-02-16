@@ -41,15 +41,12 @@
       <NativeBinariesx64 Include="..\NativeBinaries\amd64\*.dll" />
       <NativeBinariesx86 Include="..\NativeBinaries\x86\*.dll" />
     </ItemGroup>
-    <Exec Command="dotnet build ..\src\PokemonGenerator\PokemonGenerator.csproj -c $(Configuration) -r win-x64 -o ..\..\Installer\bin\$(Configuration)\output_x64" />
-    <Exec Command="dotnet build ..\src\PokemonGenerator\PokemonGenerator.csproj -c $(Configuration) -r win-x86 -o ..\..\Installer\bin\$(Configuration)\output_x86" />
-    <Copy SourceFiles="@(NativeBinariesx64)" DestinationFolder="bin\$(Configuration)\output_x64\amd64\" />
-    <Copy SourceFiles="@(NativeBinariesx86)" DestinationFolder="bin\$(Configuration)\output_x64\x86\" />
-    <Copy SourceFiles="@(NativeBinariesx64)" DestinationFolder="bin\$(Configuration)\output_x86\amd64\" />
-    <Copy SourceFiles="@(NativeBinariesx86)" DestinationFolder="bin\$(Configuration)\output_x86\x86\" />
+    <Exec Command="dotnet build ..\src\PokemonGenerator\PokemonGenerator.csproj -c $(Configuration) -r win-$(Platform) -o ..\..\Installer\bin\$(Configuration)\output_$(Platform)" />
+    <Copy SourceFiles="@(NativeBinariesx64)" DestinationFolder="bin\$(Configuration)\output_$(Platform)\amd64" />
+    <Copy SourceFiles="@(NativeBinariesx86)" DestinationFolder="bin\$(Configuration)\output_$(Platform)\x86" />
     <PropertyGroup>
-      <DefineConstants>HarvestPath=bin\$(Configuration)\output_x64</DefineConstants>
-    </PropertyGroup>
-    <HeatDirectory Directory="bin\$(Configuration)\output_x64" PreprocessorVariable="var.HarvestPath" OutputFile="HeatGeneratedFileList.wxs" ComponentGroupName="HeatGenerated" DirectoryRefId="TARGETDIR" AutogenerateGuids="true" ToolPath="$(WixToolPath)" SuppressFragments="true" SuppressRegistry="true" SuppressRootDirectory="true" />
+      <DefineConstants>HarvestPath=bin\$(Configuration)\output_$(Platform)</DefineConstants>
+    </PropertyGroup> 
+    <HeatDirectory Directory="bin\$(Configuration)\output_$(Platform)" PreprocessorVariable="var.HarvestPath" OutputFile="HeatGeneratedFileList.wxs" ComponentGroupName="HeatGenerated" DirectoryRefId="TARGETDIR" AutogenerateGuids="true" ToolPath="$(WixToolPath)" SuppressFragments="true" SuppressRegistry="true" SuppressRootDirectory="true" />
   </Target>
 </Project>
