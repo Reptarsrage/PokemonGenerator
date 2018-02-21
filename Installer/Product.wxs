@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Product Id="{B17E5109-B7FE-48C4-B7E5-DFD1EC99DECB}" Name="PokemonGenerator" Language="1033" Version="2.0.1" Manufacturer="JustinR" UpgradeCode="0a224662-b4ff-45df-833f-0d92427d991c">
+  <Product Id="{B17E5109-B7FE-48C4-B7E5-DFD1EC99DECB}" Name="PokemonGenerator" Language="1033" Version="2.0.2" Manufacturer="JustinR" UpgradeCode="0a224662-b4ff-45df-833f-0d92427d991c">
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" Manufacturer="JustinR" Comments="Pokemon Generator" />
     <CustomAction Id="PreventDowngrading" Error="Newer version already installed." />
     <Upgrade Id="0a224662-b4ff-45df-833f-0d92427d991c">
-      <UpgradeVersion Maximum="2.0.1" Property="OLDPRODUCTFOUND" OnlyDetect="no" IncludeMinimum="yes" IncludeMaximum="no" Language="1033" />
-      <UpgradeVersion Minimum="2.0.1" Property="NEWPRODUCTFOUND" OnlyDetect="yes" IncludeMinimum="no" Language="1033" />
+      <UpgradeVersion Maximum="2.0.2" Property="OLDPRODUCTFOUND" OnlyDetect="no" IncludeMinimum="yes" IncludeMaximum="no" Language="1033" />
+      <UpgradeVersion Minimum="2.0.2" Property="NEWPRODUCTFOUND" OnlyDetect="yes" IncludeMinimum="no" Language="1033" />
     </Upgrade>
     <Property Id="ARPHELPLINK" Value="https://github.com/reptarsrage" />
     <Property Id="ARPCOMMENTS" Value="Pokemon Generator" />
