@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2027
+VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PokemonGenerator", "src\PokemonGenerator\PokemonGenerator.csproj", "{DFF429CD-326E-4558-8319-E00B430DF65A}"
 EndProject
@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.travis.yml = .travis.yml
 		Gold.sav = Gold.sav
-		LISCENCE.rtf = LISCENCE.rtf
+		LISCENCE = LISCENCE
 		README.md = README.md
 		Silver.sav = Silver.sav
 		ThePokeBase.sdf = ThePokeBase.sdf

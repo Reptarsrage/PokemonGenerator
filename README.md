@@ -111,3 +111,4 @@ to fill these slots. I will give a brief overview on my process.
 - [ ] Add ability to turn off randomness and pick your own moves  
 - [ ] Add window to show move probabilities for a pokemon at a level
 - [ ] Add text overlay for disabled pokemon with minimum level
+- [ ] Replace all icon images with svg images

@@ -11,7 +11,7 @@
       </RadioButtonGroup>
       <Dialog Id="AdminEulaForm" X="50" Y="50" Width="373" Height="287" Title="[ProductName]">
         <Control Id="LicenseText" Type="ScrollableText" X="18" Y="105" Width="348" Height="120" Sunken="yes" TabSkip="no">
-          <Text SourceFile="..\LISCENCE.rtf" />
+          <Text SourceFile="Resources\LISCENCE.rtf" />
         </Control>
         <Control Id="AgreeRadioGroup" Type="RadioButtonGroup" X="18" Y="231" Width="348" Height="15" Property="AdminEulaForm_Property" Text="{\VSI_MS_Sans_Serif13.0_0_0}MsiRadioButtonGroup" TabSkip="no" />
         <Control Id="CancelButton" Type="PushButton" X="156" Y="261" Width="66" Height="18" Text="{\VSI_MS_Sans_Serif13.0_0_0}Cancel" TabSkip="no" Cancel="yes">
@@ -49,7 +49,7 @@
       </RadioButtonGroup>
       <Dialog Id="EulaForm" X="50" Y="50" Width="373" Height="287" Title="[ProductName]">
         <Control Id="LicenseText" Type="ScrollableText" X="18" Y="105" Width="348" Height="120" Sunken="yes" TabSkip="no">
-          <Text SourceFile="..\LISCENCE.rtf" />
+          <Text SourceFile="Resources\LISCENCE.rtf" />
         </Control>
         <Control Id="AgreeRadioGroup" Type="RadioButtonGroup" X="18" Y="231" Width="348" Height="15" Property="EulaForm_Property" Text="{\VSI_MS_Sans_Serif13.0_0_0}MsiRadioButtonGroup" TabSkip="no" />
         <Control Id="CancelButton" Type="PushButton" X="156" Y="261" Width="66" Height="18" Text="{\VSI_MS_Sans_Serif13.0_0_0}Cancel" TabSkip="no" Cancel="yes">

@@ -181,8 +181,8 @@
       </Dialog>
     </UI>
     <UI Id="UserInterface">
-      <Binary Id="_27645D5D_06CF_4FA7_8BD2_3DF94569CDE4" SourceFile="..\src\PokemonGenerator\Resources\banner.jpg" />
-      <Binary Id="DefBannerBitmap" SourceFile="..\src\PokemonGenerator\Resources\banner.jpg" />
+      <Binary Id="_27645D5D_06CF_4FA7_8BD2_3DF94569CDE4" SourceFile="Resources\banner.jpg" />
+      <Binary Id="DefBannerBitmap" SourceFile="Resources\banner.jpg" />
       <Property Id="DefaultUIFont" Value="VsdDefaultUIFont.524F4245_5254_5341_4C45_534153783400" />
       <TextStyle Id="VsdDefaultUIFont.524F4245_5254_5341_4C45_534153783400" FaceName="MS Sans Serif" Size="9" Red="0" Green="0" Blue="0" />
       <UIText Id="MenuLocal"><![CDATA[Will be installed on local hard drive]]></UIText>
