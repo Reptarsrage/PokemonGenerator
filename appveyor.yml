@@ -1,5 +1,4 @@
-version: 2.0.1.{build}-{branch}
-skip_tags: true
+version: 2.0.2.{build}-{branch}
 image: Visual Studio 2017
 clone_depth: 1
 
@@ -41,6 +40,7 @@ deploy:
   release: Pokemon Generator v$(appveyor_build_version)
   description: 'Appveyor auto-generated release'
   provider: GitHub
+  tag: $(APPVEYOR_REPO_TAG_NAME)
   auth_token:
     secure: zQGJD6fs/xhZgf/3Rkagg765kNLqIsJ9ouxG/XUNknwalfz/jb8wp7+ZpTRzYhEp
   artifact: Setup_x64,Setup_x86
