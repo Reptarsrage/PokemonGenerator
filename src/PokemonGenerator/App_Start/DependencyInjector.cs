@@ -32,14 +32,24 @@ namespace PokemonGenerator
 
         protected static void BuildConfiguration(ContainerBuilder builder)
         {
+            var options = new PersistentConfig();
+            var iOptions = Options.Create(options);
+
+            // When in winforms designer, this directory is unset and we should not configure anything
+            if (string.IsNullOrWhiteSpace(AppDomain.CurrentDomain.GetData("DataDirectory") as string))
+            {
+                
+                builder.Register<IOptions<PersistentConfig>>(context => iOptions).InstancePerLifetimeScope();
+                builder.Register<IConfiguration>(context => new ConfigurationBuilder().Build()).InstancePerLifetimeScope();
+                return;
+            }
+
             Configuration = new ConfigurationBuilder()
                 .SetBasePath((string)AppDomain.CurrentDomain.GetData("DataDirectory"))
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile(ConfigRepository.ConfigFileName, optional: true, reloadOnChange: true)
                 .Build();
 
-            var options = new PersistentConfig();
-            var iOptions = Options.Create(options);
             Configuration.GetSection("Options").Bind(iOptions.Value.Options);
             Configuration.GetSection("Configuration").Bind(iOptions.Value.Configuration);
             builder.Register<IOptions<PersistentConfig>>(context => iOptions).InstancePerLifetimeScope();

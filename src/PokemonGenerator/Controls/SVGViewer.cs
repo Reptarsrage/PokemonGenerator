@@ -35,6 +35,11 @@ namespace PokemonGenerator.Controls
 
         private void Worker_DoWork(object sender, DoWorkEventArgs e)
         {
+            if (_svgImage == null)
+            {
+                return;
+            }
+
             _width = Width;
             _height = Height;
             e.Result = _spriteProvider.RenderSvg(_svgImage, new Size(_width, _height));

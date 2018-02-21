@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PlayerOptionsGroupBox));
             this.BindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.PanelFormInputPlayerName = new System.Windows.Forms.Panel();
             this.ImagePlayerName = new System.Windows.Forms.PictureBox();
@@ -86,7 +85,8 @@
             this.PanelFormInputPlayerName.MinimumSize = new System.Drawing.Size(200, 25);
             this.PanelFormInputPlayerName.Name = "PanelFormInputPlayerName";
             this.PanelFormInputPlayerName.Size = new System.Drawing.Size(700, 25);
-            this.PanelFormInputPlayerName.TabIndex = 6;
+            this.PanelFormInputPlayerName.TabIndex = 1;
+            this.PanelFormInputPlayerName.TabStop = true;
             // 
             // ImagePlayerName
             // 
@@ -117,7 +117,7 @@
             this.TextPlayerName.MaxLength = 8;
             this.TextPlayerName.Name = "TextPlayerName";
             this.TextPlayerName.Size = new System.Drawing.Size(675, 20);
-            this.TextPlayerName.TabIndex = 4;
+            this.TextPlayerName.TabIndex = 0;
             this.TextPlayerName.Validated += new System.EventHandler(this.PlayerValidate);
             // 
             // PanelFormInputPlayerOutLocation
@@ -133,7 +133,8 @@
             this.PanelFormInputPlayerOutLocation.MinimumSize = new System.Drawing.Size(200, 25);
             this.PanelFormInputPlayerOutLocation.Name = "PanelFormInputPlayerOutLocation";
             this.PanelFormInputPlayerOutLocation.Size = new System.Drawing.Size(700, 25);
-            this.PanelFormInputPlayerOutLocation.TabIndex = 6;
+            this.PanelFormInputPlayerOutLocation.TabIndex = 5;
+            this.PanelFormInputPlayerOutLocation.TabStop = true;
             // 
             // ImagePlayerOutLocation
             // 
@@ -164,7 +165,7 @@
             this.TextPlayerOutLocation.MaxLength = 500;
             this.TextPlayerOutLocation.Name = "TextPlayerOutLocation";
             this.TextPlayerOutLocation.Size = new System.Drawing.Size(675, 20);
-            this.TextPlayerOutLocation.TabIndex = 9;
+            this.TextPlayerOutLocation.TabIndex = 0;
             this.TextPlayerOutLocation.Validated += new System.EventHandler(this.PlayerValidate);
             // 
             // PanelFormInputPlayerInLocation
@@ -180,7 +181,8 @@
             this.PanelFormInputPlayerInLocation.MinimumSize = new System.Drawing.Size(200, 25);
             this.PanelFormInputPlayerInLocation.Name = "PanelFormInputPlayerInLocation";
             this.PanelFormInputPlayerInLocation.Size = new System.Drawing.Size(700, 25);
-            this.PanelFormInputPlayerInLocation.TabIndex = 6;
+            this.PanelFormInputPlayerInLocation.TabIndex = 3;
+            this.PanelFormInputPlayerInLocation.TabStop = true;
             // 
             // ImagePlayerInLocation
             // 
@@ -196,7 +198,7 @@
             this.ImagePlayerInLocation.MinimumSize = new System.Drawing.Size(25, 25);
             this.ImagePlayerInLocation.Name = "ImagePlayerInLocation";
             this.ImagePlayerInLocation.Size = new System.Drawing.Size(25, 25);
-            this.ImagePlayerInLocation.TabIndex = 10;
+            this.ImagePlayerInLocation.TabIndex = 0;
             this.ImagePlayerInLocation.TabStop = false;
             this.ImagePlayerInLocation.Visible = false;
             this.ImagePlayerInLocation.Click += new System.EventHandler(this.PlayerValidate);
@@ -211,7 +213,7 @@
             this.TextPlayerInLocation.MaxLength = 500;
             this.TextPlayerInLocation.Name = "TextPlayerInLocation";
             this.TextPlayerInLocation.Size = new System.Drawing.Size(675, 20);
-            this.TextPlayerInLocation.TabIndex = 7;
+            this.TextPlayerInLocation.TabIndex = 0;
             this.TextPlayerInLocation.Validated += new System.EventHandler(this.PlayerValidate);
             // 
             // LabelPlayerName
@@ -221,7 +223,7 @@
             this.LabelPlayerName.Margin = new System.Windows.Forms.Padding(0);
             this.LabelPlayerName.Name = "LabelPlayerName";
             this.LabelPlayerName.Size = new System.Drawing.Size(70, 13);
-            this.LabelPlayerName.TabIndex = 5;
+            this.LabelPlayerName.TabIndex = 0;
             this.LabelPlayerName.Text = "Player Name:";
             // 
             // SelectPlayerVersion
@@ -233,7 +235,7 @@
             this.SelectPlayerVersion.Margin = new System.Windows.Forms.Padding(0);
             this.SelectPlayerVersion.Name = "SelectPlayerVersion";
             this.SelectPlayerVersion.Size = new System.Drawing.Size(100, 21);
-            this.SelectPlayerVersion.TabIndex = 5;
+            this.SelectPlayerVersion.TabIndex = 2;
             // 
             // ButtonPlayerOutLocation
             // 
@@ -243,7 +245,7 @@
             this.ButtonPlayerOutLocation.Margin = new System.Windows.Forms.Padding(0);
             this.ButtonPlayerOutLocation.Name = "ButtonPlayerOutLocation";
             this.ButtonPlayerOutLocation.Size = new System.Drawing.Size(99, 30);
-            this.ButtonPlayerOutLocation.TabIndex = 8;
+            this.ButtonPlayerOutLocation.TabIndex = 6;
             this.ButtonPlayerOutLocation.Text = "Choose File";
             this.ButtonPlayerOutLocation.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.ButtonPlayerOutLocation.UseVisualStyleBackColor = true;
@@ -257,7 +259,7 @@
             this.ButtonPlayerInLocation.Margin = new System.Windows.Forms.Padding(0);
             this.ButtonPlayerInLocation.Name = "ButtonPlayerInLocation";
             this.ButtonPlayerInLocation.Size = new System.Drawing.Size(99, 31);
-            this.ButtonPlayerInLocation.TabIndex = 6;
+            this.ButtonPlayerInLocation.TabIndex = 4;
             this.ButtonPlayerInLocation.Text = "Choose File";
             this.ButtonPlayerInLocation.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.ButtonPlayerInLocation.UseVisualStyleBackColor = true;
@@ -270,7 +272,7 @@
             this.LabelPlayerOutLocation.Margin = new System.Windows.Forms.Padding(0);
             this.LabelPlayerOutLocation.Name = "LabelPlayerOutLocation";
             this.LabelPlayerOutLocation.Size = new System.Drawing.Size(106, 13);
-            this.LabelPlayerOutLocation.TabIndex = 11;
+            this.LabelPlayerOutLocation.TabIndex = 5;
             this.LabelPlayerOutLocation.Text = "Output sav Location:";
             // 
             // LabelPlayerInLocation
@@ -280,7 +282,7 @@
             this.LabelPlayerInLocation.Margin = new System.Windows.Forms.Padding(0);
             this.LabelPlayerInLocation.Name = "LabelPlayerInLocation";
             this.LabelPlayerInLocation.Size = new System.Drawing.Size(102, 13);
-            this.LabelPlayerInLocation.TabIndex = 12;
+            this.LabelPlayerInLocation.TabIndex = 3;
             this.LabelPlayerInLocation.Text = "Game sav Location:";
             // 
             // LabelPlayerGame
@@ -290,7 +292,7 @@
             this.LabelPlayerGame.Margin = new System.Windows.Forms.Padding(0);
             this.LabelPlayerGame.Name = "LabelPlayerGame";
             this.LabelPlayerGame.Size = new System.Drawing.Size(38, 13);
-            this.LabelPlayerGame.TabIndex = 13;
+            this.LabelPlayerGame.TabIndex = 1;
             this.LabelPlayerGame.Text = "Game:";
             // 
             // GroupBox
@@ -322,7 +324,7 @@
             this.LabelTeam.Margin = new System.Windows.Forms.Padding(0);
             this.LabelTeam.Name = "LabelTeam";
             this.LabelTeam.Size = new System.Drawing.Size(37, 13);
-            this.LabelTeam.TabIndex = 15;
+            this.LabelTeam.TabIndex = 7;
             this.LabelTeam.Text = "Team:";
             // 
             // PanelTeam
@@ -337,7 +339,7 @@
             this.PanelTeam.Location = new System.Drawing.Point(10, 320);
             this.PanelTeam.Name = "PanelTeam";
             this.PanelTeam.Size = new System.Drawing.Size(300, 50);
-            this.PanelTeam.TabIndex = 14;
+            this.PanelTeam.TabIndex = 1;
             this.PanelTeam.MouseClick += new System.Windows.Forms.MouseEventHandler(this.TeamClick);
             // 
             // PictureTeamSixth
@@ -345,11 +347,13 @@
             this.PictureTeamSixth.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PictureTeamSixth.Cursor = System.Windows.Forms.Cursors.Hand;
             this.PictureTeamSixth.Dock = System.Windows.Forms.DockStyle.Left;
+            this.PictureTeamSixth.Image = null;
             this.PictureTeamSixth.Location = new System.Drawing.Point(250, 0);
             this.PictureTeamSixth.Margin = new System.Windows.Forms.Padding(0);
             this.PictureTeamSixth.Name = "PictureTeamSixth";
             this.PictureTeamSixth.Size = new System.Drawing.Size(50, 50);
-            this.PictureTeamSixth.TabIndex = 5;
+            this.PictureTeamSixth.SvgImage = null;
+            this.PictureTeamSixth.TabIndex = 13;
             this.PictureTeamSixth.TabStop = false;
             this.PictureTeamSixth.Click += new System.EventHandler(this.TeamClick);
             this.PictureTeamSixth.MouseClick += new System.Windows.Forms.MouseEventHandler(this.TeamClick);
@@ -359,11 +363,13 @@
             this.PictureTeamFifth.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PictureTeamFifth.Cursor = System.Windows.Forms.Cursors.Hand;
             this.PictureTeamFifth.Dock = System.Windows.Forms.DockStyle.Left;
+            this.PictureTeamFifth.Image = null;
             this.PictureTeamFifth.Location = new System.Drawing.Point(200, 0);
             this.PictureTeamFifth.Margin = new System.Windows.Forms.Padding(0);
             this.PictureTeamFifth.Name = "PictureTeamFifth";
             this.PictureTeamFifth.Size = new System.Drawing.Size(50, 50);
-            this.PictureTeamFifth.TabIndex = 4;
+            this.PictureTeamFifth.SvgImage = null;
+            this.PictureTeamFifth.TabIndex = 12;
             this.PictureTeamFifth.TabStop = false;
             this.PictureTeamFifth.Click += new System.EventHandler(this.TeamClick);
             this.PictureTeamFifth.MouseClick += new System.Windows.Forms.MouseEventHandler(this.TeamClick);
@@ -373,11 +379,13 @@
             this.PictureTeamFourth.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PictureTeamFourth.Cursor = System.Windows.Forms.Cursors.Hand;
             this.PictureTeamFourth.Dock = System.Windows.Forms.DockStyle.Left;
+            this.PictureTeamFourth.Image = null;
             this.PictureTeamFourth.Location = new System.Drawing.Point(150, 0);
             this.PictureTeamFourth.Margin = new System.Windows.Forms.Padding(0);
             this.PictureTeamFourth.Name = "PictureTeamFourth";
             this.PictureTeamFourth.Size = new System.Drawing.Size(50, 50);
-            this.PictureTeamFourth.TabIndex = 3;
+            this.PictureTeamFourth.SvgImage = null;
+            this.PictureTeamFourth.TabIndex = 11;
             this.PictureTeamFourth.TabStop = false;
             this.PictureTeamFourth.Click += new System.EventHandler(this.TeamClick);
             this.PictureTeamFourth.MouseClick += new System.Windows.Forms.MouseEventHandler(this.TeamClick);
@@ -387,11 +395,13 @@
             this.PictureTeamThird.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PictureTeamThird.Cursor = System.Windows.Forms.Cursors.Hand;
             this.PictureTeamThird.Dock = System.Windows.Forms.DockStyle.Left;
+            this.PictureTeamThird.Image = null;
             this.PictureTeamThird.Location = new System.Drawing.Point(100, 0);
             this.PictureTeamThird.Margin = new System.Windows.Forms.Padding(0);
             this.PictureTeamThird.Name = "PictureTeamThird";
             this.PictureTeamThird.Size = new System.Drawing.Size(50, 50);
-            this.PictureTeamThird.TabIndex = 2;
+            this.PictureTeamThird.SvgImage = null;
+            this.PictureTeamThird.TabIndex = 10;
             this.PictureTeamThird.TabStop = false;
             this.PictureTeamThird.Click += new System.EventHandler(this.TeamClick);
             this.PictureTeamThird.MouseClick += new System.Windows.Forms.MouseEventHandler(this.TeamClick);
@@ -401,11 +411,13 @@
             this.PictureTeamSecond.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PictureTeamSecond.Cursor = System.Windows.Forms.Cursors.Hand;
             this.PictureTeamSecond.Dock = System.Windows.Forms.DockStyle.Left;
+            this.PictureTeamSecond.Image = null;
             this.PictureTeamSecond.Location = new System.Drawing.Point(50, 0);
             this.PictureTeamSecond.Margin = new System.Windows.Forms.Padding(0);
             this.PictureTeamSecond.Name = "PictureTeamSecond";
             this.PictureTeamSecond.Size = new System.Drawing.Size(50, 50);
-            this.PictureTeamSecond.TabIndex = 1;
+            this.PictureTeamSecond.SvgImage = null;
+            this.PictureTeamSecond.TabIndex = 9;
             this.PictureTeamSecond.TabStop = false;
             this.PictureTeamSecond.Click += new System.EventHandler(this.TeamClick);
             this.PictureTeamSecond.MouseClick += new System.Windows.Forms.MouseEventHandler(this.TeamClick);
@@ -415,11 +427,13 @@
             this.PictureTeamFirst.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PictureTeamFirst.Cursor = System.Windows.Forms.Cursors.Hand;
             this.PictureTeamFirst.Dock = System.Windows.Forms.DockStyle.Left;
+            this.PictureTeamFirst.Image = null;
             this.PictureTeamFirst.Location = new System.Drawing.Point(0, 0);
             this.PictureTeamFirst.Margin = new System.Windows.Forms.Padding(0);
             this.PictureTeamFirst.Name = "PictureTeamFirst";
             this.PictureTeamFirst.Size = new System.Drawing.Size(50, 50);
-            this.PictureTeamFirst.TabIndex = 0;
+            this.PictureTeamFirst.SvgImage = null;
+            this.PictureTeamFirst.TabIndex = 8;
             this.PictureTeamFirst.TabStop = false;
             this.PictureTeamFirst.Click += new System.EventHandler(this.TeamClick);
             this.PictureTeamFirst.MouseClick += new System.Windows.Forms.MouseEventHandler(this.TeamClick);

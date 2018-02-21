@@ -51,9 +51,9 @@ namespace PokemonGenerator.Windows
             this.PanelTop = new System.Windows.Forms.Panel();
             this.PanelFormInputTop = new System.Windows.Forms.Panel();
             this.ImageProjN64Location = new System.Windows.Forms.PictureBox();
+            this.GroupBoxPlayerOneOptions = new PokemonGenerator.Controls.PlayerOptionsGroupBox();
+            this.GroupBoxPlayerTwoOptions = new PokemonGenerator.Controls.PlayerOptionsGroupBox();
             this.ToolTipProjN64Location = new System.Windows.Forms.ToolTip(this.components);
-            this.GroupBoxPlayerOneOptions = new PlayerOptionsGroupBox();
-            this.GroupBoxPlayerTwoOptions = new PlayerOptionsGroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.MainWindowBindingSource)).BeginInit();
             this.PanelProgress.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ImageProgress)).BeginInit();
@@ -71,7 +71,7 @@ namespace PokemonGenerator.Windows
             this.LabelProjN64Location.Location = new System.Drawing.Point(9, 21);
             this.LabelProjN64Location.Name = "LabelProjN64Location";
             this.LabelProjN64Location.Size = new System.Drawing.Size(132, 17);
-            this.LabelProjN64Location.TabIndex = 5;
+            this.LabelProjN64Location.TabIndex = 0;
             this.LabelProjN64Location.Text = "Project N64 Location:";
             // 
             // TextProjN64Location
@@ -84,7 +84,7 @@ namespace PokemonGenerator.Windows
             this.TextProjN64Location.MaxLength = 1000;
             this.TextProjN64Location.Name = "TextProjN64Location";
             this.TextProjN64Location.Size = new System.Drawing.Size(575, 25);
-            this.TextProjN64Location.TabIndex = 3;
+            this.TextProjN64Location.TabIndex = 0;
             this.TextProjN64Location.Validated += new System.EventHandler(this.TextProjN64LocationValidate);
             // 
             // MainWindowBindingSource
@@ -135,7 +135,7 @@ namespace PokemonGenerator.Windows
             0});
             this.SelectLevel.Name = "SelectLevel";
             this.SelectLevel.Size = new System.Drawing.Size(140, 25);
-            this.SelectLevel.TabIndex = 16;
+            this.SelectLevel.TabIndex = 1;
             this.SelectLevel.Value = new decimal(new int[] {
             50,
             0,
@@ -149,7 +149,7 @@ namespace PokemonGenerator.Windows
             this.LabelLevel.Location = new System.Drawing.Point(26, 12);
             this.LabelLevel.Name = "LabelLevel";
             this.LabelLevel.Size = new System.Drawing.Size(40, 17);
-            this.LabelLevel.TabIndex = 19;
+            this.LabelLevel.TabIndex = 0;
             this.LabelLevel.Text = "Level:";
             // 
             // ButtonProjN64Location
@@ -159,7 +159,7 @@ namespace PokemonGenerator.Windows
             this.ButtonProjN64Location.Location = new System.Drawing.Point(147, 11);
             this.ButtonProjN64Location.Name = "ButtonProjN64Location";
             this.ButtonProjN64Location.Size = new System.Drawing.Size(95, 33);
-            this.ButtonProjN64Location.TabIndex = 2;
+            this.ButtonProjN64Location.TabIndex = 1;
             this.ButtonProjN64Location.Text = "Choose File";
             this.ButtonProjN64Location.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.ButtonProjN64Location.UseVisualStyleBackColor = true;
@@ -179,7 +179,7 @@ namespace PokemonGenerator.Windows
             this.PanelBottom.Margin = new System.Windows.Forms.Padding(0);
             this.PanelBottom.Name = "PanelBottom";
             this.PanelBottom.Size = new System.Drawing.Size(884, 120);
-            this.PanelBottom.TabIndex = 16;
+            this.PanelBottom.TabIndex = 3;
             // 
             // ButtonSettings
             // 
@@ -190,7 +190,7 @@ namespace PokemonGenerator.Windows
             this.ButtonSettings.Margin = new System.Windows.Forms.Padding(0);
             this.ButtonSettings.Name = "ButtonSettings";
             this.ButtonSettings.Size = new System.Drawing.Size(80, 27);
-            this.ButtonSettings.TabIndex = 20;
+            this.ButtonSettings.TabIndex = 2;
             this.ButtonSettings.Text = "Settings";
             this.ButtonSettings.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.ButtonSettings.UseVisualStyleBackColor = true;
@@ -207,7 +207,7 @@ namespace PokemonGenerator.Windows
             this.ButtonGenerate.Margin = new System.Windows.Forms.Padding(10);
             this.ButtonGenerate.Name = "ButtonGenerate";
             this.ButtonGenerate.Size = new System.Drawing.Size(449, 100);
-            this.ButtonGenerate.TabIndex = 18;
+            this.ButtonGenerate.TabIndex = 3;
             this.ButtonGenerate.Text = "Generate (CTRL+F12)";
             this.ButtonGenerate.UseVisualStyleBackColor = true;
             this.ButtonGenerate.Click += new System.EventHandler(this.ButtonGenerateClick);
@@ -251,7 +251,7 @@ namespace PokemonGenerator.Windows
             this.TableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60F));
             this.TableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.TableLayoutPanelMain.Size = new System.Drawing.Size(884, 600);
-            this.TableLayoutPanelMain.TabIndex = 17;
+            this.TableLayoutPanelMain.TabIndex = 0;
             // 
             // PanelTop
             // 
@@ -266,7 +266,7 @@ namespace PokemonGenerator.Windows
             this.PanelTop.Margin = new System.Windows.Forms.Padding(0);
             this.PanelTop.Name = "PanelTop";
             this.PanelTop.Size = new System.Drawing.Size(884, 120);
-            this.PanelTop.TabIndex = 18;
+            this.PanelTop.TabIndex = 0;
             // 
             // PanelFormInputTop
             // 
@@ -281,7 +281,7 @@ namespace PokemonGenerator.Windows
             this.PanelFormInputTop.MinimumSize = new System.Drawing.Size(400, 25);
             this.PanelFormInputTop.Name = "PanelFormInputTop";
             this.PanelFormInputTop.Size = new System.Drawing.Size(600, 25);
-            this.PanelFormInputTop.TabIndex = 6;
+            this.PanelFormInputTop.TabIndex = 0;
             // 
             // ImageProjN64Location
             // 
@@ -297,7 +297,7 @@ namespace PokemonGenerator.Windows
             this.ImageProjN64Location.MinimumSize = new System.Drawing.Size(25, 25);
             this.ImageProjN64Location.Name = "ImageProjN64Location";
             this.ImageProjN64Location.Size = new System.Drawing.Size(25, 25);
-            this.ImageProjN64Location.TabIndex = 2;
+            this.ImageProjN64Location.TabIndex = 1;
             this.ImageProjN64Location.TabStop = false;
             this.ToolTipProjN64Location.SetToolTip(this.ImageProjN64Location, "Path to the Project 64 executable must exist");
             this.ImageProjN64Location.Visible = false;
@@ -305,23 +305,29 @@ namespace PokemonGenerator.Windows
             // 
             // GroupBoxPlayerOneOptions
             // 
+            this.GroupBoxPlayerOneOptions.DataSource = null;
             this.GroupBoxPlayerOneOptions.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.GroupBoxPlayerOneOptions.InLocation = "";
             this.GroupBoxPlayerOneOptions.Location = new System.Drawing.Point(3, 123);
             this.GroupBoxPlayerOneOptions.Name = "GroupBoxPlayerOneOptions";
+            this.GroupBoxPlayerOneOptions.OutLocation = "";
+            this.GroupBoxPlayerOneOptions.Player = 0;
+            this.GroupBoxPlayerOneOptions.PlayerName = "";
             this.GroupBoxPlayerOneOptions.Size = new System.Drawing.Size(436, 354);
-            this.GroupBoxPlayerOneOptions.TabIndex = 19;
-            this.GroupBoxPlayerOneOptions.TabStop = false;
-            this.GroupBoxPlayerOneOptions.Text = "Player One Config";
+            this.GroupBoxPlayerOneOptions.TabIndex = 1;
             // 
             // GroupBoxPlayerTwoOptions
             // 
+            this.GroupBoxPlayerTwoOptions.DataSource = null;
             this.GroupBoxPlayerTwoOptions.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.GroupBoxPlayerTwoOptions.InLocation = "";
             this.GroupBoxPlayerTwoOptions.Location = new System.Drawing.Point(445, 123);
             this.GroupBoxPlayerTwoOptions.Name = "GroupBoxPlayerTwoOptions";
+            this.GroupBoxPlayerTwoOptions.OutLocation = "";
+            this.GroupBoxPlayerTwoOptions.Player = 0;
+            this.GroupBoxPlayerTwoOptions.PlayerName = "";
             this.GroupBoxPlayerTwoOptions.Size = new System.Drawing.Size(436, 354);
-            this.GroupBoxPlayerTwoOptions.TabIndex = 20;
-            this.GroupBoxPlayerTwoOptions.TabStop = false;
-            this.GroupBoxPlayerTwoOptions.Text = "Player Two Config";
+            this.GroupBoxPlayerTwoOptions.TabIndex = 2;
             // 
             // MainWindow
             // 
