@@ -79,6 +79,7 @@ namespace PokemonGenerator.Windows.Options
             this.LayoutPanelMain.Name = "LayoutPanelMain";
             this.LayoutPanelMain.Size = new System.Drawing.Size(944, 441);
             this.LayoutPanelMain.TabIndex = 1;
+            this.LayoutPanelMain.TabStop = true;
             // 
             // FieldNumericAlreadyPickedMoveModifier
             // 
@@ -108,7 +109,8 @@ namespace PokemonGenerator.Windows.Options
             this.FieldNumericAlreadyPickedMoveModifier.Name = "FieldNumericAlreadyPickedMoveModifier";
             this.FieldNumericAlreadyPickedMoveModifier.Padding = new System.Windows.Forms.Padding(5);
             this.FieldNumericAlreadyPickedMoveModifier.Size = new System.Drawing.Size(883, 35);
-            this.FieldNumericAlreadyPickedMoveModifier.TabIndex = 12;
+            this.FieldNumericAlreadyPickedMoveModifier.TabIndex = 6;
+            this.FieldNumericAlreadyPickedMoveModifier.TabStop = true;
             this.FieldNumericAlreadyPickedMoveModifier.Value = new decimal(new int[] {
             0,
             0,
@@ -147,7 +149,8 @@ namespace PokemonGenerator.Windows.Options
             this.FieldNumericAlreadyPickedMoveEffectsModifier.Name = "FieldNumericAlreadyPickedMoveEffectsModifier";
             this.FieldNumericAlreadyPickedMoveEffectsModifier.Padding = new System.Windows.Forms.Padding(5);
             this.FieldNumericAlreadyPickedMoveEffectsModifier.Size = new System.Drawing.Size(883, 35);
-            this.FieldNumericAlreadyPickedMoveEffectsModifier.TabIndex = 11;
+            this.FieldNumericAlreadyPickedMoveEffectsModifier.TabIndex = 7;
+            this.FieldNumericAlreadyPickedMoveEffectsModifier.TabStop = true;
             this.FieldNumericAlreadyPickedMoveEffectsModifier.Value = new decimal(new int[] {
             0,
             0,
@@ -182,7 +185,8 @@ namespace PokemonGenerator.Windows.Options
             this.FieldNumericDamageTypeModifier.Name = "FieldNumericDamageTypeModifier";
             this.FieldNumericDamageTypeModifier.Padding = new System.Windows.Forms.Padding(5);
             this.FieldNumericDamageTypeModifier.Size = new System.Drawing.Size(883, 35);
-            this.FieldNumericDamageTypeModifier.TabIndex = 10;
+            this.FieldNumericDamageTypeModifier.TabIndex = 5;
+            this.FieldNumericDamageTypeModifier.TabStop = true;
             this.FieldNumericDamageTypeModifier.Value = new decimal(new int[] {
             0,
             0,
@@ -200,7 +204,7 @@ namespace PokemonGenerator.Windows.Options
             this.PanelAllowDuplicates.Name = "PanelAllowDuplicates";
             this.PanelAllowDuplicates.Padding = new System.Windows.Forms.Padding(5);
             this.PanelAllowDuplicates.Size = new System.Drawing.Size(883, 35);
-            this.PanelAllowDuplicates.TabIndex = 10;
+            this.PanelAllowDuplicates.TabIndex = 12;
             // 
             // CheckBoxAllowDuplicates
             // 
@@ -210,7 +214,7 @@ namespace PokemonGenerator.Windows.Options
             this.CheckBoxAllowDuplicates.Location = new System.Drawing.Point(8, 6);
             this.CheckBoxAllowDuplicates.Name = "CheckBoxAllowDuplicates";
             this.CheckBoxAllowDuplicates.Size = new System.Drawing.Size(122, 21);
-            this.CheckBoxAllowDuplicates.TabIndex = 1;
+            this.CheckBoxAllowDuplicates.TabIndex = 0;
             this.CheckBoxAllowDuplicates.Text = "Allow Duplicates";
             this.CheckBoxAllowDuplicates.UseVisualStyleBackColor = true;
             // 
@@ -246,7 +250,8 @@ namespace PokemonGenerator.Windows.Options
             this.FieldNumericMean.Name = "FieldNumericMean";
             this.FieldNumericMean.Padding = new System.Windows.Forms.Padding(5);
             this.FieldNumericMean.Size = new System.Drawing.Size(883, 35);
-            this.FieldNumericMean.TabIndex = 1;
+            this.FieldNumericMean.TabIndex = 0;
+            this.FieldNumericMean.TabStop = true;
             this.FieldNumericMean.Value = new decimal(new int[] {
             0,
             0,
@@ -285,7 +290,8 @@ namespace PokemonGenerator.Windows.Options
             this.FieldNumericSkew.Name = "FieldNumericSkew";
             this.FieldNumericSkew.Padding = new System.Windows.Forms.Padding(5);
             this.FieldNumericSkew.Size = new System.Drawing.Size(883, 35);
-            this.FieldNumericSkew.TabIndex = 2;
+            this.FieldNumericSkew.TabIndex = 1;
+            this.FieldNumericSkew.TabStop = true;
             this.FieldNumericSkew.Value = new decimal(new int[] {
             0,
             0,
@@ -324,7 +330,8 @@ namespace PokemonGenerator.Windows.Options
             this.FieldNumericStandardDeviation.Name = "FieldNumericStandardDeviation";
             this.FieldNumericStandardDeviation.Padding = new System.Windows.Forms.Padding(5);
             this.FieldNumericStandardDeviation.Size = new System.Drawing.Size(883, 35);
-            this.FieldNumericStandardDeviation.TabIndex = 3;
+            this.FieldNumericStandardDeviation.TabIndex = 2;
+            this.FieldNumericStandardDeviation.TabStop = true;
             this.FieldNumericStandardDeviation.Value = new decimal(new int[] {
             0,
             0,
@@ -363,7 +370,8 @@ namespace PokemonGenerator.Windows.Options
             this.FieldNumericSameTypeModifier.Name = "FieldNumericSameTypeModifier";
             this.FieldNumericSameTypeModifier.Padding = new System.Windows.Forms.Padding(5);
             this.FieldNumericSameTypeModifier.Size = new System.Drawing.Size(883, 35);
-            this.FieldNumericSameTypeModifier.TabIndex = 4;
+            this.FieldNumericSameTypeModifier.TabIndex = 3;
+            this.FieldNumericSameTypeModifier.TabStop = true;
             this.FieldNumericSameTypeModifier.Value = new decimal(new int[] {
             0,
             0,
@@ -398,7 +406,8 @@ namespace PokemonGenerator.Windows.Options
             this.FieldNumericDamageModifier.Name = "FieldNumericDamageModifier";
             this.FieldNumericDamageModifier.Padding = new System.Windows.Forms.Padding(5);
             this.FieldNumericDamageModifier.Size = new System.Drawing.Size(883, 35);
-            this.FieldNumericDamageModifier.TabIndex = 5;
+            this.FieldNumericDamageModifier.TabIndex = 4;
+            this.FieldNumericDamageModifier.TabStop = true;
             this.FieldNumericDamageModifier.Value = new decimal(new int[] {
             0,
             0,
@@ -433,7 +442,8 @@ namespace PokemonGenerator.Windows.Options
             this.FieldNumericPairedModifier.Name = "FieldNumericPairedModifier";
             this.FieldNumericPairedModifier.Padding = new System.Windows.Forms.Padding(5);
             this.FieldNumericPairedModifier.Size = new System.Drawing.Size(883, 35);
-            this.FieldNumericPairedModifier.TabIndex = 6;
+            this.FieldNumericPairedModifier.TabIndex = 8;
+            this.FieldNumericPairedModifier.TabStop = true;
             this.FieldNumericPairedModifier.Value = new decimal(new int[] {
             0,
             0,
@@ -468,7 +478,8 @@ namespace PokemonGenerator.Windows.Options
             this.FieldNumericDamageTypeDelta.Name = "FieldNumericDamageTypeDelta";
             this.FieldNumericDamageTypeDelta.Padding = new System.Windows.Forms.Padding(5);
             this.FieldNumericDamageTypeDelta.Size = new System.Drawing.Size(883, 35);
-            this.FieldNumericDamageTypeDelta.TabIndex = 7;
+            this.FieldNumericDamageTypeDelta.TabIndex = 9;
+            this.FieldNumericDamageTypeDelta.TabStop = true;
             this.FieldNumericDamageTypeDelta.Value = new decimal(new int[] {
             0,
             0,
@@ -503,7 +514,8 @@ namespace PokemonGenerator.Windows.Options
             this.FieldNumericRandomMoveMinPower.Name = "FieldNumericRandomMoveMinPower";
             this.FieldNumericRandomMoveMinPower.Padding = new System.Windows.Forms.Padding(5);
             this.FieldNumericRandomMoveMinPower.Size = new System.Drawing.Size(883, 35);
-            this.FieldNumericRandomMoveMinPower.TabIndex = 8;
+            this.FieldNumericRandomMoveMinPower.TabIndex = 10;
+            this.FieldNumericRandomMoveMinPower.TabStop = true;
             this.FieldNumericRandomMoveMinPower.Value = new decimal(new int[] {
             0,
             0,
@@ -538,7 +550,8 @@ namespace PokemonGenerator.Windows.Options
             this.FieldNumericRandomMoveMaxPower.Name = "FieldNumericRandomMoveMaxPower";
             this.FieldNumericRandomMoveMaxPower.Padding = new System.Windows.Forms.Padding(5);
             this.FieldNumericRandomMoveMaxPower.Size = new System.Drawing.Size(883, 35);
-            this.FieldNumericRandomMoveMaxPower.TabIndex = 9;
+            this.FieldNumericRandomMoveMaxPower.TabIndex = 11;
+            this.FieldNumericRandomMoveMaxPower.TabStop = true;
             this.FieldNumericRandomMoveMaxPower.Value = new decimal(new int[] {
             40,
             0,

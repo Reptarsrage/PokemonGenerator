@@ -55,7 +55,8 @@ namespace PokemonGenerator.Windows.Options
             this.LayoutPanelBottom.Margin = new System.Windows.Forms.Padding(0);
             this.LayoutPanelBottom.Name = "LayoutPanelBottom";
             this.LayoutPanelBottom.Size = new System.Drawing.Size(494, 35);
-            this.LayoutPanelBottom.TabIndex = 0;
+            this.LayoutPanelBottom.TabIndex = 1;
+            this.LayoutPanelBottom.TabStop = true;
             // 
             // ButtonSave
             // 
@@ -63,7 +64,7 @@ namespace PokemonGenerator.Windows.Options
             this.ButtonSave.Location = new System.Drawing.Point(407, 5);
             this.ButtonSave.Name = "ButtonSave";
             this.ButtonSave.Size = new System.Drawing.Size(75, 25);
-            this.ButtonSave.TabIndex = 2;
+            this.ButtonSave.TabIndex = 1;
             this.ButtonSave.Text = "Save";
             this.ButtonSave.UseVisualStyleBackColor = true;
             this.ButtonSave.Click += new System.EventHandler(this.ButtonSaveClick);
@@ -74,7 +75,7 @@ namespace PokemonGenerator.Windows.Options
             this.ButtonCancel.Location = new System.Drawing.Point(326, 6);
             this.ButtonCancel.Name = "ButtonCancel";
             this.ButtonCancel.Size = new System.Drawing.Size(75, 25);
-            this.ButtonCancel.TabIndex = 3;
+            this.ButtonCancel.TabIndex = 0;
             this.ButtonCancel.Text = "Cancel";
             this.ButtonCancel.UseVisualStyleBackColor = true;
             this.ButtonCancel.Click += new System.EventHandler(this.ButtonCancelClick);
@@ -95,6 +96,7 @@ namespace PokemonGenerator.Windows.Options
             this.SplitContainer.Size = new System.Drawing.Size(747, 489);
             this.SplitContainer.SplitterDistance = 249;
             this.SplitContainer.TabIndex = 0;
+            this.SplitContainer.TabStop = false;
             // 
             // ListOptions
             // 
@@ -132,7 +134,8 @@ namespace PokemonGenerator.Windows.Options
             this.PanelInner.Margin = new System.Windows.Forms.Padding(0);
             this.PanelInner.Name = "PanelInner";
             this.PanelInner.Size = new System.Drawing.Size(494, 454);
-            this.PanelInner.TabIndex = 1;
+            this.PanelInner.TabIndex = 0;
+            this.PanelInner.TabStop = true;
             // 
             // OptionsWindowController
             // 

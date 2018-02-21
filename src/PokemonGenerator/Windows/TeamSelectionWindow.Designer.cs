@@ -61,7 +61,7 @@ namespace PokemonGenerator.Windows
             this.LayoutPanelMain.Margin = new System.Windows.Forms.Padding(0);
             this.LayoutPanelMain.Name = "LayoutPanelMain";
             this.LayoutPanelMain.Size = new System.Drawing.Size(844, 406);
-            this.LayoutPanelMain.TabIndex = 1;
+            this.LayoutPanelMain.TabIndex = 0;
             this.LayoutPanelMain.TabStop = true;
             // 
             // flowLayoutPanel1
@@ -81,7 +81,8 @@ namespace PokemonGenerator.Windows
             this.LayoutPanelBottom.Margin = new System.Windows.Forms.Padding(0);
             this.LayoutPanelBottom.Name = "LayoutPanelBottom";
             this.LayoutPanelBottom.Size = new System.Drawing.Size(844, 35);
-            this.LayoutPanelBottom.TabIndex = 0;
+            this.LayoutPanelBottom.TabIndex = 1;
+            this.LayoutPanelBottom.TabStop = true;
             // 
             // ButtonOk
             // 
@@ -89,7 +90,7 @@ namespace PokemonGenerator.Windows
             this.ButtonOk.Location = new System.Drawing.Point(742, 5);
             this.ButtonOk.Name = "ButtonOk";
             this.ButtonOk.Size = new System.Drawing.Size(90, 25);
-            this.ButtonOk.TabIndex = 6;
+            this.ButtonOk.TabIndex = 1;
             this.ButtonOk.Text = "Ok";
             this.ButtonOk.UseVisualStyleBackColor = true;
             this.ButtonOk.Click += new System.EventHandler(this.ButtonOkClick);
@@ -100,7 +101,7 @@ namespace PokemonGenerator.Windows
             this.ButtonCancel.Location = new System.Drawing.Point(646, 5);
             this.ButtonCancel.Name = "ButtonCancel";
             this.ButtonCancel.Size = new System.Drawing.Size(90, 25);
-            this.ButtonCancel.TabIndex = 5;
+            this.ButtonCancel.TabIndex = 0;
             this.ButtonCancel.Text = "Cancel";
             this.ButtonCancel.UseVisualStyleBackColor = true;
             this.ButtonCancel.Click += new System.EventHandler(this.ButtonCancelClick);
@@ -127,7 +128,7 @@ namespace PokemonGenerator.Windows
             this.TableLayoutPanelOutter.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.TableLayoutPanelOutter.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.TableLayoutPanelOutter.Size = new System.Drawing.Size(944, 441);
-            this.TableLayoutPanelOutter.TabIndex = 1;
+            this.TableLayoutPanelOutter.TabIndex = 0;
             // 
             // panel1
             // 
@@ -147,61 +148,79 @@ namespace PokemonGenerator.Windows
             // 
             this.PictureTeamSixth.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PictureTeamSixth.Dock = System.Windows.Forms.DockStyle.Top;
+            this.PictureTeamSixth.Image = null;
             this.PictureTeamSixth.Location = new System.Drawing.Point(0, 250);
             this.PictureTeamSixth.Margin = new System.Windows.Forms.Padding(0);
             this.PictureTeamSixth.Name = "PictureTeamSixth";
             this.PictureTeamSixth.Size = new System.Drawing.Size(50, 50);
+            this.PictureTeamSixth.SvgImage = null;
             this.PictureTeamSixth.TabIndex = 5;
+            this.PictureTeamSixth.TabStop = false;
             // 
             // PictureTeamFifth
             // 
             this.PictureTeamFifth.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PictureTeamFifth.Dock = System.Windows.Forms.DockStyle.Top;
+            this.PictureTeamFifth.Image = null;
             this.PictureTeamFifth.Location = new System.Drawing.Point(0, 200);
             this.PictureTeamFifth.Margin = new System.Windows.Forms.Padding(0);
             this.PictureTeamFifth.Name = "PictureTeamFifth";
             this.PictureTeamFifth.Size = new System.Drawing.Size(50, 50);
+            this.PictureTeamFifth.SvgImage = null;
             this.PictureTeamFifth.TabIndex = 4;
+            this.PictureTeamFifth.TabStop = false;
             // 
             // PictureTeamFourth
             // 
             this.PictureTeamFourth.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PictureTeamFourth.Dock = System.Windows.Forms.DockStyle.Top;
+            this.PictureTeamFourth.Image = null;
             this.PictureTeamFourth.Location = new System.Drawing.Point(0, 150);
             this.PictureTeamFourth.Margin = new System.Windows.Forms.Padding(0);
             this.PictureTeamFourth.Name = "PictureTeamFourth";
             this.PictureTeamFourth.Size = new System.Drawing.Size(50, 50);
+            this.PictureTeamFourth.SvgImage = null;
             this.PictureTeamFourth.TabIndex = 3;
+            this.PictureTeamFourth.TabStop = false;
             // 
             // PictureTeamThird
             // 
             this.PictureTeamThird.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PictureTeamThird.Dock = System.Windows.Forms.DockStyle.Top;
+            this.PictureTeamThird.Image = null;
             this.PictureTeamThird.Location = new System.Drawing.Point(0, 100);
             this.PictureTeamThird.Margin = new System.Windows.Forms.Padding(0);
             this.PictureTeamThird.Name = "PictureTeamThird";
             this.PictureTeamThird.Size = new System.Drawing.Size(50, 50);
+            this.PictureTeamThird.SvgImage = null;
             this.PictureTeamThird.TabIndex = 2;
+            this.PictureTeamThird.TabStop = false;
             // 
             // PictureTeamSecond
             // 
             this.PictureTeamSecond.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PictureTeamSecond.Dock = System.Windows.Forms.DockStyle.Top;
+            this.PictureTeamSecond.Image = null;
             this.PictureTeamSecond.Location = new System.Drawing.Point(0, 50);
             this.PictureTeamSecond.Margin = new System.Windows.Forms.Padding(0);
             this.PictureTeamSecond.Name = "PictureTeamSecond";
             this.PictureTeamSecond.Size = new System.Drawing.Size(50, 50);
+            this.PictureTeamSecond.SvgImage = null;
             this.PictureTeamSecond.TabIndex = 1;
+            this.PictureTeamSecond.TabStop = false;
             // 
             // PictureTeamFirst
             // 
             this.PictureTeamFirst.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PictureTeamFirst.Dock = System.Windows.Forms.DockStyle.Top;
+            this.PictureTeamFirst.Image = null;
             this.PictureTeamFirst.Location = new System.Drawing.Point(0, 0);
             this.PictureTeamFirst.Margin = new System.Windows.Forms.Padding(0);
             this.PictureTeamFirst.Name = "PictureTeamFirst";
             this.PictureTeamFirst.Size = new System.Drawing.Size(50, 50);
+            this.PictureTeamFirst.SvgImage = null;
             this.PictureTeamFirst.TabIndex = 0;
+            this.PictureTeamFirst.TabStop = false;
             // 
             // BackgroundWorkerTeam
             // 

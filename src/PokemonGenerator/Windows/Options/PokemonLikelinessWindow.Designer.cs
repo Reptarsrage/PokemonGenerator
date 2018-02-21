@@ -57,6 +57,7 @@ namespace PokemonGenerator.Windows.Options
             this.LayoutPanelMain.Name = "LayoutPanelMain";
             this.LayoutPanelMain.Size = new System.Drawing.Size(944, 441);
             this.LayoutPanelMain.TabIndex = 1;
+            this.LayoutPanelMain.TabStop = true;
             // 
             // FieldNumericStandard
             // 
@@ -90,7 +91,8 @@ namespace PokemonGenerator.Windows.Options
             this.FieldNumericStandard.Name = "FieldNumericStandard";
             this.FieldNumericStandard.Padding = new System.Windows.Forms.Padding(5);
             this.FieldNumericStandard.Size = new System.Drawing.Size(900, 35);
-            this.FieldNumericStandard.TabIndex = 1;
+            this.FieldNumericStandard.TabIndex = 0;
+            this.FieldNumericStandard.TabStop = true;
             this.FieldNumericStandard.Value = new decimal(new int[] {
             10,
             0,
@@ -99,13 +101,13 @@ namespace PokemonGenerator.Windows.Options
             // 
             // OptionsWindowBindingSource
             // 
-            this.OptionsWindowBindingSource.DataSource = typeof(GeneratorConfig);
+            this.OptionsWindowBindingSource.DataSource = typeof(PokemonGenerator.Models.Configuration.GeneratorConfig);
             // 
             // FieldNumericLegendary
             // 
             this.FieldNumericLegendary.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.FieldNumericLegendary.BackColor = CustomColors.Legendary;
+            this.FieldNumericLegendary.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(221)))), ((int)(((byte)(170)))), ((int)(((byte)(255)))));
             this.FieldNumericLegendary.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.OptionsWindowBindingSource, "PokemonLiklihood.Legendary", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged, new decimal(new int[] {
                     3,
                     0,
@@ -134,7 +136,8 @@ namespace PokemonGenerator.Windows.Options
             this.FieldNumericLegendary.Name = "FieldNumericLegendary";
             this.FieldNumericLegendary.Padding = new System.Windows.Forms.Padding(5);
             this.FieldNumericLegendary.Size = new System.Drawing.Size(900, 35);
-            this.FieldNumericLegendary.TabIndex = 2;
+            this.FieldNumericLegendary.TabIndex = 1;
+            this.FieldNumericLegendary.TabStop = true;
             this.FieldNumericLegendary.Value = new decimal(new int[] {
             5,
             0,
@@ -145,7 +148,7 @@ namespace PokemonGenerator.Windows.Options
             // 
             this.FieldNumericSpecial.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.FieldNumericSpecial.BackColor = CustomColors.Special;
+            this.FieldNumericSpecial.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(203)))), ((int)(((byte)(255)))));
             this.FieldNumericSpecial.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.OptionsWindowBindingSource, "PokemonLiklihood.Special", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged, new decimal(new int[] {
                     1,
                     0,
@@ -174,7 +177,8 @@ namespace PokemonGenerator.Windows.Options
             this.FieldNumericSpecial.Name = "FieldNumericSpecial";
             this.FieldNumericSpecial.Padding = new System.Windows.Forms.Padding(5);
             this.FieldNumericSpecial.Size = new System.Drawing.Size(900, 35);
-            this.FieldNumericSpecial.TabIndex = 3;
+            this.FieldNumericSpecial.TabIndex = 2;
+            this.FieldNumericSpecial.TabStop = true;
             this.FieldNumericSpecial.Value = new decimal(new int[] {
             3,
             0,

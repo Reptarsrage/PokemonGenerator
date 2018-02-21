@@ -63,13 +63,14 @@ namespace PokemonGenerator.Windows.Options
             this.LayoutPanelTop.Name = "LayoutPanelTop";
             this.LayoutPanelTop.Size = new System.Drawing.Size(944, 35);
             this.LayoutPanelTop.TabIndex = 0;
+            this.LayoutPanelTop.TabStop = true;
             // 
             // ButtonSelectNone
             // 
             this.ButtonSelectNone.Location = new System.Drawing.Point(108, 5);
             this.ButtonSelectNone.Name = "ButtonSelectNone";
             this.ButtonSelectNone.Size = new System.Drawing.Size(90, 25);
-            this.ButtonSelectNone.TabIndex = 6;
+            this.ButtonSelectNone.TabIndex = 1;
             this.ButtonSelectNone.Text = "Select None";
             this.ButtonSelectNone.UseVisualStyleBackColor = true;
             this.ButtonSelectNone.Click += new System.EventHandler(this.SelectNone);
@@ -79,7 +80,7 @@ namespace PokemonGenerator.Windows.Options
             this.ButtonSelectAll.Location = new System.Drawing.Point(12, 5);
             this.ButtonSelectAll.Name = "ButtonSelectAll";
             this.ButtonSelectAll.Size = new System.Drawing.Size(90, 25);
-            this.ButtonSelectAll.TabIndex = 5;
+            this.ButtonSelectAll.TabIndex = 0;
             this.ButtonSelectAll.Text = "Select All";
             this.ButtonSelectAll.UseVisualStyleBackColor = true;
             this.ButtonSelectAll.Click += new System.EventHandler(this.SelectAll);
@@ -107,7 +108,7 @@ namespace PokemonGenerator.Windows.Options
             this.TableLayoutPanelOutter.Size = new System.Drawing.Size(944, 441);
             this.TableLayoutPanelOutter.TabIndex = 1;
             // 
-            // PokemonOptionsWindow
+            // PokemonSelectionWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -116,7 +117,7 @@ namespace PokemonGenerator.Windows.Options
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MinimumSize = new System.Drawing.Size(400, 400);
-            this.Name = "PokemonOptionsWindow";
+            this.Name = "PokemonSelectionWindow";
             this.Size = new System.Drawing.Size(944, 441);
             this.LayoutPanelTop.ResumeLayout(false);
             this.TableLayoutPanelOutter.ResumeLayout(false);
