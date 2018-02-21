@@ -1,0 +1,92 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFrameworks>net47</TargetFrameworks>
+    <RuntimeIdentifiers>win7-x64;win7-x86</RuntimeIdentifiers>
+    <StartupObject>PokemonGenerator.Program</StartupObject>
+    <ApplicationIcon>Resources\favicon.ico</ApplicationIcon>
+    <LangVersion>latest</LangVersion>
+    <DebugType>full</DebugType>
+    <Platforms>AnyCPU;x86;x64</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.6.2" />
+    <PackageReference Include="Dapper.ColumnMapper" Version="1.2.0" />
+    <PackageReference Include="EntityFramework.SqlServerCompact" Version="6.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="2.0.0" />
+    <PackageReference Include="Microsoft.SqlServer.Compact" Version="4.0.8876.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="Svg" Version="2.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Configuration" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Forms\MainForm.cs" SubType="Form" />
+    <Compile Update="Controls\PlayerOptionsGroupBox.cs" SubType="Form" />
+    <Compile Update="Windows\MainWindow.cs" SubType="Form" />
+    <Compile Update="Windows\Options\PokemonLikelinessWindow.cs" SubType="Form" />
+    <Compile Update="Windows\Options\RandomOptionsWindow.cs" SubType="Form" />
+    <Compile Update="Windows\Options\PokemonSelectionWindow.cs" SubType="Form" />
+    <Compile Update="Windows\Options\OptionsWindowController.cs" SubType="Form" />
+    <Compile Update="Controls\SVGViewer.cs" SubType="Form" />
+    <Compile Update="Windows\TeamSelectionWindow.cs" SubType="Form" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Controls\PlayerOptionsGroupBox.Designer.cs" DependentUpon="PlayerOptionsGroupBox.cs" />
+    <Compile Update="Forms\MainForm.Designer.cs" DependentUpon="MainForm.cs" />
+    <Compile Update="Windows\Options\PokemonLikelinessWindow.Designer.cs" DependentUpon="PokemonLikelinessWindow.cs" />
+    <Compile Update="Windows\MainWindow.Designer.cs" DependentUpon="MainWindow.cs" />
+    <Compile Update="Windows\Options\PokemonSelectionWindow.Designer.cs" DependentUpon="PokemonSelectionWindow.cs" />
+    <Compile Update="Windows\Options\RandomOptionsWindow.Designer.cs" DependentUpon="RandomOptionsWindow.cs" />
+    <Compile Update="Windows\Options\OptionsWindowController.Designer.cs" DependentUpon="OptionsWindowController.cs" />
+    <Compile Update="Controls\SVGViewer.Designer.cs" DependentUpon="SVGViewer.cs" />
+    <Compile Update="Windows\TeamSelectionWindow.Designer.cs" DependentUpon="TeamSelectionWindow.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs" AutoGen="True" DesignTime="True" DependentUpon="Resources.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx" Generator="ResXFileCodeGenerator" LastGenOutput="Resources.Designer.cs" />
+    <EmbeddedResource Update="Forms\MainForm.resx" DependentUpon="MainForm.cs" />
+    <EmbeddedResource Update="Windows\MainWindow.resx" DependentUpon="MainWindow.cs" />
+    <EmbeddedResource Update="Windows\Options\PokemonSelectionWindow.resx" DependentUpon="PokemonSelectionWindow.cs" />
+    <EmbeddedResource Update="Windows\Options\RandomOptionsWindow.resx" DependentUpon="RandomOptionsWindow.cs" />
+    <EmbeddedResource Update="Windows\Options\OptionsWindowController.resx" DependentUpon="OptionsWindowController.cs" />
+    <EmbeddedResource Update="Controls\PlayerOptionsGroupBox.resx" DependentUpon="PlayerOptionsGroupBox.cs" />
+    <EmbeddedResource Update="Windows\Options\PokemonLikelinessWindow.resx" DependentUpon="PokemonLikelinessWindow.cs" />
+    <EmbeddedResource Update="Controls\SVGViewer.resx" DependentUpon="SVGViewer.cs" />
+    <EmbeddedResource Update="Windows\TeamSelectionWindow.resx" DependentUpon="TeamSelectionWindow.cs" />
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <ItemGroup>
+      <NativeBinariesx64 Include="$(SolutionDir)NativeBinaries\amd64\*.dll" />
+      <NativeBinariesx86 Include="$(SolutionDir)NativeBinaries\x86\*.dll" />
+      <SaveFiles Include="$(SolutionDir)*.sav" />
+    </ItemGroup>
+
+    <Copy SourceFiles="@(NativeBinariesx64)" DestinationFolder="$(OutputPath)amd64\" />
+    <Copy SourceFiles="@(NativeBinariesx86)" DestinationFolder="$(OutputPath)x86\" />
+    <Copy SourceFiles="$(SolutionDir)ThePokeBase.sdf" DestinationFolder="$(OutputPath)" Condition="'$(Configuration)' == 'Debug' " />
+    <Copy SourceFiles="@(SaveFiles)" DestinationFolder="$(OutputPath)" Condition="'$(Configuration)' == 'Debug' " />
+  </Target>
+
+</Project>

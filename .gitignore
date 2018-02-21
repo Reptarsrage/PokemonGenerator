@@ -243,3 +243,11 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+
+# Code coverage results
+coverage.xml
+coverage
+codecov
+
+# Artifacts
+Artifacts
