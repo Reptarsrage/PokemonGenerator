@@ -2,11 +2,13 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net47</TargetFramework>
+    <TargetFrameworks>net47</TargetFrameworks>
+    <RuntimeIdentifiers>win7-x64;win7-x86</RuntimeIdentifiers>
     <StartupObject>PokemonGenerator.Program</StartupObject>
     <ApplicationIcon>Resources\favicon.ico</ApplicationIcon>
     <LangVersion>latest</LangVersion>
     <DebugType>full</DebugType>
+    <Platforms>AnyCPU;x86;x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
