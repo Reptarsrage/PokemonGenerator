@@ -12,29 +12,34 @@ namespace PokemonGenerator.Tests.Integration.IO_Tests
         private readonly string _testFile;
         private readonly ISaveFileRepository _saveFileRepository;
         private readonly SaveFileModel _expectedModel;
-        private Stream _testStream;
+        private readonly Stream _testStream;
+        private readonly StreamShim _testStreamShim;
 
         public SaveFileRepositoryTests()
         {
             _testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Gold.sav");
+            using (var fileStream = new FileStream(_testFile, FileMode.Open, FileAccess.Read))
+            {
+                _testStream = new MemoryStream();
+                fileStream.CopyTo(_testStream);
+                _testStreamShim = new StreamShim(_testStream);
+            }
+
             _saveFileRepository = new SaveFileRepository(new Charset(), new BinaryWriter2(), new BinaryReader2()); ;
             _expectedModel = BuildTestModel();
         }
 
         public void Dispose()
         {
-            _testStream.Close();
-            _testStream.Dispose();
+            _testStream?.Close();
+            _testStream?.Dispose();
         }
 
         [Fact]
         public void SerializeSaveFileModalHasCorrectLengthTest()
         {
-            // Setup
-            _testStream = File.OpenRead(_testFile);
-
             // Generate
-            var resultModel = _saveFileRepository.Deserialize(_testStream);
+            var resultModel = _saveFileRepository.Deserialize(_testStreamShim);
 
             // Assert
             Assert.NotNull(resultModel);
@@ -45,24 +50,24 @@ namespace PokemonGenerator.Tests.Integration.IO_Tests
         public void SerializeSaveFileModalBadChecksumTest()
         {
             // Setup
-            _testStream = new MemoryStream(File.ReadAllBytes(_testFile));
-            _testStream.Seek(0x2D69, SeekOrigin.Begin);
-            _testStream.Write(new byte[2] { 0xbe, 0xef }, 0, 2);
+            _testStreamShim.Seek(0x2D69, SeekOrigin.Begin);
+            _testStreamShim.Write(new byte[2] { 0xbe, 0xef }, 0, 2);
+            _testStreamShim.Seek(0, SeekOrigin.Begin);
 
             // Generate
-            Assert.Throws<InvalidDataException>(() => _saveFileRepository.Deserialize(_testStream));
+            Assert.Throws<InvalidDataException>(() => _saveFileRepository.Deserialize(_testStreamShim));
+
         }
 
         [Fact]
         public void SerializeAndDeserializeSaveFileModalTest()
         {
             // Serilize model
-            _testStream = new FileStream(_testFile, FileMode.OpenOrCreate);
-            _saveFileRepository.Serialize(_testStream, _expectedModel);
+            _saveFileRepository.Serialize(_testStreamShim, _expectedModel);
 
             // Deserialize Model
-            _testStream = new FileStream(_testFile, FileMode.OpenOrCreate);
-            var resultModel = _saveFileRepository.Deserialize(_testStream);
+            _testStreamShim.Seek(0, SeekOrigin.Begin);
+            var resultModel = _saveFileRepository.Deserialize(_testStreamShim);
 
             // Assert some values
             AssertSavModelEqualityThorough(_expectedModel, resultModel);
@@ -71,11 +76,8 @@ namespace PokemonGenerator.Tests.Integration.IO_Tests
         [Fact]
         public void SerializeSaveFileModalCorrectValuesTest()
         {
-            // Setup
-            _testStream = File.OpenRead(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Gold.sav"));
-
             // Generate
-            var resultModel = _saveFileRepository.Deserialize(_testStream);
+            var resultModel = _saveFileRepository.Deserialize(_testStreamShim);
 
             // Assert some values
             AssertSavModelEqualityThorough(_expectedModel, resultModel);
@@ -84,14 +86,11 @@ namespace PokemonGenerator.Tests.Integration.IO_Tests
         [Fact]
         public void SerializeSaveFileModalChecksumTest()
         {
-            // Setup
-            _testStream = File.OpenRead(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Gold.sav"));
-
             // Generate
-            var resultModel = _saveFileRepository.Deserialize(_testStream);
+            var resultModel = _saveFileRepository.Deserialize(_testStreamShim);
 
             // Assert some values
-            Assert.True(_expectedModel.Checksum1.Equals(resultModel.Checksum1), "Checksum1");
+            Assert.Equal(_expectedModel.Checksum1, resultModel.Checksum1);
         }
     }
 }

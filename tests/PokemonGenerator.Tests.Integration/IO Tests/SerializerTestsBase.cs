@@ -427,7 +427,6 @@ namespace PokemonGenerator.Tests.Integration.IO_Tests
             Assert.True(pokemonExpected.Name.Equals(pokemonActual.Name), "Pokemon Name");
         }
 
-
         protected virtual void AssertSavModelEqualityThorough(SaveFileModel expectedModel, SaveFileModel actualModel)
         {
             Assert.True(expectedModel.PlayerName.Equals(actualModel.PlayerName), "Player Name");
