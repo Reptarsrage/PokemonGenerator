@@ -30,10 +30,12 @@ test_script:
 - codecov -f ".\coverage.xml"
 
 artifacts:
-  - path: Artifacts\x64\*.msi
-    name: Setup_x64.msi
-  - path: Artifacts\x86\*.msi
-    name: Setup_x86.msi
+  - path: Artifacts\x64
+    name: Setup_x64
+    type: zip
+  - path: Artifacts\x86
+    name: Setup_x86
+    type: zip
 
 deploy:
   release: Pokemon Generator v$(appveyor_build_version)
@@ -41,7 +43,7 @@ deploy:
   provider: GitHub
   auth_token:
     secure: zQGJD6fs/xhZgf/3Rkagg765kNLqIsJ9ouxG/XUNknwalfz/jb8wp7+ZpTRzYhEp
-  artifact: Setup_x64.msi,Setup_x86.msi
+  artifact: Setup_x64,Setup_x86
   draft: false
   prerelease: false
   on:
