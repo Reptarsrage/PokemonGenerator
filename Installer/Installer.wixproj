@@ -52,7 +52,7 @@
       <NativeBinariesx64 Include="..\NativeBinaries\amd64\*.dll" />
       <NativeBinariesx86 Include="..\NativeBinaries\x86\*.dll" />
     </ItemGroup>
-    <Exec Command="dotnet build ..\src\PokemonGenerator\PokemonGenerator.csproj -c $(Configuration) -r win-$(Platform) -o ..\..\Installer\bin\$(Configuration)\output_$(Platform)" />
+    <Exec Command=" &quot;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\MSBuild.exe&quot; ..\src\PokemonGenerator\PokemonGenerator.csproj /t:Build /p:Configuration=$(Configuration) /p:Platform=$(Platform) /p:OutputPath=..\..\Installer\bin\$(Configuration)\output_$(Platform)" />
     <Copy SourceFiles="@(NativeBinariesx64)" DestinationFolder="bin\$(Configuration)\output_$(Platform)\amd64" />
     <Copy SourceFiles="@(NativeBinariesx86)" DestinationFolder="bin\$(Configuration)\output_$(Platform)\x86" />
     <PropertyGroup>
