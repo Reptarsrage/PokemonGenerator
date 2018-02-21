@@ -3,7 +3,7 @@ Author: Justin Robb
 Date: 8/30/2016
 
 [![Build status](https://ci.appveyor.com/api/projects/status/eug90r260tq7bc72/branch/master?svg=true)](https://ci.appveyor.com/project/Reptarsrage/pokemongenerator/branch/master)
-[![codecov](https://codecov.io/gh/Reptarsrage/Pok-mon-Generator/branch/master/graph/badge.svg)](https://codecov.io/gh/Reptarsrage/Pok-mon-Generator)
+[![codecov](https://codecov.io/gh/Reptarsrage/PokemonGenerator/branch/master/graph/badge.svg)](https://codecov.io/gh/Reptarsrage/PokemonGenerator)
 
 ### Screenshots
 ![Configure your Setup](screens/main.png?raw=true "Configure your Setup")
@@ -94,7 +94,7 @@ to fill these slots. I will give a brief overview on my process.
 - [x] AssignIVsAndEVsToTeam take into account level
 - [x] Condense interfaces
 - [x] Add ability to add/remove possible pokemon
-- [x] Status bar updates for saved/loaded/generated events
+- [ ] Status bar updates for saved/loaded/generated events
 - [x] Add Additional Settings Window
 - [ ] Add Move Filter Window
 - [x] Add Legendary/Special effects to pokemon settings window
